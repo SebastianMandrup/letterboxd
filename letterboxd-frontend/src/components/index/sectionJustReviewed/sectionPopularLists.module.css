@@ -1,0 +1,58 @@
+#sectionPopularLists {
+    margin-left: 80px;
+}
+
+#headerPopularLists {
+    margin-bottom: 20px;
+
+    h6 {
+        font-weight: 300;
+        font-size: 0.9rem;
+    }
+}
+
+.listDetails {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.articlePopularList {
+    img {
+        width: auto;
+        height: 110px;
+        object-fit: cover;
+        border-radius: 8px;
+        display: flex;
+        margin-bottom: 8px;
+    }
+}
+
+.listTitle {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.listAuthor {
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: var(--lightGrey);
+    margin: 4px 0;
+}
+
+.listDetails {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    color: var(--darkGrey);
+    font-weight: 300;
+    font-size: 0.9rem;
+
+    p {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.9rem;
+    }
+}

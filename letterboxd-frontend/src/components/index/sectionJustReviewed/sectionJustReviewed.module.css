@@ -1,0 +1,85 @@
+#listJustReviewed {
+    list-style: none;
+    display: flex;
+    gap: 10px;
+}
+
+.listItemReviewedMovie {
+    position: relative;
+    border-radius: 4px;
+    border: 3px solid transparent;
+    overflow: visible;
+    transition: border 0.2s ease;
+}
+
+.listItemReviewedMovie:hover {
+    border: 3px solid var(--green);
+}
+
+.listItemReviewedMovieCaption {
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-0.5rem);
+    width: max-content;
+
+    background: var(--darkGrey);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+
+    color: var(--lightGrey);
+    font-size: 0.8rem;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.listItemReviewedMovieCaption::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--darkGrey);
+}
+
+.listItemReviewedMovie:hover .listItemReviewedMovieCaption {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#pWriteShare {
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--darkGrey);
+}
+
+#pBelow {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--darkGrey);
+    margin-bottom: 40px;
+
+    a {
+        color: var(--lightGrey);
+        text-decoration: none;
+        font-weight: 300;
+
+        &:hover {
+            color: var(--blue);
+        }
+    }
+}
+
+#sectionPopularReviewsAndLists {
+    display: grid;
+    grid-template-columns: 6fr 3fr;
+}

@@ -1,0 +1,64 @@
+#sectionLetterboxLetsYou {
+    margin-bottom: 40px;
+}
+
+#divLetterboxLetsYouButtons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+
+    /* TODO */
+    &:nth-child(3n+1) :hover {
+        background-color: var(--green);
+    }
+
+    &:nth-child(3n+2) :hover {
+        background-color: var(--orange);
+    }
+
+    &:nth-child(3n+3) :hover {
+        background-color: var(--blue);
+    }
+
+    button {
+        width: 100%;
+        height: 110px;
+        min-height: 100px;
+        background-color: var(--darkerGrey);
+        border: none;
+        border-radius: 4px;
+        padding: 10px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        color: var(--lightGrey);
+        font-size: 0.9rem;
+        text-align: left;
+
+        &:hover {
+            color: var(--white);
+            cursor: pointer;
+
+            svg path {
+                fill: var(--white);
+            }
+        }
+
+        svg {
+            width: 120px;
+            height: 120px;
+            margin-right: 10px;
+
+            path {
+                width: 100%;
+                height: 100%;
+                fill: var(--lightGrey);
+            }
+        }
+    }
+}

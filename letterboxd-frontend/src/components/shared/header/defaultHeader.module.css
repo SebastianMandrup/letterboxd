@@ -1,0 +1,61 @@
+.sectionDefaultHeader {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+
+    nav {
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 16px;
+
+            li {
+
+                button,
+                a {
+                    background-color: transparent;
+                    border: none;
+                    text-decoration: none;
+                    color: var(--lightGrey);
+                    font-weight: 500;
+                    font-size: 0.9rem;
+
+                    &:hover {
+                        color: var(--white);
+                    }
+                }
+            }
+        }
+    }
+
+    form {
+        position: relative;
+
+        input {
+            border: none;
+            margin-left: 16px;
+            background-color: rgba(240, 240, 240, 0.25);
+            border-radius: 14px;
+            padding: 8px;
+            color: var(--lightGrey);
+            font-size: 0.8rem;
+            width: 140px;
+
+            &:focus {
+                outline: none;
+                background-color: var(--white);
+                color: var(--black);
+            }
+
+        }
+
+        svg {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--lightGrey);
+        }
+
+    }
+}
