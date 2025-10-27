@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker";
 import fs from "fs";
+import { TmdbMovie } from './TmdbMovie';
 
 const NUM_USERS = 100;
-const NUM_MOVIES = 200;
 const NUM_REVIEWS = 500;
 const NUM_VIEWS = 1000;
 
@@ -13,13 +13,31 @@ const users = Array.from({ length: NUM_USERS }, (_, i) => ({
     password: faker.string.uuid().replace(/-/g, ''),
 }));
 
-// Movies without 'released' field
-const movies = Array.from({ length: NUM_MOVIES }, (_, i) => ({
-    id: i + 1,
-    title: faker.lorem.words({ min: 2, max: 5 }),
-    posterUrl: faker.image.url({ width: 300, height: 450 }),
-    releaseDate: faker.date.past({ years: 30 }).toISOString().split("T")[0],
+const tmdbMovies = fs.readFileSync("scraped-data.json", "utf-8");
+const moviesData: TmdbMovie[] = JSON.parse(tmdbMovies);
+
+const NUM_MOVIES = moviesData.length;
+
+// Movies with all fields from TmdbMovie
+const movies = moviesData.map((movie, index) => ({
+    id: index + 1, // overwrite with sequential ID
+    title: movie.title,
+    originalTitle: movie.original_title,
+    adult: movie.adult,
+    genreIds: movie.genre_ids,
+    overview: movie.overview,
+    popularity: movie.popularity,
+    posterUrl: movie.poster_path
+        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+        : null,
+    backdropUrl: movie.backdrop_path
+        ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
+        : null,
+    releaseDate: movie.release_date,
+    voteAverage: movie.vote_average,
+    voteCount: movie.vote_count,
 }));
+
 
 // Reviews linking to user & movie
 const reviews = Array.from({ length: NUM_REVIEWS }, (_, i) => ({

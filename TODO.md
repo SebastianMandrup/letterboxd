@@ -1,0 +1,8 @@
+- seeder needs update (thinking imdb scrape -> auto genned reviews & users)
+- index needs coupling
+- auth needs coupling
+- search impl
+- /lists
+- /films
+- /members
+- /journal

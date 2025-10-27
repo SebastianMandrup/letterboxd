@@ -1,16 +1,31 @@
 import fs from "fs";
+import { DeepPartial } from 'typeorm';
 import { AppDataSource } from "./data-source";
 import { Movie } from "./entities/Movie";
 import { Review } from "./entities/Review";
 import { User } from "./entities/User";
 import { View } from "./entities/View";
 
+// Utility to chunk arrays
+function chunkArray<T>(arr: T[], size: number): T[][] {
+  const chunks: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    chunks.push(arr.slice(i, i + size));
+  }
+  return chunks;
+}
+
 async function seed() {
   try {
     await AppDataSource.initialize();
     console.log("DataSource initialized.");
 
-    const data = JSON.parse(fs.readFileSync("seed-data.json", "utf-8"));
+    const data = JSON.parse(fs.readFileSync("seed-data.json", "utf-8")) as {
+      users: DeepPartial<User>[];
+      movies: DeepPartial<Movie>[];
+      reviews: any[];
+      views: any[];
+    };
     const { users, movies, reviews, views } = data;
 
     const userRepo = AppDataSource.getRepository(User);
@@ -25,10 +40,16 @@ async function seed() {
     await userRepo.delete({});
     console.log("Existing data cleared.");
 
-    // Insert users and movies in batch
+    // Insert users in batch (usually small, so single save is fine)
     await userRepo.save(users);
-    await movieRepo.save(movies);
-    console.log(`Inserted ${users.length} users and ${movies.length} movies.`);
+    console.log(`Inserted ${users.length} users.`);
+
+    // Insert movies in batches
+    const movieChunks = chunkArray(movies, 200); // batch size of 200
+    for (const [i, chunk] of movieChunks.entries()) {
+      await movieRepo.save(chunk);
+      console.log(`Inserted batch ${i + 1}/${movieChunks.length} (${chunk.length} movies).`);
+    }
 
     // Fetch all movies and users once to avoid repeated DB calls
     const movieMap = Object.fromEntries(
@@ -38,7 +59,7 @@ async function seed() {
       (await userRepo.find()).map((u) => [u.id, u])
     );
 
-    // Insert reviews in batch
+    // Insert reviews
     const reviewEntities = reviews.map((r: { review: any; rating: any; movieId: string | number; authorId: string | number; }) =>
       reviewRepo.create({
         review: r.review,
@@ -50,7 +71,7 @@ async function seed() {
     await reviewRepo.save(reviewEntities);
     console.log(`Inserted ${reviews.length} reviews.`);
 
-    // Insert views in batch
+    // Insert views
     const viewEntities = views.map((v: { movieId: string | number; userId: string | number; }) =>
       viewRepo.create({
         movie: movieMap[v.movieId],

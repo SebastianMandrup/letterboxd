@@ -37,6 +37,11 @@
                     color: var(--black);
                 }
             }
+
+            input[type="text"],
+            input[type="password"] {
+                padding: 4px 8px;
+            }
         }
 
         .labelPassword div {
