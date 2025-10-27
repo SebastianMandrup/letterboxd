@@ -13,6 +13,7 @@ services:
       PORT: 5000
       DB_URL: mysql://root:password@mysql:3306/letterboxdDatabase
       DB_TYPE: mysql
+      DB_SCHEMA: letterboxd
     depends_on:
       - mysql
 
@@ -51,6 +52,7 @@ services:
     environment:
       DB_URL: mysql://root:password@mysql:3306/letterboxdDatabase
       DB_TYPE: mysql
+      DB_SCHEMA: letterboxd
     volumes:
       - ./seeder:/app
 

@@ -7,7 +7,7 @@ import { Movie } from './Movie';
 import { User } from './User';
 
 
-@Entity("views", { schema: "letterboxd" })
+@Entity("views", { schema: process.env.DB_SCHEMA })
 export class View {
     @PrimaryGeneratedColumn({ type: "int", name: "id" })
     id: number;
