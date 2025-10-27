@@ -59,12 +59,12 @@ function SectionLetterboxLetsYou() {
 
             </h3>
             <div id={styles.divLetterboxLetsYouButtons}>
-                <ButtonLetterboxLetsYou svg={eyeSvg} text="Keep track of every movie you've ever watched (or just start from the day you join)." color="green" />
-                <ButtonLetterboxLetsYou svg={heartSvg} text="Discover new movies and find out what your friends are watching and loving." color="orange" />
-                <ButtonLetterboxLetsYou svg={editSvg} text="Write reviews and share your opinions with a community of film lovers." color="blue" />
-                <ButtonLetterboxLetsYou svg={starSvg} text="Rate and review films to build a personal record of your film-watching journey." color="green" />
-                <ButtonLetterboxLetsYou svg={diarySvg} text="Keep a diary of your film watching (and upgrade to pro for comprehensive stats)" color="orange" />
-                <ButtonLetterboxLetsYou svg={listSvg} text="Compile and share lists of films on any topic and keep a watchlist of films to see" color="blue" />
+                <ButtonLetterboxLetsYou svg={eyeSvg} text="Keep track of every movie you've ever watched (or just start from the day you join)." />
+                <ButtonLetterboxLetsYou svg={heartSvg} text="Discover new movies and find out what your friends are watching and loving." />
+                <ButtonLetterboxLetsYou svg={editSvg} text="Write reviews and share your opinions with a community of film lovers." />
+                <ButtonLetterboxLetsYou svg={starSvg} text="Rate and review films to build a personal record of your film-watching journey." />
+                <ButtonLetterboxLetsYou svg={diarySvg} text="Keep a diary of your film watching (and upgrade to pro for comprehensive stats)" />
+                <ButtonLetterboxLetsYou svg={listSvg} text="Compile and share lists of films on any topic and keep a watchlist of films to see" />
             </div>
         </section >
     );

@@ -1,11 +1,6 @@
-import type { FunctionComponent } from 'react';
 import styles from './formBrowseBy.module.css';
 
-interface FormBrowseByProps {
-
-}
-
-const FormBrowseBy: FunctionComponent<FormBrowseByProps> = () => {
+const FormBrowseBy = () => {
     return (
         <form className={styles.formBrowseBy}>
             <label>

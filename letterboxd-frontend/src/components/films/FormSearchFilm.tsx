@@ -1,11 +1,7 @@
-import type { FunctionComponent } from 'react';
 import styles from './formSearchFilm.module.css';
 
-interface FormSearchFilmProps {
 
-}
-
-const FormSearchFilm: FunctionComponent<FormSearchFilmProps> = () => {
+const FormSearchFilm = () => {
     return (
         <form className={styles.formSearchFilm}>
             <label>

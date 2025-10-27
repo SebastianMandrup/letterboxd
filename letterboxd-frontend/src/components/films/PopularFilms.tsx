@@ -1,12 +1,7 @@
-import type { FunctionComponent } from 'react';
 import '../shared/sectionHeader.css';
 import styles from './popularFilms.module.css';
 
-interface PopularFilmsProps {
-
-}
-
-const PopularFilms: FunctionComponent<PopularFilmsProps> = () => {
+const PopularFilms = () => {
     return (
         <section className={styles.sectionPopularFilms}>
             <header className="sectionHeader">
