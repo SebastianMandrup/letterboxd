@@ -13,7 +13,7 @@ const Header = () => {
         <>
             <header className={styles.headerMain}>
                 <img src="./letterboxd-icon.png" alt="icon" />
-                <h1>Boxedletter</h1>
+                <a href='/'>Boxedletter</a>
                 {(isLoggingIn && !isSigningUp) ? (
                     <LoggingInHeader setIsLoggingIn={setIsLoggingIn} />
                 ) : (

@@ -1,0 +1,21 @@
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--darkGrey);
+
+    font-size: 0.8rem;
+    color: var(--lightGrey);
+
+    a {
+        text-decoration: none;
+        color: var(--grey);
+        font-size: 0.7rem;
+
+        &:hover {
+            color: var(--blue);
+        }
+    }
+}
