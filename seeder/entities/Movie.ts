@@ -7,7 +7,7 @@ import {
 import { Review } from './Review';
 import { View } from './View';
 
-@Entity("movies", { schema: process.env.DB_SCHEMA })
+@Entity("movies")
 export class Movie {
     @PrimaryGeneratedColumn({ type: "int", name: "id" })
     id: number;
