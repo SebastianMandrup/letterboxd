@@ -1,27 +1,10 @@
-#sectionLetterboxLetsYou {
-    margin-bottom: 40px;
-}
-
-#divLetterboxLetsYouButtons {
+.divLetterboxLetsYouButtons {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     justify-items: center;
     align-items: center;
     gap: 12px;
     margin-bottom: 20px;
-
-    /* TODO */
-    &:nth-child(3n+1) :hover {
-        background-color: var(--green);
-    }
-
-    &:nth-child(3n+2) :hover {
-        background-color: var(--orange);
-    }
-
-    &:nth-child(3n+3) :hover {
-        background-color: var(--blue);
-    }
 
     button {
         width: 100%;
@@ -40,13 +23,20 @@
         font-size: 0.9rem;
         text-align: left;
 
-        &:hover {
-            color: var(--white);
-            cursor: pointer;
+        &:nth-child(3n+1):hover {
+            background-color: var(--green);
+        }
 
-            svg path {
-                fill: var(--white);
-            }
+        &:nth-child(3n+2):hover {
+            background-color: var(--orange);
+        }
+
+        &:nth-child(3n+3):hover {
+            background-color: var(--blue);
+        }
+
+        &:hover {
+            cursor: pointer;
         }
 
         svg {

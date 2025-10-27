@@ -1,3 +1,5 @@
+import ArticleMovie from '../../shared/ArticleMovie';
+import SectionHeader from '../../shared/SectionHeader';
 import styles from './sectionPopularReviews.module.css';
 
 function SectionPopularReviews() {
@@ -58,20 +60,12 @@ function SectionPopularReviews() {
 
     return (
         <section>
-            <header id={styles.headerPopularReviews} className='sectionHeader underlinedHeader'>
-                <h5 className='clickable'>
-                    POPULAR REVIEWS THIS WEEK
-                </h5>
-                <span className='clickable'>
-                    MORE
-                </span>
-            </header>
-
+            <SectionHeader title="Popular Reviews This Week" link="/popular" />
             {
                 popularReviews.map((review) => {
                     return (
                         <article className={styles.articlePopularReview}>
-                            <img className={styles.imgPopularReviewMoviePoster} src={review.moviePosterUrl} alt={`poster of ${review.movie}`} />
+                            <ArticleMovie src={review.moviePosterUrl} alt={`poster of ${review.movie}`} />
                             <section className={styles.sectionPopularReviewContent}>
                                 <header>
                                     <p>
@@ -96,7 +90,7 @@ function SectionPopularReviews() {
                                 <p className={styles.pNumberOfLikes}>
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12">
-                                            <path fill="currentColor" fill-rule="evenodd" d="M11.27 0C9.36 0 7.5 2.09 7.5 2.09S5.64 0 3.73 0 0 .87 0 3.44c0 1.83 1.88 3.43 1.88 3.43L7.5 12l5.62-5.13S15 5.27 15 3.44C15 .87 13.18 0 11.27 0" />
+                                            <path fill="currentColor" fillRule="evenodd" d="M11.27 0C9.36 0 7.5 2.09 7.5 2.09S5.64 0 3.73 0 0 .87 0 3.44c0 1.83 1.88 3.43 1.88 3.43L7.5 12l5.62-5.13S15 5.27 15 3.44C15 .87 13.18 0 11.27 0" />
                                         </svg>
                                     </span>
                                     {review.numberOfLikes} likes

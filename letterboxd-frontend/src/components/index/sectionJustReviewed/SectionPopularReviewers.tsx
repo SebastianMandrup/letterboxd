@@ -1,3 +1,4 @@
+import SectionHeader from '../../shared/SectionHeader';
 import styles from './sectionPopularReviewers.module.css';
 
 function SectionPopularReviewers() {
@@ -26,14 +27,7 @@ function SectionPopularReviewers() {
 
     return (
         <section>
-            <header className={styles.headerPopularReviewers + " sectionHeader underlinedHeader"}>
-                <h6 className='clickable'>
-                    POPULAR REVIEWERS
-                </h6>
-                <span className='clickable'>
-                    MORE
-                </span>
-            </header>
+            <SectionHeader title="Popular Reviewers" link="/popular-reviewers" />
             {popularReviewers.map((reviewer, index) => {
                 return (
                     <article key={index} className={styles.articlePopularReviewer}>

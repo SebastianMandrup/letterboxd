@@ -1,3 +1,5 @@
+import ArticleMovie from '../../shared/ArticleMovie';
+import SectionHeader from '../../shared/SectionHeader';
 import styles from './sectionJustReviewed.module.css';
 import SectionPopularLists from './SectionPopularLists';
 import SectionPopularReviews from './SectionPopularReviews';
@@ -53,23 +55,22 @@ function SectionJustReviewed() {
 
     return (
         <section>
-            <h4 id={styles.h4JustReviewed} className='sectionHeader underlinedHeader'>
-                JUST REVIEWED...
-                <span>
-                    2,944,858,769 films watched
-                </span>
-            </h4>
-
+            <SectionHeader title="Just Reviewed..." subtitle='2,944,858,769 films watched' />
             <ul id={styles.listJustReviewed}>
                 {movies.map((movie, index) => (
                     <li key={index} className={styles.listItemReviewedMovie}>
-                        <div className={styles.listItemReviewedMovieCaption}>{movie.name}</div>
-                        <img src={movie.imageUrl} alt={movie.name} />
+                        <ArticleMovie
+                            src={movie.imageUrl}
+                            alt={movie.name}
+                            overlay={
+                                <header>
+                                    {movie.name}
+                                </header>
+                            }
+                        />
                     </li>
                 ))}
             </ul>
-
-
             <p id={styles.pWriteShare}>
                 Write and share reviews. Compile your own lists. Share your life in film.
             </p>

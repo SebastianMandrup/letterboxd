@@ -16,12 +16,11 @@
     &:last-of-type {
         border-bottom: none;
     }
-}
 
-.imgPopularReviewMoviePoster {
-    border-radius: 4px;
-    border: 1px solid var(--darkerGrey);
-    margin-right: 20px;
+    article {
+        height: 80%;
+        margin-right: 20px;
+    }
 }
 
 .sectionPopularReviewContent {

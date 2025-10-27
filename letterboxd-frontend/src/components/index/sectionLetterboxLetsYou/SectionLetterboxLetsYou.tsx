@@ -1,3 +1,4 @@
+import SectionHeader from '../../shared/SectionHeader';
 import ButtonLetterboxLetsYou from './ButtonLetterboxLetsYou';
 import styles from './sectionLetterboxLetsYou.module.css';
 
@@ -53,12 +54,9 @@ function SectionLetterboxLetsYou() {
     )
 
     return (
-        <section id={styles.sectionLetterboxLetsYou}>
-            <h3 className='sectionHeader'>
-                LETTERBOXD LETS YOU...
-
-            </h3>
-            <div id={styles.divLetterboxLetsYouButtons}>
+        <section>
+            <SectionHeader title="LETTERBOXD LETS YOU..." />
+            <div className={styles.divLetterboxLetsYouButtons}>
                 <ButtonLetterboxLetsYou svg={eyeSvg} text="Keep track of every movie you've ever watched (or just start from the day you join)." />
                 <ButtonLetterboxLetsYou svg={heartSvg} text="Discover new movies and find out what your friends are watching and loving." />
                 <ButtonLetterboxLetsYou svg={editSvg} text="Write reviews and share your opinions with a community of film lovers." />

@@ -1,6 +1,7 @@
 import list_1 from '../../../assets/list-1.png';
 import list_2 from '../../../assets/list-2.png';
 import list_3 from '../../../assets/list-3.png';
+import SectionHeader from '../../shared/SectionHeader';
 import styles from './sectionPopularLists.module.css';
 import SectionPopularReviewers from './SectionPopularReviewers';
 
@@ -35,15 +36,7 @@ function SectionPopularLists() {
 
     return (
         <section id={styles.sectionPopularLists}>
-            <header id={styles.headerPopularLists} className='sectionHeader underlinedHeader'>
-                <h6 className='clickable'>
-                    POPULAR LISTS
-                </h6>
-                <span className='clickable'>
-                    MORE
-                </span>
-            </header>
-
+            <SectionHeader title="POPULAR LISTS" link="/lists/popular" />
             {popularLists.map((list, index) => {
                 return (
                     <article key={index} className={styles.articlePopularList}>

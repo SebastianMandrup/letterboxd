@@ -2,20 +2,26 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     padding-bottom: 8px;
+    margin-top: 40px;
     border-bottom: 1px solid var(--darkGrey);
-
     font-size: 0.8rem;
-    color: var(--lightGrey);
+    color: var(--darkGrey);
 
-    a {
+    a,
+    p {
         text-decoration: none;
-        color: var(--grey);
+        color: var(--darkerGrey);
         font-size: 0.7rem;
-
-        &:hover {
-            color: var(--blue);
-        }
     }
+
+    a:hover {
+        color: var(--blue);
+        cursor: pointer;
+    }
+}
+
+.largeHeader {
+    font-size: 1rem;
 }

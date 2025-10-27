@@ -14,6 +14,10 @@ services:
       DB_URL: mysql://root:password@mysql:3306/letterboxdDatabase
       DB_TYPE: mysql
       DB_SCHEMA: letterboxd
+      CHOKIDAR_USEPOLLING: true
+      WATCHPACK_POLLING: true
+      CHOKIDAR_INTERVAL: 200
+      WATCHPACK_POLL_INTERVAL: 200
     depends_on:
       - mysql
 
@@ -29,7 +33,10 @@ services:
     environment:
       VITE_API_URL: http://localhost:5050
       PORT: 3000
-      CHOKIDAR_USEPOLLING: true # For file watching in Docker on some systems
+      CHOKIDAR_USEPOLLING: true
+      WATCHPACK_POLLING: true
+      CHOKIDAR_INTERVAL: 200
+      WATCHPACK_POLL_INTERVAL: 200
 
   mysql:
     image: mysql:latest
