@@ -1,0 +1,60 @@
+# run without the seeder
+# docker-compose up --scale seeder=0
+services:
+  letterboxd-backend:
+    container_name: letterboxd-backend
+    build:
+      context: ./letterboxd-backend
+    volumes:
+      - ./letterboxd-backend:/app
+    ports:
+      - "5050:5000"
+    environment:
+      PORT: 5000
+      DB_URL: mysql://root:password@mysql:3306/letterboxdDatabase
+      DB_TYPE: mysql
+    depends_on:
+      - mysql
+
+  letterboxd-frontend:
+    container_name: letterboxd-frontend
+    build:
+      context: ./letterboxd-frontend
+    volumes:
+      - ./letterboxd-frontend:/app
+      - /app/node_modules # Prevents overwriting node_modules on the container
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:5050
+      PORT: 3000
+      CHOKIDAR_USEPOLLING: true # For file watching in Docker on some systems
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: letterboxdDatabase
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data_letterboxd:/var/lib/mysql
+
+  seeder:
+    container_name: seeder
+    build:
+      context: ./seeder
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    environment:
+      DB_URL: mysql://root:password@mysql:3306/letterboxdDatabase
+      DB_TYPE: mysql
+    volumes:
+      - ./seeder:/app
+
+volumes:
+  mysql-data_letterboxd:
+# if there are problems, remove it: 
+# docker volume rm rawg-fullstack-2025-fall_mysql-data_rawg

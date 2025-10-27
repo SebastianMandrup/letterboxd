@@ -17,7 +17,7 @@ const users = Array.from({ length: NUM_USERS }, (_, i) => ({
 const movies = Array.from({ length: NUM_MOVIES }, (_, i) => ({
     id: i + 1,
     title: faker.lorem.words({ min: 2, max: 5 }),
-    posterUrl: faker.image.urlLoremFlickr({ category: "movie", width: 300, height: 450 }),
+    posterUrl: faker.image.url({ width: 300, height: 450 }),
     releaseDate: faker.date.past({ years: 30 }).toISOString().split("T")[0],
 }));
 

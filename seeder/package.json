@@ -6,8 +6,9 @@
   "author": "",
   "license": "ISC",
   "scripts": {
+    "gen": "ts-node create-seed-data.ts",
     "start": "ts-node index.ts",
-    "gen": "ts-node create-seed-data.ts"
+    "dev": "npm run gen && npm run start"
   },
   "dependencies": {
     "mysql2": "3.12.0",
