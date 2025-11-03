@@ -4,6 +4,8 @@ import {
     OneToMany,
     PrimaryGeneratedColumn
 } from "typeorm";
+import { Comment } from './Comment';
+import { List } from './List';
 import { Review } from './Review';
 
 
@@ -20,4 +22,11 @@ export class User {
 
     @OneToMany(() => Review, (review) => review.author)
     reviews: Review[];
+
+    @OneToMany(() => Comment, (comment) => comment.user)
+    comments: Comment[];
+
+    @OneToMany(() => List, (list) => list.user)
+    lists: List[];
+
 }

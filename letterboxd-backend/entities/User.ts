@@ -4,6 +4,8 @@ import {
     OneToMany,
     PrimaryGeneratedColumn
 } from "typeorm";
+import { Comment } from './Comment';
+import { List } from './List';
 import { Review } from './Review';
 
 
@@ -12,7 +14,7 @@ export class User {
     @PrimaryGeneratedColumn({ type: "int", name: "id" })
     id: number;
 
-    @Column("varchar", { name: "name", length: 255, unique: true })
+    @Column("varchar", { name: "name", length: 255 })
     name: string;
 
     @Column("varchar", { name: "password", length: 255 })
@@ -20,4 +22,11 @@ export class User {
 
     @OneToMany(() => Review, (review) => review.author)
     reviews: Review[];
+
+    @OneToMany(() => Comment, (comment) => comment.user)
+    comments: Comment[];
+
+    @OneToMany(() => List, (list) => list.user)
+    lists: List[];
+
 }
