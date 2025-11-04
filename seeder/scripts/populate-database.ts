@@ -28,7 +28,7 @@ interface SeedMovie {
   voteCount?: number;
   genreIds: number[];
 }
-interface SeedReview { review: string; rating: number; movieId: number; authorId: number; }
+interface SeedReview { review: string; rating: number; movieId: number; authorId: number; createdAt: string; }
 interface SeedView { userId: number; movieId: number; }
 interface SeedComment { content: string; createdAt: string; userId: number; movieId: number; }
 interface SeedList { name: string; createdAt: string; userId: number; movieIds: number[]; }
@@ -117,6 +117,7 @@ async function seed() {
         rating: r.rating,
         movie: moviesMap.get(r.movieId),
         author: users.find(u => u.id === r.authorId),
+        createdAt: r.createdAt,
       })
     );
     await AppDataSource.manager.save(reviews);
@@ -158,24 +159,25 @@ async function seed() {
 
       await AppDataSource.manager.save(listEntity);
 
-      // Map movie IDs to Movie entities and deduplicate
-      const moviesForList: Movie[] = Array.from(
-        new Set(
-          l.movieIds
-            .map(id => moviesMap.get(id))
-            .filter((m): m is Movie => m !== undefined)
-        )
-      );
+      // Deduplicate movie IDs properly
+      const uniqueMovieIds = Array.from(new Set(l.movieIds));
 
-      // Add movies to the join table safely (avoids duplicates)
-      if (moviesForList.length > 0) {
+      // Map to Movie entities
+      const moviesForList: Movie[] = uniqueMovieIds
+        .map(id => moviesMap.get(id))
+        .filter((m): m is Movie => m !== undefined);
+
+      // Deduplicate movie objects to ensure no duplicates
+      const uniqueMovies = Array.from(new Set(moviesForList));
+
+      if (uniqueMovies.length > 0) {
         await AppDataSource.createQueryBuilder()
           .relation(List, "movies")
           .of(listEntity)
-          .add(moviesForList);
+          .add(uniqueMovies);
       }
     }
-    console.log(`Inserted ${seedData.lists.length} lists with movies.`);
+    console.log(`Inserted ${seedData.lists.length} lists.`);
 
 
     console.log("✅ Seeding complete!");

@@ -2,9 +2,11 @@ import {
     Column,
     Entity,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn
 } from "typeorm";
-import { Movie } from './Movie';
+import { CommentLike } from './CommentLike';
+import { List } from './List';
 import { User } from './User';
 
 @Entity("comments")
@@ -21,6 +23,9 @@ export class Comment {
     @ManyToOne(() => User, (user) => user.comments)
     user: User;
 
-    @ManyToOne(() => Movie, (movie) => movie.comments)
-    movie: Movie;
+    @ManyToOne(() => List, (list) => list.comments)
+    list: List;
+
+    @OneToMany(() => CommentLike, (commentLike) => commentLike.comment)
+    likes: CommentLike[];
 }

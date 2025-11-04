@@ -4,8 +4,11 @@ import {
     JoinTable,
     ManyToMany,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn
 } from "typeorm";
+import { Comment } from './Comment';
+import { ListLike } from './ListLike';
 import { Movie } from './Movie';
 import { User } from './User';
 
@@ -26,4 +29,10 @@ export class List {
     @JoinTable()
     @ManyToMany(() => Movie, (movie) => movie.lists)
     movies: Movie[];
+
+    @OneToMany(() => Comment, (comment) => comment.list)
+    comments: Comment[];
+
+    @OneToMany(() => ListLike, (listLike) => listLike.list)
+    likes: ListLike[];
 }

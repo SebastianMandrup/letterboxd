@@ -82,6 +82,7 @@ const reviews = Array.from({ length: NUM_REVIEWS }, () => ({
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     movieId: faker.number.int({ min: 1, max: NUM_MOVIES }),
     authorId: faker.number.int({ min: 1, max: NUM_USERS }),
+    createdAt: faker.date.past().toISOString(),
 }));
 
 // ---------------- Views ----------------

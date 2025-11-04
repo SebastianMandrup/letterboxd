@@ -6,6 +6,9 @@
     border: 2.5px solid transparent;
     border: 0.5px solid var(--darkGrey);
 
+    height: 120px;
+    width: 76px;
+
     &:hover {
         outline: 3px solid var(--green);
         cursor: pointer;

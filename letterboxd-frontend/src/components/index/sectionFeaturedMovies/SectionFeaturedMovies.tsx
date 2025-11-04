@@ -1,10 +1,12 @@
-import useFeaturedMovies from '../../../hooks/useFeaturedMovies';
+import useMovies from '../../../hooks/useMovies';
 import ArticleFeaturedMovie from './ArticleFeaturedMovie';
 import styles from './sectionFeaturedMovies.module.css';
 
 const SectionFeaturedMovies = () => {
 
-    const { data, error, isLoading } = useFeaturedMovies();
+    const { data, error, isLoading } = useMovies({
+        params: { featured: true }
+    });
 
     console.log("Featured Movies Data:", data);
 

@@ -18,9 +18,9 @@ export class View {
     @Column("timestamp", { name: "viewedAt", default: () => "CURRENT_TIMESTAMP" })
     viewedAt: Date;
 
-    @ManyToOne(() => Movie, (movie) => movie)
+    @ManyToOne(() => Movie, (movie) => movie.views)
     movie: Movie;
 
-    @ManyToOne(() => User, (user) => user)
+    @ManyToOne(() => User, (user) => user.views)
     user: User;
 }

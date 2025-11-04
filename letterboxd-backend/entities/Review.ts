@@ -21,6 +21,9 @@ export class Review {
     @Column("float", { name: "rating" })
     rating: number;
 
+    @Column("timestamp", { name: "createdAt", default: () => "CURRENT_TIMESTAMP" })
+    createdAt: Date;
+
     @ManyToOne(() => Movie, (movie) => movie.reviews)
     movie: Movie;
 

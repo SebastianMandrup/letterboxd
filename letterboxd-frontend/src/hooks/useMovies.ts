@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 
-// import films from "../data/films";
+import type { AxiosRequestConfig } from 'axios';
 import type { PaginatedResponse } from '../services/apiClient';
 import ApiClient from '../services/apiClient';
 import type Movie from '../types/movie';
 
-const apiClient = new ApiClient<Movie>("movies/featured");
+const apiClient = new ApiClient<Movie>("movies");
 
-export default () =>
+export default (config: AxiosRequestConfig) =>
     useQuery<PaginatedResponse<Movie>, Error>({
-        queryKey: ["featuredMovies"],
-        queryFn: apiClient.getAll,
-        // initialData: films,
+        queryKey: ["featuredMovies", config],
+        queryFn: () => apiClient.getAll(config),
+        // initialData: featuredMovies,
         staleTime: 1000 * 60 * 60 * 24, // 24 hours
     });
