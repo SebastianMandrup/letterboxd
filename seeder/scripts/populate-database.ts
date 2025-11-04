@@ -1,191 +1,201 @@
+import { faker } from "@faker-js/faker";
 import bcrypt from "bcrypt";
 import fs from "fs";
-import path from 'path';
-import "reflect-metadata";
-import { AppDataSource } from "../data-source";
+import path from "path";
+import type { DeepPartial } from "typeorm";
+import { AppDataSource } from '../data-source';
 import { Comment } from "../entities/Comment";
+import { CommentLike } from "../entities/CommentLike";
 import { Genre } from "../entities/Genre";
 import { List } from "../entities/List";
+import { ListLike } from "../entities/ListLike";
 import { Movie } from "../entities/Movie";
 import { Review } from "../entities/Review";
+import { ReviewLike } from "../entities/ReviewLike";
 import { User } from "../entities/User";
 import { View } from "../entities/View";
+import { TmdbMovie } from "./TmdbMovie";
 
-// --- Seed JSON types ---
-interface SeedUser { id: number; username: string; email: string; password: string; }
-interface SeedGenre { id: number; name: string; }
-interface SeedMovie {
-  id: number;
-  title: string;
-  originalTitle?: string;
-  adult: boolean;
-  overview?: string;
-  popularity?: number;
-  posterUrl?: string;
-  backdropUrl?: string;
-  releaseDate?: string;
-  voteAverage?: number;
-  voteCount?: number;
-  genreIds: number[];
-}
-interface SeedReview { review: string; rating: number; movieId: number; authorId: number; createdAt: string; }
-interface SeedView { userId: number; movieId: number; }
-interface SeedComment { content: string; createdAt: string; userId: number; movieId: number; }
-interface SeedList { name: string; createdAt: string; userId: number; movieIds: number[]; }
-interface SeedData {
-  users: SeedUser[];
-  genres: SeedGenre[];
-  movies: SeedMovie[];
-  reviews: SeedReview[];
-  views: SeedView[];
-  comments: SeedComment[];
-  lists: SeedList[];
-}
+// ---------------- Paths ----------------
+const dataDir = path.join(__dirname, "../data");
+const tmdbFilePath = path.join(dataDir, "scraped-data.json");
+const genresFilePath = path.join(dataDir, "genres.json");
+
+// ---------------- Configuration ----------------
+const NUM_USERS = 100;
+const NUM_REVIEWS = 500;
+const NUM_VIEWS = 1000;
+const NUM_LISTS = 50;
+const NUM_COMMENTS = 800;
+
+// ---------------- Helper Functions ----------------
+const randomUniqueArray = (length: number, max: number) => {
+  return Array.from(new Set(
+    Array.from({ length }, () => faker.number.int({ min: 1, max }))
+  ));
+};
 
 async function seed() {
-  try {
-    await AppDataSource.initialize();
-    console.log("DataSource initialized.");
+  await AppDataSource.initialize();
+  const manager = AppDataSource.manager;
 
-    // --- Clear existing data safely ---
-    await AppDataSource.query("SET FOREIGN_KEY_CHECKS=0");
-    const entities = [List, Comment, View, Review, Movie, Genre, User];
-    for (const entity of entities) {
-      await AppDataSource.manager.clear(entity);
-    }
-    await AppDataSource.query("SET FOREIGN_KEY_CHECKS=1");
-    console.log("Existing data cleared.");
-
-    // --- Load seed JSON ---
-    const dataDir = path.join(__dirname, "../data");
-    const seedFilePath = path.join(dataDir, "seed-data.json");
-    const seedData: SeedData = JSON.parse(fs.readFileSync(seedFilePath, "utf-8"));
-
-    // --- Users ---
-    const users: User[] = seedData.users.map(u =>
-      AppDataSource.manager.create(User, {
-        ...u,
-        password: bcrypt.hashSync(u.password, 10),
-      })
-    );
-    await AppDataSource.manager.save(users);
-    console.log(`Inserted ${users.length} users.`);
-
-    // --- Genres ---
-    const genres: Genre[] = seedData.genres.map(g => AppDataSource.manager.create(Genre, g));
-    await AppDataSource.manager.save(genres);
-    console.log(`Inserted ${genres.length} genres.`);
-
-    // --- Movies ---
-    const moviesMap = new Map<number, Movie>();
-    for (const m of seedData.movies) {
-      const movie = AppDataSource.manager.create(Movie, {
-        title: m.title,
-        originalTitle: m.originalTitle,
-        adult: Boolean(m.adult),
-        overview: m.overview,
-        popularity: m.popularity,
-        posterUrl: m.posterUrl ?? undefined,
-        backdropUrl: m.backdropUrl ?? undefined,
-        releaseDate: m.releaseDate,
-        voteAverage: m.voteAverage,
-        voteCount: m.voteCount,
-      });
-
-      await AppDataSource.manager.save(movie);
-
-      // Deduplicate genres
-      const uniqueGenres = Array.from(new Set(m.genreIds))
-        .map(id => genres.find(g => g.id === id))
-        .filter((g): g is Genre => g !== undefined);
-
-      movie.genres = Array.from(new Set(uniqueGenres));
-      await AppDataSource.manager.save(movie);
-      moviesMap.set(m.id, movie);
-    }
-    console.log(`Inserted ${moviesMap.size} movies.`);
-
-    // --- Reviews (deduplicate by authorId+movieId) ---
-    const uniqueReviewsMap = new Map<string, SeedReview>();
-    for (const r of seedData.reviews) {
-      const key = `${r.authorId}-${r.movieId}`;
-      if (!uniqueReviewsMap.has(key)) uniqueReviewsMap.set(key, r);
-    }
-    const reviews: Review[] = Array.from(uniqueReviewsMap.values()).map(r =>
-      AppDataSource.manager.create(Review, {
-        review: r.review,
-        rating: r.rating,
-        movie: moviesMap.get(r.movieId),
-        author: users.find(u => u.id === r.authorId),
-        createdAt: r.createdAt,
-      })
-    );
-    await AppDataSource.manager.save(reviews);
-    console.log(`Inserted ${reviews.length} reviews.`);
-
-    // --- Views ---
-    const views: View[] = seedData.views.map(v =>
-      AppDataSource.manager.create(View, {
-        user: users.find(u => u.id === v.userId),
-        movie: moviesMap.get(v.movieId),
-      })
-    );
-    await AppDataSource.manager.save(views);
-    console.log(`Inserted ${views.length} views.`);
-
-    // --- Comments ---
-    const comments: Comment[] = seedData.comments.map(c =>
-      AppDataSource.manager.create(Comment, {
-        content: c.content,
-        createdAt: new Date(c.createdAt),
-        user: users.find(u => u.id === c.userId),
-        movie: moviesMap.get(c.movieId),
-      })
-    );
-    await AppDataSource.manager.save(comments);
-    console.log(`Inserted ${comments.length} comments.`);
-
-    // --- Lists (with movies safely added) ---
-    for (const l of seedData.lists) {
-      const user = users.find(u => u.id === l.userId);
-      if (!user) continue;
-
-      // Create the List entity
-      const listEntity = AppDataSource.manager.create(List, {
-        name: l.name,
-        createdAt: new Date(l.createdAt),
-        user,
-      });
-
-      await AppDataSource.manager.save(listEntity);
-
-      // Deduplicate movie IDs properly
-      const uniqueMovieIds = Array.from(new Set(l.movieIds));
-
-      // Map to Movie entities
-      const moviesForList: Movie[] = uniqueMovieIds
-        .map(id => moviesMap.get(id))
-        .filter((m): m is Movie => m !== undefined);
-
-      // Deduplicate movie objects to ensure no duplicates
-      const uniqueMovies = Array.from(new Set(moviesForList));
-
-      if (uniqueMovies.length > 0) {
-        await AppDataSource.createQueryBuilder()
-          .relation(List, "movies")
-          .of(listEntity)
-          .add(uniqueMovies);
-      }
-    }
-    console.log(`Inserted ${seedData.lists.length} lists.`);
-
-
-    console.log("✅ Seeding complete!");
-    process.exit(0);
-  } catch (err) {
-    console.error("Error during seeding:", err);
-    process.exit(1);
+  // --- Clear tables in correct order ---
+  await manager.query("SET FOREIGN_KEY_CHECKS = 0;");
+  const tables = [
+    "comment_likes",
+    "comments",
+    "review_likes",
+    "reviews",
+    "list_likes",
+    "lists_movies_movies",
+    "lists",
+    "views",
+    "movies_genres_genres",
+    "movies",
+    "genres",
+    "users",
+  ];
+  for (const table of tables) {
+    await manager.query(`TRUNCATE TABLE ${table};`);
   }
+  await manager.query("SET FOREIGN_KEY_CHECKS = 1;");
+
+  // --- Users ---
+  const users: User[] = [];
+  for (let i = 0; i < NUM_USERS; i++) {
+    users.push(manager.create(User, {
+      name: faker.person.fullName(),
+      password: await bcrypt.hash("password", 10),
+    }));
+  }
+  await manager.save(users);
+
+  // --- Genres ---
+  const genresRaw = fs.readFileSync(genresFilePath, "utf-8");
+  const genreData: { id: number; name: string }[] = JSON.parse(genresRaw);
+  const genres: Genre[] = genreData.map((g) => manager.create(Genre, g));
+  await manager.save(genres);
+
+  // --- Movies ---
+  const tmdbMoviesRaw = fs.readFileSync(tmdbFilePath, "utf-8");
+  const moviesData: TmdbMovie[] = JSON.parse(tmdbMoviesRaw);
+  const movies: Movie[] = moviesData.map((movie) => {
+    // Deduplicate genre IDs
+    const validGenreIds = Array.from(new Set(
+      movie.genre_ids.filter((id) => genres.some((g) => g.id === id))
+    ));
+    if (validGenreIds.length === 0 && genres.length > 0) validGenreIds.push(genres[0].id);
+
+    return manager.create(Movie, {
+      title: movie.title,
+      originalTitle: movie.original_title,
+      adult: movie.adult,
+      overview: movie.overview,
+      popularity: movie.popularity,
+      posterUrl: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : null,
+      backdropUrl: movie.backdrop_path ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}` : null,
+      releaseDate: movie.release_date,
+      voteAverage: movie.vote_average,
+      voteCount: movie.vote_count,
+      genres: genres.filter((g) => validGenreIds.includes(g.id)),
+    } as DeepPartial<Movie>);
+  });
+  await manager.save(movies);
+  console.log(`Seeded ${movies.length} movies`);
+
+  // --- Reviews ---
+  const reviews: Review[] = Array.from({ length: NUM_REVIEWS }, () =>
+    manager.create(Review, {
+      review: faker.lorem.sentences({ min: 1, max: 3 }),
+      rating: parseFloat((Math.random() * 5).toFixed(1)),
+      movie: faker.helpers.arrayElement(movies),
+      author: faker.helpers.arrayElement(users),
+      createdAt: faker.date.past(),
+    })
+  );
+  await manager.save(reviews);
+
+  // --- ReviewLikes (unique) ---
+  const reviewLikeSet = new Set<string>();
+  const reviewLikes: ReviewLike[] = [];
+  while (reviewLikes.length < NUM_REVIEWS * 2) {
+    const user = faker.helpers.arrayElement(users);
+    const review = faker.helpers.arrayElement(reviews);
+    const key = `${user.id}-${review.id}`;
+    if (!reviewLikeSet.has(key)) {
+      reviewLikeSet.add(key);
+      reviewLikes.push(manager.create(ReviewLike, { user, review, createdAt: faker.date.recent() }));
+    }
+  }
+  await manager.save(reviewLikes);
+
+  // --- Views (unique) ---
+  const viewSet = new Set<string>();
+  const views: View[] = [];
+  while (views.length < NUM_VIEWS) {
+    const user = faker.helpers.arrayElement(users);
+    const movie = faker.helpers.arrayElement(movies);
+    const key = `${user.id}-${movie.id}`;
+    if (!viewSet.has(key)) {
+      viewSet.add(key);
+      views.push(manager.create(View, { user, movie }));
+    }
+  }
+  await manager.save(views);
+
+  // --- Comments ---
+  const comments: Comment[] = Array.from({ length: NUM_COMMENTS }, () =>
+    manager.create(Comment, {
+      content: faker.lorem.sentence(),
+      createdAt: faker.date.recent(),
+      user: faker.helpers.arrayElement(users),
+      movie: faker.helpers.arrayElement(movies),
+    })
+  );
+  await manager.save(comments);
+
+  // --- CommentLikes (unique) ---
+  const commentLikeSet = new Set<string>();
+  const commentLikes: CommentLike[] = [];
+  while (commentLikes.length < NUM_COMMENTS * 2) {
+    const user = faker.helpers.arrayElement(users);
+    const comment = faker.helpers.arrayElement(comments);
+    const key = `${user.id}-${comment.id}`;
+    if (!commentLikeSet.has(key)) {
+      commentLikeSet.add(key);
+      commentLikes.push(manager.create(CommentLike, { user, comment, createdAt: faker.date.recent() }));
+    }
+  }
+  await manager.save(commentLikes);
+
+  // --- Lists ---
+  const lists: List[] = Array.from({ length: NUM_LISTS }, () =>
+    manager.create(List, {
+      name: `${faker.word.adjective()} ${faker.word.noun()} List`,
+      createdAt: faker.date.past(),
+      user: faker.helpers.arrayElement(users),
+      movies: Array.from(new Set(randomUniqueArray(faker.number.int({ min: 1, max: 10 }), movies.length)))
+        .map((i) => movies[i - 1]),
+    })
+  );
+  await manager.save(lists);
+
+  // --- ListLikes (unique) ---
+  const listLikeSet = new Set<string>();
+  const listLikes: ListLike[] = [];
+  while (listLikes.length < NUM_LISTS * 2) {
+    const user = faker.helpers.arrayElement(users);
+    const list = faker.helpers.arrayElement(lists);
+    const key = `${user.id}-${list.id}`;
+    if (!listLikeSet.has(key)) {
+      listLikeSet.add(key);
+      listLikes.push(manager.create(ListLike, { user, list, createdAt: faker.date.recent() }));
+    }
+  }
+  await manager.save(listLikes);
+
+  console.log("✅ Database seeded successfully");
+  await AppDataSource.destroy();
 }
 
-seed();
+seed().catch((err) => console.error(err));

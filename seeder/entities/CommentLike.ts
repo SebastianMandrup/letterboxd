@@ -7,7 +7,7 @@ import {
 import { Comment } from './Comment';
 import { User } from './User';
 
-@Entity("comment-likes")
+@Entity("comment_likes")
 export class CommentLike {
     @PrimaryGeneratedColumn({ type: "int", name: "id" })
     id: number;

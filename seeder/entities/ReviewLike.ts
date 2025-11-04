@@ -7,7 +7,7 @@ import {
 import { Review } from './Review';
 import { User } from './User';
 
-@Entity("review-likes")
+@Entity("review_likes")
 export class ReviewLike {
     @PrimaryGeneratedColumn({ type: "int", name: "id" })
     id: number;

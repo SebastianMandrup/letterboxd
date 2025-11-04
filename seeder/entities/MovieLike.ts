@@ -8,7 +8,7 @@ import {
 import { Movie } from './Movie';
 import { User } from './User';
 
-@Entity("movie-likes")
+@Entity("movie_likes")
 export class MovieLike {
     @PrimaryGeneratedColumn({ type: "int", name: "id" })
     id: number;

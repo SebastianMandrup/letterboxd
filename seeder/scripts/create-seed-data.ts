@@ -85,6 +85,13 @@ const reviews = Array.from({ length: NUM_REVIEWS }, () => ({
     createdAt: faker.date.past().toISOString(),
 }));
 
+// ---------------- ReviewLikes ----------------
+const reviewLikes = Array.from({ length: NUM_REVIEWS * 2 }, () => ({
+    createdAt: faker.date.recent().toISOString(),
+    userId: faker.number.int({ min: 1, max: NUM_USERS }),
+    reviewId: faker.number.int({ min: 1, max: NUM_REVIEWS }),
+}));
+
 // ---------------- Views ----------------
 const viewSet = new Set<string>();
 const views = Array.from({ length: NUM_VIEWS }, () => {
@@ -106,6 +113,15 @@ const comments = Array.from({ length: NUM_COMMENTS }, () => ({
     movieId: faker.number.int({ min: 1, max: NUM_MOVIES }),
 }));
 
+// ---------------- CommentLikes ----------------
+const commentLikes = Array.from({ length: NUM_COMMENTS * 2 }, () => {
+    ({
+        createdAt: faker.date.recent().toISOString(),
+        userId: faker.number.int({ min: 1, max: NUM_USERS }),
+        commentId: faker.number.int({ min: 1, max: NUM_COMMENTS }),
+    });
+});
+
 // ---------------- Lists ----------------
 const lists = Array.from({ length: NUM_LISTS }, () => {
     const listMovieIds = Array.from(
@@ -124,8 +140,19 @@ const lists = Array.from({ length: NUM_LISTS }, () => {
     };
 });
 
+
+// ---------------- ListLikes ----------------
+const listLikes = Array.from({ length: NUM_LISTS * 2 }, () => {
+    ({
+        createdAt: faker.date.recent().toISOString(),
+        userId: faker.number.int({ min: 1, max: NUM_USERS }),
+        listId: faker.number.int({ min: 1, max: NUM_LISTS }),
+    });
+});
+
+
 // ---------------- Combine all ----------------
-const seedData = { users, movies, genres, reviews, views, comments, lists };
+const seedData = { users, movies, genres, reviews, reviewLikes, views, comments, commentLikes, lists, listLikes };
 
 // ---------------- Write to file ----------------
 fs.writeFileSync(seedFilePath, JSON.stringify(seedData, null, 2));

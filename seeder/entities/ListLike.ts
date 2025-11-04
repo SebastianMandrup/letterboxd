@@ -7,7 +7,7 @@ import {
 import { List } from './List';
 import { User } from './User';
 
-@Entity("list-likes")
+@Entity("list_likes")
 export class ListLike {
     @PrimaryGeneratedColumn({ type: "int", name: "id" })
     id: number;
