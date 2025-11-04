@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import fs from "fs";
 import path from "path";
 import type { DeepPartial } from "typeorm";
-import { AppDataSource } from '../data-source';
+import { AppDataSource } from "../data-source";
 import { Comment } from "../entities/Comment";
 import { CommentLike } from "../entities/CommentLike";
 import { Genre } from "../entities/Genre";
@@ -15,6 +15,7 @@ import { ReviewLike } from "../entities/ReviewLike";
 import { User } from "../entities/User";
 import { View } from "../entities/View";
 import { TmdbMovie } from "./TmdbMovie";
+import { MovieLike } from '../entities/MovieLike';
 
 // ---------------- Paths ----------------
 const dataDir = path.join(__dirname, "../data");
@@ -35,6 +36,39 @@ const randomUniqueArray = (length: number, max: number) => {
   ));
 };
 
+/**
+ * Generate unique likes for any "likeable" entity
+ */
+async function generateUniqueLikes<T extends { id: number }>(
+  users: User[],
+  targets: T[],
+  totalLikes: number,
+  manager: any,
+  LikeEntity: any
+) {
+  const likeSet = new Set<string>();
+  const likes: any[] = [];
+  const targetProp = LikeEntity.name.replace("Like", "").toLowerCase();
+
+  while (likes.length < totalLikes) {
+    const user = faker.helpers.arrayElement(users);
+    const target = faker.helpers.arrayElement(targets);
+    const key = `${user.id}-${target.id}`;
+    if (!likeSet.has(key)) {
+      likeSet.add(key);
+      likes.push(manager.create(LikeEntity, {
+        user,
+        [targetProp]: target,
+        createdAt: faker.date.recent(),
+      }));
+    }
+  }
+
+  await manager.save(likes);
+  console.log(`Seeded ${likes.length} ${LikeEntity.name.toLowerCase()}s`);
+}
+
+// ---------------- Seed Function ----------------
 async function seed() {
   await AppDataSource.initialize();
   const manager = AppDataSource.manager;
@@ -52,6 +86,7 @@ async function seed() {
     "views",
     "movies_genres_genres",
     "movies",
+    "movie_likes",
     "genres",
     "users",
   ];
@@ -80,7 +115,6 @@ async function seed() {
   const tmdbMoviesRaw = fs.readFileSync(tmdbFilePath, "utf-8");
   const moviesData: TmdbMovie[] = JSON.parse(tmdbMoviesRaw);
   const movies: Movie[] = moviesData.map((movie) => {
-    // Deduplicate genre IDs
     const validGenreIds = Array.from(new Set(
       movie.genre_ids.filter((id) => genres.some((g) => g.id === id))
     ));
@@ -115,20 +149,6 @@ async function seed() {
   );
   await manager.save(reviews);
 
-  // --- ReviewLikes (unique) ---
-  const reviewLikeSet = new Set<string>();
-  const reviewLikes: ReviewLike[] = [];
-  while (reviewLikes.length < NUM_REVIEWS * 2) {
-    const user = faker.helpers.arrayElement(users);
-    const review = faker.helpers.arrayElement(reviews);
-    const key = `${user.id}-${review.id}`;
-    if (!reviewLikeSet.has(key)) {
-      reviewLikeSet.add(key);
-      reviewLikes.push(manager.create(ReviewLike, { user, review, createdAt: faker.date.recent() }));
-    }
-  }
-  await manager.save(reviewLikes);
-
   // --- Views (unique) ---
   const viewSet = new Set<string>();
   const views: View[] = [];
@@ -154,20 +174,6 @@ async function seed() {
   );
   await manager.save(comments);
 
-  // --- CommentLikes (unique) ---
-  const commentLikeSet = new Set<string>();
-  const commentLikes: CommentLike[] = [];
-  while (commentLikes.length < NUM_COMMENTS * 2) {
-    const user = faker.helpers.arrayElement(users);
-    const comment = faker.helpers.arrayElement(comments);
-    const key = `${user.id}-${comment.id}`;
-    if (!commentLikeSet.has(key)) {
-      commentLikeSet.add(key);
-      commentLikes.push(manager.create(CommentLike, { user, comment, createdAt: faker.date.recent() }));
-    }
-  }
-  await manager.save(commentLikes);
-
   // --- Lists ---
   const lists: List[] = Array.from({ length: NUM_LISTS }, () =>
     manager.create(List, {
@@ -180,19 +186,11 @@ async function seed() {
   );
   await manager.save(lists);
 
-  // --- ListLikes (unique) ---
-  const listLikeSet = new Set<string>();
-  const listLikes: ListLike[] = [];
-  while (listLikes.length < NUM_LISTS * 2) {
-    const user = faker.helpers.arrayElement(users);
-    const list = faker.helpers.arrayElement(lists);
-    const key = `${user.id}-${list.id}`;
-    if (!listLikeSet.has(key)) {
-      listLikeSet.add(key);
-      listLikes.push(manager.create(ListLike, { user, list, createdAt: faker.date.recent() }));
-    }
-  }
-  await manager.save(listLikes);
+  // --- Likes ---
+  await generateUniqueLikes(users, reviews, NUM_REVIEWS * 2, manager, ReviewLike);
+  await generateUniqueLikes(users, comments, NUM_COMMENTS * 2, manager, CommentLike);
+  await generateUniqueLikes(users, lists, NUM_LISTS * 2, manager, ListLike);
+  await generateUniqueLikes(users, movies, 2000, manager, MovieLike);
 
   console.log("✅ Database seeded successfully");
   await AppDataSource.destroy();
