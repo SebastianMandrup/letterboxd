@@ -11,12 +11,9 @@ const addFeaturedFilter = (
     featured: boolean | undefined
 ) => {
     if (featured === true) {
-        queryBuilder
-            .leftJoinAndSelect("movie.views", "views")
-            .addSelect("COUNT(views.id)", "viewsCount")
-            .groupBy("movie.id")
-            .orderBy("viewsCount", "DESC")
-            .limit(6);
+
+        const FEATURED_MOVIE_IDS = [10, 20, 30, 40, 50, 60];
+        queryBuilder.where("movie.id IN (:...ids)", { ids: FEATURED_MOVIE_IDS });
     }
 };
 
@@ -27,9 +24,14 @@ const addJustReviewedFilter = (
 ) => {
     if (justReviewed === true) {
         queryBuilder
-            .leftJoinAndSelect("movie.reviews", "review")
+            .leftJoinAndSelect(
+                "movie.reviews",
+                "review",
+                "review.deletedAt IS NULL"
+            )
             .orderBy("review.createdAt", "DESC")
-            .limit(11);
+            .take(11);
+
     }
 };
 

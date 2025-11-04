@@ -9,8 +9,8 @@ const apiClient = new ApiClient<Movie>("movies");
 
 export default (config: AxiosRequestConfig) =>
     useQuery<PaginatedResponse<Movie>, Error>({
-        queryKey: ["featuredMovies", config],
+        queryKey: ["movies", config],
         queryFn: () => apiClient.getAll(config),
         // initialData: featuredMovies,
-        staleTime: 1000 * 60 * 60 * 24, // 24 hours
+        staleTime: 1000 * 60 * 60 * 1, // 1 hour
     });

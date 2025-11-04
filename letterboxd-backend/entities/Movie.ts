@@ -7,9 +7,9 @@ import {
     OneToMany,
     PrimaryGeneratedColumn
 } from "typeorm";
-import { Comment } from './Comment';
 import { Genre } from './Genre';
 import { List } from './List';
+import { MovieLike } from './MovieLike';
 import { Review } from './Review';
 import { View } from './View';
 
@@ -52,12 +52,12 @@ export class Movie {
     @OneToMany(() => View, (view) => view.movie)
     views: View[];
 
+    @OneToMany(() => MovieLike, (MovieLike) => MovieLike.movie)
+    likes: MovieLike[];
+
     @JoinTable()
     @ManyToMany(() => Genre, (genre) => genre.movies)
     genres: Genre[];
-
-    @OneToMany(() => Comment, (comment) => comment.movie)
-    comments: Comment[];
 
     @ManyToMany(() => List, (list) => list.movies)
     lists: List[];
