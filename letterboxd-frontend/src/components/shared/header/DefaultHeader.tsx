@@ -6,6 +6,14 @@ interface DefaultHeaderProps {
 }
 
 function DefaultHeader({ setIsLoggingIn, setIsSigningUp }: DefaultHeaderProps) {
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const query = formData.get('query') as string;
+        window.location.href = `/search/${encodeURIComponent(query)}`;
+    }
+
     return (
         <section className={styles.sectionDefaultHeader}>
             <nav>
@@ -21,8 +29,8 @@ function DefaultHeader({ setIsLoggingIn, setIsSigningUp }: DefaultHeaderProps) {
                         </button>
                     </li>
                     <li>
-                        <a href="/films">
-                            FILMS
+                        <a href="/movies">
+                            MOVIES
                         </a>
                     </li>
                     <li>
@@ -42,7 +50,7 @@ function DefaultHeader({ setIsLoggingIn, setIsSigningUp }: DefaultHeaderProps) {
                     </li>
                 </ul>
             </nav>
-            <form action="/search" method="GET">
+            <form onSubmit={handleSubmit}>
                 <input name='query' type="text" />
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="8" cy="8" r="6" />

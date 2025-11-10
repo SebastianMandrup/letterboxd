@@ -1,9 +1,3 @@
-#listJustReviewed {
-    list-style: none;
-    display: flex;
-    gap: 10px;
-}
-
 #pWriteShare {
     text-align: center;
     margin-top: 60px;
