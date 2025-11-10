@@ -51,3 +51,12 @@ export const getMoviesQueryBuilder = async (req: any) => {
 
     return queryBuilder;
 }
+
+export const deleteMovieById = async (movieId: number) => {
+    try {
+        const deleteResult = await movieRepository.delete(movieId);
+        return deleteResult.affected && deleteResult.affected > 0;
+    } catch (error) {
+        throw new Error(`Error deleting movie with ID ${movieId}:`);
+    }
+};

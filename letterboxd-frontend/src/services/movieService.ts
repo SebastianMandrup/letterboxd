@@ -1,4 +1,6 @@
-export default interface Movie {
+import ApiClient from './apiClient';
+
+export interface Movie {
     id: number;
     title: string;
     originalTitle?: string | null;
@@ -11,7 +13,6 @@ export default interface Movie {
     releaseDate?: string | Date;
     voteAverage?: number | null;
     voteCount?: number | null;
-
-    // reviews?: Review[];
-    // views?: View[];
 }
+
+export default new ApiClient<Movie>('/movies');
