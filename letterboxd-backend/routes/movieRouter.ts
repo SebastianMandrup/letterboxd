@@ -1,27 +1,19 @@
 import { Router } from "express";
-import { AppDataSource } from "../data-source";
-import { Movie } from '../entities/Movie';
-
-interface Response {
-    count: number;
-    results: Movie[];
-}
+import { getMoviesQueryBuilder } from '../services/movieService';
 
 const movieRouter = Router();
 
-const movieRepository = AppDataSource.getRepository(Movie);
-
-//GET all movies
 movieRouter.get("/", async (req, res) => {
     try {
-        const movies = await movieRepository.find();
-        const response: Response = {
+        const queryBuilder = await getMoviesQueryBuilder(req);
+        const movies = await queryBuilder.getMany();
+
+        res.status(200).send({
             count: movies.length,
-            results: movies,
-        };
-        res.send(response);
+            results: movies
+        });
     } catch (error) {
-        console.error("Error fetching genres:", error);
+        console.error("Error fetching movies:", error);
         res.status(500).send({ error: "Internal server error" });
     }
 });

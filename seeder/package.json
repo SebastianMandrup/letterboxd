@@ -6,19 +6,19 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "gen": "ts-node create-seed-data.ts",
-    "start": "ts-node index.ts",
-    "dev": "npm run gen && npm run start"
+    "scrape": "ts-node ./scripts/scrape-movie-data.ts",
+    "generate": "ts-node ./scripts/create-seed-data.ts",
+    "populate": "ts-node ./scripts/populate-database.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.1.0",
+    "@types/bcrypt": "^6.0.0",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
     "mysql2": "3.12.0",
     "pg": "^8.16.3",
     "reflect-metadata": "0.2.2",
-    "typeorm": "0.3.21"
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^10.1.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "typeorm": "^0.3.27"
   }
 }

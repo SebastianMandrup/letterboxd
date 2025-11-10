@@ -44,11 +44,11 @@ const fetchMovies = async () => {
         }
 
         console.log(`Total movies fetched: ${allMovies.length}`);
-        fs.writeFileSync("scraped-data.json", JSON.stringify(allMovies, null, 2));
+        fs.writeFileSync("../data/scraped-data.json", JSON.stringify(allMovies, null, 2));
     } catch (error) {
         console.error('Error fetching movies:', error);
         console.log(`Total movies fetched so far: ${allMovies.length}`);
-        fs.writeFileSync("scraped-data.json", JSON.stringify(allMovies, null, 2));
+        fs.writeFileSync("../data/scraped-data.json", JSON.stringify(allMovies, null, 2));
     }
 };
 

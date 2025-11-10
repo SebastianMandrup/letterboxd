@@ -1,9 +1,15 @@
 import {
     Column,
     Entity,
+    Index,
+    JoinTable,
+    ManyToMany,
     OneToMany,
     PrimaryGeneratedColumn
 } from "typeorm";
+import { Genre } from './Genre';
+import { List } from './List';
+import { MovieLike } from './MovieLike';
 import { Review } from './Review';
 import { View } from './View';
 
@@ -12,6 +18,7 @@ export class Movie {
     @PrimaryGeneratedColumn({ type: "int", name: "id" })
     id: number;
 
+    @Index()
     @Column("varchar", { name: "title", length: 255 })
     title: string;
 
@@ -21,14 +28,8 @@ export class Movie {
     @Column("boolean", { name: "adult", default: false })
     adult: boolean;
 
-    @Column("simple-array", { name: "genreIds", nullable: true })
-    genreIds: number[];
-
     @Column("text", { name: "overview", nullable: true })
-    overview?: string;
-
-    @Column("float", { name: "popularity", nullable: true })
-    popularity?: number;
+    overview: string;
 
     @Column("varchar", { name: "posterUrl", nullable: true })
     posterUrl?: string;
@@ -36,7 +37,7 @@ export class Movie {
     @Column("varchar", { name: "backdropUrl", nullable: true })
     backdropUrl?: string;
 
-    @Column("varchar", { name: "releaseDate" })
+    @Column("date", { name: "releaseDate" })
     releaseDate?: Date;
 
     @Column("float", { name: "voteAverage", nullable: true })
@@ -51,5 +52,14 @@ export class Movie {
     @OneToMany(() => View, (view) => view.movie)
     views: View[];
 
+    @OneToMany(() => MovieLike, (MovieLike) => MovieLike.movie)
+    likes: MovieLike[];
+
+    @JoinTable()
+    @ManyToMany(() => Genre, (genre) => genre.movies)
+    genres: Genre[];
+
+    @ManyToMany(() => List, (list) => list.movies)
+    lists: List[];
 
 }
