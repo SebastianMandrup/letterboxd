@@ -6,7 +6,10 @@ import styles from './sectionJustReviewedCards.module.css';
 function SectionJustReviewedCards() {
 
     const { data, error, isLoading } = useMovies({
-        params: { justReviewed: true }
+        params: {
+            justReviewed: true,
+            pageSize: 11,
+        }
     });
 
     if (isLoading) {

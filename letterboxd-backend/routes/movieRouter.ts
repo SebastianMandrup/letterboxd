@@ -12,7 +12,7 @@ interface MoviesResponse {
 
 const buildMoviesResponse = (movies: any[], total: number, req: any): MoviesResponse => {
     const page = req.query.page ? Number(req.query.page) : 1;
-    let pageSize = req.query.page_size ? Number(req.query.page_size) : 20;
+    let pageSize = req.query.pageSize ? Number(req.query.pageSize) : 40;
 
     if (pageSize > 40) pageSize = 40;
 
@@ -21,7 +21,7 @@ const buildMoviesResponse = (movies: any[], total: number, req: any): MoviesResp
     const baseUrl = `${req.protocol}://${req.get('host')}${req.baseUrl}${req.path}`;
 
     const buildPageLink = (pageNum: number) =>
-        `${baseUrl}?page=${pageNum}&page_size=${pageSize}`;
+        `${baseUrl}?page=${pageNum}&pageSize=${pageSize}`;
 
     return {
         count: total,

@@ -29,8 +29,7 @@ const addJustReviewedFilter = (
                 "review",
                 "review.deletedAt IS NULL"
             )
-            .orderBy("review.createdAt", "DESC")
-            .take(11);
+            .orderBy("review.createdAt", "DESC");
     }
 };
 
@@ -106,7 +105,7 @@ const getMoviesQueryBuilder = async (req: any) => {
 
 export const getMovies = async (req: any) => {
     const page = req.query.page ? Number(req.query.page) : START_PAGE;
-    let pageSize = req.query.page_size ? Number(req.query.page_size) : DEFAULT_PAGE_SIZE;
+    let pageSize = req.query.pageSize ? Number(req.query.pageSize) : DEFAULT_PAGE_SIZE;
 
     if (pageSize > MAX_PAGE_SIZE) pageSize = MAX_PAGE_SIZE;
 
