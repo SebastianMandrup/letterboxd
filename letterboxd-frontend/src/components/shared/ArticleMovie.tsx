@@ -10,7 +10,9 @@ interface ArticleMovieProps {
 
 const ArticleMovie: FunctionComponent<ArticleMovieProps> = ({ src, alt, overlay }) => {
 
-    console.log('Rendering ArticleMovie with src:', src, 'and alt:', alt);
+    if (src === '') {
+        src = '/placeholder-movie.png';
+    }
 
     return (
         <article className={styles.articleMovie}>

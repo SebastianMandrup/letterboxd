@@ -3,6 +3,7 @@
 - auth needs coupling
 - search impl
 - /lists
-- /films
+- /movies
+- /movie/:name
 - /members
 - /journal

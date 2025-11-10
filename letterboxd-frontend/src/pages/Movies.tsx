@@ -1,25 +1,27 @@
 import FormBrowseBy from '../components/films/FormBrowseBy'
 import FormSearchFilm from '../components/films/FormSearchFilm'
-import PopularFilms from '../components/films/PopularFilms'
+import PopularMovies from '../components/films/PopularMovies'
 import Footer from '../components/shared/footer/Footer'
 import Header from '../components/shared/header/Header'
-import styles from './films.module.css'
+import SectionJustReviewedCards from '../components/shared/SectionJustReviewedCards'
+import styles from './movies.module.css'
 
-function FilmsPage() {
+function MoviesPage() {
 
     return (
         <>
             <Header />
-            <main className={styles.mainFilms}>
+            <main className={styles.mainMovies}>
                 <section className={styles.sectionBrowse}>
                     <FormBrowseBy />
                     <FormSearchFilm />
                 </section>
-                <PopularFilms />
+                <PopularMovies />
+                <SectionJustReviewedCards />
             </main>
             <Footer />
         </>
     )
 }
 
-export default FilmsPage
+export default MoviesPage
