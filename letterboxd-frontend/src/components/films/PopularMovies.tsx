@@ -19,7 +19,7 @@ const PopularMovies = () => {
                     <ul className={styles.ulPopularFilms}>
                         {data.results.map((movie) => (
                             <li key={movie.id} className={styles.liTopMovies}>
-                                <ArticleMovie key={movie.id} src={movie.posterUrl || ''} alt='' />
+                                <ArticleMovie key={movie.id} title={movie.title} src={movie.posterUrl || ''} alt='' />
                             </li>
                         ))}
                     </ul>

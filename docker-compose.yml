@@ -33,7 +33,7 @@ services:
       - ./letterboxd-frontend:/app
       - /app/node_modules
     ports:
-      - 3000
+      - 3000:3000
     env_file:
       - ./letterboxd-frontend/.env
     depends_on:

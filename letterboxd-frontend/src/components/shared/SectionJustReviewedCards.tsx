@@ -27,6 +27,7 @@ function SectionJustReviewedCards() {
                 {data?.results.map((movie, index) => (
                     <li key={index} className={styles.listItemReviewedMovie}>
                         <ArticleMovie
+                            title={movie.title}
                             src={movie.posterUrl ?? ""}
                             alt={`Poster of ${movie.title}`}
                             overlay={

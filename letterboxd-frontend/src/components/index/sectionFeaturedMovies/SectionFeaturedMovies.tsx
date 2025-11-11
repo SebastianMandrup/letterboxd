@@ -7,25 +7,19 @@ const SectionFeaturedMovies = () => {
     const { data, error, isLoading } = useMovies({
         params: { featured: true }
     });
-
-    console.log("Featured Movies Data:", data);
-
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
-
-    if (!data) {
-        return <div>No featured movies available.</div>;
-    }
-
     return (
         <section id={styles.sectionFeaturedMovies}>
+            {isLoading &&
+                <p>Loading...</p>
+            }
+            {error &&
+                <p>
+                    Error loading featured movies.
+                </p>
+            }
             {(data?.results ?? []).map((movie, index) => (
                 <ArticleFeaturedMovie
+                    title={movie.title}
                     key={index}
                     src={movie.posterUrl ?? ''}
                     alt={`post of ${movie.title}`}

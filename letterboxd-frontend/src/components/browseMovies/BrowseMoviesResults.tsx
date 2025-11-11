@@ -25,24 +25,24 @@ const BrowseMoviesResults: FunctionComponent<BrowseMoviesResultsProps> = ({ sele
     })
 
 
-    if (isLoading) {
-        return <p>Loading...</p>;
-    }
-
-    if (error) {
-        return <p>Error loading movies.</p>;
-    }
-
     return (
         <section className={styles.sectionBrowseResults}>
-            <ul>
-                {data && data.results.map((movie) => (
-                    <li key={movie.id}>
-                        <ArticleMovie src={movie.posterUrl || ''} alt={"poster of " + movie.title} />
-                    </li>
-                ))
-                }
-            </ul>
+
+            <section className={styles.statusMessages}>
+                {isLoading && <div></div>}
+                {error && <p>Error loading movies.</p>}
+            </section>
+
+            {data &&
+                <ul>
+                    {data.results.map((movie) => (
+                        <li key={movie.id}>
+                            <ArticleMovie title={movie.title} src={movie.posterUrl || ''} alt={"poster of " + movie.title} />
+                        </li>
+                    ))
+                    }
+                </ul>
+            }
             <nav className={styles.pagination}>
                 {data?.previous && <button onClick={() => setPage(page - 1)}>Previous</button>}
                 {!data?.previous && <div></div>}

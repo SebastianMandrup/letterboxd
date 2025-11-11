@@ -1,9 +1,11 @@
-- seeder needs update (thinking imdb scrape -> auto genned reviews & users)
-- index needs coupling
-- auth needs coupling
-- search impl
+- x seeder needs update (thinking imdb scrape -> auto genned reviews & users)
+- x index needs coupling
+
+- /search
 - /lists
 - /movies
 - /movie/:name
 - /members
 - /journal
+
+- user / auth && global state to manage

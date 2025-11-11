@@ -65,7 +65,7 @@ function SectionPopularReviews() {
                 popularReviews.map((review) => {
                     return (
                         <article className={styles.articlePopularReview}>
-                            <ArticleMovie src={review.moviePosterUrl} alt={`poster of ${review.movie}`} />
+                            <ArticleMovie title={review.movie} src={review.moviePosterUrl} alt={`poster of ${review.movie}`} />
                             <section className={styles.sectionPopularReviewContent}>
                                 <header>
                                     <p>

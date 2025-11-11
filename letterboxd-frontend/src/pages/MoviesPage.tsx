@@ -4,7 +4,7 @@ import PopularMovies from '../components/films/PopularMovies'
 import Footer from '../components/shared/footer/Footer'
 import Header from '../components/shared/header/Header'
 import SectionJustReviewedCards from '../components/shared/SectionJustReviewedCards'
-import styles from './movies.module.css'
+import styles from './moviesPage.module.css'
 
 function MoviesPage() {
 

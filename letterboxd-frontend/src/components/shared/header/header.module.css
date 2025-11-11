@@ -1,10 +1,11 @@
 .headerMain {
-    width: calc(var(--mainWidth) - 64px);
+    width: 80vw;
     margin: 0 auto;
+    padding: 0 40px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.1);
 
     img {
         height: 30px;

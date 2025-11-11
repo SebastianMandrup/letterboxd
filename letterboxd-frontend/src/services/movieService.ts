@@ -1,5 +1,15 @@
 import ApiClient from './apiClient';
 
+
+export interface Review {
+    id: number;
+    review: string;
+    rating: number;
+    author: {
+        name: string;
+    };
+}
+
 export interface Movie {
     id: number;
     title: string;
@@ -13,6 +23,8 @@ export interface Movie {
     releaseDate?: string | Date;
     voteAverage?: number | null;
     voteCount?: number | null;
+
+    reviews: Review[];
 }
 
 export default new ApiClient<Movie>('/movies');

@@ -4,6 +4,8 @@
     align-items: center;
 
     nav {
+        z-index: 1;
+
         ul {
             list-style: none;
             display: flex;
@@ -16,12 +18,12 @@
                     background-color: transparent;
                     border: none;
                     text-decoration: none;
-                    color: var(--lightGrey);
+                    color: var(--white);
                     font-weight: 500;
                     font-size: 0.9rem;
 
                     &:hover {
-                        color: var(--white);
+                        color: var(--lightGrey);
                     }
                 }
             }
@@ -34,7 +36,7 @@
         input {
             border: none;
             margin-left: 16px;
-            background-color: rgba(240, 240, 240, 0.25);
+            background-color: rgba(240, 240, 240, 0.5);
             border-radius: 14px;
             padding: 8px;
             color: var(--lightGrey);

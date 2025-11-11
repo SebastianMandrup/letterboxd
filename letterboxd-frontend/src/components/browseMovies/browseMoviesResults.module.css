@@ -1,3 +1,13 @@
+.sectionBrowseResults {
+    min-height: 600px;
+}
+
+.statusMessages {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .sectionBrowseResults ul {
     list-style: none;
     display: grid;
