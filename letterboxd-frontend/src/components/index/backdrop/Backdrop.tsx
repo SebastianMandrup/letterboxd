@@ -9,10 +9,14 @@ interface BackdropProps {
 
 const Backdrop: FunctionComponent<BackdropProps> = ({ src, alt, caption }) => {
     return (
-        <section className={styles.sectionBackdrop}>
+        <section
+            className={styles.sectionBackdrop}
+            style={{ ['--backdrop-image' as any]: `url(${src})` }}
+        >
             <img className={styles.imgBackdrop} src={src} alt={alt} />
             <span className={styles.spanOverlayCaption}>{caption}</span>
         </section>
+
     );
 }
 

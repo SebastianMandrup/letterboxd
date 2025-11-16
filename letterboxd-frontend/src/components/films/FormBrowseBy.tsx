@@ -91,7 +91,6 @@ const FormBrowseBy = ({
                     <option value="comedy">Comedy</option>
                     <option value="drama">Drama</option>
                     <option value="horror">Horror</option>
-                    <option value="sciFi">Sci-Fi</option>
                     <option value="documentary">Documentary</option>
                 </select>
             </label>

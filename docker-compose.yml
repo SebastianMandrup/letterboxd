@@ -13,9 +13,9 @@ services:
   letterboxd-backend:
     build:
       context: ./letterboxd-backend
-    # volumes:
-    #   - ./letterboxd-backend:/app
-    #   - /app/node_modules
+    volumes:
+      - ./letterboxd-backend:/app
+      - /app/node_modules
     ports:
       - 5000 # external port 5050 for dev
     env_file:
@@ -29,11 +29,11 @@ services:
   letterboxd-frontend:
     build:
       context: ./letterboxd-frontend
-    # volumes:
-    #   - ./letterboxd-frontend:/app
-    #   - /app/node_modules
+    volumes:
+      - ./letterboxd-frontend:/app
+      - /app/node_modules
     ports:
-      - 3000
+      - 3000:3000
     env_file:
       - ./letterboxd-frontend/.env
     depends_on:

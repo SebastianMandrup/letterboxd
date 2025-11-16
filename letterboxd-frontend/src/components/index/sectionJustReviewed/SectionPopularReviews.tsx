@@ -1,3 +1,4 @@
+import { getThumbnailPoster } from '../../../services/getThumbnailPoster';
 import ArticleMovie from '../../shared/ArticleMovie';
 import SectionHeader from '../../shared/SectionHeader';
 import styles from './sectionPopularReviews.module.css';
@@ -65,7 +66,7 @@ function SectionPopularReviews() {
                 popularReviews.map((review) => {
                     return (
                         <article className={styles.articlePopularReview}>
-                            <ArticleMovie src={review.moviePosterUrl} alt={`poster of ${review.movie}`} />
+                            <ArticleMovie title={review.movie} src={getThumbnailPoster(review.moviePosterUrl)} alt={`poster of ${review.movie}`} />
                             <section className={styles.sectionPopularReviewContent}>
                                 <header>
                                     <p>

@@ -1,15 +1,14 @@
 import ArticleMovie from '../../shared/ArticleMovie';
 
 export interface ArticleFeaturedMovieProps {
+    title: string;
     src: string;
     alt: string;
     viewCount: number;
     likeCount: number;
 }
 
-function ArticleFeaturedMovie({ src, alt, viewCount, likeCount }: ArticleFeaturedMovieProps) {
-
-    console.log('Rendering ArticleFeaturedMovie with src:', src, 'and alt:', alt);
+function ArticleFeaturedMovie({ title, src, alt, viewCount, likeCount }: ArticleFeaturedMovieProps) {
 
     const overlay = (
         <section>
@@ -39,7 +38,7 @@ function ArticleFeaturedMovie({ src, alt, viewCount, likeCount }: ArticleFeature
     )
 
     return (
-        <ArticleMovie src={src} alt={alt} overlay={overlay} />
+        <ArticleMovie title={title} src={src} alt={alt} overlay={overlay} />
     );
 }
 

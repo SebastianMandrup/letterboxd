@@ -61,24 +61,24 @@ const movies = moviesData.map((movie, index) => {
     uniqueGenreIds.push(genres[0].id);
   }
 
-  return {
-    id: index + 1,
-    title: movie.title,
-    originalTitle: movie.original_title,
-    adult: movie.adult,
-    overview: movie.overview,
-    popularity: movie.popularity,
-    posterUrl: movie.poster_path
-      ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
-      : null,
-    backdropUrl: movie.backdrop_path
-      ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
-      : null,
-    releaseDate: movie.release_date,
-    voteAverage: movie.vote_average,
-    voteCount: movie.vote_count,
-    genreIds: uniqueGenreIds,
-  };
+    return {
+        id: index + 1,
+        title: movie.title,
+        originalTitle: movie.original_title,
+        adult: movie.adult,
+        overview: movie.overview,
+        popularity: movie.popularity,
+        posterUrl: movie.poster_path
+            ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+            : null,
+        backdropUrl: movie.backdrop_path
+            ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+            : null,
+        releaseDate: movie.release_date,
+        voteAverage: movie.vote_average,
+        voteCount: movie.vote_count,
+        genreIds: uniqueGenreIds,
+    };
 });
 
 // ---------------- Reviews ----------------

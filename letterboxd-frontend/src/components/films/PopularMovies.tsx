@@ -1,4 +1,5 @@
 import useMovies from '../../hooks/useMovies';
+import { getMediumPoster } from '../../services/getMediumPoster';
 import ArticleMovie from '../shared/ArticleMovie';
 import SectionHeader from '../shared/SectionHeader';
 import styles from './popularMovies.module.css';
@@ -12,14 +13,14 @@ const PopularMovies = () => {
     return (
         <section className={styles.sectionPopularFilms}>
             <SectionHeader title="Popular Films" link="/films/popular" />
-            <section className={styles.sectionPopularFilmsThisWeek}>
+            <section>
                 {isLoading && <div>Loading...</div>}
                 {error && <div>Error loading popular films.</div>}
                 {data &&
                     <ul className={styles.ulPopularFilms}>
                         {data.results.map((movie) => (
                             <li key={movie.id} className={styles.liTopMovies}>
-                                <ArticleMovie key={movie.id} src={movie.posterUrl || ''} alt='' />
+                                <ArticleMovie key={movie.id} title={movie.title} src={getMediumPoster(movie.posterUrl)} alt='' />
                             </li>
                         ))}
                     </ul>

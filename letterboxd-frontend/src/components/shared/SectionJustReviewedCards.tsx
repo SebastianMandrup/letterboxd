@@ -1,4 +1,5 @@
 import useMovies from '../../hooks/useMovies';
+import { getThumbnailPoster } from '../../services/getThumbnailPoster';
 import ArticleMovie from './ArticleMovie';
 import SectionHeader from './SectionHeader';
 import styles from './sectionJustReviewedCards.module.css';
@@ -27,7 +28,8 @@ function SectionJustReviewedCards() {
                 {data?.results.map((movie, index) => (
                     <li key={index} className={styles.listItemReviewedMovie}>
                         <ArticleMovie
-                            src={movie.posterUrl ?? ""}
+                            title={movie.title}
+                            src={getThumbnailPoster(movie.posterUrl)}
                             alt={`Poster of ${movie.title}`}
                             overlay={
                                 <header>

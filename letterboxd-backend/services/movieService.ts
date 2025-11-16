@@ -85,6 +85,43 @@ const addRatingFilter = (
     }
 };
 
+const addGenreFilter = (
+    queryBuilder: SelectQueryBuilder<Movie>,
+    genre: string | undefined
+) => {
+    if (!genre) return;
+
+    queryBuilder
+        .leftJoin("movie.genres", "genre")
+        .andWhere("genre.name = :genreName", { genreName: genre });
+};
+
+const addTitleFilter = (
+    queryBuilder: SelectQueryBuilder<Movie>,
+    title: string | undefined
+) => {
+    if (!title) return;
+
+    title = title.replace(/-/g, ' ');
+
+    queryBuilder
+        .andWhere("LOWER(movie.title) = :title", { title: title.toLowerCase() })
+        .leftJoinAndSelect(
+            "movie.reviews",
+            "review",
+            "review.deletedAt IS NULL"
+        )
+        .leftJoin(
+            "review.author",
+            "author"
+        )
+        .addSelect("author.name")
+        .leftJoinAndSelect(
+            "movie.lists",
+            "list"
+        )
+};
+
 const getMoviesQueryBuilder = async (req: any) => {
     const queryBuilder = movieRepository.createQueryBuilder("movie");
 
@@ -93,12 +130,16 @@ const getMoviesQueryBuilder = async (req: any) => {
     const popularThisWeek = req.query.popularThisWeek ? Boolean(req.query.popularThisWeek) : undefined;
     const decade = req.query.decade ? String(req.query.decade) : undefined;
     const rating = req.query.rating ? String(req.query.rating) : undefined;
+    const genre = req.query.genre ? String(req.query.genre) : undefined;
+    const title = req.query.title ? String(req.query.title) : undefined;
 
     addFeaturedFilter(queryBuilder, featured);
     addJustReviewedFilter(queryBuilder, justReviewed);
     addPopularThisWeekFilter(queryBuilder, popularThisWeek);
     addDecadeFilter(queryBuilder, decade);
     addRatingFilter(queryBuilder, rating);
+    addGenreFilter(queryBuilder, genre);
+    addTitleFilter(queryBuilder, title);
 
     return queryBuilder;
 };

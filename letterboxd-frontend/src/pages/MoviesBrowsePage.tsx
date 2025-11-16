@@ -4,7 +4,7 @@ import FormBrowseBy from '../components/films/FormBrowseBy'
 import FormSearchFilm from '../components/films/FormSearchFilm'
 import Footer from '../components/shared/footer/Footer'
 import Header from '../components/shared/header/Header'
-import styles from './movies.module.css'
+import styles from './moviesPage.module.css'
 
 function MoviesBrowsePage() {
 

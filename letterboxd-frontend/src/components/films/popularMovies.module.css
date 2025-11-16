@@ -7,17 +7,20 @@
     }
 }
 
+
 .ulPopularFilms {
     list-style: none;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow-x: auto;
+    scrollbar-width: thin;
+    overflow-y: hidden;
     gap: 16px;
-    margin: 0 16px;
 
     li {
         article {
+            margin: 4px;
             height: 350px;
             width: 220px;
         }
