@@ -4,8 +4,10 @@ import {
     ManyToOne,
     PrimaryGeneratedColumn
 } from "typeorm";
-import { List } from './List';
-import { User } from './User';
+import { List } from './List.ts';
+import { User } from './User.ts';
+import type { List as ListType } from "./List.ts";  // type-only
+import type { User as UserType } from "./User.ts";  // type-only
 
 @Entity("list_likes")
 export class ListLike {
@@ -15,9 +17,9 @@ export class ListLike {
     @Column("datetime", { name: "created_at" })
     createdAt: Date;
 
-    @ManyToOne(() => List, (list) => list.likes)
-    list: List;
+  @ManyToOne(() => List, (list) => list.likes)
+  list: ListType;
 
-    @ManyToOne(() => User, (user) => user.listLikes)
-    user: User;
+  @ManyToOne(() => User, (user) => user.listLikes)
+  user: UserType;
 }

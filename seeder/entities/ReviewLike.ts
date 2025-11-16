@@ -4,8 +4,11 @@ import {
     ManyToOne,
     PrimaryGeneratedColumn
 } from "typeorm";
-import { Review } from './Review';
-import { User } from './User';
+import { Review } from './Review.ts';
+import { User } from './User.ts';
+
+import type { Review as ReviewType } from "./Review.ts";  // type-only
+import type { User as UserType } from "./User.ts";  // type-only
 
 @Entity("review_likes")
 export class ReviewLike {
@@ -16,8 +19,8 @@ export class ReviewLike {
     createdAt: Date;
 
     @ManyToOne(() => Review, (review) => review.likes)
-    review: Review;
+    review: ReviewType;
 
     @ManyToOne(() => User, (user) => user.reviewLikes)
-    user: User;
+    user: UserType;
 }

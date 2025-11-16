@@ -8,4 +8,5 @@
 - /members
 - /journal
 
-- user / auth && global state to manage
+
+[x] seeder not working on desktop (fixed)

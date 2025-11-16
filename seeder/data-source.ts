@@ -1,17 +1,17 @@
 import dotenv from 'dotenv';
 import 'dotenv/config';
 import { DataSource } from "typeorm";
-import { Comment } from './entities/Comment';
-import { CommentLike } from './entities/CommentLike';
-import { Genre } from './entities/Genre';
-import { List } from './entities/List';
-import { ListLike } from './entities/ListLike';
-import { Movie } from './entities/Movie';
-import { MovieLike } from './entities/MovieLike';
-import { Review } from './entities/Review';
-import { ReviewLike } from './entities/ReviewLike';
-import { User } from './entities/User';
-import { View } from './entities/View';
+import { Comment } from './entities/Comment.ts';
+import { CommentLike } from './entities/CommentLike.ts';
+import { Genre } from './entities/Genre.ts';
+import { List } from './entities/List.ts';
+import { ListLike } from './entities/ListLike.ts';
+import { Movie } from './entities/Movie.ts';
+import { MovieLike } from './entities/MovieLike.ts';
+import { Review } from './entities/Review.ts';
+import { ReviewLike } from './entities/ReviewLike.ts';
+import { User } from './entities/User.ts';
+import { View } from './entities/View.ts';
 
 dotenv.config();
 

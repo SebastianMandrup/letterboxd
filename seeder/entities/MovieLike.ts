@@ -5,8 +5,10 @@ import {
     OneToOne,
     PrimaryGeneratedColumn
 } from "typeorm";
-import { Movie } from './Movie';
-import { User } from './User';
+import { Movie } from './Movie.ts';
+import { User } from './User.ts';
+import type { Movie as MovieType } from "./Movie.ts";  // type-only
+import type { User as UserType } from "./User.ts";  // type-only
 
 @Entity("movie_likes")
 export class MovieLike {
@@ -17,8 +19,8 @@ export class MovieLike {
     createdAt: Date;
 
     @ManyToOne(() => Movie, (movie) => movie.likes)
-    movie: Movie;
+    movie: MovieType;
 
     @ManyToOne(() => User, (user) => user.movieLikes)
-    user: User;
+    user: UserType;
 }

@@ -4,14 +4,14 @@ import {
     OneToMany,
     PrimaryGeneratedColumn
 } from "typeorm";
-import { Comment } from './Comment';
-import { CommentLike } from './CommentLike';
-import { List } from './List';
-import { ListLike } from './ListLike';
-import { MovieLike } from './MovieLike';
-import { Review } from './Review';
-import { ReviewLike } from './ReviewLike';
-import { View } from './View';
+import { Comment } from './Comment.ts';
+import { CommentLike } from './CommentLike.ts';
+import { List } from './List.ts';
+import { ListLike } from './ListLike.ts';
+import { MovieLike } from './MovieLike.ts';
+import { Review } from './Review.ts';
+import { ReviewLike } from './ReviewLike.ts';
+import { View } from './View.ts';
 
 
 @Entity("users")
