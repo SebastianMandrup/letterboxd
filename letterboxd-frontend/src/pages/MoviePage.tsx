@@ -91,6 +91,22 @@ function MoviePage() {
                         </section>
                         <section>
                             <SectionHeader title='Popular Lists' subtitle='MORE' link='./lists' />
+                            {movie.lists && movie.lists.length > 0 ? (
+                                <section className={styles.sectionReviews}>
+                                    {movie.lists.map((list) => (
+                                        <article key={list.id} className={styles.articleList}>
+                                            <p className={styles.pListName}>
+                                                {list.name}
+                                            </p>
+                                            <p className={styles.pListAuthor}>
+                                                - {list.author}
+                                            </p>
+                                        </article>
+                                    ))}
+                                </section>
+                            ) : (
+                                <p>No lists available.</p>
+                            )}
                         </section>
                     </section>
                 </section>

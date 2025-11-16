@@ -10,6 +10,13 @@ export interface Review {
     };
 }
 
+export interface List {
+    id: number;
+    name: string;
+    author: string;
+    description?: string | null;
+}
+
 export interface Movie {
     id: number;
     title: string;
@@ -25,6 +32,7 @@ export interface Movie {
     voteCount?: number | null;
 
     reviews: Review[];
+    lists: List[];
 }
 
 export default new ApiClient<Movie>('/movies');
