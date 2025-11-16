@@ -1,5 +1,6 @@
 import { useState, type FunctionComponent } from 'react';
 import useMovies from '../../hooks/useMovies';
+import { getThumbnailPoster } from '../../services/getThumbnailPoster';
 import ArticleMovie from '../shared/ArticleMovie';
 import styles from './browseMoviesResults.module.css';
 
@@ -37,7 +38,7 @@ const BrowseMoviesResults: FunctionComponent<BrowseMoviesResultsProps> = ({ sele
                 <ul>
                     {data.results.map((movie) => (
                         <li key={movie.id}>
-                            <ArticleMovie title={movie.title} src={movie.posterUrl || ''} alt={"poster of " + movie.title} />
+                            <ArticleMovie title={movie.title} src={getThumbnailPoster(movie.posterUrl)} alt={"poster of " + movie.title} />
                         </li>
                     ))
                     }

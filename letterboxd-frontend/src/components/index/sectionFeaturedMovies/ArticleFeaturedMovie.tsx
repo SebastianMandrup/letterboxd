@@ -10,8 +10,6 @@ export interface ArticleFeaturedMovieProps {
 
 function ArticleFeaturedMovie({ title, src, alt, viewCount, likeCount }: ArticleFeaturedMovieProps) {
 
-    console.log('Rendering ArticleFeaturedMovie with src:', src, 'and alt:', alt);
-
     const overlay = (
         <section>
             <div>

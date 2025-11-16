@@ -1,5 +1,5 @@
 .headerMain {
-    max-width: 60vw;
+    max-width: var(--mainWidth);
     margin: 0 auto;
     padding: 0 40px;
     display: flex;

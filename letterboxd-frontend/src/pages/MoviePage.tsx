@@ -5,6 +5,7 @@ import Footer from '../components/shared/footer/Footer';
 import Header from '../components/shared/header/Header';
 import SectionHeader from '../components/shared/SectionHeader';
 import useMovies from '../hooks/useMovies';
+import { getMediumPoster } from '../services/getMediumPoster';
 import styles from './moviePage.module.css';
 
 function MoviePage() {
@@ -41,7 +42,7 @@ function MoviePage() {
 
                 <section className={styles.sectionMovieDetails}>
                     <section className={styles.sectionPoster}>
-                        <ArticleMovie title={movie.title} src={movie.posterUrl!} alt={"poster of " + movie.title} />
+                        <ArticleMovie title={movie.title} src={getMediumPoster(movie.posterUrl)} alt={"poster of " + movie.title} />
                     </section>
                     <section className={styles.sectionMain}>
                         <section className={styles.sectionFirstContent}>

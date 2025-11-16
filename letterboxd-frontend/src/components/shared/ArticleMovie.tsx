@@ -11,10 +11,6 @@ interface ArticleMovieProps {
 
 const ArticleMovie: FunctionComponent<ArticleMovieProps> = ({ title, src, alt, overlay }) => {
 
-    if (src === '') {
-        src = '/placeholder-movie.png';
-    }
-
     const handleClick = () => {
         location.href = `/movie/${title.split(' ').join('-').toLowerCase()}`;
     }

@@ -1,4 +1,5 @@
 import useMovies from '../../../hooks/useMovies';
+import { getMediumPoster } from '../../../services/getMediumPoster';
 import ArticleFeaturedMovie from './ArticleFeaturedMovie';
 import styles from './sectionFeaturedMovies.module.css';
 
@@ -21,7 +22,7 @@ const SectionFeaturedMovies = () => {
                 <ArticleFeaturedMovie
                     title={movie.title}
                     key={index}
-                    src={movie.posterUrl ?? ''}
+                    src={getMediumPoster(movie.posterUrl)}
                     alt={`post of ${movie.title}`}
                     viewCount={5000} // Placeholder
                     likeCount={1000} // Placeholder
