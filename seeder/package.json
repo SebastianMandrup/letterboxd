@@ -5,10 +5,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "scripts": {
-    "scrape": "ts-node ./scripts/scrape-movie-data.ts",
-    "generate": "ts-node ./scripts/create-seed-data.ts",
-    "populate": "ts-node ./scripts/populate-database.ts"
+    "scrape": "node -r ts-node/register/esm ./scripts/scrape-movie-data.ts",
+    "generate": "node --loader ts-node/esm ./scripts/create-seed-data.ts",
+    "populate": "node --loader ts-node/esm ./scripts/populate-database.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^10.1.0",

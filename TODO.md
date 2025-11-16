@@ -7,3 +7,6 @@
 - /movie/:name
 - /members
 - /journal
+
+
+[x] seeder not working on desktop (fixed)
