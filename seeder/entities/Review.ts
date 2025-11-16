@@ -6,9 +6,13 @@ import {
     PrimaryGeneratedColumn,
     Unique
 } from "typeorm";
-import { Movie } from './Movie';
-import { ReviewLike } from './ReviewLike';
-import { User } from './User';
+import { Movie } from './Movie.ts';
+import { ReviewLike } from './ReviewLike.ts';
+import { User } from './User.ts';
+
+import type { Movie as MovieType } from "./Movie.ts";  // type-only
+import type { User as UserType } from "./User.ts";  // type-only
+
 
 
 @Entity("reviews")
@@ -33,10 +37,10 @@ export class Review {
     deletedAt: Date | null;
 
     @ManyToOne(() => Movie, (movie) => movie.reviews)
-    movie: Movie;
+    movie: MovieType;
 
     @ManyToOne(() => User, (user) => user.reviews)
-    author: User;
+    author: UserType;
 
     @OneToMany(() => ReviewLike, (reviewLike) => reviewLike.review)
     likes: ReviewLike[];

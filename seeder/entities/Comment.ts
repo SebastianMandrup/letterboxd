@@ -5,9 +5,9 @@ import {
     OneToMany,
     PrimaryGeneratedColumn
 } from "typeorm";
-import { CommentLike } from './CommentLike';
-import { List } from './List';
-import { User } from './User';
+import { CommentLike } from './CommentLike.ts';
+import { List } from './List.ts';
+import { User } from './User.ts';
 
 @Entity("comments")
 export class Comment {

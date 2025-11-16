@@ -5,7 +5,7 @@ import {
     ManyToMany,
     PrimaryGeneratedColumn
 } from "typeorm";
-import { Movie } from './Movie';
+import { Movie } from './Movie.ts';
 
 @Entity("genres")
 export class Genre {

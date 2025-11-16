@@ -7,10 +7,14 @@ import {
     OneToMany,
     PrimaryGeneratedColumn
 } from "typeorm";
-import { Comment } from './Comment';
-import { ListLike } from './ListLike';
-import { Movie } from './Movie';
-import { User } from './User';
+import { Comment } from './Comment.ts';
+import { ListLike } from './ListLike.ts';
+import { Movie } from './Movie.ts';
+import { User } from './User.ts';
+
+ import type { Movie as MovieType } from "./Movie.ts";  // type-only
+import type { User as UserType } from "./User.ts";  // type-only
+
 
 @Entity("lists")
 export class List {
@@ -24,11 +28,11 @@ export class List {
     createdAt: Date;
 
     @ManyToOne(() => User, (user) => user.lists)
-    user: User;
+    user: UserType;
 
     @JoinTable()
     @ManyToMany(() => Movie, (movie) => movie.lists)
-    movies: Movie[];
+    movies: MovieType[];
 
     @OneToMany(() => Comment, (comment) => comment.list)
     comments: Comment[];
