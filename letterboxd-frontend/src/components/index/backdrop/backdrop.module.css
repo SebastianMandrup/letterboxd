@@ -1,8 +1,8 @@
 .sectionBackdrop {
     position: relative;
-    width: 80vw;
+    max-width: 80vw;
     max-height: 600px;
-    margin: -100px auto 0;
+    margin: -100px auto 0 auto;
     overflow: hidden;
     display: flex;
     justify-content: center;
