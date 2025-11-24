@@ -37,8 +37,6 @@ function LoggingInHeader({ setIsLoggingIn }: LoggingInHeaderProps) {
                 </button>
 
                 <form onSubmit={handleSubmit}>
-                    {error && <p className={styles.errorMsg}>{error}</p>}
-
                     <label>
                         Username
                         <input
@@ -50,10 +48,7 @@ function LoggingInHeader({ setIsLoggingIn }: LoggingInHeaderProps) {
                     </label>
 
                     <label className={styles.labelPassword}>
-                        <div>
-                            Password
-                            <a href="">Forgotten?</a>
-                        </div>
+                        Password
                         <input
                             type="password"
                             name="password"

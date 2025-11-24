@@ -1,9 +1,13 @@
+import { useAuth } from '../../../hooks/useAuth';
 import SectionJustReviewedCards from '../../shared/sectionJustReviewdCards/SectionJustReviewedCards';
 import styles from './sectionJustReviewed.module.css';
 import SectionPopularLists from './SectionPopularLists';
 import SectionPopularReviews from './SectionPopularReviews';
 
 function SectionJustReviewed() {
+
+    const { user } = useAuth();
+
     return (
         <section>
             <SectionJustReviewedCards />
@@ -12,8 +16,14 @@ function SectionJustReviewed() {
             </p>
             <p id={styles.pBelow}>
                 Below are some popular reviews and lists from this week.
-                <a href=""> Sign up </a>
-                to create your own.
+                {!user && (
+                    <>
+                        <button id={styles.btnSignup}> Sign up </button>
+                        <span>
+                            to create your own.
+                        </span>
+                    </>
+                )}
             </p>
 
             <section id={styles.sectionPopularReviewsAndLists}>
