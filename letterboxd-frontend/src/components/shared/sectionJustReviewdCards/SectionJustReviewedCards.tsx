@@ -1,7 +1,7 @@
-import useMovies from '../../hooks/useMovies';
-import { getThumbnailPoster } from '../../services/getThumbnailPoster';
-import ArticleMovie from './ArticleMovie';
-import SectionHeader from './SectionHeader';
+import useMovies from '../../../hooks/useMovies';
+import { getThumbnailPoster } from '../../../services/getThumbnailPoster';
+import ArticleMovie from '../movieCard/MovieCard';
+import SectionHeader from '../sectionHeader/SectionHeader';
 import styles from './sectionJustReviewedCards.module.css';
 
 function SectionJustReviewedCards() {

@@ -4,8 +4,12 @@ import MoviesPage from './pages/MoviesPage';
 import MoviesBrowsePage from './pages/MoviesBrowsePage';
 import SearchPage from './pages/SearchPage';
 import MoviePage from './pages/MoviePage';
+import { useRestoreUser } from "./hooks/useRestoreUser";
 
 export default function App() {
+
+    useRestoreUser();
+
     return (
         <Routes>
             <Route path="/" element={<IndexPage />} />

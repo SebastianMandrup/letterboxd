@@ -6,7 +6,10 @@ import setupRouters from "./setupRouters";
 
 const init = (app: express.Application) => {
   app.use(express.json()); // Middleware to parse JSON request bodies
-  app.use(cors());
+  app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+  }));
   app.use(
     session({
       secret: process.env.SESSION_SECRET || "secretdevkey",

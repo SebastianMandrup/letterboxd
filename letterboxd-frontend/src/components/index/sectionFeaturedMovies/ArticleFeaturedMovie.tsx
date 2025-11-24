@@ -1,4 +1,4 @@
-import ArticleMovie from '../../shared/ArticleMovie';
+import ArticleMovie from '../../shared/movieCard/MovieCard';
 
 export interface ArticleFeaturedMovieProps {
     title: string;

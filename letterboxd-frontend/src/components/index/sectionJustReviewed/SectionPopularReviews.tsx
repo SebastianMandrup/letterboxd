@@ -1,6 +1,6 @@
 import { getThumbnailPoster } from '../../../services/getThumbnailPoster';
-import ArticleMovie from '../../shared/ArticleMovie';
-import SectionHeader from '../../shared/SectionHeader';
+import ArticleMovie from '../../shared/movieCard/MovieCard';
+import SectionHeader from '../../shared/sectionHeader/SectionHeader';
 import styles from './sectionPopularReviews.module.css';
 
 function SectionPopularReviews() {

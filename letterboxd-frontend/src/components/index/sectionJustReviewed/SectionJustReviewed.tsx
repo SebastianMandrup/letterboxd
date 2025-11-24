@@ -1,4 +1,4 @@
-import SectionJustReviewedCards from '../../shared/SectionJustReviewedCards';
+import SectionJustReviewedCards from '../../shared/sectionJustReviewdCards/SectionJustReviewedCards';
 import styles from './sectionJustReviewed.module.css';
 import SectionPopularLists from './SectionPopularLists';
 import SectionPopularReviews from './SectionPopularReviews';

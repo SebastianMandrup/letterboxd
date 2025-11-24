@@ -8,7 +8,7 @@
 }
 
 
-.ulPopularFilms {
+.ulPopularMovies {
     list-style: none;
     display: flex;
     justify-content: center;
@@ -17,6 +17,7 @@
     scrollbar-width: thin;
     overflow-y: hidden;
     gap: 16px;
+    padding: 20px;
 
     li {
         article {

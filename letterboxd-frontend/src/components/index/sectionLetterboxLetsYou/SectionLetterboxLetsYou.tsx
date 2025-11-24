@@ -1,4 +1,4 @@
-import SectionHeader from '../../shared/SectionHeader';
+import SectionHeader from '../../shared/sectionHeader/SectionHeader';
 import ButtonLetterboxLetsYou from './ButtonLetterboxLetsYou';
 import styles from './sectionLetterboxLetsYou.module.css';
 

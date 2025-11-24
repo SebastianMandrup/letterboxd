@@ -1,3 +1,4 @@
+import { useAuth } from '../../../hooks/useAuth';
 import styles from './signUpModal.module.css';
 
 interface SignUpModalProps {
@@ -5,6 +6,38 @@ interface SignUpModalProps {
 }
 
 function SignUpModal({ setIsSigningUp }: SignUpModalProps) {
+
+    const { register } = useAuth();
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const isAtLeast16 = (event.currentTarget.elements.namedItem('ageAndTos') as HTMLInputElement).checked;
+        const acceptedTos = (event.currentTarget.elements.namedItem('privacyPolicy') as HTMLInputElement).checked;
+
+        if (!isAtLeast16) {
+            alert("You must be at least 16 years old to sign up.");
+            return;
+        }
+
+        if (!acceptedTos) {
+            alert("You must accept the privacy policy to sign up.");
+            return;
+        }
+
+        register(
+            (event.currentTarget.elements.namedItem('email') as HTMLInputElement).value,
+            (event.currentTarget.elements.namedItem('username') as HTMLInputElement).value,
+            (event.currentTarget.elements.namedItem('password') as HTMLInputElement).value,
+        ).then(() => {
+            setIsSigningUp(false);
+            alert("Sign up successful! You can now log in.");
+        }).catch((error: Error) => {
+            alert("Sign up failed: " + error.message);
+        });
+
+    }
+
     return (
         <div className={styles.divSignUpModal}>
             <section className={styles.sectionSignUpModal}>
@@ -18,7 +51,7 @@ function SignUpModal({ setIsSigningUp }: SignUpModalProps) {
                     </svg>
                 </button>
 
-                <form action="" className={styles.formSignUpModal}>
+                <form onSubmit={(event) => handleSubmit(event)} className={styles.formSignUpModal}>
                     <label>
                         Email address
                         <input type="email" name="email" />
