@@ -19,7 +19,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ---------------- Paths ----------------
-const seedFilePath = path.join(__dirname, "../data/seed-data.json");
+const seedFilePath = path.join(__dirname, "./data/seed-data.json");
 
 // ---------------- Seed Function ----------------
 async function populateDatabase() {

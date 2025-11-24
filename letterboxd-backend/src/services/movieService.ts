@@ -100,6 +100,7 @@ const addTitleFilter = (
     queryBuilder: SelectQueryBuilder<Movie>,
     title: string | undefined
 ) => {
+
     if (!title) return;
 
     title = title.replace(/-/g, ' ');
@@ -115,7 +116,7 @@ const addTitleFilter = (
             "review.author",
             "author"
         )
-        .addSelect("author.name")
+        .addSelect("author.username")
         .leftJoinAndSelect(
             "movie.lists",
             "list"

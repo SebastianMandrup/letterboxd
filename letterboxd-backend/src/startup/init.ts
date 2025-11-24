@@ -7,7 +7,7 @@ import setupRouters from "./setupRouters";
 const init = (app: express.Application) => {
   app.use(express.json()); // Middleware to parse JSON request bodies
   app.use(cors({
-    origin: "http://localhost:3000",
+    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
     credentials: true
   }));
   app.use(

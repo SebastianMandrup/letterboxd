@@ -28,8 +28,6 @@ function MoviePage() {
 
     const movie = data?.results[0];
 
-    console.log('movie', movie);
-
     if (!movie) return null;
     if (data) return (
         <>

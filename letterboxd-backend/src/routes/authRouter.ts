@@ -6,8 +6,6 @@ import { User } from '../entities/User';
 
 import { requireAuth } from "../middleware/requireAuth";
 
-
-
 const authRouter = Router();
 
 const userRepository = AppDataSource.getRepository(User);
@@ -52,31 +50,6 @@ authRouter.post("/logout", requireAuth, (req, res) => {
         res.clearCookie("connect.sid");
         return res.json({ message: "Logged out successfully" });
     });
-});
-
-authRouter.post("/register", async (req, res) => {
-    try {
-        const { username, password, email } = req.body;
-        const existingUser = await userRepository.findOne({
-            where: [{ username }, { email }]
-        });
-        if (existingUser) {
-            return res.status(400).json({ message: "Username or email already in use" });
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = userRepository.create({
-            username,
-            password: hashedPassword,
-            email,
-            role: "user"
-        });
-        await userRepository.save(newUser);
-        req.session.user = { id: newUser.id, username: newUser.username, role: newUser.role };
-        return res.status(201).json({ message: "User registered successfully", user: req.session.user });
-    } catch (error) {
-        console.error("Registration error:", error);
-        res.status(500).json({ message: "Internal server error" });
-    }
 });
 
 export default authRouter;

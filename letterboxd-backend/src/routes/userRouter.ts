@@ -1,30 +1,25 @@
 import { Router } from "express";
 import { AppDataSource } from "../data-source";
-import { Review } from '../entities/Review';
 import { User } from '../entities/User';
-
-interface Response {
-    count: number;
-    results: User[];
-}
-
-interface UserDto {
-    id: number;
-    name: string;
-    reviews: Review[];
-}
+import { toUserDto, UserDto } from "../DTO/UserDto";
+import type Response from "../DTO/Response";
+import { validateUserCreation } from "../middleware/userValidation";
+import bcrypt from "bcrypt";
 
 const userRouter = Router();
 
 const userRepository = AppDataSource.getRepository(User);
 
-//GET all users
 userRouter.get("/", async (req, res) => {
     try {
         const users = await userRepository.find();
-        const response: Response = {
+        const userDtos = users.map(user => (
+            toUserDto(user)
+        ));
+
+        const response: Response<UserDto> = {
             count: users.length,
-            results: users,
+            results: userDtos,
         };
         res.send(response);
     } catch (error) {
@@ -33,22 +28,20 @@ userRouter.get("/", async (req, res) => {
     }
 });
 
-userRouter.post("/", async (req, res) => {
+userRouter.post("/", validateUserCreation, async (req, res) => {
     try {
-        const newUser = userRepository.create(req.body);
-        const savedUser = await userRepository.save(newUser);
-        res.status(201).send(savedUser);
-    } catch (error) {
-        console.error("Error creating user:", error);
-        res.status(500).send({ error: "Internal server error" });
-    }
-});
 
-userRouter.post("/", async (req, res) => {
-    try {
-        const newUser = userRepository.create(req.body);
-        const savedUser = await userRepository.save(newUser);
-        res.status(201).send(savedUser);
+        const { username, password, email } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = userRepository.create({
+            username,
+            password: hashedPassword,
+            email,
+            role: "user"
+        });
+
+        await userRepository.save(newUser);
+        res.status(201).send({ message: "User created successfully" });
     } catch (error) {
         console.error("Error creating user:", error);
         res.status(500).send({ error: "Internal server error" });

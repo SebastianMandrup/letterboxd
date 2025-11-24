@@ -17,7 +17,7 @@ const NUM_LISTS = 50;
 const NUM_COMMENTS = 800;
 
 // ---------------- Paths ----------------
-const dataDir = path.join(__dirname, "../data");
+const dataDir = path.join(__dirname, "./data");
 const tmdbFilePath = path.join(dataDir, "scraped-data.json");
 const genresFilePath = path.join(dataDir, "genres.json");
 const seedFilePath = path.join(dataDir, "seed-data.json");
@@ -28,12 +28,29 @@ if (!fs.existsSync(dataDir)) {
 }
 
 // ---------------- Users ----------------
-const users = Array.from({ length: NUM_USERS }, (_, i) => ({
-  id: i + 1,
-  username: faker.person.fullName().replace(/\s+/g, '').toLowerCase(),
-  email: faker.internet.email(),
-  password: bcrypt.hashSync("password", 10),
-}));
+let usersMap = new Map<number, any>();
+const usedUsernames = new Set<string>();
+
+const users = Array.from({ length: NUM_USERS }, (_, i) => {
+  let username: string;
+  let attempts = 0;
+
+  // Generate unique username
+  do {
+    const baseName = faker.person.fullName().replace(/\s+/g, '').toLowerCase();
+    username = attempts === 0 ? baseName : `${baseName}${faker.number.int({ min: 1, max: 999 })}`;
+    attempts++;
+  } while (usedUsernames.has(username) && attempts < 10); // Limit attempts to prevent infinite loop
+
+  usedUsernames.add(username);
+
+  return {
+    id: i + 1,
+    username: username,
+    email: faker.internet.email(),
+    password: bcrypt.hashSync("password", 10),
+  };
+});
 
 // ---------------- Read TMDB movies ----------------
 if (!fs.existsSync(tmdbFilePath)) {

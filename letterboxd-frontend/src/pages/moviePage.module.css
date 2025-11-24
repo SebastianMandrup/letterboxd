@@ -5,6 +5,7 @@
     margin-top: 40px;
     max-width: var(--mainWidth);
     z-index: -1;
+    background-color: var(--darkestGrey);
 }
 
 .sectionMovieDetails {

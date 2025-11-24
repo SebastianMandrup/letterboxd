@@ -7,9 +7,9 @@
   "license": "ISC",
   "type": "module",
   "scripts": {
-    "scrape": "node -r ts-node/register/esm ./scripts/scrape-movie-data.ts",
-    "generate": "node --loader ts-node/esm ./scripts/create-seed-data.ts",
-    "populate": "node --loader ts-node/esm ./scripts/populate-database.ts"
+    "scrape": "node -r ts-node/register/esm ./src/scrape-movie-data.ts",
+    "generate": "node --loader ts-node/esm ./src/create-seed-data.ts",
+    "populate": "node --loader ts-node/esm ./src/populate-database.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^10.1.0",

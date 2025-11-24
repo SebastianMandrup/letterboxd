@@ -33,8 +33,9 @@ const buildMoviesResponse = (movies: any[], total: number, req: any): MoviesResp
 
 movieRouter.get("/", async (req, res) => {
     try {
+        console.log("Received request with query params:", req.query);
         const { movies, total } = await getMovies(req);
-
+        console.log("Fetched movies:", movies);
         const response = buildMoviesResponse(movies, total, req);
         res.status(200).send(response);
     } catch (error) {

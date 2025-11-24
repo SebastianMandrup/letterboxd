@@ -2,7 +2,7 @@ services:
   letterboxd_mysql:
     image: mysql:latest
     env_file:
-      - ./seeder/docker.env
+      - ./seeder/.env
     ports:
       - 3307:3306
     volumes:

@@ -19,13 +19,13 @@ export class User {
     @PrimaryGeneratedColumn({ type: "int", name: "id" })
     id: number;
 
-    @Column("varchar", { name: "username", length: 255 })
+    @Column("varchar", { name: "username", length: 255, unique: true })
     username: string;
 
     @Column("varchar", { name: "password", length: 255 })
     password: string;
 
-    @Column("varchar", { name: "email", length: 255 })
+    @Column("varchar", { name: "email", length: 255, unique: true })
     email: string;
 
     @Column("varchar", { name: "role", length: 5, default: "user" })
