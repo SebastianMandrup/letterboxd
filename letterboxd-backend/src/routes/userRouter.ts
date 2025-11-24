@@ -5,7 +5,6 @@ import { toUserDto, UserDto } from "../DTO/UserDto";
 import type Response from "../DTO/Response";
 import { validateUserCreation } from "../middleware/userValidation";
 import bcrypt from "bcrypt";
-import { createAccountLimiter } from "../middleware/createAccountLimiter";
 
 const userRouter = Router();
 

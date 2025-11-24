@@ -3,6 +3,7 @@ import express from "express";
 import session from "express-session";
 import dbConnection from "./dbConnection";
 import setupRouters from "./setupRouters";
+import { errorHandler, notFoundHandler } from "../middleware/errorHandler";
 
 const init = (app: express.Application) => {
   app.use(express.json()); // Middleware to parse JSON request bodies
@@ -26,6 +27,9 @@ const init = (app: express.Application) => {
   dbConnection(); // Initialize database connection
 
   setupRouters(app);
+
+  app.use(errorHandler);
+  app.use(notFoundHandler);
 };
 
 export default init;

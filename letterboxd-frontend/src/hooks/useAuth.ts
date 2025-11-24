@@ -16,7 +16,6 @@ export function useAuth() {
 		setError(null);
 
 		try {
-			// Backend should return { message, user: { id, name, role } }
 			const { message, user } = await authClient.login({ username, password });
 
 			setUser(user); // update global Zustand state
@@ -39,20 +38,6 @@ export function useAuth() {
 		}
 	}, [clearUser]);
 
-	const register = useCallback(async (email: string, username: string, password: string) => {
-		setLoading(true);
-		setError(null);
-		try {
-			const { message, user } = await authClient.register({ email, username, password });
-			return user;
-		} catch (e: any) {
-			setError(e?.response?.data?.message ?? "Sign up failed");
-			throw e;
-		} finally {
-			setLoading(false);
-		};
-	}, [setUser]);
-
 	const user = useUserStore((state) => state.user);
 
 	return {
@@ -62,7 +47,6 @@ export function useAuth() {
 		setUser,
 		login,
 		logout,
-		register,
 		isAuthenticated: !!user,
 	};
 }

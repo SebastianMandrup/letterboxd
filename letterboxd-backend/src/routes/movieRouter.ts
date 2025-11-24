@@ -1,41 +1,12 @@
 import { Router } from "express";
-import { deleteMovieById, getMovies } from '../services/movieService';
+import { deleteMovieById, getMovies } from '../services/movies/movieService';
+import buildMoviesResponse from "./helper/buildMoviesResponse";
 
 const movieRouter = Router();
 
-interface MoviesResponse {
-    count: number;        // total movies matching filters
-    next: string | null;  // URL of next page
-    previous: string | null; // URL of previous page
-    results: any[];       // movies on this page
-}
-
-const buildMoviesResponse = (movies: any[], total: number, req: any): MoviesResponse => {
-    const page = req.query.page ? Number(req.query.page) : 1;
-    let pageSize = req.query.pageSize ? Number(req.query.pageSize) : 40;
-
-    if (pageSize > 40) pageSize = 40;
-
-    const totalPages = Math.ceil(total / pageSize);
-
-    const baseUrl = `${req.protocol}://${req.get('host')}${req.baseUrl}${req.path}`;
-
-    const buildPageLink = (pageNum: number) =>
-        `${baseUrl}?page=${pageNum}&pageSize=${pageSize}`;
-
-    return {
-        count: total,
-        next: page < totalPages ? buildPageLink(page + 1) : null,
-        previous: page > 1 ? buildPageLink(page - 1) : null,
-        results: movies,
-    };
-};
-
 movieRouter.get("/", async (req, res) => {
     try {
-        console.log("Received request with query params:", req.query);
         const { movies, total } = await getMovies(req);
-        console.log("Fetched movies:", movies);
         const response = buildMoviesResponse(movies, total, req);
         res.status(200).send(response);
     } catch (error) {

@@ -1,7 +1,8 @@
 .mainMovies {
-    min-width: 100vw;
+    max-width: var(--mainWidth);
+    margin: 0 auto;
     background-color: var(--darkBlue);
-    padding: 60px 240px;
+    padding: 20px;
 }
 
 .sectionBrowse {

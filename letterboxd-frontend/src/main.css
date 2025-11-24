@@ -20,6 +20,7 @@
     --fontTwo: 'Georgia', serif;
 
     --mainWidth: 1200px;
+    --maxMainWidth: 960px;
 
     --lightBorderRadius: 4px;
     --mediumBorderRadius: 6px;

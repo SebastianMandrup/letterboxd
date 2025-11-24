@@ -6,7 +6,6 @@ const viewRouter = Router();
 
 const viewRepository = AppDataSource.getRepository(View);
 
-//GET all views
 viewRouter.get("/", async (req, res) => {
     try {
         const totalViews = await viewRepository.count();
