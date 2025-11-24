@@ -1,18 +1,18 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { AppDataSource } from "../data-source.ts";
-import { User } from "../entities/User.ts";
-import { Movie } from "../entities/Movie.ts";
-import { Genre } from "../entities/Genre.ts";
-import { Review } from "../entities/Review.ts";
-import { ReviewLike } from "../entities/ReviewLike.ts";
-import { View } from "../entities/View.ts";
-import { Comment } from "../entities/Comment.ts";
-import { CommentLike } from "../entities/CommentLike.ts";
-import { List } from "../entities/List.ts";
-import { ListLike } from "../entities/ListLike.ts";
-import { MovieLike } from "../entities/MovieLike.ts";
+import { AppDataSource } from "./data-source.ts";
+import { User } from "./entities/User.ts";
+import { Movie } from "./entities/Movie.ts";
+import { Genre } from "./entities/Genre.ts";
+import { Review } from "./entities/Review.ts";
+import { ReviewLike } from "./entities/ReviewLike.ts";
+import { View } from "./entities/View.ts";
+import { Comment } from "./entities/Comment.ts";
+import { CommentLike } from "./entities/CommentLike.ts";
+import { List } from "./entities/List.ts";
+import { ListLike } from "./entities/ListLike.ts";
+import { MovieLike } from "./entities/MovieLike.ts";
 
 // ---------------- ESM __dirname fix ----------------
 const __filename = fileURLToPath(import.meta.url);

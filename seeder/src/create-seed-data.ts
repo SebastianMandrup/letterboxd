@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 import bcrypt from "bcrypt";
 import fs from "fs";
 import path from "path";
-import { TmdbMovie } from "./TmdbMovie";
+import type TmdbMovie from "./TmdbMovie.interface";
 import { fileURLToPath } from "url";
 
 // ---------------- ESM __dirname fix ----------------

@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import { DataSource } from "typeorm";
 import { Comment } from "./entities/Comment";
 import { CommentLike } from './entities/CommentLike';
@@ -11,6 +12,7 @@ import { ReviewLike } from './entities/ReviewLike';
 import { User } from "./entities/User";
 import { View } from "./entities/View";
 
+dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: process.env.DB_TYPE as "mysql" | "postgres",

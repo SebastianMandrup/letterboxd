@@ -2,7 +2,7 @@ services:
   letterboxd_mysql:
     image: mysql:latest
     env_file:
-      - ./seeder/.env
+      - ./seeder/docker.env
     ports:
       - 3307:3306
     volumes:
@@ -19,7 +19,7 @@ services:
     ports:
       - 5000 # external port 5050 for dev
     env_file:
-      - ./letterboxd-backend/.env
+      - ./letterboxd-backend/docker.env
     depends_on:
       - letterboxd_mysql
     networks:
@@ -35,7 +35,7 @@ services:
     ports:
       - 3000:3000
     env_file:
-      - ./letterboxd-frontend/.env
+      - ./letterboxd-frontend/docker.env
     depends_on:
       - letterboxd-backend
     networks:

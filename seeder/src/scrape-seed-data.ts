@@ -1,14 +1,8 @@
 import 'dotenv/config';
 import fs from "fs";
-import { TmdbMovie } from './TmdbMovie';
+import type TmdbMovie from './TmdbMovie.interface';
+import TmdbResponse from './TmdbResponse.interface';
 
-
-interface TmdbResponse {
-    page: number;
-    results: TmdbMovie[];
-    total_pages: number;
-    total_results: number;
-}
 
 // protip: to throw an error turn off wi-fi
 
