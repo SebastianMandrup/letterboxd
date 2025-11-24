@@ -3,7 +3,7 @@ import FormSearchFilm from '../components/films/FormSearchFilm'
 import PopularMovies from '../components/films/PopularMovies'
 import Footer from '../components/shared/footer/Footer'
 import Header from '../components/shared/header/Header'
-import SectionJustReviewedCards from '../components/shared/SectionJustReviewedCards'
+import SectionJustReviewedCards from '../components/shared/sectionJustReviewdCards/SectionJustReviewedCards'
 import styles from './moviesPage.module.css'
 
 function MoviesPage() {

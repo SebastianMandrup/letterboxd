@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
 import Backdrop from '../components/index/backdrop/Backdrop';
-import ArticleMovie from '../components/shared/ArticleMovie';
+import ArticleMovie from '../components/shared/movieCard/MovieCard';
 import Footer from '../components/shared/footer/Footer';
 import Header from '../components/shared/header/Header';
-import SectionHeader from '../components/shared/SectionHeader';
+import SectionHeader from '../components/shared/sectionHeader/SectionHeader';
 import useMovies from '../hooks/useMovies';
 import { getMediumPoster } from '../services/getMediumPoster';
 import styles from './moviePage.module.css';

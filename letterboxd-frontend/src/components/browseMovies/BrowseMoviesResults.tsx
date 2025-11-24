@@ -1,7 +1,7 @@
 import { useState, type FunctionComponent } from 'react';
 import useMovies from '../../hooks/useMovies';
 import { getThumbnailPoster } from '../../services/getThumbnailPoster';
-import ArticleMovie from '../shared/ArticleMovie';
+import ArticleMovie from '../shared/movieCard/MovieCard';
 import styles from './browseMoviesResults.module.css';
 
 interface BrowseMoviesResultsProps {

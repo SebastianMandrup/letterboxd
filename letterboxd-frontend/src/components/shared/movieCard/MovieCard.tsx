@@ -1,15 +1,15 @@
 import type React from 'react';
 import type { FunctionComponent } from 'react';
-import styles from './articleMovie.module.css';
+import styles from './movieCard.module.css';
 
-interface ArticleMovieProps {
+interface MovieCardProps {
     title: string;
     src: string;
     alt: string;
     overlay?: React.ReactNode;
 }
 
-const ArticleMovie: FunctionComponent<ArticleMovieProps> = ({ title, src, alt, overlay }) => {
+const MovieCard: FunctionComponent<MovieCardProps> = ({ title, src, alt, overlay }) => {
 
     const handleClick = () => {
         location.href = `/movie/${title.split(' ').join('-').toLowerCase()}`;
@@ -25,4 +25,4 @@ const ArticleMovie: FunctionComponent<ArticleMovieProps> = ({ title, src, alt, o
     );
 }
 
-export default ArticleMovie;
+export default MovieCard;

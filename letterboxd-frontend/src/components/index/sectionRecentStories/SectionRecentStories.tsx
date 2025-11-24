@@ -1,4 +1,4 @@
-import SectionHeader from '../../shared/SectionHeader';
+import SectionHeader from '../../shared/sectionHeader/SectionHeader';
 import styles from './sectionRecentStories.module.css';
 
 function SectionRecentStories() {
