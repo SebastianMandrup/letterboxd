@@ -11,6 +11,11 @@
 	border: 2px solid transparent;
 }
 
+.posterStack.large {
+	width: 278px;
+	height: 166px;
+}
+
 .posterStack:hover {
 	border: 2px solid var(--green);
 }
@@ -24,6 +29,11 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.posterStack .large {
+	width: 122px;
+	height: 162px;
 }
 
 .listInfo {
@@ -43,6 +53,10 @@
 	color: var(--white);
 }
 
+.listName.large {
+	font-size: 20px;
+}
+
 .listName:hover {
 	color: var(--lightBlue);
 }
@@ -51,6 +65,10 @@
 	margin-top: 5px;
 	font-size: 11px;
 	color: var(--grey);
+}
+
+.listAuthor.large {
+	font-size: 14px;
 }
 
 .username {

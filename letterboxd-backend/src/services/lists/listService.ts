@@ -15,19 +15,40 @@ const addFeaturedFilter = (
 	if (featured) {
 		queryBuilder.andWhere("list.id IN (:...ids)", {
 			ids: [27, 44, 14, 17]
-		})
+		});
+
+		queryBuilder
 			.leftJoinAndSelect("list.movies", "movie")
 			.leftJoin("list.user", "user")
-			.addSelect(["user.username"])
-			.loadRelationCountAndMap("list.likeCount", "list.likes")
-			.loadRelationCountAndMap("list.commentCount", "list.comments");
+			.addSelect(["user.username"]);
 	}
 };
+
+const addSorting = (qb: SelectQueryBuilder<List>, sortBy?: string) => {
+	if (sortBy === "popularity") {
+		qb.leftJoinAndSelect("list.movies", "movie")
+			.leftJoinAndSelect("list.user", "user")
+			.leftJoin("list.likes", "like")
+			.leftJoin("list.comments", "comment")
+			// Count likes as a real column in the SQL query
+			.addSelect("COUNT(DISTINCT like.id)", "likeCount")
+			.addSelect("COUNT(DISTINCT comment.id)", "commentCount")
+			.groupBy("list.id")
+			.addGroupBy("user.id")
+			.orderBy("likeCount", "DESC");
+	}
+	return qb;
+};
+
+
 
 const getMoviesQueryBuilder = async (req: any) => {
 	const queryBuilder = listRepository.createQueryBuilder("list");
 	const featured = req.query.featured === "true";
+	const sortBy = req.query.sortBy;
+
 	addFeaturedFilter(queryBuilder, featured);
+	addSorting(queryBuilder, sortBy);
 
 	return queryBuilder;
 };
