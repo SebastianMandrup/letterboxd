@@ -26,7 +26,17 @@ export class List {
     @ManyToOne(() => User, (user) => user.lists)
     user: User;
 
-    @JoinTable()
+    @JoinTable({
+        name: "lists_movies_movies",
+        joinColumn: {
+            name: "listsId",           // left column (your list ID column)
+            referencedColumnName: "id"
+        },
+        inverseJoinColumn: {
+            name: "moviesId",          // right column (movie ID column)
+            referencedColumnName: "id"
+        }
+    })
     @ManyToMany(() => Movie, (movie) => movie.lists)
     movies: Movie[];
 

@@ -4,6 +4,7 @@ import movieRouter from '../routes/movieRouter';
 import reviewRouter from '../routes/reviewRouter';
 import userRouter from '../routes/userRouter';
 import viewRouter from '../routes/viewRouter';
+import listRouter from "../routes/listRouter";
 
 const setupRouters = (app: express.Application) => {
   app.use("/movies", movieRouter);
@@ -11,6 +12,7 @@ const setupRouters = (app: express.Application) => {
   app.use("/users", userRouter);
   app.use("/views", viewRouter);
   app.use("/auth", authRouter);
+  app.use("/lists", listRouter);
 };
 
 export default setupRouters;

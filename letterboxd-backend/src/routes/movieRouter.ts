@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { deleteMovieById, getMovies } from '../services/movies/movieService';
-import buildMoviesResponse from "./helper/buildMoviesResponse";
+import buildPaginatedResponse from "./helper/buildPaginatedResponse";
 
 const movieRouter = Router();
 
 movieRouter.get("/", async (req, res) => {
     try {
         const { movies, total } = await getMovies(req);
-        const response = buildMoviesResponse(movies, total, req);
+        const response = buildPaginatedResponse(movies, total, req);
         res.status(200).send(response);
     } catch (error) {
         console.error("Error fetching movies:", error);

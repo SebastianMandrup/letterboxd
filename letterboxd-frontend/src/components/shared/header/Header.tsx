@@ -28,31 +28,35 @@ const Header = () => {
 
     return (
         <>
-            <header className={styles.headerMain}>
-                <img src="/letterboxd-icon.png" alt="icon" />
-                <a href='/'>Boxedletter</a>
+            <div className={styles.headerContainer}>
+                <header className={styles.headerMain}>
 
-                {user ? (
-                    <LoggedInHeader onLogout={handleLogout} />
-                ) : (
-                    <>
-                        {isLoggingIn && !isSigningUp && (
-                            <LoggingInHeader setIsLoggingIn={setIsLoggingIn} />
-                        )}
+                    <img src="/letterboxd-icon.png" alt="icon" />
+                    <a href='/'>Boxedletter</a>
 
-                        {!isLoggingIn && (
-                            <DefaultHeader
-                                setIsLoggingIn={setIsLoggingIn}
-                                setIsSigningUp={setIsSigningUp}
-                            />
-                        )}
+                    {user ? (
+                        <LoggedInHeader onLogout={handleLogout} />
+                    ) : (
+                        <>
+                            {isLoggingIn && !isSigningUp && (
+                                <LoggingInHeader setIsLoggingIn={setIsLoggingIn} />
+                            )}
 
-                        {isSigningUp && (
-                            <SignUpModal setIsSigningUp={setIsSigningUp} />
-                        )}
-                    </>
-                )}
-            </header>
+                            {!isLoggingIn && (
+                                <DefaultHeader
+                                    setIsLoggingIn={setIsLoggingIn}
+                                    setIsSigningUp={setIsSigningUp}
+                                />
+                            )}
+
+                            {isSigningUp && (
+                                <SignUpModal setIsSigningUp={setIsSigningUp} />
+                            )}
+                        </>
+                    )}
+
+                </header>
+            </div >
             <ToastContainer />
         </>
     );

@@ -1,0 +1,67 @@
+.listCard {
+	position: relative;
+	padding: 20px;
+}
+
+.posterStack {
+	position: relative;
+	width: 236px;
+	height: 120px;
+	border-radius: var(--mediumBorderRadius);
+	border: 2px solid transparent;
+}
+
+.posterStack:hover {
+	border: 2px solid var(--green);
+}
+
+.posterImage {
+	position: absolute;
+	width: 80px;
+	height: 116px;
+	border-radius: var(--mediumBorderRadius);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.listInfo {
+	display: flex;
+	flex-direction: column;
+}
+
+.listName,
+.listAuthor {
+	text-decoration: none
+}
+
+.listName {
+	margin-top: 10px;
+	font-size: 16px;
+	font-weight: normal;
+	color: var(--white);
+}
+
+.listName:hover {
+	color: var(--lightBlue);
+}
+
+.listAuthor {
+	margin-top: 5px;
+	font-size: 11px;
+	color: var(--grey);
+}
+
+.username {
+	margin: 0 4px;
+	color: var(--lightGrey);
+}
+
+.listAuthor:hover {
+	color: var(--lightGrey);
+}
+
+.listAuthor:hover .username {
+	color: var(--white);
+}

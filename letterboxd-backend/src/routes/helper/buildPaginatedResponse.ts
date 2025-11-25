@@ -1,7 +1,6 @@
-import MovieDto from "../../DTO/MovieDto";
 import PaginatedResponse from "../../DTO/PaginatedResponse";
 
-export default (movies: any[], total: number, req: any): PaginatedResponse<MovieDto> => {
+export default <T>(data: T[], total: number, req: any): PaginatedResponse<T> => {
 	const page = req.query.page ? Number(req.query.page) : 1;
 	let pageSize = req.query.pageSize ? Number(req.query.pageSize) : 40;
 
@@ -18,6 +17,6 @@ export default (movies: any[], total: number, req: any): PaginatedResponse<Movie
 		count: total,
 		next: page < totalPages ? buildPageLink(page + 1) : null,
 		previous: page > 1 ? buildPageLink(page - 1) : null,
-		results: movies,
+		results: data,
 	};
 };

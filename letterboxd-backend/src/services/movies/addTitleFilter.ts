@@ -7,7 +7,10 @@ export default function addTitleFilter(
 ) {
 	if (!title) return;
 
-	const decodedTitle = decodeURIComponent(title).replace(/-/g, ' ');
+	const decodedTitle = decodeURIComponent(title);
+	const cleanedTitle = decodedTitle
+		.replace(/[-\s]+/g, ' ')  // Replace hyphens and multiple spaces with single space
+		.trim();
 
-	queryBuilder.andWhere("movie.title LIKE :title", { title: `%${decodedTitle}%` });
+	queryBuilder.andWhere("movie.title LIKE :title", { title: `%${cleanedTitle}%` });
 }
