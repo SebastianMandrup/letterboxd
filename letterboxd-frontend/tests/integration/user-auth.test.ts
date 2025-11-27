@@ -9,6 +9,9 @@ describe('Auth API Integration', () => {
 			headers: { 'Content-Type': 'application/json' },
 		});
 		const data = await res.json();
+
+		console.log('Registration Response:', data);
+
 		expect(res.status).toBe(201);
 		expect(data.user).toBeDefined();
 	});
@@ -20,6 +23,9 @@ describe('Auth API Integration', () => {
 			headers: { 'Content-Type': 'application/json' },
 		});
 		const data = await res.json();
+
+		console.log('Login Response:', data);
+
 		expect(res.status).toBe(200);
 		expect(data.user).toBeDefined();
 	});
