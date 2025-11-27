@@ -66,16 +66,16 @@ jobs:
 
       - name: Build & start containers
         run: docker-compose -f docker-compose.integration.yml up -d --build
-        
+
       - name: Install frontend deps
-        run: docker-compose -f docker-compose.integration.yml exec -T app sh -c "cd letterboxd-frontend && npm ci"
+        run: docker-compose -f docker-compose.integration.yml exec -T letterboxd-frontend sh -c "cd letterboxd-frontend && npm ci"
 
       - name: Run integration tests
-        run: docker-compose -f docker-compose.integration.yml exec -T app sh -c "cd letterboxd-frontend && npm run test:integration"
+        run: docker-compose -f docker-compose.integration.yml exec -T letterboxd-frontend sh -c "cd letterboxd-frontend && npm run test:integration"
 
       - name: Show app logs
         if: failure()
-        run: docker-compose -f docker-compose.integration.yml logs app
+        run: docker-compose -f docker-compose.integration.yml logs letterboxd-frontend
 
       - name: Tear down containers
         run: docker-compose -f docker-compose.integration.yml down
