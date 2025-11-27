@@ -14,9 +14,6 @@ services:
   letterboxd-backend:
     build:
       context: ./letterboxd-backend
-    volumes:
-      - ./letterboxd-backend:/app
-      - /app/node_modules
     ports:
       - 5000
     environment:
