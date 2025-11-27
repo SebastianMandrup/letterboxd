@@ -1,0 +1,94 @@
+name: Frontend CI
+
+on:
+  push:
+    paths:
+      - "letterboxd-frontend/**"
+      - ".github/workflows/frontend-ci.yml"
+  pull_request:
+    paths:
+      - "letterboxd-frontend/**"
+
+jobs:
+  # --------------------
+  # 1️⃣ Static Tests
+  # --------------------
+  static-tests:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    defaults:
+      run:
+        working-directory: ./letterboxd-frontend
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Prettier Check
+        run: npm run prettier:check
+
+      - name: Run Unit Tests
+        run: npm test
+        env:
+          CI: true
+
+  # --------------------
+  # 2️⃣ Integration Tests (Docker + Compose)
+  # --------------------
+  integration-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Build & start containers
+        run: docker-compose -f docker-compose.integration.yml up -d --build
+
+      - name: Run Integration Tests
+        run: docker-compose -f docker-compose.integration.yml exec -T app sh -c "cd letterboxd-frontend && npm ci && npm run test:integration"
+
+      - name: Tear down containers
+        run: docker-compose -f docker-compose.integration.yml down
+
+  # --------------------
+  # 3️⃣ Build & Push Docker Image
+  # --------------------
+  docker-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./letterboxd-frontend
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/letterboxd-frontend:${{ github.sha }} .
+
+      - name: Push Docker image
+        run: docker push ghcr.io/${{ github.repository_owner }}/letterboxd-frontend:${{ github.sha }}
