@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 describe('Auth API Integration', () => {
 
 	it('registers a user successfully', async () => {
-		const res = await fetch('http://localhost/api/auth/register', {
+		const res = await fetch('http://nginx-proxy/api/auth/register', {
 			method: 'POST',
 			body: JSON.stringify({ username: 'test', password: 'test', email: 'test@example.com' }),
 			headers: { 'Content-Type': 'application/json' },
@@ -14,7 +14,7 @@ describe('Auth API Integration', () => {
 	});
 
 	it('logs in a user successfully', async () => {
-		const res = await fetch('http://localhost/api/auth/login', {
+		const res = await fetch('http://nginx-proxy/api/auth/login', {
 			method: 'POST',
 			body: JSON.stringify({ username: 'test', password: 'test' }),
 			headers: { 'Content-Type': 'application/json' },
