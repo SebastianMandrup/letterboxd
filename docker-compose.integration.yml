@@ -20,7 +20,7 @@ services:
     ports:
       - 5000
     environment:
-      - PORT: 5000
+      - PORT: "5000"
       - DB_URL: mysql://root:rootpassword@letterboxd_mysql:3306/letterboxd_db
       - DB_TYPE: mysql
       - DB_SCHEMA: letterboxd_db
@@ -40,8 +40,8 @@ services:
     ports:
       - 3000
     environment:
-      - VITE_API_URL: /api
-      - PORT: 3000
+      - VITE_API_URL: "/api"
+      - PORT: "3000"
     depends_on:
       - letterboxd-backend
     networks:
