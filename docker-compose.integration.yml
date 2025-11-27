@@ -23,7 +23,8 @@ services:
       - DB_SCHEMA=letterboxd_db
       - JWT_SECRET=your_jwt_secret
     depends_on:
-      - letterboxd_mysql
+      letterboxd_mysql:
+        condition: service_healthy
     networks:
       - letterboxd_db_network
       - letterboxd_backend_network
