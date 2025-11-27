@@ -68,7 +68,7 @@ jobs:
         run: docker-compose -f docker-compose.integration.yml up -d --build
 
       - name: Run Integration Tests
-        run: docker-compose -f docker-compose.integration.yml exec -T app sh -c "cd letterboxd-frontend && npm ci && npm run test:integration"
+        run: docker-compose -f docker-compose.integration.yml exec -T app sh -c "cd letterboxd-frontend && npm install && npm run test:integration"
 
       - name: Tear down containers
         run: docker-compose -f docker-compose.integration.yml down
