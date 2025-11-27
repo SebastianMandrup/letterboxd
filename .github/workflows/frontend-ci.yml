@@ -77,6 +77,11 @@ jobs:
         if: failure()
         run: docker-compose -f docker-compose.integration.yml logs letterboxd-frontend
 
+      - name: Show backend logs
+        if: failure()
+        run: docker-compose -f docker-compose.integration.yml logs letterboxd-backend
+
+
       - name: Tear down containers
         run: docker-compose -f docker-compose.integration.yml down
 
