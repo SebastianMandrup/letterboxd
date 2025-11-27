@@ -11,7 +11,7 @@ on:
 
 jobs:
   # --------------------
-  # 1️⃣ Static Tests
+  # 1️⃣ Static Testss
   # --------------------
   static-tests:
     runs-on: ubuntu-latest
