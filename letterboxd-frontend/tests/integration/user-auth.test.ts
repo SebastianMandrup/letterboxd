@@ -42,6 +42,8 @@ describe('Auth API Integration', () => {
 
 		const data = await res.json();
 
+		console.log(data);
+
 		expect(res.status).toBe(200);
 		expect(data.message).toBe('Logged out successfully');
 	});
