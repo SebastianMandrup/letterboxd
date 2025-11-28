@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest";
 
 describe("getMediumPoster", () => {
 
-	const imgPlaceholder = './assets/placeholder-movie.png';
+	const imgPlaceholder = '/placeholder-movie.png';
 
 	it("returns placeholder if url is null", () => {
 		expect(getMediumPoster(null)).toBe(imgPlaceholder);
