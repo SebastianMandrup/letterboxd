@@ -2,13 +2,14 @@
     --orange: #ff8000;
     --green: #01ac1b;
     --darkGreen: #017f12;
+    --lightBlue: #b0e7ff;
     --blue: #40bcf4;
-    --darkBlue: #1f272e;
-    --navy: #14181c;
+    --darkBlue: #151a1e;
+    --navy: #191d21;
     --gold: #f5c518;
     --black: #14181c;
     --blackRgb: 30, 36, 41;
-    --white: #ffffff;
+    --white: #efeeee;
     --grey: #888c8e;
     --lightGrey: #cbced0;
     --lightestGrey: #f0f0f0;
@@ -20,6 +21,7 @@
     --fontTwo: 'Georgia', serif;
 
     --mainWidth: 1200px;
+    --maxMainWidth: 960px;
 
     --lightBorderRadius: 4px;
     --mediumBorderRadius: 6px;
@@ -34,10 +36,16 @@
 }
 
 body {
-    background-color: var(--black);
+    background-color: var(--darkBlue);
     color: var(--white);
 }
 
 .hidden {
     display: none !important;
+}
+
+main {
+    max-width: var(--mainWidth);
+    margin: 0 auto;
+    padding: 20px;
 }

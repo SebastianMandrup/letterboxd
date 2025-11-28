@@ -4,24 +4,18 @@ import SectionGetStarted from '../components/index/sectionGetStarted/SectionGetS
 import SectionJustReviewed from '../components/index/sectionJustReviewed/SectionJustReviewed'
 import SectionLetterboxLetsYou from '../components/index/sectionLetterboxLetsYou/SectionLetterboxLetsYou'
 import SectionRecentStories from '../components/index/sectionRecentStories/SectionRecentStories'
-import Footer from '../components/shared/footer/Footer'
-import Header from '../components/shared/header/Header'
-import styles from './index.module.css'
+
 
 function IndexPage() {
 
   return (
     <>
-      <Header />
       <Backdrop src="./backdrop.png" alt="backdrop" caption="FILMMAKERS ON FILMMAKERS (2025)" />
-      <main className={styles.mainIndex}>
-        <SectionGetStarted />
-        <SectionFeaturedMovies />
-        <SectionLetterboxLetsYou />
-        <SectionJustReviewed />
-        <SectionRecentStories />
-      </main>
-      <Footer />
+      <SectionGetStarted />
+      <SectionFeaturedMovies />
+      <SectionLetterboxLetsYou />
+      <SectionJustReviewed />
+      <SectionRecentStories />
     </>
   )
 }

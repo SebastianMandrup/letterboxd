@@ -1,9 +1,3 @@
-.mainMovies {
-    min-width: 100vw;
-    background-color: var(--darkBlue);
-    padding: 60px 240px;
-}
-
 .sectionBrowse {
     display: flex;
     flex-direction: row;

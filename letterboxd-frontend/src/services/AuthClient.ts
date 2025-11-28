@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig } from "axios";
-import type UserDto from "../models/userDto";
+import type UserDto from "../DTO/userDto";
 
 export interface PaginatedUserResponse {
 	count: number;
@@ -14,8 +14,7 @@ const axiosInstance = axios.create({
 
 class AuthClient {
 
-	me = () =>
-		axiosInstance.get<UserDto>("/me").then((res) => res.data);
+	me = () => axiosInstance.get<UserDto>("/me").then((res) => res.data);
 
 	login = (data: { username: string; password: string }) =>
 		axiosInstance.post<{
@@ -24,12 +23,6 @@ class AuthClient {
 		}>("/login", data).then((res) => res.data);
 
 	logout = () => axiosInstance.post("/logout").then((res) => res.data);
-
-	register = (data: { username: string; password: string; email: string }) =>
-		axiosInstance.post<{
-			message: string;
-			user: UserDto;
-		}>("/register", data).then((res) => res.data);
 
 }
 

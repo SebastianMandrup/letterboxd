@@ -1,6 +1,10 @@
+import { useAuth } from '../../../hooks/useAuth';
 import styles from './sectionGetStarted.module.css';
 
 const SectionGetStarted = () => {
+
+    const { user } = useAuth();
+
     return (
         <section id={styles.sectionGetStarted}>
             <h2>
@@ -12,9 +16,11 @@ const SectionGetStarted = () => {
             <h2>
                 Tell your friends what’s good.
             </h2>
-            <button>
-                Get started - it's free!
-            </button>
+            {!user && (
+                <button>
+                    Get started - it's free!
+                </button>
+            )}
             <p>
                 The social network for film lovers . Also avaiable on
                 <svg
