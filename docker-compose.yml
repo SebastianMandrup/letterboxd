@@ -21,11 +21,12 @@ services:
       - ./letterboxd-backend:/app
       - /app/node_modules
     ports:
-      - 5000 # external port 5050 for dev
+      - 5000
     env_file:
       - ./letterboxd-backend/.env
     depends_on:
-      - letterboxd_mysql
+      letterboxd_mysql:
+        condition: service_healthy
     networks:
       - letterboxd_db_network
       - letterboxd_backend_network

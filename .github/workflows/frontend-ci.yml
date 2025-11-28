@@ -10,9 +10,6 @@ on:
       - "letterboxd-frontend/**"
 
 jobs:
-  # --------------------
-  # 1️⃣ Static Tests
-  # --------------------
   static-tests:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
@@ -48,9 +45,6 @@ jobs:
         env:
           CI: true
 
-  # --------------------
-  # 2️⃣ Integration Tests (Docker + Compose)
-  # --------------------
   integration-tests:
     runs-on: ubuntu-latest
     defaults:
@@ -85,9 +79,6 @@ jobs:
       - name: Tear down containers
         run: docker-compose -f docker-compose.integration.yml down
 
-  # --------------------
-  # 3️⃣ Build & Push Docker Image
-  # --------------------
   docker-build:
     runs-on: ubuntu-latest
     defaults:
