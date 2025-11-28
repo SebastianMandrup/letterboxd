@@ -47,6 +47,15 @@ jobs:
       - name: Run ESLint & Prettier checks
         run: npm run lint:all
 
+
+      - name: Cache Frontend modules
+        uses: actions/cache@v3
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-frontend-node-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-frontend-node-
+
       - name: Install frontend dependencies
         run: cd frontend && npm ci
 
@@ -88,11 +97,11 @@ jobs:
       - name: Tear down containers
         run: docker-compose -f docker-compose.integration.yml down
 
-  docker-build:
+  docker-build-frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./
+        working-directory: ./frontend
     steps:
       - uses: actions/checkout@v3
 
