@@ -3,9 +3,10 @@ name: CI
 on:
 
 # todo: remove on push if not needed
+  # push:
+  #   branches:
+  #     - main
   push:
-    branches:
-      - main
     paths:
       - "backend/**"
       - "frontend/**"
