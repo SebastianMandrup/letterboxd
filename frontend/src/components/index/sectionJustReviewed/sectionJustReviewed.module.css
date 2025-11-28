@@ -1,0 +1,31 @@
+#pWriteShare {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--darkGrey);
+}
+
+#pBelow {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--darkGrey);
+  margin-bottom: 20px;
+}
+
+#btnSignup {
+  background-color: transparent;
+  border: none;
+  margin: 0 4px;
+  color: var(--white);
+}
+
+#btnSignup:hover {
+  color: var(--green);
+}
+
+#sectionPopularReviewsAndLists {
+  display: grid;
+  grid-template-columns: 6fr 3fr;
+}

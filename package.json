@@ -1,0 +1,39 @@
+{
+  "name": "letterboxd-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "prepare": "husky install",
+    "lint:all": "npm run lint:frontend && npm run lint:backend && npm run lint:seeder",
+    "lint:frontend": "eslint --fix frontend/src --ext .ts,.tsx,.js,.jsx && prettier --write frontend/src",
+    "lint:backend": "eslint --fix backend/src --ext .ts,.js && prettier --write backend/src",
+    "lint:seeder": "eslint --fix seeder/src --ext .ts,.js && prettier --write seeder/src"
+  },
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.3",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "@typescript-eslint/eslint-plugin": "^8.48.0",
+    "@typescript-eslint/parser": "^8.48.0"
+  },
+  "lint-staged": {
+    "frontend/src/**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix frontend/src --ext .ts,.tsx,.js,.jsx",
+      "prettier --write frontend/src"
+    ],
+    "backend/src/**/*.{ts,js}": [
+      "eslint --fix backend/src --ext .ts,.js",
+      "prettier --write backend/src"
+    ],
+    "seeder/**/*.{ts,js}": [
+      "eslint --fix seeder/src --ext .ts,.js",
+      "prettier --write seeder/src"
+    ]
+  }
+}

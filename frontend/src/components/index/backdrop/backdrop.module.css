@@ -1,0 +1,43 @@
+.sectionBackdrop {
+  position: relative;
+  width: var(--mainWidth);
+  height: 600px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: -20px;
+}
+
+.imgBackdrop {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  position: relative;
+}
+
+.sectionBackdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background: radial-gradient(
+    ellipse 100% 100% at center,
+    rgba(20, 24, 28, 0) 25%,
+    rgba(20, 24, 28, 0.2) 40%,
+    rgba(20, 24, 28, 0.5) 70%,
+    rgba(20, 24, 28, 1) 100%
+  );
+}
+
+/* Caption overlay */
+.spanOverlayCaption {
+  position: absolute;
+  top: 35%;
+  right: 5%;
+  color: var(--darkerGrey);
+  font-size: 0.8rem;
+  transform: rotate(-90deg);
+  transform-origin: top right;
+}

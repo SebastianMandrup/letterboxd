@@ -1,0 +1,98 @@
+.sectionMovieDetails {
+  margin: 0 auto;
+  margin-top: -100px;
+  display: grid;
+  grid-template-columns: 30% auto;
+  gap: 20px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(20, 24, 28, 0.9);
+}
+
+.sectionPoster {
+  position: sticky;
+  top: 4px;
+  margin-left: 80px;
+
+  article {
+    width: 240px;
+    height: auto;
+    border: none;
+  }
+}
+
+.sectionMain {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionFirstContent {
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+
+.headerMovieDetails {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: row;
+}
+
+.h1MovieTitle {
+  margin-right: 20px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--white);
+  font-family: var(--fontTwo);
+}
+
+.pReleaseYear {
+  color: var(--lightGrey);
+  margin: auto 0 4px 0;
+  font-size: 1.2rem;
+  text-decoration: underline;
+  font-weight: 300;
+}
+
+.pMovieOverview {
+  margin-right: 40px;
+  color: var(--lightGrey);
+  font-size: 1.1rem;
+  font-family: var(--fontTwo);
+}
+
+.sectionRight {
+  margin-top: 40px;
+}
+
+.divButtonsMoviePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonLogRateReview,
+.buttonShareMovie {
+  background-color: var(--darkerGrey);
+  color: var(--lightGrey);
+  width: 220px;
+  height: 40px;
+  border: 1px solid var(--darkestGrey);
+  font-size: 0.8rem;
+
+  &:hover {
+    background-color: var(--darkGrey);
+    cursor: pointer;
+  }
+}
+
+.buttonLogRateReview {
+  border-radius: var(--mediumBorderRadius) var(--mediumBorderRadius) 0 0;
+  border-bottom: none;
+}
+
+.buttonShareMovie {
+  border-radius: 0 0 var(--mediumBorderRadius) var(--mediumBorderRadius);
+}

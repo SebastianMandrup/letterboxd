@@ -1,26 +1,20 @@
-import {
-    Column,
-    Entity,
-    ManyToOne,
-    OneToOne,
-    PrimaryGeneratedColumn
-} from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Movie } from './Movie.ts';
 import { User } from './User.ts';
-import type { Movie as MovieType } from "./Movie.ts";  // type-only
-import type { User as UserType } from "./User.ts";  // type-only
+import type { Movie as MovieType } from './Movie.ts'; // type-only
+import type { User as UserType } from './User.ts'; // type-only
 
-@Entity("movie_likes")
+@Entity('movie_likes')
 export class MovieLike {
-    @PrimaryGeneratedColumn({ type: "int", name: "id" })
-    id: number;
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+  id: number;
 
-    @Column("datetime", { name: "created_at" })
-    createdAt: Date;
+  @Column('datetime', { name: 'created_at' })
+  createdAt: Date;
 
-    @ManyToOne(() => Movie, (movie) => movie.likes)
-    movie: MovieType;
+  @ManyToOne(() => Movie, (movie) => movie.likes)
+  movie: MovieType;
 
-    @ManyToOne(() => User, (user) => user.movieLikes)
-    user: UserType;
+  @ManyToOne(() => User, (user) => user.movieLikes)
+  user: UserType;
 }
