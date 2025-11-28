@@ -27,7 +27,19 @@ describe('Auth API Integration', () => {
 		});
 		const data = await res.json();
 
+		console.log(data);
+
 		expect(res.status).toBe(200);
-		expect(data.user).toBeDefined();
+		expect(data.message).toBe('Logged in successfully');
+
+	});
+
+	it('logs the user out successfully', async () => {
+
+		const logoutRes = await fetch(`${VITE_API_URL}/auth/logout`, {
+			method: 'POST',
+		});
+
+		expect(logoutRes.status).toBe(200);
 	});
 });
