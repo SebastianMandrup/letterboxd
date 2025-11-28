@@ -47,6 +47,7 @@ authRouter.post("/logout", requireAuth, (req, res) => {
         if (err) {
             return res.status(500).json({ message: "Could not log out. Please try again." });
         }
+        res.status(200);
         res.clearCookie("connect.sid");
         return res.json({ message: "Logged out successfully" });
     });
