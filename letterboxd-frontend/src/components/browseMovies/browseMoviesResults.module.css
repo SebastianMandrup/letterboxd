@@ -11,8 +11,23 @@
 .sectionBrowseResults ul {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
+}
+
+.sectionBrowseResults ul li {
+    height: 400px;
+    width: auto;
+
+    article {
+        height: 100%;
+        width: auto;
+
+        header {
+            height: 40px;
+            font-size: 2rem;
+        }
+    }
 }
 
 .pagination {

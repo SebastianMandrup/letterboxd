@@ -1,43 +1,37 @@
 import axios, { type AxiosRequestConfig } from "axios";
+import type PaginatedResponse from "../DTO/PaginatedResponse";
 
-export interface PaginatedResponse<T> {
-    count: number;
-    previous?: string | null;
-    next?: string | null;
-    results: T[];
-}
-
-const axiosInstance = axios.create({
-    baseURL: import.meta.env["VITE_API_URL"],
-});
-
-class ApiClient<T> {
-    endpoint: string;
+class ApiClient<T, V = Partial<T>> {
+    protected endpoint: string;
+    protected axiosInstance;
 
     constructor(endpoint: string) {
         this.endpoint = endpoint;
+        this.axiosInstance = axios.create({
+            baseURL: import.meta.env["VITE_API_URL"],
+        });
     }
 
     getAll = (config?: AxiosRequestConfig) =>
-        axiosInstance
+        this.axiosInstance
             .get<PaginatedResponse<T>>(this.endpoint, config)
             .then((res) => res.data);
 
     getById = (id: number) =>
-        axiosInstance
+        this.axiosInstance
             .get<T>(`${this.endpoint}/${id}`)
             .then((res) => res.data);
 
     delete = (id: number) =>
-        axiosInstance.delete(`${this.endpoint}/${id}`).then((res) => res.data);
+        this.axiosInstance.delete(`${this.endpoint}/${id}`).then((res) => res.data);
 
-    create = (data: Partial<T>) =>
-        axiosInstance
-            .post(this.endpoint, data)
+    create = (data: V) =>
+        this.axiosInstance
+            .post<T>(this.endpoint, data)
             .then((res) => res.data);
 
     update = (id: number, data: Partial<T>) =>
-        axiosInstance
+        this.axiosInstance
             .put(`${this.endpoint}/${id}`, data)
             .then((res) => res.data);
 }

@@ -12,16 +12,17 @@
     font-size: 0.9rem;
     color: var(--darkGrey);
     margin-bottom: 20px;
+}
 
-    a {
-        color: var(--lightGrey);
-        text-decoration: none;
-        font-weight: 300;
+#btnSignup {
+    background-color: transparent;
+    border: none;
+    margin: 0 4px;
+    color: var(--white);
+}
 
-        &:hover {
-            color: var(--blue);
-        }
-    }
+#btnSignup:hover {
+    color: var(--green);
 }
 
 #sectionPopularReviewsAndLists {

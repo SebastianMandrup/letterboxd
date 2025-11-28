@@ -1,6 +1,7 @@
 import type React from 'react';
 import type { FunctionComponent } from 'react';
 import styles from './movieCard.module.css';
+import { getSlug } from '../../../services/getSlug';
 
 interface MovieCardProps {
     title: string;
@@ -12,7 +13,8 @@ interface MovieCardProps {
 const MovieCard: FunctionComponent<MovieCardProps> = ({ title, src, alt, overlay }) => {
 
     const handleClick = () => {
-        location.href = `/movie/${title.split(' ').join('-').toLowerCase()}`;
+        const movieSlug = getSlug(title);
+        location.href = `/movie/${movieSlug}`;
     }
 
     return (

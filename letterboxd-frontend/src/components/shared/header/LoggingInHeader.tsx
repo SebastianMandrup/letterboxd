@@ -1,13 +1,15 @@
 import { useState } from "react";
 import styles from './loggingInHeader.module.css';
 import { useAuth } from "../../../hooks/useAuth";
+import { useToastStore } from "../../../stores/useToastStore";
 
 interface LoggingInHeaderProps {
     setIsLoggingIn: (value: boolean) => void;
 }
 
 function LoggingInHeader({ setIsLoggingIn }: LoggingInHeaderProps) {
-    const { login, loading, error } = useAuth();
+    const { login, loading } = useAuth();
+    const { addToast } = useToastStore();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -18,8 +20,10 @@ function LoggingInHeader({ setIsLoggingIn }: LoggingInHeaderProps) {
         try {
             await login(username, password);
             setIsLoggingIn(false); // close the login modal
-        } catch {
-            // error is already handled in the hook
+            addToast("Successfully logged in!", "success");
+        } catch (error: any) {
+            alert(error.response.data.message || "Login failed");
+            console.error("Login failed:", error);
         }
     };
 
@@ -37,8 +41,6 @@ function LoggingInHeader({ setIsLoggingIn }: LoggingInHeaderProps) {
                 </button>
 
                 <form onSubmit={handleSubmit}>
-                    {error && <p className={styles.errorMsg}>{error}</p>}
-
                     <label>
                         Username
                         <input
@@ -50,10 +52,7 @@ function LoggingInHeader({ setIsLoggingIn }: LoggingInHeaderProps) {
                     </label>
 
                     <label className={styles.labelPassword}>
-                        <div>
-                            Password
-                            <a href="">Forgotten?</a>
-                        </div>
+                        Password
                         <input
                             type="password"
                             name="password"

@@ -2,9 +2,7 @@ import { useSearchParams } from 'react-router-dom'
 import BrowseMoviesResults from '../components/browseMovies/BrowseMoviesResults'
 import FormBrowseBy from '../components/films/FormBrowseBy'
 import FormSearchFilm from '../components/films/FormSearchFilm'
-import Footer from '../components/shared/footer/Footer'
-import Header from '../components/shared/header/Header'
-import styles from './moviesPage.module.css'
+import styles from './moviesBrowsePage.module.css'
 
 function MoviesBrowsePage() {
 
@@ -14,18 +12,15 @@ function MoviesBrowsePage() {
     const selectedRating = searchParams.get('rating') || '';
     const selectedPopular = searchParams.get('popular') || '';
     const selectedGenre = searchParams.get('genre') || '';
+    const selectedTitle = searchParams.get('title') || '';
 
     return (
         <>
-            <Header />
-            <main className={styles.mainMovies}>
-                <section className={styles.sectionBrowse}>
-                    <FormBrowseBy selectedDecade={selectedDecade} selectedRating={selectedRating} selectedPopular={selectedPopular} selectedGenre={selectedGenre} />
-                    <FormSearchFilm />
-                </section>
-                <BrowseMoviesResults selectedDecade={selectedDecade} selectedRating={selectedRating} selectedPopular={selectedPopular} selectedGenre={selectedGenre} />
-            </main>
-            <Footer />
+            <section className={styles.sectionBrowse}>
+                <FormBrowseBy selectedDecade={selectedDecade} selectedRating={selectedRating} selectedPopular={selectedPopular} selectedGenre={selectedGenre} />
+                <FormSearchFilm />
+            </section>
+            <BrowseMoviesResults selectedDecade={selectedDecade} selectedRating={selectedRating} selectedPopular={selectedPopular} selectedGenre={selectedGenre} selectedTitle={selectedTitle} />
         </>
     )
 }

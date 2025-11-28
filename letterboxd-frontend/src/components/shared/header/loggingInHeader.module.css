@@ -61,29 +61,6 @@
             }
         }
 
-        .labelRememberMe {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-
-            input {
-                height: 16px;
-                width: 16px;
-                margin: 0;
-
-                &:focus {
-                    outline: none;
-                }
-            }
-
-            input[type="checkbox"] {
-                accent-color: var(--darkGrey);
-                /* any color */
-            }
-        }
-
         .buttonSubmitLoginHeader {
             background-color: var(--green);
             border: none;

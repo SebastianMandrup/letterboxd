@@ -4,17 +4,19 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Install dependencies first for caching
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy the rest of the backend code
+# Copy the rest of the app
 COPY . .
 
-# Expose the port your app runs on
+# Expose port 3000
 EXPOSE 3000
 
-# Start the application
-CMD ["npm","run", "dev"]
+# Enable polling for file watchers in Docker
+ENV CHOKIDAR_USEPOLLING=true
+ENV CHOKIDAR_INTERVAL=100
+
+# Start Vite dev server
+CMD ["npm", "run", "dev"]

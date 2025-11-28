@@ -1,4 +1,4 @@
-import { useAuth } from '../../../hooks/useAuth';
+import userService from '../../../services/userService';
 import styles from './signUpModal.module.css';
 
 interface SignUpModalProps {
@@ -7,7 +7,6 @@ interface SignUpModalProps {
 
 function SignUpModal({ setIsSigningUp }: SignUpModalProps) {
 
-    const { register } = useAuth();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -25,10 +24,11 @@ function SignUpModal({ setIsSigningUp }: SignUpModalProps) {
             return;
         }
 
-        register(
-            (event.currentTarget.elements.namedItem('email') as HTMLInputElement).value,
-            (event.currentTarget.elements.namedItem('username') as HTMLInputElement).value,
-            (event.currentTarget.elements.namedItem('password') as HTMLInputElement).value,
+        userService.create({
+            email: (event.currentTarget.elements.namedItem('email') as HTMLInputElement).value,
+            username: (event.currentTarget.elements.namedItem('username') as HTMLInputElement).value,
+            password: (event.currentTarget.elements.namedItem('password') as HTMLInputElement).value,
+        }
         ).then(() => {
             setIsSigningUp(false);
             alert("Sign up successful! You can now log in.");
