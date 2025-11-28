@@ -1,22 +1,21 @@
 import {
-    Column,
-    Entity,
-    Index,
-    ManyToMany,
-    PrimaryGeneratedColumn
-} from "typeorm";
+  Column,
+  Entity,
+  Index,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Movie } from './Movie.ts';
 
-@Entity("genres")
+@Entity('genres')
 export class Genre {
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+  id: number;
 
-    @PrimaryGeneratedColumn({ type: "int", name: "id" })
-    id: number;
+  @Index()
+  @Column('varchar', { name: 'name', length: 255 })
+  name: string;
 
-    @Index()
-    @Column("varchar", { name: "name", length: 255 })
-    name: string;
-
-    @ManyToMany(() => Movie, (movie) => movie.genres)
-    movies: Movie[];
+  @ManyToMany(() => Movie, (movie) => movie.genres)
+  movies: Movie[];
 }

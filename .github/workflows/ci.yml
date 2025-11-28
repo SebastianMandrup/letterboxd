@@ -2,7 +2,7 @@ name: CI
 
 on:
 
-# todo: remove on push if not needed
+# todo: rethink the workflow
   # push:
   #   branches:
   #     - main

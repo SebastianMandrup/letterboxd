@@ -6,9 +6,9 @@
   "scripts": {
     "prepare": "husky install",
     "lint:all": "npm run lint:frontend && npm run lint:backend && npm run lint:seeder",
-    "lint:frontend": "eslint --ext .ts,.tsx,.js,.jsx frontend/src && prettier --check frontend/src",
-    "lint:backend": "eslint --ext .ts,.js backend/src && prettier --check backend/src",
-    "lint:seeder": "eslint --ext .ts,.js seeder/src && prettier --check seeder/src"
+    "lint:frontend": "eslint --fix frontend/src --ext .ts,.tsx,.js,.jsx && prettier --write frontend/src",
+    "lint:backend": "eslint --fix backend/src --ext .ts,.js && prettier --write backend/src",
+    "lint:seeder": "eslint --fix seeder/src --ext .ts,.js && prettier --write seeder/src"
   },
   "devDependencies": {
     "husky": "^8.0.0",

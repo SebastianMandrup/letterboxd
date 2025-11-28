@@ -1,9 +1,9 @@
-import { faker } from "@faker-js/faker";
-import bcrypt from "bcrypt";
-import fs from "fs";
-import path from "path";
-import type TmdbMovie from "./TmdbMovie.interface";
-import { fileURLToPath } from "url";
+import { faker } from '@faker-js/faker';
+import bcrypt from 'bcrypt';
+import fs from 'fs';
+import path from 'path';
+import type TmdbMovie from './TmdbMovie.interface';
+import { fileURLToPath } from 'url';
 
 // ---------------- ESM __dirname fix ----------------
 const __filename = fileURLToPath(import.meta.url);
@@ -17,10 +17,10 @@ const NUM_LISTS = 50;
 const NUM_COMMENTS = 800;
 
 // ---------------- Paths ----------------
-const dataDir = path.join(__dirname, "./data");
-const tmdbFilePath = path.join(dataDir, "scraped-data.json");
-const genresFilePath = path.join(dataDir, "genres.json");
-const seedFilePath = path.join(dataDir, "seed-data.json");
+const dataDir = path.join(__dirname, './data');
+const tmdbFilePath = path.join(dataDir, 'scraped-data.json');
+const genresFilePath = path.join(dataDir, 'genres.json');
+const seedFilePath = path.join(dataDir, 'seed-data.json');
 
 // Ensure data directory exists
 if (!fs.existsSync(dataDir)) {
@@ -28,7 +28,7 @@ if (!fs.existsSync(dataDir)) {
 }
 
 // ---------------- Users ----------------
-let usersMap = new Map<number, any>();
+// const usersMap = new Map<number, any>();
 const usedUsernames = new Set<string>();
 
 const users = Array.from({ length: NUM_USERS }, (_, i) => {
@@ -38,7 +38,10 @@ const users = Array.from({ length: NUM_USERS }, (_, i) => {
   // Generate unique username
   do {
     const baseName = faker.person.fullName().replace(/\s+/g, '').toLowerCase();
-    username = attempts === 0 ? baseName : `${baseName}${faker.number.int({ min: 1, max: 999 })}`;
+    username =
+      attempts === 0
+        ? baseName
+        : `${baseName}${faker.number.int({ min: 1, max: 999 })}`;
     attempts++;
   } while (usedUsernames.has(username) && attempts < 10); // Limit attempts to prevent infinite loop
 
@@ -48,7 +51,7 @@ const users = Array.from({ length: NUM_USERS }, (_, i) => {
     id: i + 1,
     username: username,
     email: faker.internet.email(),
-    password: bcrypt.hashSync("password", 10),
+    password: bcrypt.hashSync('password', 10),
   };
 });
 
@@ -57,7 +60,7 @@ if (!fs.existsSync(tmdbFilePath)) {
   console.error(`❌ TMDB file not found: ${tmdbFilePath}`);
   process.exit(1);
 }
-const tmdbMoviesRaw = fs.readFileSync(tmdbFilePath, "utf-8");
+const tmdbMoviesRaw = fs.readFileSync(tmdbFilePath, 'utf-8');
 const moviesData: TmdbMovie[] = JSON.parse(tmdbMoviesRaw);
 const NUM_MOVIES = moviesData.length;
 
@@ -66,13 +69,13 @@ if (!fs.existsSync(genresFilePath)) {
   console.error(`❌ Genres file not found: ${genresFilePath}`);
   process.exit(1);
 }
-const genresRaw = fs.readFileSync(genresFilePath, "utf-8");
+const genresRaw = fs.readFileSync(genresFilePath, 'utf-8');
 const genres: { id: number; name: string }[] = JSON.parse(genresRaw);
 
 // ---------------- Movies ----------------
 const movies = moviesData.map((movie, index) => {
   const uniqueGenreIds = Array.from(new Set(movie.genre_ids)).filter((id) =>
-    genres.some((g) => g.id === id)
+    genres.some((g) => g.id === id),
   );
 
   if (uniqueGenreIds.length === 0 && genres.length > 0) {
@@ -148,9 +151,9 @@ const lists = Array.from({ length: NUM_LISTS }, () => {
   const listMovieIds = Array.from(
     new Set(
       Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
-        faker.number.int({ min: 1, max: NUM_MOVIES })
-      )
-    )
+        faker.number.int({ min: 1, max: NUM_MOVIES }),
+      ),
+    ),
   );
 
   return {
