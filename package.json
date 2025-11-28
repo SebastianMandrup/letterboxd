@@ -4,7 +4,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint:all": "npm run lint:frontend && npm run lint:backend && npm run lint:seeder",
+    "lint:frontend": "eslint --ext .ts,.tsx,.js,.jsx frontend/src && prettier --check frontend/src",
+    "lint:backend": "eslint --ext .ts,.js backend/src && prettier --check backend/src",
+    "lint:seeder": "eslint --ext .ts,.js seeder/src && prettier --check seeder/src"
   },
   "devDependencies": {
     "husky": "^8.0.0",
@@ -19,13 +23,13 @@
     "@typescript-eslint/parser": "^8.48.0"
   },
   "lint-staged": {
-    "letterboxd-frontend/src/**/*.{ts,tsx,js,jsx}": [
-      "eslint --fix letterboxd-frontend/src --ext .ts,.tsx,.js,.jsx",
-      "prettier --write letterboxd-frontend/src"
+    "frontend/src/**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix frontend/src --ext .ts,.tsx,.js,.jsx",
+      "prettier --write frontend/src"
     ],
-    "letterboxd-backend/src/**/*.{ts,js}": [
-      "eslint --fix letterboxd-backend/src --ext .ts,.js",
-      "prettier --write letterboxd-backend/src"
+    "backend/src/**/*.{ts,js}": [
+      "eslint --fix backend/src --ext .ts,.js",
+      "prettier --write backend/src"
     ],
     "seeder/**/*.{ts,js}": [
       "eslint --fix seeder/src --ext .ts,.js",
