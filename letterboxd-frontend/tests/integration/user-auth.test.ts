@@ -22,7 +22,7 @@ describe('Auth API Integration', () => {
 	});
 
 	it('logs in a user successfully', async () => {
-		const res = await fetch(`${VITE_API_URL}/auth/login`, {
+		const res = await fetch(`${VITE_API_URL}/users`, {
 			method: 'POST',
 			body: JSON.stringify({ username: 'test', password: 'test' }),
 			headers: { 'Content-Type': 'application/json' },
