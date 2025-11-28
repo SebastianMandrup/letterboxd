@@ -1,32 +1,52 @@
-import { Request, Response, NextFunction } from "express"; // Add missing imports
+import { Request, Response } from 'express';
 
-export const errorHandler = (error: any, req: Request, res: Response, next: NextFunction) => {
-	console.error("Error:", error);
+//
+export const errorHandler = (error: unknown, req: Request, res: Response) => {
+  console.error('Error: ' + req.method + ' ' + req.originalUrl);
 
-	const statusCode = error.statusCode || error.status || 500;
+  const normalizedError = normalizeError(error);
 
-	const response = {
-		success: false,
-		data: null,
-		error: {
-			message: error.message || "Internal Server Error",
-			code: statusCode,
-			...(process.env.NODE_ENV === 'development' && { stack: error.stack }),
-			...(error.details && { details: error.details })
-		}
-	};
+  const statusCode = normalizedError.statusCode || 500;
 
-	res.status(statusCode).json(response); // This should work now
+  const response = {
+    success: false,
+    data: null,
+    error: {
+      message: normalizedError.message || 'Internal Server Error',
+      code: statusCode,
+      ...(process.env.NODE_ENV === 'development' && {
+        stack: normalizedError.stack,
+      }),
+    },
+  };
+
+  res.status(statusCode).json(response);
 };
 
+export const notFoundHandler = (req: Request, res: Response) => {
+  console.error(`Not Found: ${req.originalUrl}`);
 
-export const notFoundHandler = (req: Request, res: Response, next: NextFunction) => {
-	res.status(404).json({
-		success: false,
-		data: null,
-		error: {
-			message: "Resource not found",
-			code: 404
-		}
-	});
+  res.status(404).json({
+    success: false,
+    data: null,
+    error: {
+      message: 'Resource not found',
+      code: 404,
+    },
+  });
 };
+
+function normalizeError(error: unknown) {
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+      stack: error.stack,
+      statusCode: 500,
+    };
+  }
+
+  return {
+    message: String(error),
+    statusCode: 500,
+  };
+}

@@ -1,10 +1,10 @@
-import { SelectQueryBuilder } from "typeorm";
-import { AppDataSource } from "../data-source";
-import { View } from "../entities/View";
+// import { SelectQueryBuilder } from "typeorm";
+// import { AppDataSource } from "../data-source";
+// import { View } from "../entities/View";
 
-const viewRepository = AppDataSource.getRepository(View);
+// const viewRepository = AppDataSource.getRepository(View);
 
-const MAX_VIEWS = 40;
+// const MAX_VIEWS = 40;
 
 // const addFeaturedFilter = (
 //     queryBuilder: SelectQueryBuilder<Movie>,
@@ -16,7 +16,6 @@ const MAX_VIEWS = 40;
 //         queryBuilder.where("movie.id IN (:...ids)", { ids: FEATURED_MOVIE_IDS });
 //     }
 // };
-
 
 // const addJustReviewedFilter = (
 //     queryBuilder: SelectQueryBuilder<Movie>,
