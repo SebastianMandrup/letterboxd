@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # - name: Run ESLint TODO
+      # - name: Run ESLint TODO*
         # run: npm run lint
 
       # - name: Run Prettier Check TODO
