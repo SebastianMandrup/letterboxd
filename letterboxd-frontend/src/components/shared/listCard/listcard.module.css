@@ -1,85 +1,85 @@
 .listCard {
-	position: relative;
-	padding: 20px;
+  position: relative;
+  padding: 20px;
 }
 
 .posterStack {
-	position: relative;
-	width: 236px;
-	height: 120px;
-	border-radius: var(--mediumBorderRadius);
-	border: 2px solid transparent;
+  position: relative;
+  width: 236px;
+  height: 120px;
+  border-radius: var(--mediumBorderRadius);
+  border: 2px solid transparent;
 }
 
 .posterStack.large {
-	width: 278px;
-	height: 166px;
+  width: 278px;
+  height: 166px;
 }
 
 .posterStack:hover {
-	border: 2px solid var(--green);
+  border: 2px solid var(--green);
 }
 
 .posterImage {
-	position: absolute;
-	width: 80px;
-	height: 116px;
-	border-radius: var(--mediumBorderRadius);
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  position: absolute;
+  width: 80px;
+  height: 116px;
+  border-radius: var(--mediumBorderRadius);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .posterStack .large {
-	width: 122px;
-	height: 162px;
+  width: 122px;
+  height: 162px;
 }
 
 .listInfo {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .listName,
 .listAuthor {
-	text-decoration: none
+  text-decoration: none;
 }
 
 .listName {
-	margin-top: 10px;
-	font-size: 16px;
-	font-weight: normal;
-	color: var(--white);
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--white);
 }
 
 .listName.large {
-	font-size: 20px;
+  font-size: 20px;
 }
 
 .listName:hover {
-	color: var(--lightBlue);
+  color: var(--lightBlue);
 }
 
 .listAuthor {
-	margin-top: 5px;
-	font-size: 11px;
-	color: var(--grey);
+  margin-top: 5px;
+  font-size: 11px;
+  color: var(--grey);
 }
 
 .listAuthor.large {
-	font-size: 14px;
+  font-size: 14px;
 }
 
 .username {
-	margin: 0 4px;
-	color: var(--lightGrey);
+  margin: 0 4px;
+  color: var(--lightGrey);
 }
 
 .listAuthor:hover {
-	color: var(--lightGrey);
+  color: var(--lightGrey);
 }
 
 .listAuthor:hover .username {
-	color: var(--white);
+  color: var(--white);
 }

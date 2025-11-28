@@ -1,120 +1,119 @@
 #headerPopularReviews {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 
-    h5 {
-        font-weight: 300;
-        font-size: 0.9rem;
-    }
+  h5 {
+    font-weight: 300;
+    font-size: 0.9rem;
+  }
 }
 
 .articlePopularReview {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--darkerGrey);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--darkerGrey);
 
-    &:last-of-type {
-        border-bottom: none;
-    }
+  &:last-of-type {
+    border-bottom: none;
+  }
 
-    article {
-        height: 80%;
-        margin-right: 20px;
-    }
+  article {
+    height: 80%;
+    margin-right: 20px;
+  }
 }
 
 .sectionPopularReviewContent {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+
+  header {
+    font-family: var(--fontTwo);
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin: 4px 0 8px 0;
     display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
 
-    header {
-        font-family: var(--fontTwo);
-        font-weight: 600;
-        font-size: 1.5rem;
-        margin: 4px 0 8px 0;
-        display: flex;
-
-        p:hover {
-            color: var(--blue);
-            cursor: pointer;
-        }
-
-        span {
-            font-weight: 400;
-            color: var(--darkGrey);
-            margin-left: 10px;
-
-            &:hover {
-                color: var(--blue);
-                cursor: pointer;
-            }
-        }
-
+    p:hover {
+      color: var(--blue);
+      cursor: pointer;
     }
+
+    span {
+      font-weight: 400;
+      color: var(--darkGrey);
+      margin-left: 10px;
+
+      &:hover {
+        color: var(--blue);
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .sectionPopularReviewAuthorAndScore {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 10px;
 
-    img {
-        border-radius: 50%;
-        width: 25px;
-        height: 25px;
-        object-fit: cover;
-        border: 1px solid transparent;
+  img {
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    object-fit: cover;
+    border: 1px solid transparent;
 
-        &:hover {
-            border: 1px solid var(--blue);
-            cursor: pointer;
-        }
+    &:hover {
+      border: 1px solid var(--blue);
+      cursor: pointer;
     }
+  }
 
-    p {
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--darkGrey);
+  p {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--darkGrey);
 
-        &:hover {
-            color: var(--lightGrey);
-            cursor: pointer;
-        }
+    &:hover {
+      color: var(--lightGrey);
+      cursor: pointer;
     }
+  }
 }
 
 .divStars {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--gold);
 }
 
 .pReviewContent {
-    font-size: 1rem;
-    color: var(--darkGrey);
+  font-size: 1rem;
+  color: var(--darkGrey);
 }
 
 .pNumberOfLikes {
-    font-size: 0.8rem;
-    color: var(--darkGrey);
-    margin-top: 14px;
-    display: flex;
-    align-items: center;
+  font-size: 0.8rem;
+  color: var(--darkGrey);
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
 
+  span {
+    margin-right: 5px;
+    margin-top: 2px;
+  }
+
+  &:hover {
     span {
-        margin-right: 5px;
-        margin-top: 2px;
+      color: var(--darkGrey);
     }
 
-    &:hover {
-        span {
-            color: var(--darkGrey)
-        }
-
-        color: var(--lightGrey);
-        cursor: pointer;
-    }
+    color: var(--lightGrey);
+    cursor: pointer;
+  }
 }

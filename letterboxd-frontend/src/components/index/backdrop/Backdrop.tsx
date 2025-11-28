@@ -2,22 +2,18 @@ import type { FunctionComponent } from 'react';
 import styles from './backdrop.module.css';
 
 interface BackdropProps {
-    src: string;
-    alt: string;
-    caption: string;
+  src: string;
+  alt: string;
+  caption: string;
 }
 
 const Backdrop: FunctionComponent<BackdropProps> = ({ src, alt, caption }) => {
-    return (
-        <section
-            className={styles.sectionBackdrop}
-            style={{ ['--backdrop-image' as any]: `url(${src})` }}
-        >
-            <img className={styles.imgBackdrop} src={src} alt={alt} />
-            <span className={styles.spanOverlayCaption}>{caption}</span>
-        </section>
-
-    );
-}
+  return (
+    <section className={styles.sectionBackdrop}>
+      <img className={styles.imgBackdrop} src={src} alt={alt} />
+      <span className={styles.spanOverlayCaption}>{caption}</span>
+    </section>
+  );
+};
 
 export default Backdrop;
