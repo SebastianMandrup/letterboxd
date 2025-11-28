@@ -3,6 +3,7 @@ name: Frontend CI
 on:
   push:
     paths:
+      - "letterboxd-backend/**"
       - "letterboxd-frontend/**"
       - ".github/workflows/frontend-ci.yml"
   pull_request:
