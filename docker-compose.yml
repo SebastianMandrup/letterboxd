@@ -9,6 +9,11 @@ services:
       - mysql_data_letterboxd:/var/lib/mysql
     networks:
       - letterboxd_db_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--password=rootpassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   letterboxd-backend:
     build:
@@ -21,7 +26,8 @@ services:
     env_file:
       - ./letterboxd-backend/docker.env
     depends_on:
-      - letterboxd_mysql
+      letterboxd_mysql:
+        condition: service_healthy
     networks:
       - letterboxd_db_network
       # - letterboxd_backend_network

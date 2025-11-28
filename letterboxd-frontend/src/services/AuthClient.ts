@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig } from "axios";
-import type UserDto from "../DTO/userDto";
+import type UserDto from "../DTO/UserDto";
 
 export interface PaginatedUserResponse {
 	count: number;
