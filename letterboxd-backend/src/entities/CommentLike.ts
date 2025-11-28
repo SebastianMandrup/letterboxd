@@ -1,23 +1,18 @@
-import {
-    Column,
-    Entity,
-    ManyToOne,
-    PrimaryGeneratedColumn
-} from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Comment } from './Comment';
 import { User } from './User';
 
-@Entity("comment_likes")
+@Entity('comment_likes')
 export class CommentLike {
-    @PrimaryGeneratedColumn({ type: "int", name: "id" })
-    id: number;
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+  id: number;
 
-    @Column("datetime", { name: "created_at" })
-    createdAt: Date;
+  @Column('datetime', { name: 'created_at' })
+  createdAt: Date;
 
-    @ManyToOne(() => Comment, (comment) => comment.likes)
-    comment: Comment;
+  @ManyToOne(() => Comment, (comment) => comment.likes)
+  comment: Comment;
 
-    @ManyToOne(() => User, (user) => user.commentLikes)
-    user: User;
+  @ManyToOne(() => User, (user) => user.commentLikes)
+  user: User;
 }

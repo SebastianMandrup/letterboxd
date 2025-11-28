@@ -1,11 +1,11 @@
-import type MovieDto from "./MovieDto";
+import type MovieDto from './MovieDto';
 
 export default interface ListDto {
-	id: number;
-	name: string;
-	author: string;
-	description?: string | null;
+  id: number;
+  name: string;
+  author: string;
+  description?: string | null;
 
-	movies: MovieDto[];
-	likeCount: number;
+  movies: MovieDto[];
+  likeCount: number;
 }

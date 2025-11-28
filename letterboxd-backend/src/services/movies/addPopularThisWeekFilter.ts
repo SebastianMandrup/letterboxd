@@ -1,13 +1,11 @@
-import { SelectQueryBuilder } from "typeorm";
-import { Movie } from "../../entities/Movie";
+import { SelectQueryBuilder } from 'typeorm';
+import { Movie } from '../../entities/Movie';
 
 export default (
-	queryBuilder: SelectQueryBuilder<Movie>,
-	popularThisWeek: boolean | undefined
+  queryBuilder: SelectQueryBuilder<Movie>,
+  popularThisWeek: boolean | undefined,
 ) => {
-	if (popularThisWeek === true) {
-		queryBuilder
-			.orderBy("movie.voteAverage", "DESC")
-			.take(12);
-	}
+  if (popularThisWeek === true) {
+    queryBuilder.orderBy('movie.voteAverage', 'DESC').take(12);
+  }
 };
