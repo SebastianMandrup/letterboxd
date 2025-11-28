@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type UserDto from "../DTO/userDto";
+import type UserDto from "../DTO/UserDto";
 
 interface UserState {
 	user: UserDto | null;
