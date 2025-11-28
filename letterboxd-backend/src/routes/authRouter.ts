@@ -42,7 +42,7 @@ authRouter.post("/login", async (req, res) => {
     }
 });
 
-authRouter.post("/logout", (req, res) => {
+authRouter.post("/logout", requireAuth, (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ message: "Could not log out. Please try again." });
