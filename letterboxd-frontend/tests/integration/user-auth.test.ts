@@ -14,7 +14,7 @@ describe('Auth API Integration', () => {
 	it('registers a user successfully', async () => {
 		const res = await fetchWithCookies(`${VITE_API_URL}/users`, {
 			method: 'POST',
-			body: JSON.stringify({ username: 'test', password: 'password', email: 'test@example.com' }),
+			body: JSON.stringify({ username: 'testing', password: 'password', email: 'test@example.com' }),
 			headers: { 'Content-Type': 'application/json' },
 		});
 		const data: any = await res.json();
@@ -24,12 +24,17 @@ describe('Auth API Integration', () => {
 	});
 
 	it('logs in a user successfully', async () => {
-		const res = await fetch(`${VITE_API_URL}/auth/login`, {
+
+
+		const res = await fetchWithCookies(`${VITE_API_URL}/auth/login`, {
 			method: 'POST',
-			body: JSON.stringify({ username: 'test', password: 'password' }),
+			body: JSON.stringify({ username: 'testing', password: 'password' }),
 			headers: { 'Content-Type': 'application/json' },
 		});
 		const data: any = await res.json();
+
+		console.log('Set-Cookie:', res.headers.raw()['set-cookie']); // DEBUG
+
 
 		console.log(data);
 
