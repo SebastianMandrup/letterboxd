@@ -6,6 +6,7 @@ on:
       - "letterboxd-backend/**"
       - "letterboxd-frontend/**"
       - ".github/workflows/frontend-ci.yml"
+      - "docker-compose.integration.yml"
   pull_request:
     paths:
       - "letterboxd-frontend/**"
