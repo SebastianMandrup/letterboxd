@@ -48,4 +48,6 @@ export class List {
 
   @OneToMany(() => ListLike, (listLike) => listLike.list)
   likes: ListLike[];
+
+  likeCount?: number;
 }

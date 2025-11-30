@@ -8,6 +8,7 @@ const listRepository = AppDataSource.getRepository(List);
 const START_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
 const MAX_PAGE_SIZE = 40;
+const FEATURE_MOVIE_IDS = [27, 44, 14, 17];
 
 const addFeaturedFilter = (
   queryBuilder: SelectQueryBuilder<List>,
@@ -15,27 +16,19 @@ const addFeaturedFilter = (
 ) => {
   if (featured) {
     queryBuilder.andWhere('list.id IN (:...ids)', {
-      ids: [27, 44, 14, 17],
+      ids: FEATURE_MOVIE_IDS,
     });
-
-    queryBuilder
-      .leftJoinAndSelect('list.movies', 'movie')
-      .leftJoin('list.user', 'user')
-      .addSelect(['user.username']);
   }
 };
 
 const addSorting = (qb: SelectQueryBuilder<List>, sortBy?: string) => {
   if (sortBy === 'popularity') {
-    qb.leftJoinAndSelect('list.movies', 'movie')
-      .leftJoin('list.user', 'user')
-      .addSelect(['user.username'])
-      .leftJoin('list.likes', 'like')
-      .addSelect('COUNT(like.id)', 'likeCount')
-      .groupBy('list.id')
-      .addGroupBy('user.id')
-      .orderBy('likeCount', 'DESC');
-    return qb;
+    qb.addSelect((subQuery) => {
+      return subQuery
+        .select('COUNT(*)')
+        .from('list_likes', 'like')
+        .where('like.listId = list.id');
+    }, 'likeCount').orderBy('likeCount', 'DESC');
   }
   return qb;
 };
@@ -47,6 +40,10 @@ const getMoviesQueryBuilder = async (req: Request) => {
 
   addFeaturedFilter(queryBuilder, featured);
   addSorting(queryBuilder, sortBy);
+
+  queryBuilder
+    .leftJoinAndSelect('list.user', 'user')
+    .leftJoinAndSelect('list.movies', 'movie');
 
   return queryBuilder;
 };
@@ -64,7 +61,16 @@ export const getLists = async (req: Request) => {
   try {
     queryBuilder.skip((page - 1) * pageSize).take(pageSize);
 
-    const [lists, total] = await queryBuilder.getManyAndCount();
+    // Use getRawAndEntities to map the subquery column into each entity
+    const { entities: lists, raw } = await queryBuilder.getRawAndEntities();
+
+    // Map likeCount into each list
+    lists.forEach((list, index) => {
+      list['likeCount'] = Number(raw[index]['likeCount']) || 0;
+    });
+
+    // Get total count (without pagination)
+    const total = await queryBuilder.getCount();
 
     return { lists, total };
   } catch (error) {
