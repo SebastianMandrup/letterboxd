@@ -28,15 +28,14 @@ const addFeaturedFilter = (
 const addSorting = (qb: SelectQueryBuilder<List>, sortBy?: string) => {
   if (sortBy === 'popularity') {
     qb.leftJoinAndSelect('list.movies', 'movie')
-      .leftJoinAndSelect('list.user', 'user')
+      .leftJoin('list.user', 'user')
+      .addSelect(['user.username'])
       .leftJoin('list.likes', 'like')
-      .leftJoin('list.comments', 'comment')
-      // Count likes as a real column in the SQL query
-      .addSelect('COUNT(DISTINCT like.id)', 'likeCount')
-      .addSelect('COUNT(DISTINCT comment.id)', 'commentCount')
+      .addSelect('COUNT(like.id)', 'likeCount')
       .groupBy('list.id')
       .addGroupBy('user.id')
       .orderBy('likeCount', 'DESC');
+    return qb;
   }
   return qb;
 };
