@@ -10,6 +10,7 @@ export interface PaginatedUserResponse {
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env['VITE_API_URL'] + '/auth',
+  withCredentials: true,
 });
 
 class AuthClient {

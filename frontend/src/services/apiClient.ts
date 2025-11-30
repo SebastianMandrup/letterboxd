@@ -9,6 +9,7 @@ class ApiClient<T, V = Partial<T>> {
     this.endpoint = endpoint;
     this.axiosInstance = axios.create({
       baseURL: import.meta.env['VITE_API_URL'],
+      withCredentials: true,
     });
   }
 
