@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { AppDataSource } from '../data-source';
 import { User } from '../entities/User';
-import { toUserDto, UserDto } from '../DTO/UserDto';
 import type Response from '../DTO/Response';
 import { validateUserCreation } from '../middleware/userValidation';
 import bcrypt from 'bcrypt';
+import { getUsers } from '../services/userService';
+import { toUserWithCountDto, UserWithCountDto } from '../DTO/UserWithCountDto';
 
 const userRouter = Router();
 
@@ -12,11 +13,14 @@ const userRepository = AppDataSource.getRepository(User);
 
 userRouter.get('/', async (req, res) => {
   try {
-    const users = await userRepository.find();
-    const userDtos = users.map((user) => toUserDto(user));
+    const users = await getUsers(req);
 
-    const response: Response<UserDto> = {
-      count: users.length,
+    const userDtos: UserWithCountDto[] = users.users.map((user) =>
+      toUserWithCountDto(user),
+    );
+
+    const response: Response<UserWithCountDto> = {
+      count: users.total,
       results: userDtos,
     };
     res.send(response);

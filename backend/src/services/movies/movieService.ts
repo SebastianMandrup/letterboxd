@@ -8,6 +8,7 @@ import addGenreFilter from './addGenreFilter';
 import addJustReviewedFilter from './addJustReviewedFilter';
 import addTitleFilter from './addTitleFilter';
 import { Request } from 'express';
+import addCrewPicksFilter from './addCrewPicksFilter';
 
 const movieRepository = AppDataSource.getRepository(Movie);
 
@@ -29,8 +30,12 @@ const getMoviesQueryBuilder = async (req: Request) => {
   const rating = req.query.rating ? String(req.query.rating) : undefined;
   const genre = req.query.genre ? String(req.query.genre) : undefined;
   const title = req.query.title ? String(req.query.title) : undefined;
+  const crewPicks = req.query.crewPicks
+    ? Boolean(req.query.crewPicks)
+    : undefined;
 
   addTitleFilter(queryBuilder, title);
+  addCrewPicksFilter(queryBuilder, crewPicks);
   addFeaturedFilter(queryBuilder, featured);
   addJustReviewedFilter(queryBuilder, justReviewed);
   addPopularThisWeekFilter(queryBuilder, popularThisWeek);

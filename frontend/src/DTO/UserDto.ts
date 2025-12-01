@@ -3,4 +3,8 @@ export default interface UserDto {
   username: string;
   role: string;
   email: string;
+
+  numberOfReviews: number;
+  numberOfWatchedFilms: number;
+  reviewLikeCount: number;
 }
