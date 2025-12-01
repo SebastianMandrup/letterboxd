@@ -7,6 +7,7 @@ import { MovieLike } from './MovieLike';
 import { Review } from './Review';
 import { ReviewLike } from './ReviewLike';
 import { View } from './View';
+import { Movie } from './Movie';
 
 @Entity('users')
 export class User {
@@ -54,4 +55,6 @@ export class User {
   numberOfWatchedFilms?: number;
 
   reviewLikeCount?: number;
+
+  recentlyWatchedMovies?: Movie[];
 }

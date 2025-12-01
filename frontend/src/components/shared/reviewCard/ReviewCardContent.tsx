@@ -2,6 +2,7 @@ import type { FunctionComponent } from 'react';
 import styles from './reviewCardContent.module.css';
 import type ReviewDto from '../../../DTO/ReviewDto';
 import { getSlug } from '../../../services/getSlug';
+import { getApiAvatar } from '../../../services/getApiAvatar';
 
 interface ReviewCardContentProps {
   review: ReviewDto;
@@ -28,7 +29,7 @@ const ReviewCardContent: FunctionComponent<ReviewCardContentProps> = ({
           <img
             className={styles.avatar}
             alt={`${review.author.username}'s avatar`}
-            src={`https://ui-avatars.com/api/?name=${review.author.username}&background=random`}
+            src={getApiAvatar(review.author.username)}
           ></img>
           <a
             className={styles.authorUsername}

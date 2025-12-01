@@ -1,3 +1,4 @@
+import { Movie } from '../entities/Movie';
 import { User } from '../entities/User';
 
 export interface UserWithCountDto {
@@ -8,6 +9,7 @@ export interface UserWithCountDto {
   numberOfReviews: number;
   numberOfWatchedFilms: number;
   reviewLikeCount: number;
+  recentlyWatchedMovies?: Movie[];
 }
 
 export function toUserWithCountDto(user: User): UserWithCountDto {
@@ -19,5 +21,6 @@ export function toUserWithCountDto(user: User): UserWithCountDto {
     numberOfReviews: user.numberOfReviews ?? 0,
     numberOfWatchedFilms: user.numberOfWatchedFilms ?? 0,
     reviewLikeCount: user.reviewLikeCount ?? 0,
+    recentlyWatchedMovies: user.recentlyWatchedMovies ?? [],
   };
 }

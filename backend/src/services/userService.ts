@@ -8,6 +8,8 @@ const userRepository = AppDataSource.getRepository(User);
 const START_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 40;
 const MAX_PAGE_SIZE = 40;
+const FEATURED_USER_IDS = [1, 2, 3, 4, 5];
+const HQ_USER_IDS = [6, 7, 8, 9, 10, 13, 14, 15];
 
 const addNumberOfWatchedFilms = (queryBuilder: SelectQueryBuilder<User>) => {
   queryBuilder
@@ -23,29 +25,61 @@ const addNumberOfReviews = (queryBuilder: SelectQueryBuilder<User>) => {
     .groupBy('user.id');
 };
 
+const addReviewLikeCount = (queryBuilder: SelectQueryBuilder<User>) => {
+  queryBuilder
+    .leftJoin('user.reviews', 'review')
+    .leftJoin('review.likes', 'reviewLike')
+    .addSelect('COUNT(DISTINCT reviewLike.id)', 'reviewLikeCount')
+    .groupBy('user.id');
+};
+
+// const addRecentlyReviewedMovies = (queryBuilder: SelectQueryBuilder<User>) => {
+//   queryBuilder
+//     .leftJoinAndSelect('user.reviews', 'recentReview', 'recentReview.createdAt >= NOW() - INTERVAL \'30 days\'')
+//     .leftJoinAndSelect('recentReview.movie', 'recentReviewedMovie')
+//     .limit(5);
+// };
+
 const addUserFilter = (
   queryBuilder: SelectQueryBuilder<User>,
-  filter: string | undefined,
+  filterBy: string,
 ) => {
-  if (filter === 'popularReviewers') {
+  if (filterBy === 'popularReviewers') {
+    queryBuilder.orderBy('reviewLikeCount', 'DESC');
+  } else if (filterBy === 'featured') {
     queryBuilder
-      .leftJoin('user.reviews', 'review')
-      .leftJoin('review.likes', 'reviewLike')
-      .addSelect('COUNT(DISTINCT reviewLike.id)', 'reviewLikeCount')
-      .groupBy('user.id')
+      .where('user.id IN (:...featuredIds)', { featuredIds: FEATURED_USER_IDS })
       .orderBy('reviewLikeCount', 'DESC');
+  } else if (filterBy === 'hq') {
+    queryBuilder
+      .where('user.id IN (:...hqIds)', { hqIds: HQ_USER_IDS })
+      .orderBy('reviewLikeCount', 'DESC');
+  }
+};
+
+const addSorting = (queryBuilder: SelectQueryBuilder<User>, sortBy: string) => {
+  if (sortBy === 'popular') {
+    queryBuilder.orderBy('reviewLikeCount', 'DESC');
   }
 };
 
 const getUserQueryBuilder = async (req: Request) => {
   const queryBuilder = userRepository.createQueryBuilder('user');
 
-  const filterBy = req.query.filterBy ? String(req.query.filterBy) : undefined;
-
-  addUserFilter(queryBuilder, filterBy);
-
   addNumberOfReviews(queryBuilder);
   addNumberOfWatchedFilms(queryBuilder);
+  addReviewLikeCount(queryBuilder);
+  // addRecentlyReviewedMovies(queryBuilder);
+
+  const filterBy = req.query.filterBy ? String(req.query.filterBy) : undefined;
+  if (filterBy) {
+    addUserFilter(queryBuilder, filterBy);
+  }
+
+  const sortBy = req.query.sortBy ? String(req.query.sortBy) : undefined;
+  if (sortBy) {
+    addSorting(queryBuilder, sortBy);
+  }
 
   return queryBuilder;
 };
@@ -67,7 +101,7 @@ export const getUsers = async (req: Request) => {
 
     const total = parseInt(raw[0]?.totalCount || '0', 10) || users.length;
 
-    users.forEach((user, index) => {
+    users.forEach(async (user, index) => {
       user.numberOfReviews = parseInt(raw[index]?.numberOfReviews || 0, 10);
       user.numberOfWatchedFilms = parseInt(
         raw[index]?.numberOfWatchedFilms || 0,

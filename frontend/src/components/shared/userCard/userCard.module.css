@@ -1,5 +1,7 @@
 .userCard {
   display: flex;
+  width: 100%;
+  justify-content: space-between;
   padding: 4px 0;
   margin-bottom: 12px;
 }

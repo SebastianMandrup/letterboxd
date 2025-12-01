@@ -13,14 +13,14 @@ const userRepository = AppDataSource.getRepository(User);
 
 userRouter.get('/', async (req, res) => {
   try {
-    const users = await getUsers(req);
+    const { users, total } = await getUsers(req);
 
-    const userDtos: UserWithCountDto[] = users.users.map((user) =>
+    const userDtos: UserWithCountDto[] = users.map((user) =>
       toUserWithCountDto(user),
     );
 
     const response: Response<UserWithCountDto> = {
-      count: users.total,
+      count: total,
       results: userDtos,
     };
     res.send(response);
