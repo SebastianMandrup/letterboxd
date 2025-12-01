@@ -32,4 +32,5 @@ module.exports = {
 	settings: {
 		react: { version: 'detect' },
 	},
+	ignorePatterns: ['dist/', 'node_modules/', '*.json'],
 };

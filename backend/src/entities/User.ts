@@ -48,4 +48,10 @@ export class User {
 
   @OneToMany(() => ListLike, (listLike) => listLike.user)
   listLikes: ListLike[];
+
+  numberOfReviews?: number;
+
+  numberOfWatchedFilms?: number;
+
+  reviewLikeCount?: number;
 }

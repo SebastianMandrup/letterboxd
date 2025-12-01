@@ -1,0 +1,97 @@
+.reviewCard {
+  display: grid;
+  grid-template-columns: 2fr 6fr 1fr;
+  padding: 20px 0;
+}
+
+.reviewCard > button {
+  height: 200px;
+  width: 120px;
+}
+
+.titleAndYear {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+}
+
+.movieTitle {
+  color: var(--white);
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.movieTitle:hover {
+  color: var(--lightBlue);
+}
+
+.movieYear {
+  color: var(--darkGrey);
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.authorAndAvatar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--darkGrey);
+}
+
+.authorUsername {
+  color: var(--lightGrey);
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.authorUsername:hover {
+  color: var(--lightBlue);
+}
+
+.divStars {
+  color: var(--gold);
+}
+
+.reviewText {
+  color: var(--lightGrey);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.likeContainer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.buttonLikeReview {
+  background: none;
+  border: none;
+  color: var(--lightGrey);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.buttonLikeReview:hover {
+  color: var(--lightBlue);
+}
+
+.likeCount {
+  color: var(--lightGrey);
+  font-size: 14px;
+  font-weight: 400;
+}

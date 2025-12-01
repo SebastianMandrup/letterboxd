@@ -3,6 +3,14 @@ export default interface ReviewDto {
   review: string;
   rating: number;
   author: {
-    name: string;
+    id: number;
+    username: string;
   };
+  movie: {
+    id: number;
+    title: string;
+    posterUrl: string;
+    releaseDate: string;
+  };
+  likeCount: number;
 }

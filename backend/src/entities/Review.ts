@@ -45,4 +45,6 @@ export class Review {
 
   @OneToMany(() => ReviewLike, (reviewLike) => reviewLike.review)
   likes: ReviewLike[];
+
+  likeCount: number;
 }

@@ -11,7 +11,10 @@ const PopularMovies = () => {
 
   return (
     <section className={styles.sectionPopularMovies}>
-      <SectionHeader title="Popular Movies" link="/films/popular" />
+      <SectionHeader
+        title="Popular Movies"
+        link="/movies/browse?popular=allTime"
+      />
       <section>
         {isLoading && <div>Loading...</div>}
         {error && <div>Error loading popular movies.</div>}

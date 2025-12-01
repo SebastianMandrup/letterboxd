@@ -1,16 +1,14 @@
 import { Router, Request, Response } from 'express';
-import { AppDataSource } from '../data-source';
-import { Review } from '../entities/Review';
+import { getReviews } from '../services/reviewService';
 
 const reviewRouter = Router();
 
-const reviewRepository = AppDataSource.getRepository(Review);
-
 reviewRouter.get('/', async (req: Request, res: Response) => {
   try {
-    const reviews = await reviewRepository.find();
+    const { reviews, total } = await getReviews(req);
+
     const response = {
-      count: reviews.length,
+      count: total,
       results: reviews,
     };
     res.send(response);
