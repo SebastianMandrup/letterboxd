@@ -1,6 +1,7 @@
 import type { FunctionComponent } from 'react';
 import type UserDto from '../../../DTO/UserDto';
 import styles from './userCard.module.css';
+import { getApiAvatar } from '../../../services/getApiAvatar';
 
 interface UserCardProps {
   user: UserDto;
@@ -11,7 +12,7 @@ const UserCard: FunctionComponent<UserCardProps> = ({ user }) => {
     <article className={styles.userCard}>
       <img
         className={styles.avatar}
-        src={`https://ui-avatars.com/api/?name=${user.username}&background=random`}
+        src={getApiAvatar(user.username)}
         alt={user.username}
       />
       <div className={styles.userInfo}>

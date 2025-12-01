@@ -1,0 +1,17 @@
+.header {
+  padding: 30px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 300;
+  margin-bottom: 8px;
+  color: var(--lightGrey);
+  text-align: center;
+}
+
+.usersListContainer {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  margin-top: 40px;
+}

@@ -6,6 +6,7 @@ import MoviePage from './pages/MoviePage';
 import { useRestoreUser } from './hooks/useRestoreUser';
 import ListsPage from './pages/ListsPage';
 import Layout from './Layout';
+import UsersPage from './pages/UsersPage';
 
 export default function App() {
   useRestoreUser();
@@ -14,10 +15,11 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<IndexPage />} />
+        <Route path="/lists" element={<ListsPage />} />
+        <Route path="/movie/:title" element={<MoviePage />} />
         <Route path="/movies" element={<MoviesPage />} />
         <Route path="/movies/browse" element={<MoviesBrowsePage />} />
-        <Route path="/movie/:title" element={<MoviePage />} />
-        <Route path="/lists" element={<ListsPage />} />
+        <Route path="/users" element={<UsersPage />} />
       </Route>
     </Routes>
   );

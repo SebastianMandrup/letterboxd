@@ -3,6 +3,7 @@ import type ListDto from '../../../DTO/ListDto';
 import styles from './listCard.module.css';
 import { getSlug } from '../../../services/getSlug';
 import ListPosterStack from './PosterStack';
+import { getApiAvatar } from '../../../services/getApiAvatar';
 
 interface ListCardProps {
   list: ListDto;
@@ -26,7 +27,7 @@ const ListCard: FunctionComponent<ListCardProps> = ({ list, large }) => {
         >
           <img
             className={styles.avatar}
-            src={`https://ui-avatars.com/api/?name=${list.user.username}&background=random`}
+            src={getApiAvatar(list.user.username)}
             alt={list.user.username}
           />
           Created by

@@ -2,6 +2,7 @@ import type { FunctionComponent } from 'react';
 import type ListDto from '../../../DTO/ListDto';
 import ListPosterStack from './PosterStack';
 import styles from './listCardWithDescription.module.css';
+import { getApiAvatar } from '../../../services/getApiAvatar';
 
 interface ListCardWithDescriptionProps {
   list: ListDto;
@@ -22,7 +23,7 @@ const ListCardWithDescription: FunctionComponent<
         <div className={styles.listAuthor}>
           <img
             className={styles.avatar}
-            src={`https://ui-avatars.com/api/?name=${list.user.username}&background=random`}
+            src={getApiAvatar(list.user.username)}
             alt={list.user.username}
           />
           <a className={styles.aAuthor} href={`/user/${list.user.username}`}>
