@@ -1,8 +1,8 @@
 import { useAuth } from '../../../hooks/useAuth';
+import PopularReviews from '../../films/PopularReviews';
 import SectionJustReviewedCards from '../../shared/sectionJustReviewdCards/SectionJustReviewedCards';
 import styles from './sectionJustReviewed.module.css';
 import SectionPopularLists from './SectionPopularLists';
-import SectionPopularReviews from './SectionPopularReviews';
 
 function SectionJustReviewed() {
   const { user } = useAuth();
@@ -25,7 +25,7 @@ function SectionJustReviewed() {
       </p>
 
       <section id={styles.sectionPopularReviewsAndLists}>
-        <SectionPopularReviews />
+        <PopularReviews />
         <SectionPopularLists />
       </section>
     </section>

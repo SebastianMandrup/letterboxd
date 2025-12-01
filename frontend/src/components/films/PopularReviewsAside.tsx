@@ -4,16 +4,11 @@ import useMovies from '../../hooks/useMovies';
 import MovieCard from '../shared/movieCard/MovieCard';
 import { getThumbnailPoster } from '../../services/getThumbnailPoster';
 import styles from './popularReviewsAside.module.css';
-import useUsers from '../../hooks/useUsers';
-import UserCard from '../shared/userCard/UserCard';
+import SectionPopularReviewers from '../shared/sectionPopularReviewers/SectionPopularReviewers';
 
 const PopularReviewsAside: FunctionComponent = () => {
   const crewPickMovies = useMovies({
     params: { crewPicks: true, pageSize: 6 },
-  });
-
-  const popularReviewers = useUsers({
-    params: { filterBy: 'popularReviewers', pageSize: 5 },
   });
 
   return (
@@ -30,11 +25,15 @@ const PopularReviewsAside: FunctionComponent = () => {
         ))}
       </section>
 
-      <SectionHeader title="popular reviewers" />
-      <section>
-        {popularReviewers.data?.results.map((user) => (
-          <UserCard key={user.id} user={user} />
-        ))}
+      <SectionPopularReviewers />
+
+      <SectionHeader title="CAN'T FIND A FILM?" />
+      <section className={styles.sectionCantFindFilm}>
+        <p>Help keep boxxedletter up to date</p>
+        <p>
+          Find out how to
+          <a href="/add-film">add or edit a film</a>
+        </p>
       </section>
     </aside>
   );
