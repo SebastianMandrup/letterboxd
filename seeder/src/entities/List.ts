@@ -23,6 +23,9 @@ export class List {
   @Column('varchar', { name: 'name', length: 255 })
   name: string;
 
+  @Column('text', { name: 'description', nullable: true })
+  description: string;
+
   @Column('datetime', {
     name: 'created_at',
     default: () => 'CURRENT_TIMESTAMP',

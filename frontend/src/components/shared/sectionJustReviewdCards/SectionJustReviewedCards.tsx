@@ -8,7 +8,6 @@ function SectionJustReviewedCards() {
   const { data, error, isLoading } = useMovies({
     params: {
       justReviewed: true,
-      pageSize: 11,
     },
   });
 

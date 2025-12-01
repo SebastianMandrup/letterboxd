@@ -1,7 +1,7 @@
 import FormBrowseBy from '../components/films/FormBrowseBy';
 import FormSearchFilm from '../components/films/FormSearchFilm';
 import PopularMovies from '../components/films/PopularMovies';
-import AdBanner from '../components/shared/adBanner/adBanner';
+import AdBanner from '../components/shared/adBanner/AdBanner';
 import SectionJustReviewedCards from '../components/shared/sectionJustReviewdCards/SectionJustReviewedCards';
 import styles from './moviesPage.module.css';
 

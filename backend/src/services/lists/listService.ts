@@ -8,15 +8,20 @@ const listRepository = AppDataSource.getRepository(List);
 const START_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
 const MAX_PAGE_SIZE = 40;
-const FEATURE_MOVIE_IDS = [27, 44, 14, 17];
+const FEATURE_LIST_IDS = [27, 44, 14, 17];
+const CREW_PICK_LIST_IDS = [5, 23, 30, 39, 41, 48];
 
-const addFeaturedFilter = (
+const addFilter = (
   queryBuilder: SelectQueryBuilder<List>,
-  featured?: boolean,
+  filter?: string | undefined,
 ) => {
-  if (featured) {
+  if (filter === 'featured') {
     queryBuilder.andWhere('list.id IN (:...ids)', {
-      ids: FEATURE_MOVIE_IDS,
+      ids: FEATURE_LIST_IDS,
+    });
+  } else if (filter === 'crewPicks') {
+    queryBuilder.andWhere('list.id IN (:...ids)', {
+      ids: CREW_PICK_LIST_IDS,
     });
   }
 };
@@ -29,21 +34,31 @@ const addSorting = (qb: SelectQueryBuilder<List>, sortBy?: string) => {
         .from('list_likes', 'like')
         .where('like.listId = list.id');
     }, 'likeCount').orderBy('likeCount', 'DESC');
+  } else if (sortBy === 'recentlyLiked') {
+    qb.addSelect((subQuery) => {
+      return subQuery
+        .select('MAX(like.created_at)')
+        .from('list_likes', 'like')
+        .where('like.listId = list.id');
+    }, 'recentLikeDate').orderBy('recentLikeDate', 'DESC');
   }
   return qb;
 };
 
 const getMoviesQueryBuilder = async (req: Request) => {
   const queryBuilder = listRepository.createQueryBuilder('list');
-  const featured = req.query.featured === 'true';
+  const filterBy = req.query.filterBy as string | undefined;
   const sortBy = req.query.sortBy as string | undefined;
 
-  addFeaturedFilter(queryBuilder, featured);
+  addFilter(queryBuilder, filterBy);
   addSorting(queryBuilder, sortBy);
 
   queryBuilder
-    .leftJoinAndSelect('list.user', 'user')
-    .leftJoinAndSelect('list.movies', 'movie');
+    .leftJoin('list.user', 'user')
+    .addSelect(['user.id', 'user.username'])
+    .leftJoinAndSelect('list.movies', 'movie')
+    .loadRelationCountAndMap('list.likeCount', 'list.likes')
+    .loadRelationCountAndMap('list.commentCount', 'list.comments');
 
   return queryBuilder;
 };
@@ -61,16 +76,7 @@ export const getLists = async (req: Request) => {
   try {
     queryBuilder.skip((page - 1) * pageSize).take(pageSize);
 
-    // Use getRawAndEntities to map the subquery column into each entity
-    const { entities: lists, raw } = await queryBuilder.getRawAndEntities();
-
-    // Map likeCount into each list
-    lists.forEach((list, index) => {
-      list['likeCount'] = Number(raw[index]['likeCount']) || 0;
-    });
-
-    // Get total count (without pagination)
-    const total = await queryBuilder.getCount();
+    const [lists, total] = await queryBuilder.getManyAndCount();
 
     return { lists, total };
   } catch (error) {

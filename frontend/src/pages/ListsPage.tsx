@@ -3,13 +3,25 @@ import SectionHeader from '../components/shared/sectionHeader/SectionHeader';
 import useLists from '../hooks/useLists';
 import ListCard from '../components/shared/listCard/ListCard';
 import styles from './listsPage.module.css';
-import AdBanner from '../components/shared/adBanner/adBanner';
+import AdBanner from '../components/shared/adBanner/AdBanner';
+import ListCardWithData from '../components/shared/listCard/ListCardWithData';
+import ListCardWithDescription from '../components/shared/listCard/ListCardWithDescription';
 
 const ListsPage: FunctionComponent = () => {
-  const featuredLists = useLists({ params: { featured: true, pageSize: 10 } });
+  const featuredLists = useLists({
+    params: { filterBy: 'featured', pageSize: 10 },
+  });
 
   const popularLists = useLists({
     params: { sortBy: 'popularity', pageSize: 3 },
+  });
+
+  const recentlyLikedLists = useLists({
+    params: { sortBy: 'recentlyLiked', pageSize: 10 },
+  });
+
+  const crewPicksLists = useLists({
+    params: { filterBy: 'crewPicks', pageSize: 10 },
   });
 
   return (
@@ -33,16 +45,37 @@ const ListsPage: FunctionComponent = () => {
       </section>
       <AdBanner />
       <SectionHeader
-        title="featured lists"
-        subtitle="ALL"
+        title="popular this week"
+        subtitle="MORE"
         link="./lists/featured"
       />
       <section className={styles.featuredListsSection}>
         {popularLists.data &&
           popularLists.data.results.map((list) => (
-            <ListCard key={list.id} list={list} large />
+            <ListCardWithData
+              key={list.id}
+              list={list}
+              large
+              withLikesAndComments
+            />
           ))}
       </section>
+      <div id={styles.divRecentlyLikedAndCrewPicks}>
+        <section>
+          <SectionHeader title="recently liked lists" />
+          {recentlyLikedLists.data &&
+            recentlyLikedLists.data.results.map((list) => (
+              <ListCardWithDescription key={list.id} list={list} />
+            ))}
+        </section>
+        <section>
+          <SectionHeader title="crew picks" />
+          {crewPicksLists.data &&
+            crewPicksLists.data.results.map((list) => (
+              <ListCardWithData key={list.id} list={list} large />
+            ))}
+        </section>
+      </div>
     </>
   );
 };
