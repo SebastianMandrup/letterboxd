@@ -46,6 +46,18 @@ const getMoviesQueryBuilder = async (req: Request) => {
   return queryBuilder;
 };
 
+export const getMovieByTitle = async (title: string) => {
+  return await movieRepository
+    .createQueryBuilder('cmovie')
+    .where('cmovie.title = :title', { title })
+    .leftJoinAndSelect('cmovie.reviews', 'review')
+    .leftJoinAndSelect('review.movie', 'movie')
+    .leftJoin('review.author', 'author')
+    .addSelect(['author.id', 'author.username'])
+    .leftJoinAndSelect('cmovie.lists', 'list')
+    .getOne();
+};
+
 export const getMovies = async (req: Request) => {
   const page = req.query.page ? Number(req.query.page) : START_PAGE;
   let pageSize = req.query.pageSize

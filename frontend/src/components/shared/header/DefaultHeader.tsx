@@ -30,7 +30,7 @@ function DefaultHeader({ setIsLoggingIn, setIsSigningUp }: DefaultHeaderProps) {
             <a href="/lists">LISTS</a>
           </li>
           <li>
-            <a href="/members">MEMBERS</a>
+            <a href="/users">USERS</a>
           </li>
           <li>
             <a href="/journal">JOURNAL</a>

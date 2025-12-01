@@ -1,4 +1,3 @@
-import ApiClient from './apiClient';
-import type MovieDto from '../DTO/MovieDto';
+import { MovieClient } from './MovieClient';
 
-export default new ApiClient<MovieDto>('/movies');
+export default new MovieClient();

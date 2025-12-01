@@ -2,18 +2,18 @@ import { useParams } from 'react-router-dom';
 import Backdrop from '../components/index/backdrop/Backdrop';
 import ArticleMovie from '../components/shared/movieCard/MovieCard';
 import SectionHeader from '../components/shared/sectionHeader/SectionHeader';
-import useMovies from '../hooks/useMovies';
 import { getMediumPoster } from '../services/getMediumPoster';
 import styles from './moviePage.module.css';
+import ListCardWithDescription from '../components/shared/listCard/ListCardWithDescription';
+import useMovieByTitle from '../hooks/useMovieByTitle';
+import ReviewCardContent from '../components/shared/reviewCard/ReviewCardContent';
 
 function MoviePage() {
-  const title = useParams().title;
+  const title = useParams().title || '';
 
-  const { data, error, isLoading } = useMovies({
-    params: {
-      title: title,
-    },
-  });
+  const { data: movie, error, isLoading } = useMovieByTitle(title);
+
+  if (!title) return <p>No movie title provided.</p>;
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -22,8 +22,6 @@ function MoviePage() {
   if (error) {
     return <p>Error loading movie.</p>;
   }
-
-  const movie = data?.results[0];
 
   if (!movie) return null;
   return (
@@ -48,7 +46,7 @@ function MoviePage() {
               <header className={styles.headerMovieDetails}>
                 <h1 className={styles.h1MovieTitle}>{movie.title}</h1>
                 <p className={styles.pReleaseYear}>
-                  {data.results[0].releaseDate?.toString().split('-')[0] || ''}
+                  {movie.releaseDate?.toString().split('-')[0] || ''}
                 </p>
               </header>
               <p className={styles.pMovieOverview}>{movie.overview}</p>
@@ -71,12 +69,7 @@ function MoviePage() {
             {movie.reviews && movie.reviews.length > 0 ? (
               <section className={styles.sectionReviews}>
                 {movie.reviews.map((review) => (
-                  <article key={review.id} className={styles.articleReview}>
-                    <p className={styles.pReviewContent}>{review.review}</p>
-                    <p className={styles.pReviewAuthor}>
-                      - {review.author.name}
-                    </p>
-                  </article>
+                  <ReviewCardContent key={review.id} review={review} />
                 ))}
               </section>
             ) : (
@@ -92,10 +85,7 @@ function MoviePage() {
             {movie.lists && movie.lists.length > 0 ? (
               <section className={styles.sectionReviews}>
                 {movie.lists.map((list) => (
-                  <article key={list.id} className={styles.articleList}>
-                    <p className={styles.pListName}>{list.name}</p>
-                    <p className={styles.pListAuthor}>- {list.user.username}</p>
-                  </article>
+                  <ListCardWithDescription key={list.id} list={list} />
                 ))}
               </section>
             ) : (
