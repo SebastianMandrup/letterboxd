@@ -5,9 +5,9 @@
   justify-content: center;
   gap: 12px;
   margin-bottom: 40px;
+}
 
-  article {
-    height: 231px;
-    width: 156px;
-  }
+#sectionFeaturedMovies button {
+  height: 231px;
+  width: 156px;
 }

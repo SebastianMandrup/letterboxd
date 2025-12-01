@@ -1,0 +1,42 @@
+.posterStack {
+  position: relative;
+  width: 236px;
+  height: 120px;
+  border-radius: var(--mediumBorderRadius);
+  border: 2px solid transparent;
+}
+
+.posterStack.large {
+  width: 278px;
+  height: 166px;
+}
+
+.posterStack:hover {
+  border: 2px solid var(--green);
+}
+
+.posterImage {
+  position: absolute;
+  width: 80px;
+  height: 116px;
+  border-radius: var(--mediumBorderRadius);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.posterStack .large {
+  width: 122px;
+  height: 162px;
+}
+
+.posterStackPlaceholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--darkestGrey);
+  border-radius: var(--mediumBorderRadius);
+  width: 100%;
+  height: 100%;
+}

@@ -150,7 +150,7 @@ const commentLikes = Array.from({ length: NUM_COMMENTS * 2 }, () => ({
 const lists = Array.from({ length: NUM_LISTS }, () => {
   const listMovieIds = Array.from(
     new Set(
-      Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
+      Array.from({ length: faker.number.int({ min: 5, max: 50 }) }, () =>
         faker.number.int({ min: 1, max: NUM_MOVIES }),
       ),
     ),
@@ -158,6 +158,7 @@ const lists = Array.from({ length: NUM_LISTS }, () => {
 
   return {
     name: `${faker.word.adjective()} ${faker.word.noun()} List`,
+    description: faker.lorem.sentence(200),
     createdAt: faker.date.past().toISOString(),
     userId: faker.number.int({ min: 1, max: NUM_USERS }),
     movieIds: listMovieIds,

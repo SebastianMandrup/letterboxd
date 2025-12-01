@@ -1,8 +1,8 @@
 import type { FunctionComponent } from 'react';
 import type ListDto from '../../../DTO/ListDto';
 import styles from './listCard.module.css';
-import { Link } from 'react-router-dom';
 import { getSlug } from '../../../services/getSlug';
+import ListPosterStack from './PosterStack';
 
 interface ListCardProps {
   list: ListDto;
@@ -10,28 +10,9 @@ interface ListCardProps {
 }
 
 const ListCard: FunctionComponent<ListCardProps> = ({ list, large }) => {
-  const firstFiveMovies = list.movies.slice(0, 5);
-
   return (
     <article className={styles.listCard}>
-      <Link to={`/lists/${getSlug(list.name)}`}>
-        <section
-          className={styles.posterStack + (large ? ` ${styles.large}` : '')}
-        >
-          {firstFiveMovies.map((movie, index) => (
-            <img
-              key={movie.id}
-              src={movie.posterUrl ?? '/placeholder-movie'}
-              alt={movie.title}
-              className={styles.posterImage + (large ? ` ${styles.large}` : '')}
-              style={{
-                left: `${index * 38}px`, // overlap offset
-                zIndex: list.movies.length - index,
-              }}
-            />
-          ))}
-        </section>
-      </Link>
+      <ListPosterStack list={list} large={large} />
       <section className={styles.listInfo}>
         <a
           className={styles.listName + (large ? ` ${styles.large}` : '')}
@@ -43,6 +24,11 @@ const ListCard: FunctionComponent<ListCardProps> = ({ list, large }) => {
           className={styles.listAuthor + (large ? ` ${styles.large}` : '')}
           href={`/users/${getSlug(list.user.username)}`}
         >
+          <img
+            className={styles.avatar}
+            src={`https://ui-avatars.com/api/?name=${list.user.username}&background=random`}
+            alt={list.user.username}
+          />
           Created by
           <span className={styles.username}>{list.user.username}</span>
         </a>

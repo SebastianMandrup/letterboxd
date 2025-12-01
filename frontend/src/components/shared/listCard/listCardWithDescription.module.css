@@ -1,0 +1,44 @@
+.listCardWithDescription {
+  padding: 20px;
+  border-bottom: 1px solid var(--darkestGrey);
+  display: flex;
+  gap: 20px;
+}
+
+.listCardWithDescription:last-of-type {
+  border-bottom: none;
+}
+
+.listName {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.listAuthor,
+.aAuthor {
+  font-size: 14px;
+  color: var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 10px;
+  margin: 10px 0;
+  text-decoration: none;
+}
+
+.aAuthor:hover {
+  text-decoration: underline;
+  color: var(--green);
+}
+
+.listDataContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

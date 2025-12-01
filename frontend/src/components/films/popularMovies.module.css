@@ -1,19 +1,19 @@
 .ulPopularMovies {
   list-style: none;
   display: flex;
-  justify-content: center;
-  align-items: center;
   overflow-x: auto;
   scrollbar-width: thin;
   overflow-y: hidden;
   gap: 16px;
   padding: 20px;
 
+  scrollbar-color: #888 transparent;
+
   li {
-    article {
+    button {
       margin: 4px;
       height: 350px;
-      width: 220px;
+      width: 240px;
     }
   }
 }

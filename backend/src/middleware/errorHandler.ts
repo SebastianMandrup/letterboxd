@@ -1,7 +1,11 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
-//
-export const errorHandler = (error: unknown, req: Request, res: Response) => {
+export const errorHandler = (
+  error: unknown,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   console.error('Error: ' + req.method + ' ' + req.originalUrl);
 
   const normalizedError = normalizeError(error);
@@ -21,6 +25,7 @@ export const errorHandler = (error: unknown, req: Request, res: Response) => {
   };
 
   res.status(statusCode).json(response);
+  next();
 };
 
 export const notFoundHandler = (req: Request, res: Response) => {
