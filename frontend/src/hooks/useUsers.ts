@@ -7,10 +7,10 @@ import type UserDto from '../DTO/UserDto';
 import userService from '../services/userService';
 
 export default (config: AxiosRequestConfig) =>
-  useQuery<PaginatedResponse<UserDto>, Error>({
-    queryKey: ['users', config],
-    queryFn: () => userService.getAll(config),
-    // initialData: featuredUsers,
-    staleTime: ms('24 hours'),
-    gcTime: ms('24 hours'),
-  });
+    useQuery<PaginatedResponse<UserDto>, Error>({
+        queryKey: ['users', config],
+        queryFn: () => userService.getAll(config),
+        // initialData: featuredUsers,
+        staleTime: ms('24 hours'),
+        gcTime: ms('24 hours'),
+    });

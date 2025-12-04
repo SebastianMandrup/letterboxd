@@ -4,18 +4,18 @@ import { User } from './User';
 
 @Entity('movie_likes')
 export class MovieLike {
-  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
-  id: number;
+    @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+    id: number;
 
-  @Column({
-    type: 'datetime',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date;
+    @Column({
+        type: 'datetime',
+        default: () => 'CURRENT_TIMESTAMP',
+    })
+    createdAt: Date;
 
-  @ManyToOne(() => Movie, (movie) => movie.likes)
-  movie: Movie;
+    @ManyToOne(() => Movie, (movie) => movie.likes)
+    movie: Movie;
 
-  @ManyToOne(() => User, (user) => user.movieLikes)
-  user: User;
+    @ManyToOne(() => User, (user) => user.movieLikes)
+    user: User;
 }

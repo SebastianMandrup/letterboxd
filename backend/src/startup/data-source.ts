@@ -15,22 +15,10 @@ import { View } from '../entities/View';
 dotenv.config();
 
 export const AppDataSource = new DataSource({
-  type: process.env.DB_TYPE as 'mysql' | 'postgres',
-  url: process.env.DB_URL,
-  schema: process.env.DB_SCHEMA,
-  entities: [
-    Movie,
-    MovieLike,
-    Review,
-    ReviewLike,
-    User,
-    View,
-    Comment,
-    CommentLike,
-    Genre,
-    List,
-    ListLike,
-  ],
-  synchronize: true,
-  logging: false,
+    type: process.env.DB_TYPE as 'mysql' | 'postgres',
+    url: process.env.DB_URL,
+    schema: process.env.DB_SCHEMA,
+    entities: [Movie, MovieLike, Review, ReviewLike, User, View, Comment, CommentLike, Genre, List, ListLike],
+    synchronize: true,
+    logging: false,
 });

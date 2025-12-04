@@ -8,21 +8,21 @@ import SectionJustReviewedCards from '../components/shared/sectionJustReviewdCar
 import styles from './moviesPage.module.css';
 
 function MoviesPage() {
-  return (
-    <>
-      <section className={styles.sectionBrowse}>
-        <FormBrowseBy />
-        <FormSearchFilm />
-      </section>
-      <PopularMovies />
-      <AdBanner />
-      <SectionJustReviewedCards />
-      <div className={styles.divPopularReviewsAndAside}>
-        <PopularReviews />
-        <PopularReviewsAside />
-      </div>
-    </>
-  );
+    return (
+        <>
+            <section className={styles.sectionBrowse}>
+                <FormBrowseBy />
+                <FormSearchFilm />
+            </section>
+            <PopularMovies />
+            <AdBanner />
+            <SectionJustReviewedCards />
+            <div className={styles.divPopularReviewsAndAside}>
+                <PopularReviews />
+                <PopularReviewsAside />
+            </div>
+        </>
+    );
 }
 
 export default MoviesPage;

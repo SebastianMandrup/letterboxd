@@ -1,26 +1,26 @@
 .sectionCrewPicks {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  padding: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    padding: 8px;
 }
 
 .sectionCantFindFilm {
-  padding: 0 10px 10px 10px;
+    padding: 0 10px 10px 10px;
 }
 
 .sectionCantFindFilm p {
-  color: var(--darkGrey);
-  font-size: 16px;
-  margin: 8px 0;
+    color: var(--darkGrey);
+    font-size: 16px;
+    margin: 8px 0;
 }
 
 .sectionCantFindFilm a {
-  color: var(--lightGrey);
-  text-decoration: none;
-  padding: 0 8px;
+    color: var(--lightGrey);
+    text-decoration: none;
+    padding: 0 8px;
 }
 
 .sectionCantFindFilm a:hover {
-  color: var(--lightBlue);
+    color: var(--lightBlue);
 }

@@ -6,20 +6,16 @@ import SectionLetterboxLetsYou from '../components/index/sectionLetterboxLetsYou
 import SectionRecentStories from '../components/index/sectionRecentStories/SectionRecentStories';
 
 function IndexPage() {
-  return (
-    <>
-      <Backdrop
-        src="./backdrop.png"
-        alt="backdrop"
-        caption="FILMMAKERS ON FILMMAKERS (2025)"
-      />
-      <SectionGetStarted />
-      <SectionFeaturedMovies />
-      <SectionLetterboxLetsYou />
-      <SectionJustReviewed />
-      <SectionRecentStories />
-    </>
-  );
+    return (
+        <>
+            <Backdrop src="./backdrop.png" alt="backdrop" caption="FILMMAKERS ON FILMMAKERS (2025)" />
+            <SectionGetStarted />
+            <SectionFeaturedMovies />
+            <SectionLetterboxLetsYou />
+            <SectionJustReviewed />
+            <SectionRecentStories />
+        </>
+    );
 }
 
 export default IndexPage;

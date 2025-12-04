@@ -1,17 +1,17 @@
 export default (username: string): string => {
-  if (!username || typeof username !== 'string') {
-    throw new Error('Username is required and must be a string.');
-  }
+    if (!username || typeof username !== 'string') {
+        throw new Error('Username is required and must be a string.');
+    }
 
-  const sanitizedUsername = username.trim();
+    const sanitizedUsername = username.trim();
 
-  if (sanitizedUsername.length < 3) {
-    throw new Error('Username must be at least 3 characters long.');
-  }
+    if (sanitizedUsername.length < 3) {
+        throw new Error('Username must be at least 3 characters long.');
+    }
 
-  if (sanitizedUsername.length > 30) {
-    throw new Error('Username must be less than 30 characters long.');
-  }
+    if (sanitizedUsername.length > 30) {
+        throw new Error('Username must be less than 30 characters long.');
+    }
 
-  return sanitizedUsername;
+    return sanitizedUsername;
 };

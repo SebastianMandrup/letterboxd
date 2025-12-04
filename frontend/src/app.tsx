@@ -9,18 +9,18 @@ import Layout from './Layout';
 import UsersPage from './pages/UsersPage';
 
 export default function App() {
-  useRestoreUser();
+    useRestoreUser();
 
-  return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<IndexPage />} />
-        <Route path="/lists" element={<ListsPage />} />
-        <Route path="/movie/:title" element={<MoviePage />} />
-        <Route path="/movies" element={<MoviesPage />} />
-        <Route path="/movies/browse" element={<MoviesBrowsePage />} />
-        <Route path="/users" element={<UsersPage />} />
-      </Route>
-    </Routes>
-  );
+    return (
+        <Routes>
+            <Route element={<Layout />}>
+                <Route path="/" element={<IndexPage />} />
+                <Route path="/lists" element={<ListsPage />} />
+                <Route path="/movie/:title" element={<MoviePage />} />
+                <Route path="/movies" element={<MoviesPage />} />
+                <Route path="/movies/browse" element={<MoviesBrowsePage />} />
+                <Route path="/users" element={<UsersPage />} />
+            </Route>
+        </Routes>
+    );
 }

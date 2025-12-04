@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { Movie } from './Movie.ts';
 import { User } from './User.ts';
 
@@ -14,18 +8,18 @@ import type { User as UserType } from './User.ts'; // type-only
 @Entity('views')
 @Unique(['user', 'movie'])
 export class View {
-  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
-  id: number;
+    @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+    id: number;
 
-  @Column({
-    type: 'datetime',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  viewedAt: Date;
+    @Column({
+        type: 'datetime',
+        default: () => 'CURRENT_TIMESTAMP',
+    })
+    viewedAt: Date;
 
-  @ManyToOne(() => Movie, (movie) => movie.views)
-  movie: MovieType;
+    @ManyToOne(() => Movie, (movie) => movie.views)
+    movie: MovieType;
 
-  @ManyToOne(() => User, (user) => user.views)
-  user: UserType;
+    @ManyToOne(() => User, (user) => user.views)
+    user: UserType;
 }

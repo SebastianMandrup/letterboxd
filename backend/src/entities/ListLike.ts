@@ -4,18 +4,18 @@ import { User } from './User';
 
 @Entity('list_likes')
 export class ListLike {
-  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
-  id: number;
+    @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+    id: number;
 
-  @Column({
-    type: 'datetime',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date;
+    @Column({
+        type: 'datetime',
+        default: () => 'CURRENT_TIMESTAMP',
+    })
+    createdAt: Date;
 
-  @ManyToOne(() => List, (list) => list.likes)
-  list: List;
+    @ManyToOne(() => List, (list) => list.likes)
+    list: List;
 
-  @ManyToOne(() => User, (user) => user.listLikes)
-  user: User;
+    @ManyToOne(() => User, (user) => user.listLikes)
+    user: User;
 }

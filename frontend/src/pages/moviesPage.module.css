@@ -1,37 +1,37 @@
 .sectionBrowse {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  color: var(--lightGrey);
-  font-size: 0.8rem;
-  margin-bottom: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: var(--lightGrey);
+    font-size: 0.8rem;
+    margin-bottom: 40px;
 }
 
 .sectionBrowseResults {
-  min-height: 400px;
+    min-height: 400px;
 }
 
 .sectionBrowseResults ul {
-  list-style: none;
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
+    list-style: none;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
 }
 
 .sectionBrowseResults ul li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .sectionBrowseResults ul li img {
-  width: 150px;
-  height: 225px;
+    width: 150px;
+    height: 225px;
 }
 
 .divPopularReviewsAndAside {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 100px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 100px;
 }

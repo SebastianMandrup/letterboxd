@@ -1,13 +1,13 @@
 #sectionFeaturedMovies {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 40px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
 }
 
 #sectionFeaturedMovies button {
-  height: 231px;
-  width: 156px;
+    height: 231px;
+    width: 156px;
 }

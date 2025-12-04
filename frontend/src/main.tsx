@@ -7,23 +7,23 @@ import App from './app';
 import './main.css';
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 1,
-      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
-      staleTime: ms('5 minutes'),
-      gcTime: ms('15 minutes'),
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            retry: 1,
+            retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
+            staleTime: ms('5 minutes'),
+            gcTime: ms('15 minutes'),
+        },
     },
-  },
 });
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
-    </BrowserRouter>
-  </StrictMode>,
+    <StrictMode>
+        <BrowserRouter>
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        </BrowserRouter>
+    </StrictMode>,
 );

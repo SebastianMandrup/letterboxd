@@ -1,55 +1,55 @@
 .userCard {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  padding: 4px 0;
-  margin-bottom: 12px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 4px 0;
+    margin-bottom: 12px;
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
 }
 
 .userInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .username {
-  font-weight: bold;
-  color: var(--white);
-  font-size: 16px;
-  text-decoration: none;
+    font-weight: bold;
+    color: var(--white);
+    font-size: 16px;
+    text-decoration: none;
 }
 
 .username:hover {
-  text-decoration: underline;
-  color: var(--lightBlue);
+    text-decoration: underline;
+    color: var(--lightBlue);
 }
 
 .stats {
-  display: flex;
-  gap: 12px;
-  font-size: 14px;
-  color: var(--lightGrey);
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--lightGrey);
 }
 
 .followButton {
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  font-size: 20px;
-  color: var(--darkestGrey);
-  background-color: var(--grey);
-  border: none;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    font-size: 20px;
+    color: var(--darkestGrey);
+    background-color: var(--grey);
+    border: none;
 }
 
 .followButton:hover {
-  background-color: var(--lightGrey);
-  cursor: pointer;
+    background-color: var(--lightGrey);
+    cursor: pointer;
 }

@@ -11,50 +11,50 @@ import { Movie } from './Movie';
 
 @Entity('users')
 export class User {
-  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
-  id: number;
+    @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+    id: number;
 
-  @Column('varchar', { name: 'username', length: 255, unique: true })
-  username: string;
+    @Column('varchar', { name: 'username', length: 255, unique: true })
+    username: string;
 
-  @Column('varchar', { name: 'password', length: 255 })
-  password: string;
+    @Column('varchar', { name: 'password', length: 255 })
+    password: string;
 
-  @Column('varchar', { name: 'email', length: 255, unique: true })
-  email: string;
+    @Column('varchar', { name: 'email', length: 255, unique: true })
+    email: string;
 
-  @Column('varchar', { name: 'role', length: 5, default: 'user' })
-  role: string;
+    @Column('varchar', { name: 'role', length: 5, default: 'user' })
+    role: string;
 
-  @OneToMany(() => Review, (review) => review.author)
-  reviews: Review[];
+    @OneToMany(() => Review, (review) => review.author)
+    reviews: Review[];
 
-  @OneToMany(() => Comment, (comment) => comment.user)
-  comments: Comment[];
+    @OneToMany(() => Comment, (comment) => comment.user)
+    comments: Comment[];
 
-  @OneToMany(() => List, (list) => list.user)
-  lists: List[];
+    @OneToMany(() => List, (list) => list.user)
+    lists: List[];
 
-  @OneToMany(() => View, (view) => view.user)
-  views: View[];
+    @OneToMany(() => View, (view) => view.user)
+    views: View[];
 
-  @OneToMany(() => CommentLike, (commentLike) => commentLike.user)
-  commentLikes: CommentLike[];
+    @OneToMany(() => CommentLike, (commentLike) => commentLike.user)
+    commentLikes: CommentLike[];
 
-  @OneToMany(() => ReviewLike, (reviewLike) => reviewLike.user)
-  reviewLikes: ReviewLike[];
+    @OneToMany(() => ReviewLike, (reviewLike) => reviewLike.user)
+    reviewLikes: ReviewLike[];
 
-  @OneToMany(() => MovieLike, (movieLike) => movieLike.user)
-  movieLikes: MovieLike[];
+    @OneToMany(() => MovieLike, (movieLike) => movieLike.user)
+    movieLikes: MovieLike[];
 
-  @OneToMany(() => ListLike, (listLike) => listLike.user)
-  listLikes: ListLike[];
+    @OneToMany(() => ListLike, (listLike) => listLike.user)
+    listLikes: ListLike[];
 
-  numberOfReviews?: number;
+    numberOfReviews?: number;
 
-  numberOfWatchedFilms?: number;
+    numberOfWatchedFilms?: number;
 
-  reviewLikeCount?: number;
+    reviewLikeCount?: number;
 
-  recentlyWatchedMovies?: Movie[];
+    recentlyWatchedMovies?: Movie[];
 }

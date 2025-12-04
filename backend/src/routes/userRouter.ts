@@ -12,41 +12,39 @@ const userRouter = Router();
 const userRepository = AppDataSource.getRepository(User);
 
 userRouter.get('/', async (req, res) => {
-  try {
-    const { users, total } = await getUsers(req);
+    try {
+        const { users, total } = await getUsers(req);
 
-    const userDtos: UserWithCountDto[] = users.map((user) =>
-      toUserWithCountDto(user),
-    );
+        const userDtos: UserWithCountDto[] = users.map((user) => toUserWithCountDto(user));
 
-    const response: Response<UserWithCountDto> = {
-      count: total,
-      results: userDtos,
-    };
-    res.send(response);
-  } catch (error) {
-    console.error('Error fetching genres:', error);
-    res.status(500).send({ error: 'Internal server error' });
-  }
+        const response: Response<UserWithCountDto> = {
+            count: total,
+            results: userDtos,
+        };
+        res.send(response);
+    } catch (error) {
+        console.error('Error fetching genres:', error);
+        res.status(500).send({ error: 'Internal server error' });
+    }
 });
 
 userRouter.post('/', validateUserCreation, async (req, res) => {
-  try {
-    const { username, password, email } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = userRepository.create({
-      username,
-      password: hashedPassword,
-      email,
-      role: 'user',
-    });
+    try {
+        const { username, password, email } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = userRepository.create({
+            username,
+            password: hashedPassword,
+            email,
+            role: 'user',
+        });
 
-    await userRepository.save(newUser);
-    res.status(201).send({ message: 'User created successfully' });
-  } catch (error) {
-    console.error('Error creating user:', error);
-    res.status(500).send({ error: 'Internal server error' });
-  }
+        await userRepository.save(newUser);
+        res.status(201).send({ message: 'User created successfully' });
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).send({ error: 'Internal server error' });
+    }
 });
 
 export default userRouter;

@@ -7,10 +7,10 @@ import type MovieDto from '../DTO/MovieDto';
 import type PaginatedResponse from '../DTO/PaginatedResponse';
 
 export default (config: AxiosRequestConfig) =>
-  useQuery<PaginatedResponse<MovieDto>, Error>({
-    queryKey: ['movies', config],
-    queryFn: () => movieService.getAll(config),
-    // initialData: featuredMovies,
-    staleTime: ms('24 hours'),
-    gcTime: ms('24 hours'),
-  });
+    useQuery<PaginatedResponse<MovieDto>, Error>({
+        queryKey: ['movies', config],
+        queryFn: () => movieService.getAll(config),
+        // initialData: featuredMovies,
+        staleTime: ms('24 hours'),
+        gcTime: ms('24 hours'),
+    });

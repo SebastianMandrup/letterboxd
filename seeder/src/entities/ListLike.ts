@@ -6,18 +6,18 @@ import type { User as UserType } from './User.ts'; // type-only
 
 @Entity('list_likes')
 export class ListLike {
-  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
-  id: number;
+    @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+    id: number;
 
-  @Column({
-    type: 'datetime',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date;
+    @Column({
+        type: 'datetime',
+        default: () => 'CURRENT_TIMESTAMP',
+    })
+    createdAt: Date;
 
-  @ManyToOne(() => List, (list) => list.likes)
-  list: ListType;
+    @ManyToOne(() => List, (list) => list.likes)
+    list: ListType;
 
-  @ManyToOne(() => User, (user) => user.listLikes)
-  user: UserType;
+    @ManyToOne(() => User, (user) => user.listLikes)
+    user: UserType;
 }

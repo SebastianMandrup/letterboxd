@@ -7,10 +7,10 @@ import type ReviewDto from '../DTO/ReviewDto';
 import reviewService from '../services/reviewService';
 
 export default (config: AxiosRequestConfig) =>
-  useQuery<PaginatedResponse<ReviewDto>, Error>({
-    queryKey: ['reviews', config],
-    queryFn: () => reviewService.getAll(config),
-    // initialData: featuredUsers,
-    staleTime: ms('24 hours'),
-    gcTime: ms('24 hours'),
-  });
+    useQuery<PaginatedResponse<ReviewDto>, Error>({
+        queryKey: ['reviews', config],
+        queryFn: () => reviewService.getAll(config),
+        // initialData: featuredUsers,
+        staleTime: ms('24 hours'),
+        gcTime: ms('24 hours'),
+    });
