@@ -22,19 +22,22 @@ export class Review {
   @Column('float', { name: 'rating' })
   rating: number;
 
-  @Column('timestamp', {
-    name: 'createdAt',
+  @Column({
+    type: 'datetime',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
-  @Column('timestamp', {
-    name: 'updatedAt',
+  @Column({
+    type: 'datetime',
     default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 
-  @Column('timestamp', { name: 'deletedAt', nullable: true })
+  @Column({
+    type: 'datetime',
+    nullable: true,
+  })
   deletedAt: Date | null;
 
   @ManyToOne(() => Movie, (movie) => movie.reviews)

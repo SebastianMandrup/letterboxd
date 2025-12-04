@@ -29,5 +29,5 @@ This project seeks to explore:
 The problem statement can be summarized as follows:
 "How can a development environment be designed and implemented to ensure software quality, maintainability, and reliable delivery for a letterboxd-style web application?"
 
-And furthermore:
-"Which methods and architectural decisions most effectively support these goals?"
+And more specifically:
+"How can you set up a workflow around git to support these goals?"

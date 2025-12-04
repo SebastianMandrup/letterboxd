@@ -1,9 +1,9 @@
 export default (username: string): string => {
-  const sanitizedUsername = username?.trim();
-
-  if (!sanitizedUsername || typeof sanitizedUsername !== 'string') {
+  if (!username || typeof username !== 'string') {
     throw new Error('Username is required and must be a string.');
   }
+
+  const sanitizedUsername = username.trim();
 
   if (sanitizedUsername.length < 3) {
     throw new Error('Username must be at least 3 characters long.');

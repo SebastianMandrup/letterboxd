@@ -1,4 +1,4 @@
-import { AppDataSource } from '../data-source';
+import { AppDataSource } from '../startup/data-source';
 import { Request } from 'express';
 import { Review } from '../entities/Review';
 import { SelectQueryBuilder } from 'typeorm';

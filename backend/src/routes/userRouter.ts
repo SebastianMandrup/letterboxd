@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { AppDataSource } from '../data-source';
+import { AppDataSource } from '../startup/data-source';
 import { User } from '../entities/User';
 import type Response from '../DTO/Response';
 import { validateUserCreation } from '../middleware/userValidation';
