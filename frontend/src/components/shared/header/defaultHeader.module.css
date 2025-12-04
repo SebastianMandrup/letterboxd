@@ -23,6 +23,7 @@
 
           &:hover {
             color: var(--lightGrey);
+            cursor: pointer;
           }
         }
       }

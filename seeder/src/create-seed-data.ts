@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 import fs from 'fs';
 import path from 'path';
-import type TmdbMovie from './TmdbMovie.interface';
+import type TmdbMovie from './types/TmdbMovie';
 import { fileURLToPath } from 'url';
 
 // ---------------- ESM __dirname fix ----------------
@@ -84,6 +84,11 @@ const movies = moviesData.map((movie, index) => {
 
   return {
     id: index + 1,
+    slug: movie.title
+      .toLowerCase()
+      .replace(/[^a-z0-9 -]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-'),
     title: movie.title,
     originalTitle: movie.original_title,
     adult: movie.adult,

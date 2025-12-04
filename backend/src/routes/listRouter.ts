@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getLists } from '../services/lists/listService';
+import { getLists } from '../services/listService';
 import buildPaginatedResponse from './helper/buildPaginatedResponse';
 
 const listRouter = Router();

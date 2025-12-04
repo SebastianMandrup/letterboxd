@@ -7,6 +7,11 @@ const SectionFeaturedMovies = () => {
   const { data, error, isLoading } = useMovies({
     params: { featured: true },
   });
+
+  if (data) {
+    console.log('Featured movies data:', data);
+  }
+
   return (
     <section id={styles.sectionFeaturedMovies}>
       {isLoading && <p>Loading...</p>}
@@ -17,8 +22,8 @@ const SectionFeaturedMovies = () => {
           key={index}
           src={getMediumPoster(movie.posterUrl)}
           alt={`post of ${movie.title}`}
-          viewCount={5000} // Placeholder
-          likeCount={1000} // Placeholder
+          viewCount={movie.viewCount ?? 0}
+          likeCount={movie.likeCount ?? 0}
         />
       ))}
     </section>

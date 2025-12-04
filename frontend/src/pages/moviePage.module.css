@@ -8,6 +8,7 @@
   position: relative;
   overflow: hidden;
   background-color: rgba(20, 24, 28, 0.9);
+  min-height: 30vh;
 }
 
 .sectionPoster {

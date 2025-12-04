@@ -46,15 +46,21 @@ const getMoviesQueryBuilder = async (req: Request) => {
   return queryBuilder;
 };
 
-export const getMovieByTitle = async (title: string) => {
+export const getMovieBySlug = async (slug: string) => {
   return await movieRepository
     .createQueryBuilder('cmovie')
-    .where('cmovie.title = :title', { title })
+    .where('cmovie.slug = :slug', { slug })
     .leftJoinAndSelect('cmovie.reviews', 'review')
+    .loadRelationCountAndMap('review.likeCount', 'review.likes')
     .leftJoinAndSelect('review.movie', 'movie')
     .leftJoin('review.author', 'author')
     .addSelect(['author.id', 'author.username'])
     .leftJoinAndSelect('cmovie.lists', 'list')
+    .loadRelationCountAndMap('list.likeCount', 'list.likes')
+    .loadRelationCountAndMap('list.commentCount', 'list.comments')
+    .leftJoinAndSelect('list.movies', 'movies')
+    .leftJoin('list.user', 'user')
+    .addSelect(['user.id', 'user.username'])
     .getOne();
 };
 
@@ -78,10 +84,6 @@ export const getMovies = async (req: Request) => {
     console.error('Error fetching movies:', error);
     return { movies: [], total: 0 };
   }
-};
-
-export const getMovieByName = async (name: string) => {
-  return await movieRepository.findOne({ where: { title: name } });
 };
 
 export const deleteMovieById = async (movieId: number) => {
