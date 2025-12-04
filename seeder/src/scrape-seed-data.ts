@@ -1,35 +1,36 @@
 import 'dotenv/config';
 import fs from 'fs';
-import type TmdbMovie from './TmdbMovie.interface';
-import TmdbResponse from './TmdbResponse.interface';
+import type TmdbMovie from './types/TmdbMovie';
+import TmdbResponse from './types/TmdbResponse';
 
-// protip: to throw an error turn off wi-fi
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const fetchMovies = async () => {
+// turning off your wifi is pretty effective
+// thrown error will write partial data to file
+async function fetchMoviesAsync() {
   const allMovies: TmdbMovie[] = [];
   const currentYear = new Date().getFullYear();
-  const startYear = 1900; // adjust as needed
+  const lastYear = 2020;
   const years = Array.from(
-    { length: currentYear - startYear + 1 },
+    { length: currentYear - lastYear + 1 },
     (_, i) => currentYear - i,
   );
 
   try {
     for (const year of years) {
-      console.log(`Fetching movies for year: ${year}`);
       let page = 1;
       let totalPages = 1;
 
+      // tmdb only allows fetching up to page 500 per endpoint
       while (page <= totalPages && page <= 500) {
-        await delay(250); // rate limiting
+        // avoid rate limiting
+        await new Promise((resolve) => setTimeout(resolve, 250));
+
         const response = await fetch(
           `https://api.themoviedb.org/3/discover/movie?primary_release_year=${year}&page=${page}`,
           {
             headers: { Authorization: `Bearer ${process.env.TMDB_API_KEY}` },
           },
         );
+
         const data: TmdbResponse = await response.json();
         allMovies.push(...data.results);
 
@@ -42,6 +43,7 @@ const fetchMovies = async () => {
     }
 
     console.log(`Total movies fetched: ${allMovies.length}`);
+    console.log('Writing data to scraped-data.json');
     fs.writeFileSync(
       '../data/scraped-data.json',
       JSON.stringify(allMovies, null, 2),
@@ -49,11 +51,12 @@ const fetchMovies = async () => {
   } catch (error) {
     console.error('Error fetching movies:', error);
     console.log(`Total movies fetched so far: ${allMovies.length}`);
+    console.log('Writing partial data to scraped-data.json');
     fs.writeFileSync(
       '../data/scraped-data.json',
       JSON.stringify(allMovies, null, 2),
     );
   }
-};
+}
 
-fetchMovies();
+fetchMoviesAsync();

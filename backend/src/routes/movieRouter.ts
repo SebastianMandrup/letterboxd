@@ -1,11 +1,10 @@
 import { Router } from 'express';
 import {
   deleteMovieById,
-  getMovieByTitle,
+  getMovieBySlug,
   getMovies,
 } from '../services/movies/movieService';
 import buildPaginatedResponse from './helper/buildPaginatedResponse';
-import validateMovieTitle from '../middleware/validation/validateMovieTitle';
 
 const movieRouter = Router();
 
@@ -20,25 +19,21 @@ movieRouter.get('/', async (req, res) => {
   }
 });
 
-movieRouter.get('/:title', async (req, res) => {
-  let title = req.params.title;
+movieRouter.get('/:slug', async (req, res) => {
+  const slug = req.params.slug;
 
   try {
-    title = validateMovieTitle(title);
-
-    const movie = await getMovieByTitle(title);
-
-    console.log(`Fetched movie:`, movie);
+    const movie = await getMovieBySlug(slug);
 
     if (!movie) {
       return res
         .status(404)
-        .send({ error: `Movie with title ${title} not found.` });
+        .send({ error: `Movie with slug ${slug} not found.` });
     }
 
     res.status(200).send(movie);
   } catch (error) {
-    console.error(`Error fetching movie with title ${title}:`, error);
+    console.error(`Error fetching movie with slug ${slug}:`, error);
     res.status(500).send({ error: 'Internal server error' });
   }
 });

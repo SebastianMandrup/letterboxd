@@ -1,4 +1,4 @@
-import TmdbMovie from './TmdbMovie.interface';
+import TmdbMovie from './TmdbMovie';
 
 export default interface TmdbResponse {
   page: number;

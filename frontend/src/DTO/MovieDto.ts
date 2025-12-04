@@ -1,7 +1,7 @@
 import type ListDto from './ListDto';
 import type ReviewDto from './ReviewDto';
 
-export default interface Movie {
+export default interface MovieDto {
   id: number;
   title: string;
   originalTitle?: string | null;
@@ -14,6 +14,8 @@ export default interface Movie {
   releaseDate?: string | Date;
   voteAverage?: number | null;
   voteCount?: number | null;
+  likeCount?: number | null;
+  viewCount?: number | null;
 
   reviews: ReviewDto[];
   lists: ListDto[];

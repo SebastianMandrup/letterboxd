@@ -7,9 +7,12 @@ import styles from './moviePage.module.css';
 import ListCardWithDescription from '../components/shared/listCard/ListCardWithDescription';
 import useMovieByTitle from '../hooks/useMovieByTitle';
 import ReviewCardContent from '../components/shared/reviewCard/ReviewCardContent';
+import { useUserStore } from '../stores/useUserStore';
 
 function MoviePage() {
   const title = useParams().title || '';
+
+  const { isAuthenticated } = useUserStore();
 
   const { data: movie, error, isLoading } = useMovieByTitle(title);
 
@@ -53,10 +56,21 @@ function MoviePage() {
             </section>
             <section className={styles.sectionRight}>
               <div className={styles.divButtonsMoviePage}>
-                <button className={styles.buttonLogRateReview}>
-                  Sign in to log, rate or review
-                </button>
-                <button className={styles.buttonShareMovie}>Share</button>
+                {!isAuthenticated() ? (
+                  <>
+                    <button className={styles.buttonLogRateReview}>
+                      Sign in to log, rate or review
+                    </button>
+                    <button className={styles.buttonShareMovie}>Share</button>
+                  </>
+                ) : (
+                  <>
+                    <button className={styles.buttonLogRateReview}>
+                      Log, Rate, Review
+                    </button>
+                    <button className={styles.buttonShareMovie}>Share</button>
+                  </>
+                )}
               </div>
             </section>
           </section>

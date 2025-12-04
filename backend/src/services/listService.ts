@@ -1,6 +1,6 @@
 import { SelectQueryBuilder } from 'typeorm';
-import { AppDataSource } from '../../data-source';
-import { List } from '../../entities/List';
+import { AppDataSource } from '../data-source';
+import { List } from '../entities/List';
 import { Request } from 'express';
 
 const listRepository = AppDataSource.getRepository(List);

@@ -19,6 +19,10 @@ export class Movie {
   id: number;
 
   @Index()
+  @Column('varchar', { name: 'slug', length: 255 })
+  slug: string;
+
+  @Index()
   @Column('varchar', { name: 'title', length: 255 })
   title: string;
 
