@@ -1,5 +1,5 @@
 import { SelectQueryBuilder } from 'typeorm';
-import { AppDataSource } from '../data-source';
+import { AppDataSource } from '../startup/data-source';
 import { List } from '../entities/List';
 import { Request } from 'express';
 
@@ -37,7 +37,7 @@ const addSorting = (qb: SelectQueryBuilder<List>, sortBy?: string) => {
   } else if (sortBy === 'recentlyLiked') {
     qb.addSelect((subQuery) => {
       return subQuery
-        .select('MAX(like.created_at)')
+        .select('MAX(like.createdAt)')
         .from('list_likes', 'like')
         .where('like.listId = list.id');
     }, 'recentLikeDate').orderBy('recentLikeDate', 'DESC');

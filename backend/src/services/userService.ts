@@ -1,5 +1,5 @@
 import { SelectQueryBuilder } from 'typeorm';
-import { AppDataSource } from '../data-source';
+import { AppDataSource } from '../startup/data-source';
 import { User } from '../entities/User';
 import { Request } from 'express';
 

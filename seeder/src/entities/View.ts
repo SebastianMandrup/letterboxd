@@ -17,7 +17,10 @@ export class View {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('timestamp', { name: 'viewedAt', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   viewedAt: Date;
 
   @ManyToOne(() => Movie, (movie) => movie.views)

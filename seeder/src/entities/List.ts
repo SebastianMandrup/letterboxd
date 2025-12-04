@@ -26,8 +26,8 @@ export class List {
   @Column('text', { name: 'description', nullable: true })
   description: string;
 
-  @Column('datetime', {
-    name: 'created_at',
+  @Column({
+    type: 'datetime',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;

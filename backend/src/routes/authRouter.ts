@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Router } from 'express';
 import 'express-session';
-import { AppDataSource } from '../data-source';
+import { AppDataSource } from '../startup/data-source';
 import { User } from '../entities/User';
 import { requireAuth } from '../middleware/requireAuth';
 

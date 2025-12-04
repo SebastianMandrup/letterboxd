@@ -1,4 +1,4 @@
-import { AppDataSource } from '../../data-source';
+import { AppDataSource } from '../../startup/data-source';
 import { Movie } from '../../entities/Movie';
 import addFeaturedFilter from './addFeaturedFilter';
 import addPopularThisWeekFilter from './addPopularThisWeekFilter';

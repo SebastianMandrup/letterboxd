@@ -17,7 +17,10 @@ export class Comment {
   @Column('varchar', { name: 'content', length: 255 })
   content: string;
 
-  @Column('datetime', { name: 'created_at' })
+  @Column({
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
   @ManyToOne(() => User, (user) => user.comments)

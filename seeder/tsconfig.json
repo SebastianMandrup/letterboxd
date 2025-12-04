@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "es2020",
     "module": "ESNext",
     "moduleResolution": "Node",
     "experimentalDecorators": true,
@@ -13,5 +13,9 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   }
 }
