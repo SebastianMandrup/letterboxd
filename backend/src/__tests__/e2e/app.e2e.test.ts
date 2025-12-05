@@ -44,24 +44,24 @@ jest.mock('bcrypt', () => ({
 
 // Mock movie service
 jest.mock('../../services/movies/movieService', () => ({
-    getMovies: jest.fn((...args) => mockGetMovies(...args)),
-    getMovieBySlug: jest.fn((...args) => mockGetMovieBySlug(...args)),
-    deleteMovieById: jest.fn((...args) => mockDeleteMovieById(...args)),
+    getMovies: mockGetMovies,
+    getMovieBySlug: mockGetMovieBySlug,
+    deleteMovieById: mockDeleteMovieById,
 }));
 
 // Mock review service
 jest.mock('../../services/reviewService', () => ({
-    getReviews: jest.fn((...args) => mockGetReviews(...args)),
+    getReviews: mockGetReviews,
 }));
 
 // Mock list service
 jest.mock('../../services/listService', () => ({
-    getLists: jest.fn((...args) => mockGetLists(...args)),
+    getLists: mockGetLists,
 }));
 
 // Mock user service
 jest.mock('../../services/userService', () => ({
-    getUsers: jest.fn((...args) => mockGetUsers(...args)),
+    getUsers: mockGetUsers,
 }));
 
 // Import routers after mocks
