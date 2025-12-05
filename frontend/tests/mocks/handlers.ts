@@ -1,11 +1,10 @@
 import { http, HttpResponse } from 'msw';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
-
+// Use wildcard pattern to match any API URL
 // Default mock handlers for API endpoints
 export const handlers = [
   // Auth endpoints
-  http.post(`${API_URL}/auth/login`, () => {
+  http.post('*/auth/login', () => {
     return HttpResponse.json({
       message: 'Logged in successfully',
       user: {
@@ -16,13 +15,13 @@ export const handlers = [
     });
   }),
 
-  http.post(`${API_URL}/auth/logout`, () => {
+  http.post('*/auth/logout', () => {
     return HttpResponse.json({
       message: 'Logged out successfully',
     });
   }),
 
-  http.get(`${API_URL}/auth/me`, () => {
+  http.get('*/auth/me', () => {
     return HttpResponse.json({
       id: 1,
       username: 'testuser',
@@ -31,7 +30,7 @@ export const handlers = [
   }),
 
   // Movies endpoints
-  http.get(`${API_URL}/movies`, () => {
+  http.get('*/movies', () => {
     return HttpResponse.json({
       count: 2,
       next: null,
@@ -56,7 +55,7 @@ export const handlers = [
   }),
 
   // Users endpoints
-  http.get(`${API_URL}/users`, () => {
+  http.get('*/users', () => {
     return HttpResponse.json({
       count: 1,
       next: null,
@@ -72,7 +71,7 @@ export const handlers = [
   }),
 
   // Reviews endpoints
-  http.get(`${API_URL}/reviews`, () => {
+  http.get('*/reviews', () => {
     return HttpResponse.json({
       count: 1,
       next: null,
