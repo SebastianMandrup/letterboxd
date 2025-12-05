@@ -4,7 +4,7 @@ name: Push @ Main
 on:
   push:
     branches:
-      - Main
+      - main
 
 jobs:
 
