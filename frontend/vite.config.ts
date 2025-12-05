@@ -22,5 +22,11 @@ export default defineConfig({
     passWithNoTests: false,
     testTimeout: 30000,
     hookTimeout: 10000,
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        singleThread: true,
+      },
+    },
   }
 })
