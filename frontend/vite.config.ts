@@ -18,17 +18,9 @@ export default defineConfig({
     setupFiles: './vitest.setup.ts',
     exclude: ['tests/integration/**/*.ts', 'node_modules/**'],
     watch: false,
-    isolate: false,
-    passWithNoTests: false,
     testTimeout: 30000,
     hookTimeout: 10000,
-    pool: 'forks',
-    poolOptions: {
-      forks: {
-        singleFork: true,
-      },
-    },
-    silent: false,
-    hideSkippedTests: true,
+    passWithNoTests: false,
+    cache: false,
   }
 })
