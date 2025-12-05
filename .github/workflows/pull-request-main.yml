@@ -1,4 +1,4 @@
-name: Pull Request @ Main (CI/CD)
+name: Pull Request @ Main
 
 on:
   pull_request:
