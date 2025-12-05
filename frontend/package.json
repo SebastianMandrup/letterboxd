@@ -11,7 +11,7 @@
     "prettier": "prettier --check 'src/**/*.{ts,tsx,js,jsx,json,css,scss,md}'",
     "prettier:fix": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,scss,md}'",
     "preview": "vite preview",
-    "test": "vitest run --no-watch --exclude 'tests/integration/**/*.ts'",
+    "test": "vitest run --run --no-watch --exclude 'tests/integration/**/*.ts'",
     "test:integration": "vitest --config vitest.integration.config.ts"
   },
   "dependencies": {
