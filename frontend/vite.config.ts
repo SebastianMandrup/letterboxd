@@ -22,11 +22,13 @@ export default defineConfig({
     passWithNoTests: false,
     testTimeout: 30000,
     hookTimeout: 10000,
-    pool: 'threads',
+    pool: 'forks',
     poolOptions: {
-      threads: {
-        singleThread: true,
+      forks: {
+        singleFork: true,
       },
     },
+    silent: false,
+    hideSkippedTests: true,
   }
 })
