@@ -10,7 +10,6 @@ on:
 jobs:
 
   docker-build-frontend:
-    needs: integration-tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -35,7 +34,6 @@ jobs:
         run: docker push ghcr.io/sebastianmandrup/letterboxd-frontend:latest
 
   docker-build-backend:
-    needs: integration-tests
     runs-on: ubuntu-latest
     defaults:
       run:
