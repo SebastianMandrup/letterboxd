@@ -28,8 +28,9 @@ const init = (app: express.Application) => {
         }),
     );
 
-    app.use(csurf())
+    app.use(csurf());
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
         if (err.code === 'EBADCSRFTOKEN') {
             res.status(403).json({ message: 'Invalid CSRF token' });
@@ -37,11 +38,10 @@ const init = (app: express.Application) => {
             next(err);
         }
     });
-    
+
     dbConnection(); // Initialize database connection
 
     setupRouters(app);
-
 
     app.use(errorHandler);
     app.use(notFoundHandler);
