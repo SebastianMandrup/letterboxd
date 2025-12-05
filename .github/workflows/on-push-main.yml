@@ -1,0 +1,61 @@
+name: Push @ Main
+
+on:
+  push:
+    branches:
+      - Main
+    paths:
+      - ".github/workflows/on-push-main.yml"
+
+jobs:
+
+  docker-build-frontend:
+    needs: integration-tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Docker Image
+        run: |
+          docker build \
+          -t ghcr.io/sebastianmandrup/letterboxd-frontend:${{ github.sha }} \
+          -t ghcr.io/sebastianmandrup/letterboxd-frontend:latest \
+          .
+
+      - name: Push Docker Image (sha)
+        run: docker push ghcr.io/sebastianmandrup/letterboxd-frontend:${{ github.sha }}
+
+      - name: Push Docker Image (latest)
+        run: docker push ghcr.io/sebastianmandrup/letterboxd-frontend:latest
+
+  docker-build-backend:
+    needs: integration-tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Docker Image
+        run: |
+          docker build \
+          -t ghcr.io/sebastianmandrup/letterboxd-backend:${{ github.sha }} \
+          -t ghcr.io/sebastianmandrup/letterboxd-backend:latest \
+          .
+
+      - name: Push Docker Image (sha)
+        run: docker push ghcr.io/sebastianmandrup/letterboxd-backend:${{ github.sha }}
+
+      - name: Push Docker Image (latest)
+        run: docker push ghcr.io/sebastianmandrup/letterboxd-backend:latest
+

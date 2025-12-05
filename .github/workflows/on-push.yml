@@ -5,6 +5,7 @@ on:
     paths:
       - "backend/**"
       - "frontend/**"
+      - "seeder/**"
       - ".github/workflows/on-push.yml"
     branches-ignore:
       - main
