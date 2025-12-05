@@ -1,31 +1,26 @@
-name: CI
+name: Pull Request @ Main (CI/CD)
 
 on:
-
-# todo: rethink the workflow
-  # push:
-  #   branches:
-  #     - main
-  push:
-    paths:
-      - "backend/**"
-      - "frontend/**"
-      - ".github/workflows/ci.yml"
-      - "docker-compose.integration.yml"     
   pull_request:
+    branches:
+      - main
     paths:
       - "backend/**"
       - "frontend/**"
-      - ".github/workflows/ci.yml"
+      - "seeder/**"
+      - ".github/workflows/pull-request-main.yml"
       - "docker-compose.integration.yml"
 
 jobs:
 
   static-tests:
+
     runs-on: ubuntu-latest
+    
     defaults:
       run:
         working-directory: ./
+
     steps:
       - uses: actions/checkout@v3
 
@@ -33,7 +28,19 @@ jobs:
         with:
           node-version: 18
 
-      - name: Cache Node modules
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters:
+            backend:
+              - 'backend/**'
+            frontend:
+              - 'frontend/**'
+            seeder:
+              - 'seeder/**'
+
+      # install root dependencies
+      - name: Cache Root Node modules
         uses: actions/cache@v3
         with:
           path: ~/.npm
@@ -44,10 +51,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run ESLint & Prettier checks
-        run: npm run lint:all
+      # format command runs prettier and lint
+      - name: Format Backend
+        if: ${{ steps.filter.outputs.backend == 'true' }}
+        run: npm run format:backend
 
+      - name: Format Frontend
+        if: ${{ steps.filter.outputs.frontend == 'true' }}
+        run: npm run format:frontend
+
+      - name: Format Seeder
+        if: ${{ steps.filter.outputs.seeder == 'true' }}
+        run: npm run format:seeder
+
+      # backend unit tests
       - name: Cache Backend modules
+        if: ${{ steps.filter.outputs.backend == 'true' }}
         uses: actions/cache@v3
         with:
           path: backend/node_modules
@@ -56,12 +75,16 @@ jobs:
             ${{ runner.os }}-backend-node-
 
       - name: Install backend dependencies
+        if: ${{ steps.filter.outputs.backend == 'true' }}
         run: cd backend && npm ci
 
       - name: Run Backend Unit Tests
+        if: ${{ steps.filter.outputs.backend == 'true' }}
         run: cd backend && npm test
 
+      # frontend unit tests
       - name: Cache Frontend modules
+        if: ${{ steps.filter.outputs.frontend == 'true' }}
         uses: actions/cache@v3
         with:
           path: frontend/node_modules
@@ -70,12 +93,15 @@ jobs:
             ${{ runner.os }}-frontend-node-
 
       - name: Install frontend dependencies
+        if: ${{ steps.filter.outputs.frontend == 'true' }}
         run: cd frontend && npm ci
 
       - name: Run Unit Tests
+        if: ${{ steps.filter.outputs.frontend == 'true' }}
         run: cd frontend && npm test
 
   integration-tests:
+    needs: static-tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -108,7 +134,10 @@ jobs:
       - name: Tear down containers
         run: docker-compose -f docker-compose.integration.yml down
 
+
   docker-build-frontend:
+    needs: integration-tests
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -133,6 +162,8 @@ jobs:
         run: docker push ghcr.io/sebastianmandrup/letterboxd-frontend:latest
 
   docker-build-backend:
+    needs: integration-tests
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -155,3 +186,4 @@ jobs:
 
       - name: Push Docker Image (latest)
         run: docker push ghcr.io/sebastianmandrup/letterboxd-backend:latest
+
