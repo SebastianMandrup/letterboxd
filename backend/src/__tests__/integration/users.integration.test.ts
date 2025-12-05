@@ -131,11 +131,12 @@ describe('Integration Tests - Users', () => {
 
         it('should handle pagination for users', async () => {
             // Create multiple users
+            const hashedPassword = await bcrypt.hash('password', 10);
             const users = Array.from({ length: 15 }, (_, i) =>
                 userRepository.create({
                     username: `user${i + 1}`,
                     email: `user${i + 1}@example.com`,
-                    password: 'hashed',
+                    password: hashedPassword,
                     role: 'user',
                 }),
             );
