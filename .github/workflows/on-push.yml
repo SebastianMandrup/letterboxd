@@ -6,8 +6,8 @@ on:
       - "backend/**"
       - "frontend/**"
       - ".github/workflows/on-push.yml"
-    # branches-ignore:
-    #   - main
+    branches-ignore:
+      - main
 
 jobs:
 

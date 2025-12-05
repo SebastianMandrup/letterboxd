@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "prepare": "husky install",
-    "format:all": "npm run lint:frontend && npm run lint:backend && npm run lint:seeder",
+    "format:all": "npm run format:frontend && npm run format:backend && npm run format:seeder",
     "format:frontend": "eslint --fix frontend/src --ext .ts,.tsx,.js,.jsx && prettier --write frontend/src",
     "format:backend": "eslint --fix backend/src --ext .ts,.js && prettier --write backend/src",
     "format:seeder": "eslint --fix seeder/src --ext .ts,.js && prettier --write seeder/src"

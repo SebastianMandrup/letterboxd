@@ -4,7 +4,7 @@ import init from './startup/init';
 const app = express();
 
 app.get('/', (req, res) => {
-    res.send('Hello, World!');
+    res.send('Hello, World - MUO');
 });
 
 init(app);
