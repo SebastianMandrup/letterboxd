@@ -1,4 +1,5 @@
 name: Push @ Main
+# builds docker images
 
 on:
   push:
