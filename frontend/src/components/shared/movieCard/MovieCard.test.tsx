@@ -36,11 +36,11 @@ describe('MovieCard', () => {
     it('should navigate to movie page on click', async () => {
         const user = userEvent.setup();
 
-        // Mock location.href
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        delete (window as any).location;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        window.location = { href: '' } as any;
+        // Mock location.href using Object.defineProperty for better type safety
+        Object.defineProperty(window, 'location', {
+            writable: true,
+            value: { href: '' },
+        });
 
         render(<MovieCard {...mockProps} />);
 
@@ -54,10 +54,11 @@ describe('MovieCard', () => {
     it('should create correct slug from title with special characters', async () => {
         const user = userEvent.setup();
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        delete (window as any).location;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        window.location = { href: '' } as any;
+        // Mock location.href using Object.defineProperty
+        Object.defineProperty(window, 'location', {
+            writable: true,
+            value: { href: '' },
+        });
 
         render(<MovieCard title="The Movie: A Special Edition!" src="/test.jpg" alt="Test" />);
 
