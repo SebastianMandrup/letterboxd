@@ -5,8 +5,6 @@ on:
   push:
     branches:
       - Main
-    paths:
-      - ".github/workflows/on-push-main.yml"
 
 jobs:
 
