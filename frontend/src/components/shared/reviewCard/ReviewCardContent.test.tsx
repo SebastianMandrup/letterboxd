@@ -5,142 +5,142 @@ import { createMockReview } from '../../../../tests/mocks/mockData';
 import { useUserStore } from '../../../stores/useUserStore';
 
 describe('ReviewCardContent', () => {
-  beforeEach(() => {
-    // Reset user store before each test
-    useUserStore.setState({ user: null });
-  });
-
-  it('should render movie title with link', () => {
-    const mockReview = createMockReview({
-      movie: {
-        id: 1,
-        title: 'Test Movie',
-        posterUrl: '/poster.jpg',
-        releaseDate: '2024-01-01',
-      },
+    beforeEach(() => {
+        // Reset user store before each test
+        useUserStore.setState({ user: null });
     });
 
-    render(<ReviewCardContent review={mockReview} />);
+    it('should render movie title with link', () => {
+        const mockReview = createMockReview({
+            movie: {
+                id: 1,
+                title: 'Test Movie',
+                posterUrl: '/poster.jpg',
+                releaseDate: '2024-01-01',
+            },
+        });
 
-    const movieLink = screen.getByRole('link', { name: 'Test Movie' });
-    expect(movieLink).toBeInTheDocument();
-    expect(movieLink).toHaveAttribute('href', '/movie/test-movie');
-  });
+        render(<ReviewCardContent review={mockReview} />);
 
-  it('should render release year', () => {
-    const mockReview = createMockReview({
-      movie: {
-        id: 1,
-        title: 'Test Movie',
-        posterUrl: '/poster.jpg',
-        releaseDate: '2024-06-15',
-      },
+        const movieLink = screen.getByRole('link', { name: 'Test Movie' });
+        expect(movieLink).toBeInTheDocument();
+        expect(movieLink).toHaveAttribute('href', '/movie/test-movie');
     });
 
-    render(<ReviewCardContent review={mockReview} />);
+    it('should render release year', () => {
+        const mockReview = createMockReview({
+            movie: {
+                id: 1,
+                title: 'Test Movie',
+                posterUrl: '/poster.jpg',
+                releaseDate: '2024-06-15',
+            },
+        });
 
-    expect(screen.getByText('2024')).toBeInTheDocument();
-  });
+        render(<ReviewCardContent review={mockReview} />);
 
-  it('should render author information', () => {
-    const mockReview = createMockReview({
-      author: {
-        id: 1,
-        username: 'testuser',
-      },
+        expect(screen.getByText('2024')).toBeInTheDocument();
     });
 
-    render(<ReviewCardContent review={mockReview} />);
+    it('should render author information', () => {
+        const mockReview = createMockReview({
+            author: {
+                id: 1,
+                username: 'testuser',
+            },
+        });
 
-    const authorLink = screen.getByRole('link', { name: 'testuser' });
-    expect(authorLink).toBeInTheDocument();
-    expect(authorLink).toHaveAttribute('href', '/user/testuser');
+        render(<ReviewCardContent review={mockReview} />);
 
-    const avatar = screen.getByRole('img', { name: "testuser's avatar" });
-    expect(avatar).toBeInTheDocument();
-  });
+        const authorLink = screen.getByRole('link', { name: 'testuser' });
+        expect(authorLink).toBeInTheDocument();
+        expect(authorLink).toHaveAttribute('href', '/user/testuser');
 
-  it('should render star rating', () => {
-    const mockReview = createMockReview({
-      rating: 5,
+        const avatar = screen.getByRole('img', { name: "testuser's avatar" });
+        expect(avatar).toBeInTheDocument();
     });
 
-    render(<ReviewCardContent review={mockReview} />);
+    it('should render star rating', () => {
+        const mockReview = createMockReview({
+            rating: 5,
+        });
 
-    const stars = screen.getAllByText('★');
-    expect(stars).toHaveLength(5);
-  });
+        render(<ReviewCardContent review={mockReview} />);
 
-  it('should render correct number of stars for rating', () => {
-    const mockReview = createMockReview({
-      rating: 3,
+        const stars = screen.getAllByText('★');
+        expect(stars).toHaveLength(5);
     });
 
-    render(<ReviewCardContent review={mockReview} />);
+    it('should render correct number of stars for rating', () => {
+        const mockReview = createMockReview({
+            rating: 3,
+        });
 
-    const stars = screen.getAllByText('★');
-    expect(stars).toHaveLength(3);
-  });
+        render(<ReviewCardContent review={mockReview} />);
 
-  it('should render review text', () => {
-    const mockReview = createMockReview({
-      review: 'This is an amazing movie!',
+        const stars = screen.getAllByText('★');
+        expect(stars).toHaveLength(3);
     });
 
-    render(<ReviewCardContent review={mockReview} />);
+    it('should render review text', () => {
+        const mockReview = createMockReview({
+            review: 'This is an amazing movie!',
+        });
 
-    expect(screen.getByText('This is an amazing movie!')).toBeInTheDocument();
-  });
+        render(<ReviewCardContent review={mockReview} />);
 
-  it('should render like count', () => {
-    const mockReview = createMockReview({
-      likeCount: 42,
+        expect(screen.getByText('This is an amazing movie!')).toBeInTheDocument();
     });
 
-    render(<ReviewCardContent review={mockReview} />);
+    it('should render like count', () => {
+        const mockReview = createMockReview({
+            likeCount: 42,
+        });
 
-    expect(screen.getByText('42 likes')).toBeInTheDocument();
-  });
+        render(<ReviewCardContent review={mockReview} />);
 
-  it('should show like button when user is authenticated', () => {
-    // Set authenticated user
-    useUserStore.setState({
-      user: {
-        id: 1,
-        username: 'testuser',
-        email: 'test@example.com',
-        role: 'user',
-        numberOfReviews: 0,
-        numberOfWatchedFilms: 0,
-        reviewLikeCount: 0,
-      },
+        expect(screen.getByText('42 likes')).toBeInTheDocument();
     });
 
-    const mockReview = createMockReview();
+    it('should show like button when user is authenticated', () => {
+        // Set authenticated user
+        useUserStore.setState({
+            user: {
+                id: 1,
+                username: 'testuser',
+                email: 'test@example.com',
+                role: 'user',
+                numberOfReviews: 0,
+                numberOfWatchedFilms: 0,
+                reviewLikeCount: 0,
+            },
+        });
 
-    render(<ReviewCardContent review={mockReview} />);
+        const mockReview = createMockReview();
 
-    const likeButton = screen.getByRole('button', { name: /like review/i });
-    expect(likeButton).toBeInTheDocument();
-  });
+        render(<ReviewCardContent review={mockReview} />);
 
-  it('should not show like button when user is not authenticated', () => {
-    const mockReview = createMockReview();
-
-    render(<ReviewCardContent review={mockReview} />);
-
-    const likeButton = screen.queryByRole('button', { name: /like review/i });
-    expect(likeButton).not.toBeInTheDocument();
-  });
-
-  it('should handle half star ratings by rounding', () => {
-    const mockReview = createMockReview({
-      rating: 3.6,
+        const likeButton = screen.getByRole('button', { name: /like review/i });
+        expect(likeButton).toBeInTheDocument();
     });
 
-    render(<ReviewCardContent review={mockReview} />);
+    it('should not show like button when user is not authenticated', () => {
+        const mockReview = createMockReview();
 
-    const stars = screen.getAllByText('★');
-    expect(stars).toHaveLength(4); // 3.6 rounds to 4
-  });
+        render(<ReviewCardContent review={mockReview} />);
+
+        const likeButton = screen.queryByRole('button', { name: /like review/i });
+        expect(likeButton).not.toBeInTheDocument();
+    });
+
+    it('should handle half star ratings by rounding', () => {
+        const mockReview = createMockReview({
+            rating: 3.6,
+        });
+
+        render(<ReviewCardContent review={mockReview} />);
+
+        const stars = screen.getAllByText('★');
+        expect(stars).toHaveLength(4); // 3.6 rounds to 4
+    });
 });

@@ -12,8 +12,8 @@ beforeAll(() => server.listen({ onUnhandledRequest: 'warn' }));
 
 // Reset handlers after each test
 afterEach(() => {
-  server.resetHandlers();
-  cleanup();
+    server.resetHandlers();
+    cleanup();
 });
 
 // Close server after all tests
