@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import MovieCard from './MovieCard';
 
@@ -11,7 +11,9 @@ describe('MovieCard', () => {
 
     beforeEach(() => {
         // Mock location.href
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         delete (window as any).location;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         window.location = { href: '' } as any;
     });
 
