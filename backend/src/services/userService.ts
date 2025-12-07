@@ -27,13 +27,6 @@ const addReviewLikeCount = (queryBuilder: SelectQueryBuilder<User>) => {
         .groupBy('user.id');
 };
 
-// const addRecentlyReviewedMovies = (queryBuilder: SelectQueryBuilder<User>) => {
-//   queryBuilder
-//     .leftJoinAndSelect('user.reviews', 'recentReview', 'recentReview.createdAt >= NOW() - INTERVAL \'30 days\'')
-//     .leftJoinAndSelect('recentReview.movie', 'recentReviewedMovie')
-//     .limit(5);
-// };
-
 const addUserFilter = (queryBuilder: SelectQueryBuilder<User>, filterBy: string) => {
     if (filterBy === 'popularReviewers') {
         queryBuilder.orderBy('reviewLikeCount', 'DESC');
@@ -60,7 +53,6 @@ const getUserQueryBuilder = async (req: Request) => {
     addNumberOfReviews(queryBuilder);
     addNumberOfWatchedFilms(queryBuilder);
     addReviewLikeCount(queryBuilder);
-    // addRecentlyReviewedMovies(queryBuilder);
 
     const filterBy = req.query.filterBy ? String(req.query.filterBy) : undefined;
     if (filterBy) {
@@ -103,8 +95,27 @@ export const getUsers = async (req: Request) => {
     }
 };
 
-export const getUserByName = async (name: string) => {
-    return await userRepository.findOne({ where: { username: name } });
+export const getUserByUsername = async (username: string) => {
+    const queryBuilder = userRepository.createQueryBuilder('user');
+
+    queryBuilder
+        .select(['user.id', 'user.username', 'user.role'])
+        .leftJoinAndSelect('user.lists', 'list')
+        .leftJoin('list.user', 'listUser')
+        .addSelect(['listUser.id', 'listUser.username'])
+        .leftJoinAndSelect('list.movies', 'movie')
+        .leftJoinAndSelect('user.reviews', 'review')
+        .leftJoinAndSelect('review.movie', 'reviewMovie')
+        .leftJoinAndSelect('review.author', 'reviewAuthor')
+        .addSelect(['reviewAuthor.id', 'reviewAuthor.username'])
+        .leftJoinAndSelect('user.views', 'view')
+        .leftJoinAndSelect('view.movie', 'viewMovie')
+        .where('user.username = :username', { username })
+        .orderBy('list.createdAt', 'DESC')
+        .addOrderBy('review.createdAt', 'DESC')
+        .addOrderBy('view.viewedAt', 'DESC');
+
+    return queryBuilder.getOne();
 };
 
 export const deleteUserById = async (userId: number) => {

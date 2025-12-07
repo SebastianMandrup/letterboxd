@@ -1,12 +1,11 @@
 .sectionBackdrop {
     position: relative;
     width: var(--mainWidth);
-    min-height: 600px;
+    height: 460px;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: -20px;
 }
 
 .imgBackdrop {
@@ -14,6 +13,7 @@
     height: auto;
     object-fit: cover;
     position: relative;
+    filter: grayscale(30%) brightness(0.5);
 }
 
 .sectionBackdrop::before {
@@ -34,10 +34,10 @@
 /* Caption overlay */
 .spanOverlayCaption {
     position: absolute;
-    top: 35%;
+    top: 25%;
     right: 5%;
+    transform: rotate(-90deg);
     color: var(--darkerGrey);
     font-size: 0.8rem;
-    transform: rotate(-90deg);
     transform-origin: top right;
 }

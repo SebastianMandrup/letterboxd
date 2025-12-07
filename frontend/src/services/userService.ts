@@ -1,5 +1,3 @@
-import ApiClient from './apiClient';
-import type UserDto from '../DTO/UserDto';
-import type CreateUserDto from '../DTO/CreateUserDto';
+import { UserClient } from './UserClient';
 
-export default new ApiClient<UserDto, CreateUserDto>('/users');
+export default new UserClient();

@@ -2,7 +2,7 @@ import type ListDto from './ListDto';
 import type ReviewDto from './ReviewDto';
 import type ViewDto from './ViewDto';
 
-export default interface UserDto {
+export default interface PopulatedUserDto {
     id: number;
     username: string;
     role: string;
@@ -11,8 +11,4 @@ export default interface UserDto {
     lists: ListDto[];
     reviews: ReviewDto[];
     views: ViewDto[];
-
-    numberOfReviews: number;
-    numberOfWatchedFilms: number;
-    reviewLikeCount: number;
 }
