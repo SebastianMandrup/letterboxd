@@ -1,6 +1,6 @@
 .sectionBackdrop {
     position: relative;
-    width: var(--mainWidth);
+    /* width: var(--mainWidth); */
     height: 460px;
     overflow: hidden;
     display: flex;

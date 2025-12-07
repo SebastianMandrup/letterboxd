@@ -1,0 +1,44 @@
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.textarea {
+    width: 60%;
+    margin-left: auto;
+    min-height: 80px;
+    padding: 10px;
+    border: none;
+    background-color: var(--darkestGrey);
+    border-radius: 4px;
+    font-size: 14px;
+    resize: none;
+    color: var(--white);
+}
+
+.textarea:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--blue);
+    background-color: var(--white);
+    color: var(--black);
+}
+
+.button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: var(--green);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: var(--darkGreen);
+}

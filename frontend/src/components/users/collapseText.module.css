@@ -1,0 +1,7 @@
+.showMore {
+    font-size: inherit;
+    color: var(--lighterBlue);
+    cursor: pointer;
+    border: none;
+    background: none;
+}

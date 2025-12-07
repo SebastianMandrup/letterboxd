@@ -2,6 +2,7 @@
     --orange: #ff8000;
     --green: #01ac1b;
     --darkGreen: #017f12;
+    --lighterBlue: #e0f7ff;
     --lightBlue: #b0e7ff;
     --blue: #40bcf4;
     --darkBlue: #151a1e;
@@ -19,7 +20,7 @@
 
     --fontOne: 'Graphik', sans-serif;
     --fontTwo: 'Georgia', serif;
-    --fontThree: 'mono';
+    --fontThree: 'Arial', sans-serif;
 
     --mainWidth: 1200px;
     --maxMainWidth: 960px;

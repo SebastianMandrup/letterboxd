@@ -21,14 +21,15 @@ const UserPage: FunctionComponent = () => {
         return <div className={styles.div}>Error loading user data.</div>;
     }
 
-    const lastWatchedMovie = data.views[0].movie;
+    let lastWatchedMovie;
+    if (data.views.length > 0) lastWatchedMovie = data.views[0].movie;
 
     return (
         <>
-            {lastWatchedMovie.backdropUrl ? (
+            {lastWatchedMovie && lastWatchedMovie.backdropUrl ? (
                 <Backdrop src={lastWatchedMovie.backdropUrl || ''} alt={lastWatchedMovie.title} caption={lastWatchedMovie.title} />
             ) : (
-                <Backdrop src="/default-backdrop.jpg" alt={lastWatchedMovie.title} caption="" />
+                <Backdrop src="/default-backdrop.jpg" alt={lastWatchedMovie ? lastWatchedMovie.title : ''} caption="" />
             )}
             <section className={styles.userSection}>
                 <div className={styles.avatarContainer}>
