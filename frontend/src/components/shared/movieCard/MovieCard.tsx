@@ -17,7 +17,7 @@ const MovieCard: FunctionComponent<MovieCardProps> = ({ title, src, alt, overlay
     };
 
     return (
-        <button className={styles.articleMovie} onClick={handleClick}>
+        <button className={styles.articleMovie} onClick={handleClick} title={title}>
             <img src={src} alt={alt} />
             {overlay && overlay}
         </button>

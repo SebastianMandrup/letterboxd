@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "dev": "docker compose up -d && cd frontend && npm run dev",
     "prepare": "husky install",
     "format:all": "npm run format:frontend && npm run format:backend && npm run format:seeder",
     "format:frontend": "eslint --fix frontend/src --ext .ts,.tsx,.js,.jsx && prettier --write frontend/src",

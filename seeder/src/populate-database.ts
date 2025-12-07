@@ -105,12 +105,22 @@ async function populateDatabase() {
     );
     await manager.save(views);
 
+    // --- Lists ---
+    const lists: List[] = seedData.lists.map((l: any) =>
+        manager.create(List, {
+            ...l,
+            user: users.find((u) => u.id === l.userId),
+            movies: l.movieIds.map((id: number) => movies.find((m) => m.id === id)),
+        }),
+    );
+    await manager.save(lists);
+
     // --- Comments ---
     const comments: Comment[] = seedData.comments.map((c: any) =>
         manager.create(Comment, {
             ...c,
             user: users.find((u) => u.id === c.userId),
-            movie: movies.find((m) => m.id === c.movieId),
+            list: lists.find((l) => l.id === c.listId),
         }),
     );
     await manager.save(comments);
@@ -124,16 +134,6 @@ async function populateDatabase() {
         }),
     );
     await manager.save(commentLikes);
-
-    // --- Lists ---
-    const lists: List[] = seedData.lists.map((l: any) =>
-        manager.create(List, {
-            ...l,
-            user: users.find((u) => u.id === l.userId),
-            movies: l.movieIds.map((id: number) => movies.find((m) => m.id === id)),
-        }),
-    );
-    await manager.save(lists);
 
     // --- ListLikes ---
     const listLikes: ListLike[] = seedData.listLikes.map((ll: any) =>

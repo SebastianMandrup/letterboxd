@@ -6,5 +6,5 @@ export class MovieClient extends ApiClient<MovieDto> {
         super('/movies');
     }
 
-    getByTitle = (title: string) => this.axiosInstance.get<MovieDto>(`/${encodeURIComponent(title)}`).then((res) => res.data);
+    getByTitle = (title: string) => this.axiosInstance.get<MovieDto>(`${this.endpoint}/${encodeURIComponent(title)}`).then((res) => res.data);
 }

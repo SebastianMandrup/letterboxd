@@ -3,6 +3,8 @@ import { getLists } from '../services/listService';
 import buildPaginatedResponse from './helper/buildPaginatedResponse';
 import { AppDataSource } from '../startup/data-source';
 import { List } from '../entities/List';
+import { User } from '../entities/User';
+import { Comment } from '../entities/Comment';
 
 const listRouter = Router();
 
@@ -50,6 +52,76 @@ listRouter.get('/:name', async (req, res) => {
         res.status(200).send(listDto);
     } catch (error) {
         console.error('Error fetching list by title:', error);
+        res.status(500).send({ error: 'Internal server error' });
+    }
+});
+
+listRouter.get('/:id/comments', async (req, res) => {
+    try {
+        const listId = parseInt(req.params.id, 10);
+        const list = await listRepository.findOne({
+            where: { id: listId },
+            relations: ['comments', 'comments.user'],
+        });
+
+        if (!list) {
+            return res.status(404).send({ error: 'List not found' });
+        }
+
+        const commentsDto = list.comments.map((comment) => ({
+            id: comment.id,
+            content: comment.content,
+            user: {
+                id: comment.user.id,
+                username: comment.user.username,
+            },
+            createdAt: comment.createdAt,
+        }));
+
+        res.status(200).send(commentsDto);
+    } catch (error) {
+        console.error('Error fetching comments for list:', error);
+        res.status(500).send({ error: 'Internal server error' });
+    }
+});
+
+listRouter.post('/:id/comments', async (req, res) => {
+    try {
+        const listId = parseInt(req.params.id, 10);
+        const { content } = req.body;
+        const list = await listRepository.findOneBy({ id: listId });
+
+        if (!list) {
+            return res.status(404).send({ error: 'List not found' });
+        }
+
+        const userId = req.session.user?.id;
+
+        if (!userId) {
+            return res.status(401).send({ error: 'Unauthorized' });
+        }
+
+        const userRepository = AppDataSource.getRepository(User);
+
+        const user = await userRepository.findOneBy({ id: userId });
+
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+
+        const commentRepository = AppDataSource.getRepository(Comment);
+
+        const newComment = commentRepository.create({
+            content,
+            user,
+            list,
+        });
+
+        await commentRepository.save(newComment);
+
+        res.status(201).send({ message: 'Comment added successfully' });
+    } catch (error) {
+        console.error('Error adding comment to list:', error);
         res.status(500).send({ error: 'Internal server error' });
     }
 });

@@ -133,6 +133,7 @@ const comments = Array.from({ length: NUM_COMMENTS }, () => ({
     createdAt: faker.date.recent().toISOString(),
     userId: faker.number.int({ min: 1, max: NUM_USERS }),
     movieId: faker.number.int({ min: 1, max: NUM_MOVIES }),
+    listId: faker.number.int({ min: 1, max: NUM_LISTS }),
 }));
 
 // ---------------- CommentLikes ----------------

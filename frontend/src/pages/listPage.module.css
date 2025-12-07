@@ -1,3 +1,137 @@
 .listPage {
+    padding: 0 20px;
+}
+
+.contentContainer {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 20px;
+    margin-top: -140px;
+    position: relative;
     padding: 20px;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--grey);
+    border-bottom: 1px solid var(--darkGrey);
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    margin-left: 5px;
+    font-weight: 600;
+    color: var(--lighterBlue);
+}
+
+.publishDate {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--darkGrey);
+    font-size: 14px;
+    color: var(--grey);
+}
+
+.publishedDate {
+    margin-left: 5px;
+    font-weight: 600;
+    color: var(--lighterBlue);
+}
+
+.listName {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 15px 0;
+    color: var(--white);
+}
+
+.description > p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--lightGrey);
+    margin-bottom: 40px;
+}
+
+.moviesGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: 260px;
+    gap: 20px;
+}
+
+.moviesGrid > button {
+    width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+.movieIndex {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--grey);
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+.sidebar {
+    padding-left: 60px;
+}
+
+.sidebarButtons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.likeButton,
+.cloneButton,
+.shareButton {
+    background-color: var(--darkestGrey);
+    color: var(--white);
+    border: none;
+    padding: 14px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.likeButton:hover,
+.cloneButton:hover,
+.shareButton:hover {
+    background-color: var(--darkerGrey);
+}
+
+.likeButton svg {
+    fill: var(--white);
+    width: 20px;
+    height: 20px;
+}
+
+.likeButton {
+    margin-bottom: 2px;
+    border-radius: 10px 10px 0 0;
+}
+
+.cloneButton {
+    margin-bottom: 2px;
+    border-radius: 0;
+}
+
+.shareButton {
+    border-radius: 0 0 10px 10px;
 }
