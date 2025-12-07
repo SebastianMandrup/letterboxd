@@ -18,7 +18,7 @@ const ListCard: FunctionComponent<ListCardProps> = ({ list, large }) => {
                 <a className={styles.listName + (large ? ` ${styles.large}` : '')} href={`/lists/${getSlug(list.name)}`}>
                     {list.name}
                 </a>
-                <a className={styles.listAuthor + (large ? ` ${styles.large}` : '')} href={`/users/${getSlug(list.user.username)}`}>
+                <a className={styles.listAuthor + (large ? ` ${styles.large}` : '')} href={`/user/${getSlug(list.user.username)}`}>
                     <img className={styles.avatar} src={getApiAvatar(list.user.username)} alt={list.user.username} />
                     Created by
                     <span className={styles.username}>{list.user.username}</span>

@@ -11,7 +11,7 @@ const FeaturedUserCard: FunctionComponent<FeaturedUserCardProps> = ({ user }) =>
     return (
         <article className={styles.card}>
             <img className={styles.avatar} src={getApiAvatar(user.username)} alt={user.username} />
-            <a className={styles.username} href={`/users/${user.username}`}>
+            <a className={styles.username} href={`/user/${user.username}`}>
                 {user.username}
             </a>
             <div className={styles.stats}>

@@ -13,7 +13,7 @@ const UserCard: FunctionComponent<UserCardProps> = ({ user }) => {
             <img className={styles.avatar} src={getApiAvatar(user.username)} alt={user.username} />
             <div className={styles.userInfo}>
                 <div>
-                    <a href={`/users/${user.username}`} className={styles.username}>
+                    <a href={`/user/${user.username}`} className={styles.username}>
                         {user.username}
                     </a>
                     <div className={styles.stats}>

@@ -17,6 +17,6 @@ export default interface MovieDto {
     likeCount?: number | null;
     viewCount?: number | null;
 
-    reviews: ReviewDto[];
-    lists: ListDto[];
+    reviews?: ReviewDto[];
+    lists?: ListDto[];
 }

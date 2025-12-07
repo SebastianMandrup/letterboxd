@@ -1,0 +1,23 @@
+.userDataItem {
+	padding: 10px 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	border-right: 1px solid var(--darkestGrey);
+}
+
+.userDataItem:last-child {
+	border-right: none;
+}
+
+.userDataItem h2 {
+	font-size: 18px;
+	color: var(--lightestGrey);
+}
+
+.userDataItem p {
+	font-size: 12px;
+	color: var(--grey);
+}

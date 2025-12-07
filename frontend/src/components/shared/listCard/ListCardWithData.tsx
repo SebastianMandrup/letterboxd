@@ -20,7 +20,7 @@ const ListCardWithData: FunctionComponent<ListCardWithDataProps> = ({ list, larg
                     {list.name}
                 </a>
                 <div className={styles.listStats}>
-                    <a className={styles.listAuthor + (large ? ` ${styles.large}` : '')} href={`/users/${getSlug(list.user.username)}`}>
+                    <a className={styles.listAuthor + (large ? ` ${styles.large}` : '')} href={`/user/${getSlug(list.user.username)}`}>
                         <img className={styles.avatar} src={getApiAvatar(list.user.username)} alt={list.user.username} />
                         <span className={styles.username}>{list.user.username}</span>
                     </a>

@@ -7,6 +7,7 @@ import { useRestoreUser } from './hooks/useRestoreUser';
 import ListsPage from './pages/ListsPage';
 import Layout from './Layout';
 import UsersPage from './pages/UsersPage';
+import UserPage from './pages/UserPage';
 
 export default function App() {
     useRestoreUser();
@@ -20,6 +21,7 @@ export default function App() {
                 <Route path="/movies" element={<MoviesPage />} />
                 <Route path="/movies/browse" element={<MoviesBrowsePage />} />
                 <Route path="/users" element={<UsersPage />} />
+                <Route path="/user/:username" element={<UserPage />} />
             </Route>
         </Routes>
     );

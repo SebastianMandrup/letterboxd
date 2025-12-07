@@ -10,7 +10,7 @@ function DefaultHeader({ setIsLoggingIn, setIsSigningUp }: DefaultHeaderProps) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const query = formData.get('query') as string;
-        window.location.href = `/search/${encodeURIComponent(query)}`;
+        window.location.href = `/movies/browse?title=${encodeURIComponent(query)}`;
     };
 
     return (

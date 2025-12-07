@@ -4,7 +4,7 @@ import { User } from '../entities/User';
 import type Response from '../DTO/Response';
 import { validateUserCreation } from '../middleware/userValidation';
 import bcrypt from 'bcrypt';
-import { getUsers } from '../services/userService';
+import { getUserByUsername, getUsers } from '../services/userService';
 import { toUserWithCountDto, UserWithCountDto } from '../DTO/UserWithCountDto';
 
 const userRouter = Router();
@@ -24,6 +24,22 @@ userRouter.get('/', async (req, res) => {
         res.send(response);
     } catch (error) {
         console.error('Error fetching genres:', error);
+        res.status(500).send({ error: 'Internal server error' });
+    }
+});
+
+userRouter.get('/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const user = await getUserByUsername(username);
+
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+
+        res.send(user);
+    } catch (error) {
+        console.error('Error fetching user:', error);
         res.status(500).send({ error: 'Internal server error' });
     }
 });
