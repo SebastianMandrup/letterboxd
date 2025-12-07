@@ -2,7 +2,7 @@ import type { FunctionComponent } from 'react';
 import type ListDto from '../../../DTO/ListDto';
 import { getApiAvatar } from '../../../services/getApiAvatar';
 import { getSlug } from '../../../services/getSlug';
-import styles from './listcard.module.css';
+import styles from './listCard.module.css';
 import ListPosterStack from './PosterStack';
 
 interface ListCardProps {
