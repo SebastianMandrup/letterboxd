@@ -1,15 +1,44 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import AuthClient from '../services/AuthClient';
 import { useUserStore } from '../stores/useUserStore';
 
 const authClient = new AuthClient();
 
 export function useAuth() {
+    const user = useUserStore((state) => state.user);
     const setUser = useUserStore((state) => state.setUser);
     const clearUser = useUserStore((state) => state.clearUser);
 
+    // Local state
     const [loading, setLoading] = useState(false);
+    const [restoring, setRestoring] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const hasRestored = useRef(false);
+
+    // Restore user on mount - RUNS ONLY ONCE
+    useEffect(() => {
+        if (hasRestored.current) {
+            return;
+        }
+
+        const restoreUser = async () => {
+            hasRestored.current = true;
+
+            try {
+                const fetchedUser = await authClient.me();
+
+                setUser(fetchedUser || null);
+            } catch (error) {
+                console.error('useAuth - Failed to restore session:', error);
+                setUser(null);
+            } finally {
+                setRestoring(false);
+            }
+        };
+
+        restoreUser();
+    }, [setUser]);
 
     const login = useCallback(
         async (username: string, password: string) => {
@@ -22,7 +51,7 @@ export function useAuth() {
                     password,
                 });
 
-                setUser(user); // update global Zustand state
+                setUser(user);
                 return user;
             } catch (e: unknown) {
                 setError('Login failed');
@@ -36,21 +65,19 @@ export function useAuth() {
 
     const logout = useCallback(async () => {
         try {
-            await authClient.logout(); // call backend logout
+            await authClient.logout();
         } catch (err) {
             console.error('Logout failed', err);
         } finally {
-            clearUser(); // clear global state
+            clearUser();
         }
     }, [clearUser]);
-
-    const user = useUserStore((state) => state.user);
 
     return {
         user,
         loading,
+        restoring,
         error,
-        setUser,
         login,
         logout,
         isAuthenticated: !!user,

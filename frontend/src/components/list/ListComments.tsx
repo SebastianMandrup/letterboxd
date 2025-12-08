@@ -5,7 +5,7 @@ import { useUserStore } from '../../stores/useUserStore';
 import styles from './ListComments.module.css';
 import useFetchComments from '../../hooks/useFetchComments';
 import type CommentDto from '../../DTO/CommentDto';
-import listService from '../../services/listService';
+import ListClient from '../../services/ListClient';
 
 interface ListCommentsProps {
     id: number;
@@ -27,7 +27,7 @@ const ListComments: FunctionComponent<ListCommentsProps> = ({ id }) => {
         const form = event.target as HTMLFormElement;
         const contentInput = form.elements.namedItem('contentInput') as HTMLTextAreaElement;
 
-        const response = await listService.addCommentToList(id, contentInput.value);
+        const response = await ListClient.addCommentToList(id, contentInput.value);
         contentInput.value = '';
 
         if (response && response.message === 'Comment added successfully') {

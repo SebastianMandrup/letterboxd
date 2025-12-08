@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { deleteMovieById, getMovieBySlug, getMovies } from '../services/movies/movieService';
+import { deleteMovieById, getMovieBySlug, getMovies, getMoviesByPartialSlug } from '../services/movies/movieService';
 import buildPaginatedResponse from './helper/buildPaginatedResponse';
 
 const movieRouter = Router();
@@ -28,6 +28,23 @@ movieRouter.get('/:slug', async (req, res) => {
         res.status(200).send(movie);
     } catch (error) {
         console.error(`Error fetching movie with slug ${slug}:`, error);
+        res.status(500).send({ error: 'Internal server error' });
+    }
+});
+
+movieRouter.get('/like/:partialSlug', async (req, res) => {
+    const partialSlug = req.params.partialSlug;
+
+    try {
+        const movies = await getMoviesByPartialSlug(partialSlug);
+
+        if (movies.length === 0) {
+            return res.status(404).send({ error: `No movies found matching ${partialSlug}.` });
+        }
+
+        res.status(200).send(movies);
+    } catch (error) {
+        console.error(`Error fetching movies like ${partialSlug}:`, error);
         res.status(500).send({ error: 'Internal server error' });
     }
 });

@@ -58,6 +58,14 @@ export const getMovieBySlug = async (slug: string) => {
         .getOne();
 };
 
+export const getMoviesByPartialSlug = async (partialSlug: string) => {
+    return await movieRepository
+        .createQueryBuilder('movie')
+        .where('movie.slug LIKE :partialSlug', { partialSlug: `%${partialSlug}%` })
+        .take(20)
+        .getMany();
+};
+
 export const getMovies = async (req: Request) => {
     const page = req.query.page ? Number(req.query.page) : START_PAGE;
     let pageSize = req.query.pageSize ? Number(req.query.pageSize) : DEFAULT_PAGE_SIZE;

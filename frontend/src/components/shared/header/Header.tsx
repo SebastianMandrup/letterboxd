@@ -34,7 +34,7 @@ const Header = () => {
                     <a href="/">Boxedletter</a>
 
                     {user ? (
-                        <LoggedInHeader onLogout={handleLogout} />
+                        <LoggedInHeader onLogout={handleLogout} user={user} />
                     ) : (
                         <>
                             {isLoggingIn && !isSigningUp && <LoggingInHeader setIsLoggingIn={setIsLoggingIn} />}

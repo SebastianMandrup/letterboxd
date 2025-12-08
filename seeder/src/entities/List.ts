@@ -12,7 +12,7 @@ export class List {
     @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
     id: number;
 
-    @Column('varchar', { name: 'name', length: 255 })
+    @Column('varchar', { name: 'name', length: 255, unique: true })
     name: string;
 
     @Column('text', { name: 'description', nullable: true })

@@ -16,7 +16,7 @@ class ListClient extends ApiClient<ListDto> {
     }
 
     addCommentToList(id: number, content: string) {
-        return this.axiosInstance.post(`${this.endpoint}/${id}/comments`, { content }).then((res) => res.data);
+        return this.axiosInstance.post<CommentDto>(`${this.endpoint}/${id}/comments`, { content }).then((res) => res.data);
     }
 }
 
