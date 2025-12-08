@@ -5,6 +5,7 @@ import { AppDataSource } from '../startup/data-source';
 import { List } from '../entities/List';
 import { Comment } from '../entities/Comment';
 import { authenticateUser } from '../middleware/authenticateUser';
+import { validateListCreation } from '../middleware/listValidation';
 
 const listRouter = Router();
 
@@ -17,6 +18,26 @@ listRouter.get('/', async (req, res) => {
         res.status(200).send(response);
     } catch (error) {
         console.error('Error fetching lists:', error);
+        res.status(500).send({ error: 'Internal server error' });
+    }
+});
+
+listRouter.post('/', authenticateUser, validateListCreation, async (req, res) => {
+    try {
+        const { name, description, movieIds } = req.body;
+
+        const newList = listRepository.create({
+            name,
+            description,
+            user: req.user,
+            movies: movieIds ? movieIds.map((id: number) => ({ id })) : [],
+        });
+
+        await listRepository.save(newList);
+
+        res.status(201).send({ message: 'List created successfully', list: newList });
+    } catch (error) {
+        console.error('Error creating new list:', error);
         res.status(500).send({ error: 'Internal server error' });
     }
 });
