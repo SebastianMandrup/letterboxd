@@ -4,18 +4,31 @@ import express from 'express';
 // 1. Create a mock for getReviews
 const mockGetReviews = jest.fn();
 
-// 2. Mock the reviewService module
+// 2. Mock AppDataSource before importing router
+jest.mock('../startup/data-source', () => ({
+    AppDataSource: {
+        getRepository: jest.fn(() => ({
+            create: jest.fn(),
+            save: jest.fn(),
+            findOneBy: jest.fn(),
+        })),
+    },
+}));
+
+// 3. Mock the reviewService module
 jest.mock('../services/reviewService', () => ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getReviews: (...args: any[]) => mockGetReviews(...args),
 }));
 
-// 3. Import the router after mocks
+// 4. Import the router after mocks
 import reviewRouter from './reviewRouter';
+import { errorHandler } from '../middleware/errorHandler';
 
 const app = express();
 app.use(express.json());
 app.use('/reviews', reviewRouter);
+app.use(errorHandler);
 
 describe('reviewRouter', () => {
     afterEach(() => {
