@@ -1,28 +1,37 @@
-import { type FunctionComponent } from 'react';
+import { useState, type FunctionComponent, useEffect } from 'react';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import ListComment from './ListComment';
 import { useUserStore } from '../../stores/useUserStore';
 import styles from './ListComments.module.css';
 import useFetchComments from '../../hooks/useFetchComments';
-import usePostComment from '../../hooks/usePostComment';
+import type CommentDto from '../../DTO/CommentDto';
+import listService from '../../services/listService';
 
 interface ListCommentsProps {
     id: number;
 }
 
 const ListComments: FunctionComponent<ListCommentsProps> = ({ id }) => {
-    const { data: comments, isLoading, error } = useFetchComments(id);
-
+    const { data, isLoading, error } = useFetchComments(id);
+    const [comments, setComments] = useState<CommentDto[]>([]);
     const isAuthenticated = useUserStore((state) => state.isAuthenticated());
 
-    const useSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        const { content } = event.target as HTMLFormElement;
-        const response = await usePostComment(id, content.value);
-        content.value = '';
+    useEffect(() => {
+        if (data) {
+            setComments(data);
+        }
+    }, [data]);
 
-        if (response.message === 'Comment added successfully') {
-            alert('Comment posted successfully');
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        const form = event.target as HTMLFormElement;
+        const contentInput = form.elements.namedItem('contentInput') as HTMLTextAreaElement;
+
+        const response = await listService.addCommentToList(id, contentInput.value);
+        contentInput.value = '';
+
+        if (response && response.message === 'Comment added successfully') {
+            setComments((prevComments) => [...prevComments, response.comment]);
         }
     };
 
@@ -36,18 +45,16 @@ const ListComments: FunctionComponent<ListCommentsProps> = ({ id }) => {
 
     return (
         <section>
-            <SectionHeader title={`${comments && comments.length > 0 ? comments.length : null} Comments`} />
-            <section>
-                {comments && comments.length > 0 ? comments.map((comment) => <ListComment key={comment.id} comment={comment} />) : 'No comments available.'}
-            </section>
-            {isAuthenticated ? (
-                <form className={styles.form} onSubmit={useSubmit}>
-                    <textarea name="content" placeholder="Add a comment..." rows={4} className={styles.textarea}></textarea>
+            <SectionHeader title={`${comments.length > 0 ? comments.length : ''} Comments`} />
+            <section>{comments.length > 0 ? comments.map((comment) => <ListComment key={comment.id} comment={comment} />) : 'No comments available.'}</section>
+            {isAuthenticated && (
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <textarea name="contentInput" placeholder="Add a comment..." rows={4} className={styles.textarea} required />
                     <button className={styles.button} type="submit">
                         POST
                     </button>
                 </form>
-            ) : null}
+            )}
         </section>
     );
 };

@@ -3,7 +3,6 @@ import { Router } from 'express';
 import 'express-session';
 import { AppDataSource } from '../startup/data-source';
 import { User } from '../entities/User';
-import { requireAuth } from '../middleware/requireAuth';
 
 const authRouter = Router();
 
@@ -48,7 +47,7 @@ authRouter.post('/login', async (req, res) => {
     }
 });
 
-authRouter.post('/logout', requireAuth, (req, res) => {
+authRouter.post('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ message: 'Could not log out. Please try again.' });
