@@ -3,8 +3,8 @@ import { getLists } from '../services/listService';
 import buildPaginatedResponse from './helper/buildPaginatedResponse';
 import { AppDataSource } from '../startup/data-source';
 import { List } from '../entities/List';
-import { User } from '../entities/User';
 import { Comment } from '../entities/Comment';
+import { authenticateUser } from '../middleware/authenticateUser';
 
 const listRouter = Router();
 
@@ -56,6 +56,7 @@ listRouter.get('/:name', async (req, res) => {
     }
 });
 
+// get all comments for a list
 listRouter.get('/:id/comments', async (req, res) => {
     try {
         const listId = parseInt(req.params.id, 10);
@@ -85,41 +86,29 @@ listRouter.get('/:id/comments', async (req, res) => {
     }
 });
 
-listRouter.post('/:id/comments', async (req, res) => {
+// add a comment to a list
+listRouter.post('/:id/comments', authenticateUser, async (req, res) => {
     try {
         const listId = parseInt(req.params.id, 10);
         const { content } = req.body;
         const list = await listRepository.findOneBy({ id: listId });
 
+        // validate the list
         if (!list) {
             return res.status(404).send({ error: 'List not found' });
-        }
-
-        const userId = req.session.user?.id;
-
-        if (!userId) {
-            return res.status(401).send({ error: 'Unauthorized' });
-        }
-
-        const userRepository = AppDataSource.getRepository(User);
-
-        const user = await userRepository.findOneBy({ id: userId });
-
-        if (!user) {
-            return res.status(404).send({ error: 'User not found' });
         }
 
         const commentRepository = AppDataSource.getRepository(Comment);
 
         const newComment = commentRepository.create({
             content,
-            user,
+            user: req.user,
             list,
         });
 
         await commentRepository.save(newComment);
 
-        res.status(201).send({ message: 'Comment added successfully' });
+        res.status(201).send({ message: 'Comment added successfully', comment: newComment });
     } catch (error) {
         console.error('Error adding comment to list:', error);
         res.status(500).send({ error: 'Internal server error' });

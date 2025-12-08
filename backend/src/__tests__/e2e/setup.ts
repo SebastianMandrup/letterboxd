@@ -2,6 +2,9 @@ import express from 'express';
 import session from 'express-session';
 import { User } from '../../entities/User';
 
+// Mock auth middleware
+export const mockAuthenticateUser = jest.fn();
+
 // Mock user repository functions
 export const mockUserFindOne = jest.fn();
 export const mockUserCreate = jest.fn();
