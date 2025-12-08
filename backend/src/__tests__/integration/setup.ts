@@ -6,6 +6,7 @@ import userRouter from '../../routes/userRouter';
 import movieRouter from '../../routes/movieRouter';
 import reviewRouter from '../../routes/reviewRouter';
 import listRouter from '../../routes/listRouter';
+import { errorHandler, notFoundHandler } from '../../middleware/errorHandler';
 
 // Initialize test database
 export const initTestDb = async () => {
@@ -49,6 +50,10 @@ export const createIntegrationTestApp = () => {
     app.use('/movies', movieRouter);
     app.use('/reviews', reviewRouter);
     app.use('/lists', listRouter);
+
+    // Add error handlers (must be after routes)
+    app.use(errorHandler);
+    app.use(notFoundHandler);
 
     return app;
 };
