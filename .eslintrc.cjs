@@ -33,4 +33,12 @@ module.exports = {
 		react: { version: 'detect' },
 	},
 	ignorePatterns: ['dist/', 'node_modules/', '*.json'],
+	overrides: [
+		{
+			files: ['**/*.test.ts', '**/*.test.tsx'],
+			rules: {
+				'@typescript-eslint/no-explicit-any': 'off',
+			},
+		},
+	],
 };
