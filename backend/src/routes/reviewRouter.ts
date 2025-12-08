@@ -4,6 +4,8 @@ import { authenticateUser } from '../middleware/authenticateUser';
 import { AppDataSource } from '../startup/data-source';
 import { Review } from '../entities/Review';
 import { validateReview } from '../middleware/reviewValidation';
+import { Movie } from '../entities/Movie';
+import { MovieLike } from '../entities/MovieLike';
 
 const reviewRouter = Router();
 
@@ -24,7 +26,15 @@ reviewRouter.get('/', async (req: Request, res: Response) => {
 
 reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, res: Response) => {
     try {
-        const { review, rating, movieId } = req.body;
+        const { review, rating, movieId, isLiked } = req.body;
+
+        const movieRepository = AppDataSource.getRepository(Movie);
+
+        const movie = await movieRepository.findOneBy({ id: movieId });
+
+        if (!movie) {
+            throw new Error('Movie not found');
+        }
 
         const reviewRepository = AppDataSource.getRepository(Review);
 
@@ -32,9 +42,20 @@ reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, re
             review,
             rating,
             movie: { id: movieId },
+            author: { id: req.user.id },
         });
 
         await reviewRepository.save(newReview);
+
+        if (isLiked === true) {
+            const movieLikeRepository = AppDataSource.getRepository(MovieLike);
+            const newLike = movieLikeRepository.create({
+                movie: { id: movieId },
+                user: { id: req.user.id },
+            });
+            await movieLikeRepository.save(newLike);
+        }
+
         res.status(201).send({ message: 'Review created successfully', review: newReview });
     } catch (error) {
         console.error('Error creating review:', error);

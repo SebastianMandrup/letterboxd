@@ -8,6 +8,8 @@ import ListCardWithDescription from '../components/shared/listCard/ListCardWithD
 import useMovieByTitle from '../hooks/useMovieByTitle';
 import ReviewCardContent from '../components/shared/reviewCard/ReviewCardContent';
 import { useUserStore } from '../stores/useUserStore';
+import { useState } from 'react';
+import ReviewModal from '../components/movie/ReviewModal';
 
 function MoviePage() {
     const title = useParams().title || '';
@@ -15,6 +17,8 @@ function MoviePage() {
     const { isAuthenticated } = useUserStore();
 
     const { data: movie, error, isLoading } = useMovieByTitle(title);
+
+    const [isReviewing, setIsReviewing] = useState(false);
 
     if (!title) return <p>No movie title provided.</p>;
 
@@ -57,7 +61,9 @@ function MoviePage() {
                                     </>
                                 ) : (
                                     <>
-                                        <button className={styles.buttonLogRateReview}>Log, Rate, Review</button>
+                                        <button className={styles.buttonLogRateReview} onClick={() => setIsReviewing(true)}>
+                                            Review
+                                        </button>
                                         <button className={styles.buttonShareMovie}>Share</button>
                                     </>
                                 )}
@@ -90,6 +96,8 @@ function MoviePage() {
                     </section>
                 </section>
             </section>
+
+            {isReviewing && <ReviewModal setIsReviewing={setIsReviewing} movie={movie} />}
         </>
     );
 }
