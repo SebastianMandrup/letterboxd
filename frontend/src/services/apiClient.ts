@@ -17,12 +17,10 @@ class ApiClient<T, V = Partial<T>> {
             (response) => response,
             (error) => {
                 // Extract error message from backend response
-                if (error.response?.data?.error?.message) {
-                    const backendError = new Error(error.response.data.error.message);
-                    backendError.name = 'ApiError';
-                    return Promise.reject(backendError);
-                }
-                return Promise.reject(error);
+                const errorMessage = error.response?.data?.error?.message || error.message || 'An unexpected error occurred';
+                const backendError = new Error(errorMessage);
+                backendError.name = 'ApiError';
+                return Promise.reject(backendError);
             },
         );
     }

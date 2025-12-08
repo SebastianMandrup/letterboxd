@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { getReviews } from '../services/reviewService';
 import { authenticateUser } from '../middleware/authenticateUser';
 import { AppDataSource } from '../startup/data-source';
@@ -24,7 +24,7 @@ reviewRouter.get('/', async (req: Request, res: Response) => {
     }
 });
 
-reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, res: Response, next) => {
+reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { review, rating, movieId, isLiked } = req.body;
 

@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, NextFunction } from 'express';
 import { getLists } from '../services/listService';
 import buildPaginatedResponse from './helper/buildPaginatedResponse';
 import { AppDataSource } from '../startup/data-source';
@@ -22,7 +22,7 @@ listRouter.get('/', async (req, res) => {
     }
 });
 
-listRouter.post('/', authenticateUser, validateListCreation, async (req, res, next) => {
+listRouter.post('/', authenticateUser, validateListCreation, async (req, res, next: NextFunction) => {
     try {
         const { name, description, movieIds } = req.body;
 
