@@ -11,6 +11,20 @@ class ApiClient<T, V = Partial<T>> {
             baseURL: import.meta.env['VITE_API_URL'],
             withCredentials: true,
         });
+
+        // Add response interceptor to handle errors
+        this.axiosInstance.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                // Extract error message from backend response
+                if (error.response?.data?.error?.message) {
+                    const backendError = new Error(error.response.data.error.message);
+                    backendError.name = 'ApiError';
+                    return Promise.reject(backendError);
+                }
+                return Promise.reject(error);
+            },
+        );
     }
 
     getAll = (config?: AxiosRequestConfig) => this.axiosInstance.get<PaginatedResponse<T>>(this.endpoint, config).then((res) => res.data);
