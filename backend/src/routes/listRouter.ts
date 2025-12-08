@@ -22,7 +22,7 @@ listRouter.get('/', async (req, res) => {
     }
 });
 
-listRouter.post('/', authenticateUser, validateListCreation, async (req, res) => {
+listRouter.post('/', authenticateUser, validateListCreation, async (req, res, next) => {
     try {
         const { name, description, movieIds } = req.body;
 
@@ -37,13 +37,7 @@ listRouter.post('/', authenticateUser, validateListCreation, async (req, res) =>
 
         res.status(201).send({ message: 'List created successfully', list: newList });
     } catch (error) {
-        if (error instanceof Error) {
-            res.status(400).send({ error: error.message });
-            return;
-        }
-
-        console.error('Error creating new list:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 
