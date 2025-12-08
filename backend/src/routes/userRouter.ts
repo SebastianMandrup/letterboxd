@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, NextFunction } from 'express';
 import { AppDataSource } from '../startup/data-source';
 import { User } from '../entities/User';
 import type Response from '../DTO/Response';
@@ -44,7 +44,7 @@ userRouter.get('/:username', async (req, res) => {
     }
 });
 
-userRouter.post('/', validateUserCreation, async (req, res) => {
+userRouter.post('/', validateUserCreation, async (req, res, next: NextFunction) => {
     try {
         const { username, password, email } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -58,8 +58,7 @@ userRouter.post('/', validateUserCreation, async (req, res) => {
         await userRepository.save(newUser);
         res.status(201).send({ message: 'User created successfully' });
     } catch (error) {
-        console.error('Error creating user:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 

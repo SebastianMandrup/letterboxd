@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, NextFunction } from 'express';
 import { getLists } from '../services/listService';
 import buildPaginatedResponse from './helper/buildPaginatedResponse';
 import { AppDataSource } from '../startup/data-source';
@@ -22,7 +22,7 @@ listRouter.get('/', async (req, res) => {
     }
 });
 
-listRouter.post('/', authenticateUser, validateListCreation, async (req, res) => {
+listRouter.post('/', authenticateUser, validateListCreation, async (req, res, next: NextFunction) => {
     try {
         const { name, description, movieIds } = req.body;
 
@@ -37,13 +37,7 @@ listRouter.post('/', authenticateUser, validateListCreation, async (req, res) =>
 
         res.status(201).send({ message: 'List created successfully', list: newList });
     } catch (error) {
-        if (error instanceof Error) {
-            res.status(400).send({ error: error.message });
-            return;
-        }
-
-        console.error('Error creating new list:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 

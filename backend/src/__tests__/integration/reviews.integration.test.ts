@@ -194,5 +194,45 @@ describe('Integration Tests - Reviews', () => {
             expect(reviewData.movie).toBeDefined();
             expect(reviewData.movie.title).toBe('Featured Movie');
         });
+
+        it('should return validation error message for short review content', async () => {
+            // Create test data
+            const user = userRepository.create({
+                username: 'testuser',
+                email: 'testuser@example.com',
+                password: await bcrypt.hash('password', 10),
+                role: 'user',
+            });
+            await userRepository.save(user);
+
+            const movie = movieRepository.create({
+                title: 'Test Movie',
+                slug: 'test-movie',
+                originalTitle: 'Test Movie',
+                adult: false,
+                overview: 'A test movie',
+                releaseDate: new Date('2021-01-01'),
+            });
+            await movieRepository.save(movie);
+
+            // Login as user to get session
+            const agent = request.agent(app);
+            await agent.post('/auth/login').send({
+                username: 'testuser',
+                password: 'password',
+            });
+
+            // Try to create a review with content that's too short
+            const res = await agent.post('/reviews').send({
+                movieId: movie.id,
+                review: 'Short',
+                rating: 4,
+            });
+
+            // Verify we get a 400 status with the proper error message
+            expect(res.status).toBe(400);
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error.message).toBe('Review content must be at least 10 characters long');
+        });
     });
 });

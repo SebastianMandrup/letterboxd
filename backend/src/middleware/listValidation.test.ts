@@ -35,13 +35,12 @@ describe('validateListCreation integration', () => {
             // description and movieIds are undefined
         };
 
-        expect(() => {
-            validateListCreation(req as Request, res as Response, next);
-        }).toThrow();
+        validateListCreation(req as Request, res as Response, next);
 
+        // next should be called with an error
+        expect(next).toHaveBeenCalledWith(expect.any(Error));
         expect(req.body.name).toBe('Comedy Movies');
         expect(req.body.description).toBeUndefined(); // Would throw from validator
         expect(req.body.movieIds).toBeUndefined(); // Would throw from validator
-        expect(next).not.toHaveBeenCalled();
     });
 });

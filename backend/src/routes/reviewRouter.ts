@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { getReviews } from '../services/reviewService';
 import { authenticateUser } from '../middleware/authenticateUser';
 import { AppDataSource } from '../startup/data-source';
@@ -24,7 +24,7 @@ reviewRouter.get('/', async (req: Request, res: Response) => {
     }
 });
 
-reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, res: Response) => {
+reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { review, rating, movieId, isLiked } = req.body;
 
@@ -58,8 +58,7 @@ reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, re
 
         res.status(201).send({ message: 'Review created successfully', review: newReview });
     } catch (error) {
-        console.error('Error creating review:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 
