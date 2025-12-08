@@ -1,0 +1,137 @@
+.createListPage {
+    padding: 20px 40px;
+}
+
+.createListForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 400px;
+    column-gap: 40px;
+}
+
+.listDetails {
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.listDetails label,
+.listDetails input,
+.listDetails textarea {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.listDetails label {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.listDetails input,
+.listDetails textarea {
+    padding: 10px;
+    margin-bottom: 30px;
+    background-color: var(--darkGrey);
+}
+
+.listDetails textarea {
+    resize: none;
+    height: 120px;
+}
+
+.addMovieSection {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 200px;
+    padding: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--grey) transparent;
+}
+
+.searchedMovie {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 0 10px;
+    border-bottom: 1px solid var(--grey);
+    font-size: 14px;
+    color: var(--lightGrey);
+}
+
+.searchedMovie:hover {
+    background-color: var(--darkestGrey);
+    color: var(--white);
+}
+
+.searchedMovie:last-child {
+    border-bottom: none;
+}
+
+.movieList {
+    padding: 20px 40px;
+    border-radius: 10px;
+    border-bottom: 1px solid var(--grey);
+    border-right: 1px solid var(--grey);
+    border-top: 1px solid var(--grey);
+    overflow-y: auto;
+}
+
+.movieItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--grey);
+    font-size: 14px;
+    color: var(--lightGrey);
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.movieItem:hover {
+    background-color: var(--darkestGrey);
+    color: var(--white);
+}
+
+.movieItem:last-child {
+    border-bottom: none;
+}
+
+.submitButton {
+    grid-column: span 2;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--green);
+    cursor: pointer;
+    color: var(--white);
+    margin: 20px 0 0 auto;
+}
+
+.submitButton:hover {
+    background-color: var(--darkGreen);
+}
+
+.addButton,
+.removeButton {
+    border: none;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: var(--darkGrey);
+    cursor: pointer;
+    color: var(--white);
+}
+
+.addButton:hover {
+    background-color: var(--green);
+}
+
+.removeButton:hover {
+    background-color: var(--orange);
+}

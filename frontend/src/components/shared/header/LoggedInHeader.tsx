@@ -1,10 +1,12 @@
+import type UserDto from '../../../DTO/UserDto';
 import styles from './defaultHeader.module.css';
 
 interface LoggedInHeaderProps {
+    user: UserDto;
     onLogout: () => void;
 }
 
-function LoggedInHeader({ onLogout }: LoggedInHeaderProps) {
+function LoggedInHeader({ user, onLogout }: LoggedInHeaderProps) {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -20,6 +22,9 @@ function LoggedInHeader({ onLogout }: LoggedInHeaderProps) {
                         <button onClick={() => onLogout()}>LOGOUT</button>
                     </li>
                     <li>
+                        <a href={`/user/${user.username}`}>PROFILE</a>
+                    </li>
+                    <li>
                         <a href="/movies">MOVIES</a>
                     </li>
                     <li>
@@ -27,9 +32,6 @@ function LoggedInHeader({ onLogout }: LoggedInHeaderProps) {
                     </li>
                     <li>
                         <a href="/users">USERS</a>
-                    </li>
-                    <li>
-                        <a href="/journal">JOURNAL</a>
                     </li>
                 </ul>
             </nav>

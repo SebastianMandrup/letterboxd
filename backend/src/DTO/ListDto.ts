@@ -6,6 +6,7 @@ export default interface ListDto {
     author: string;
     description?: string | null;
 
+    movieIds?: number[];
     movies: MovieDto[];
     likeCount: number;
 }

@@ -17,11 +17,11 @@ class ApiClient<T, V = Partial<T>> {
 
     getById = (id: number) => this.axiosInstance.get<T>(`${this.endpoint}/${id}`).then((res) => res.data);
 
-    delete = (id: number) => this.axiosInstance.delete(`${this.endpoint}/${id}`).then((res) => res.data);
+    delete = (id: number) => this.axiosInstance.delete<T>(`${this.endpoint}/${id}`).then((res) => res.data);
 
     create = (data: V) => this.axiosInstance.post<T>(this.endpoint, data).then((res) => res.data);
 
-    update = (id: number, data: Partial<T>) => this.axiosInstance.put(`${this.endpoint}/${id}`, data).then((res) => res.data);
+    update = (id: number, data: Partial<T>) => this.axiosInstance.put<T>(`${this.endpoint}/${id}`, data).then((res) => res.data);
 }
 
 export default ApiClient;

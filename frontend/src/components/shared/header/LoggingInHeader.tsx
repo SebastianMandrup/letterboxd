@@ -57,11 +57,6 @@ function LoggingInHeader({ setIsLoggingIn }: LoggingInHeaderProps) {
                         <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </label>
 
-                    <label className={styles.labelRememberMe}>
-                        <input type="checkbox" />
-                        Remember me
-                    </label>
-
                     <button type="submit" className={styles.buttonSubmitLoginHeader} disabled={loading}>
                         {loading ? 'SIGNING IN...' : 'SIGN IN'}
                     </button>

@@ -8,6 +8,7 @@ export default interface ListDto {
         username: string;
     };
 
+    movieIds?: number[];
     movies: MovieDto[];
     likeCount: number;
     commentCount: number;
