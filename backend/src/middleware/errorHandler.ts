@@ -5,7 +5,7 @@ export const errorHandler = (error: unknown, req: Request, res: Response, next: 
 
     const normalizedError = normalizeError(error);
 
-    const statusCode = normalizedError.statusCode || 500;
+    const statusCode = normalizedError.statusCode;
 
     const response = {
         success: false,
@@ -36,7 +36,24 @@ export const notFoundHandler = (req: Request, res: Response) => {
     });
 };
 
+export class MuoError extends Error {
+    public statusCode: number;
+
+    constructor(message: string, statusCode: number) {
+        super(message);
+        this.statusCode = statusCode;
+    }
+}
+
 function normalizeError(error: unknown) {
+    if (error instanceof MuoError) {
+        return {
+            message: error.message,
+            stack: error.stack,
+            statusCode: error.statusCode,
+        };
+    }
+
     if (error instanceof Error) {
         return {
             message: error.message,

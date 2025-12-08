@@ -1,0 +1,29 @@
+.ratingContainer {
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.starsGroup {
+    display: flex;
+}
+
+.starWrapper {
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.starFill {
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+}
+
+.starWrapper::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    background: transparent;
+}
