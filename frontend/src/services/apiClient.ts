@@ -18,8 +18,9 @@ class ApiClient<T, V = Partial<T>> {
             (error) => {
                 // Extract error message from backend response
                 const errorMessage = error.response?.data?.error?.message || error.message || 'An unexpected error occurred';
-                const backendError = new Error(errorMessage);
+                const backendError: Error & { status?: number } = new Error(errorMessage);
                 backendError.name = 'ApiError';
+                backendError.status = error.response?.status;
                 return Promise.reject(backendError);
             },
         );
