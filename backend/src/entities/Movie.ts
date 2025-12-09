@@ -57,4 +57,6 @@ export class Movie {
 
     @ManyToMany(() => List, (list) => list.movies)
     lists: List[];
+
+    isViewed?: boolean;
 }

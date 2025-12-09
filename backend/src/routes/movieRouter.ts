@@ -19,7 +19,7 @@ movieRouter.get('/:slug', async (req, res) => {
     const slug = req.params.slug;
 
     try {
-        const movie = await getMovieBySlug(slug);
+        const movie = await getMovieBySlug(req, slug);
 
         if (!movie) {
             return res.status(404).send({ error: `Movie with slug ${slug} not found.` });

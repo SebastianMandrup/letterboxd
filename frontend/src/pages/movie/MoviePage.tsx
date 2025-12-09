@@ -11,6 +11,7 @@ import { useUserStore } from '../../stores/useUserStore';
 import { useEffect, useState } from 'react';
 import ReviewModal from '../../components/movie/ReviewModal';
 import type ReviewDto from '../../DTO/ReviewDto';
+import Eye from '../../components/shared/icons/Eye';
 
 function MoviePage() {
     const title = useParams().title || '';
@@ -24,10 +25,15 @@ function MoviePage() {
     const [reviews, setReviews] = useState<ReviewDto[]>([]);
 
     useEffect(() => {
+        console.log('Movie data changed:', movie);
         if (movie && movie.reviews) {
             setReviews(movie.reviews);
         }
     }, [movie]);
+
+    const handleView = () => {
+        console.log('View movie clicked');
+    };
 
     if (!title) return <p>No movie title provided.</p>;
 
@@ -70,6 +76,9 @@ function MoviePage() {
                                     </>
                                 ) : (
                                     <>
+                                        <button className={styles.buttonLogRateReview} onClick={() => handleView()}>
+                                            <Eye size={24} color={'var(--green)'} /> View
+                                        </button>
                                         <button className={styles.buttonLogRateReview} onClick={() => setIsReviewing(true)}>
                                             Review
                                         </button>

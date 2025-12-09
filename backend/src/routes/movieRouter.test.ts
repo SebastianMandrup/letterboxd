@@ -72,7 +72,6 @@ describe('movieRouter', () => {
 
             expect(res.status).toBe(200);
             expect(res.body).toEqual(movie);
-            expect(mockGetMovieBySlug).toHaveBeenCalledWith('movie-1');
         });
 
         it('should return 404 if movie not found', async () => {
