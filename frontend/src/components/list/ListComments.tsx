@@ -2,7 +2,7 @@ import { useState, type FunctionComponent, useEffect } from 'react';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import ListComment from './ListComment';
 import { useUserStore } from '../../stores/useUserStore';
-import styles from './ListComments.module.css';
+import styles from './listComments.module.css';
 import useFetchComments from '../../hooks/useFetchComments';
 import type CommentDto from '../../DTO/CommentDto';
 import ListClient from '../../services/ListClient';
