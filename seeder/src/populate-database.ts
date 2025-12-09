@@ -53,7 +53,7 @@ async function populateDatabase() {
         'users',
     ];
     for (const table of tables) {
-        await manager.query(`TRUNCATE TABLE ${table};`);
+        await manager.query(`DROP TABLE ${table};`);
     }
     await manager.query('SET FOREIGN_KEY_CHECKS = 1;');
 

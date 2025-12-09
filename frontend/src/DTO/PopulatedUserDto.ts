@@ -7,6 +7,8 @@ export default interface PopulatedUserDto {
     username: string;
     role: string;
     email: string;
+    createdAt: string;
+    bio?: string;
 
     lists: ListDto[];
     reviews: ReviewDto[];

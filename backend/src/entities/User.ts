@@ -26,6 +26,15 @@ export class User {
     @Column('varchar', { name: 'role', length: 5, default: 'user' })
     role: string;
 
+    @Column('varchar', { name: 'bio', length: 255, nullable: true })
+    bio: string;
+
+    @Column({
+        type: 'datetime',
+        default: () => 'CURRENT_TIMESTAMP',
+    })
+    createdAt: Date;
+
     @OneToMany(() => Review, (review) => review.author)
     reviews: Review[];
 

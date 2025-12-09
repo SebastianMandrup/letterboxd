@@ -1,13 +1,13 @@
 import type { FunctionComponent } from 'react';
 import styles from './userPage.module.css';
-import useUserByUsername from '../hooks/useUserByUsername';
+import useUserByUsername from '../../hooks/useUserByUsername';
 import { useParams } from 'react-router-dom';
-import Backdrop from '../components/index/backdrop/Backdrop';
-import { getApiAvatar } from '../services/getApiAvatar';
-import UserDataItem from '../components/user/UserDataItem';
-import SectionHeader from '../components/shared/sectionHeader/SectionHeader';
-import ReviewCard from '../components/shared/reviewCard/ReviewCard';
-import ListCard from '../components/shared/listCard/ListCard';
+import Backdrop from '../../components/index/backdrop/Backdrop';
+import { getApiAvatar } from '../../services/getApiAvatar';
+import UserDataItem from '../../components/user/UserDataItem';
+import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
+import ReviewCard from '../../components/shared/reviewCard/ReviewCard';
+import ListCard from '../../components/shared/listCard/ListCard';
 
 const UserPage: FunctionComponent = () => {
     const username = useParams().username || '';
@@ -64,22 +64,23 @@ const UserPage: FunctionComponent = () => {
                     <section className={styles.moreUserData}>
                         <SectionHeader title="Bio" />
                         <div>
-                            <p>Member since 12/11/2011</p>
-
                             <p>
-                                Looking at my average ratings I might seem a bit too generous... The thing is, I started choosing movies to watch in a different
-                                way since I started using Letterboxd.
+                                Member since <span className={styles.memberSince}>{new Date(data.createdAt).toLocaleDateString()}</span>
                             </p>
+
+                            <p>{data.bio ? data.bio : 'This user has not added a bio yet.'}</p>
                         </div>
                     </section>
 
-                    <section>
+                    <section className={styles.recentLists}>
                         <SectionHeader title="Recent Lists" />
-                        {data.lists.length === 0 ? (
-                            <p className={styles.noReviewsMessage}>This user has not created any lists yet.</p>
-                        ) : (
-                            data.lists.slice(0, 3).map((list) => <ListCard key={list.id} list={list} />)
-                        )}
+                        <div>
+                            {data.lists.length === 0 ? (
+                                <p className={styles.noReviewsMessage}>This user has not created any lists yet.</p>
+                            ) : (
+                                data.lists.slice(0, 3).map((list) => <ListCard key={list.id} list={list} />)
+                            )}
+                        </div>
                     </section>
                 </div>
             </div>

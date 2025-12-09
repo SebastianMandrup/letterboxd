@@ -1,15 +1,16 @@
 import { useParams } from 'react-router-dom';
-import Backdrop from '../components/index/backdrop/Backdrop';
-import ArticleMovie from '../components/shared/movieCard/MovieCard';
-import SectionHeader from '../components/shared/sectionHeader/SectionHeader';
-import { getMediumPoster } from '../services/getMediumPoster';
+import Backdrop from '../../components/index/backdrop/Backdrop';
+import ArticleMovie from '../../components/shared/movieCard/MovieCard';
+import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
+import { getMediumPoster } from '../../services/getMediumPoster';
 import styles from './moviePage.module.css';
-import ListCardWithDescription from '../components/shared/listCard/ListCardWithDescription';
-import useMovieByTitle from '../hooks/useMovieByTitle';
-import ReviewCardContent from '../components/shared/reviewCard/ReviewCardContent';
-import { useUserStore } from '../stores/useUserStore';
-import { useState } from 'react';
-import ReviewModal from '../components/movie/ReviewModal';
+import ListCardWithDescription from '../../components/shared/listCard/ListCardWithDescription';
+import useMovieByTitle from '../../hooks/useMovieByTitle';
+import ReviewCardContent from '../../components/shared/reviewCard/ReviewCardContent';
+import { useUserStore } from '../../stores/useUserStore';
+import { useEffect, useState } from 'react';
+import ReviewModal from '../../components/movie/ReviewModal';
+import type ReviewDto from '../../DTO/ReviewDto';
 
 function MoviePage() {
     const title = useParams().title || '';
@@ -19,6 +20,14 @@ function MoviePage() {
     const { data: movie, error, isLoading } = useMovieByTitle(title);
 
     const [isReviewing, setIsReviewing] = useState(false);
+
+    const [reviews, setReviews] = useState<ReviewDto[]>([]);
+
+    useEffect(() => {
+        if (movie && movie.reviews) {
+            setReviews(movie.reviews);
+        }
+    }, [movie]);
 
     if (!title) return <p>No movie title provided.</p>;
 
@@ -72,9 +81,9 @@ function MoviePage() {
                     </section>
                     <section>
                         <SectionHeader title="Popular Reviews" subtitle="MORE" link="./reviews" />
-                        {movie.reviews && movie.reviews.length > 0 ? (
+                        {reviews && reviews.length > 0 ? (
                             <section className={styles.sectionReviews}>
-                                {movie.reviews.map((review) => (
+                                {reviews.map((review) => (
                                     <ReviewCardContent key={review.id} review={review} />
                                 ))}
                             </section>
@@ -97,7 +106,7 @@ function MoviePage() {
                 </section>
             </section>
 
-            {isReviewing && <ReviewModal setIsReviewing={setIsReviewing} movie={movie} />}
+            {isReviewing && <ReviewModal setIsReviewing={setIsReviewing} movie={movie} reviews={reviews} setReviews={setReviews} />}
         </>
     );
 }

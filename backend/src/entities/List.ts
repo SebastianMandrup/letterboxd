@@ -27,11 +27,11 @@ export class List {
     @JoinTable({
         name: 'lists_movies_movies',
         joinColumn: {
-            name: 'listsId', // left column (your list ID column)
+            name: 'listsId',
             referencedColumnName: 'id',
         },
         inverseJoinColumn: {
-            name: 'moviesId', // right column (movie ID column)
+            name: 'moviesId',
             referencedColumnName: 'id',
         },
     })

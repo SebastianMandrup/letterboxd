@@ -47,6 +47,7 @@ const StarRating = ({ value = 0, onChange, disabled = false, size = 32, allowHal
     };
 
     const handleClick = (e: React.MouseEvent, index: number) => {
+        e.stopPropagation();
         if (disabled || !onChange) return;
         const starValue = getStarValue(e, index);
         onChange(starValue);
@@ -59,6 +60,7 @@ const StarRating = ({ value = 0, onChange, disabled = false, size = 32, allowHal
 
         return (
             <button
+                type="button"
                 key={starIndex}
                 ref={(el) => {
                     starRefs.current[starIndex - 1] = el;

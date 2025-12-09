@@ -99,7 +99,7 @@ export const getUserByUsername = async (username: string) => {
     const queryBuilder = userRepository.createQueryBuilder('user');
 
     queryBuilder
-        .select(['user.id', 'user.username', 'user.role'])
+        .select(['user.id', 'user.username', 'user.role', 'user.createdAt', 'user.bio'])
         .leftJoinAndSelect('user.lists', 'list')
         .leftJoin('list.user', 'listUser')
         .addSelect(['listUser.id', 'listUser.username'])

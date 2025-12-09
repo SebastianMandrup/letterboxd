@@ -1,11 +1,11 @@
 import { useState, type FunctionComponent } from 'react';
 import styles from './createListPage.module.css';
-import type MovieDto from '../DTO/MovieDto';
-import movieService from '../services/movieService';
-import SectionHeader from '../components/shared/sectionHeader/SectionHeader';
-import Plus from '../components/shared/icons/Plus';
-import Minus from '../components/shared/icons/Minus';
-import listClient from '../services/ListClient';
+import type MovieDto from '../../DTO/MovieDto';
+import movieService from '../../services/movieService';
+import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
+import Plus from '../../components/shared/icons/Plus';
+import Minus from '../../components/shared/icons/Minus';
+import listClient from '../../services/ListClient';
 
 const CreateListPage: FunctionComponent = () => {
     const [moviesToAdd, setMoviesToAdd] = useState<MovieDto[]>([]);
