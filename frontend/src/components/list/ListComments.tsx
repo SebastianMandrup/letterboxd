@@ -6,6 +6,7 @@ import styles from './ListComments.module.css';
 import useFetchComments from '../../hooks/useFetchComments';
 import type CommentDto from '../../DTO/CommentDto';
 import ListClient from '../../services/ListClient';
+import { useToastStore } from '../../stores/useToastStore';
 
 interface ListCommentsProps {
     id: number;
@@ -15,6 +16,7 @@ const ListComments: FunctionComponent<ListCommentsProps> = ({ id }) => {
     const { data, isLoading, error } = useFetchComments(id);
     const [comments, setComments] = useState<CommentDto[]>([]);
     const isAuthenticated = useUserStore((state) => state.isAuthenticated());
+    const { addToast } = useToastStore();
 
     useEffect(() => {
         if (data) {
@@ -30,8 +32,15 @@ const ListComments: FunctionComponent<ListCommentsProps> = ({ id }) => {
         const response = await ListClient.addCommentToList(id, contentInput.value);
         contentInput.value = '';
 
-        if (response && response.message === 'Comment added successfully') {
-            setComments((prevComments) => [...prevComments, response.comment]);
+        if (response.error) {
+            addToast(response.error, 'error');
+            return;
+        }
+
+        if (response.message && response.data) {
+            const newComment = response.data;
+            setComments((prevComments) => [...prevComments, newComment]);
+            addToast(response.message, 'success');
         }
     };
 

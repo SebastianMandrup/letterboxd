@@ -1,6 +1,7 @@
 import ApiClient from './apiClient';
 import type ListDto from '../DTO/ListDto';
 import type CommentDto from '../DTO/CommentDto';
+import type ApiResponse from './ApiResponse.interface';
 
 class ListClient extends ApiClient<ListDto> {
     constructor() {
@@ -16,7 +17,7 @@ class ListClient extends ApiClient<ListDto> {
     }
 
     addCommentToList(id: number, content: string) {
-        return this.axiosInstance.post<CommentDto>(`${this.endpoint}/${id}/comments`, { content }).then((res) => res.data);
+        return this.axiosInstance.post<ApiResponse<CommentDto>>(`${this.endpoint}/${id}/comments`, { content }).then((res) => res.data);
     }
 }
 
