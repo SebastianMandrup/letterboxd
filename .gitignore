@@ -51,4 +51,5 @@ Thumbs.db
 # Misc
 *.tgz
 seed-data.json
+enriched-data.json
 docker-compose.production.yml
