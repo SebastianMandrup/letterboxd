@@ -7,6 +7,20 @@ const mockGetMovieBySlug = jest.fn();
 const mockDeleteMovieById = jest.fn();
 const mockBuildPaginatedResponse = jest.fn();
 
+// 2. Mock AppDataSource before importing router
+jest.mock('../startup/data-source', () => ({
+    AppDataSource: {
+        getRepository: jest.fn(),
+    },
+}));
+
+// 3. Mock authentication middleware
+jest.mock('../middleware/authenticateUser', () => ({
+    authenticateUser: (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        next();
+    },
+}));
+
 jest.mock('../services/movies/movieService', () => ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getMovies: (...args: any[]) => mockGetMovies(...args),
@@ -24,7 +38,7 @@ jest.mock(
             mockBuildPaginatedResponse(...args),
 );
 
-// 2. Import the router after mocks
+// 4. Import the router after mocks
 import movieRouter from './movieRouter';
 
 const app = express();

@@ -128,7 +128,17 @@ listRouter.post('/:id/comments', authenticateUser, async (req, res) => {
 
         await commentRepository.save(newComment);
 
-        res.status(201).send({ message: 'Comment added successfully', comment: newComment });
+        const newCommentDto = {
+            id: newComment.id,
+            content: newComment.content,
+            user: {
+                id: req.user.id,
+                username: req.user.username,
+            },
+            createdAt: newComment.createdAt,
+        };
+
+        res.status(201).send({ message: 'Comment added successfully', data: newCommentDto });
     } catch (error) {
         console.error('Error adding comment to list:', error);
         res.status(500).send({ error: 'Internal server error' });

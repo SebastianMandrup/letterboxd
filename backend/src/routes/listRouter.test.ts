@@ -298,7 +298,7 @@ describe('listRouter', () => {
 
             expect(res.status).toBe(201);
             expect(res.body.message).toBe('Comment added successfully');
-            expect(res.body.comment).toEqual(newComment);
+            expect(res.body.data.content).toEqual(newComment.content);
             expect(mockCommentRepository.create).toHaveBeenCalled();
             expect(mockCommentRepository.save).toHaveBeenCalled();
         });

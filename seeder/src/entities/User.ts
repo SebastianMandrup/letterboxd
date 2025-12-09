@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Comment } from './Comment.ts';
 import { CommentLike } from './CommentLike.ts';
 import { List } from './List.ts';
@@ -57,4 +57,21 @@ export class User {
 
     @OneToMany(() => ListLike, (listLike) => listLike.user)
     listLikes: ListLike[];
+
+    @ManyToMany(() => User)
+    @JoinTable({
+        name: 'user_following',
+        joinColumn: {
+            name: 'follower_id',
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'following_id',
+            referencedColumnName: 'id',
+        },
+    })
+    following: User[];
+
+    @ManyToMany(() => User, (user) => user.following)
+    followers: User[];
 }
