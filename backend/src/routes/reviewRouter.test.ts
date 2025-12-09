@@ -15,8 +15,8 @@ jest.mock('../startup/data-source', () => ({
     },
 }));
 
-// 3. Mock the reviewService module
-jest.mock('../services/reviewService', () => ({
+// 3. Mock the ReviewClient module
+jest.mock('../services/ReviewClient', () => ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getReviews: (...args: any[]) => mockGetReviews(...args),
 }));

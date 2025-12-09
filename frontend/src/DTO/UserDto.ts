@@ -5,6 +5,7 @@ import type ViewDto from './ViewDto';
 export default interface UserDto {
     id: number;
     username: string;
+    password?: string;
     role: string;
     email: string;
     createdAt: string;

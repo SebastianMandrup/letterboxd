@@ -9,6 +9,23 @@ const START_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 40;
 const MAX_PAGE_SIZE = 40;
 
+const addIsLikedSelect = (queryBuilder: SelectQueryBuilder<Review>, userId: number | undefined) => {
+    if (userId) {
+        const subQuery = queryBuilder
+            .subQuery()
+            .select('1')
+            .from('review_likes', 'rl')
+            .where('rl.reviewId = review.id')
+            .andWhere('rl.userId = :userId')
+            .getQuery();
+
+        queryBuilder.addSelect(`EXISTS(${subQuery})`, 'isLiked');
+        queryBuilder.setParameter('userId', userId);
+    } else {
+        queryBuilder.addSelect('false', 'isLiked');
+    }
+};
+
 const addLikeCountSelect = (queryBuilder: SelectQueryBuilder<Review>) => {
     queryBuilder.leftJoin('review.likes', 'like').addSelect('COUNT(like.id)', 'likeCount').groupBy('review.id');
 };
@@ -37,6 +54,9 @@ const getReviewQueryBuilder = async (req: Request) => {
 
     addFilterBy(queryBuilder, filterBy);
 
+    const userId = req.session.user ? req.session.user.id : undefined;
+
+    addIsLikedSelect(queryBuilder, userId);
     addMovieSelect(queryBuilder);
     addUserSelect(queryBuilder);
     return queryBuilder;
@@ -60,6 +80,7 @@ export const getReviews = async (req: Request) => {
         const reviews = entities.map((review, index) => {
             const likeCount = parseInt(raw[index]?.likeCount || 0, 10);
             review.likeCount = likeCount;
+            review.isLiked = raw[index]?.isLiked === 1 || raw[index]?.isLiked === true;
             return review;
         });
 

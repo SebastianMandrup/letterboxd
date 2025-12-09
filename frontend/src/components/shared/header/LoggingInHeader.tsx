@@ -22,7 +22,7 @@ function LoggingInHeader({ setIsLoggingIn }: LoggingInHeaderProps) {
             setIsLoggingIn(false); // close the login modal
             addToast('Successfully logged in!', 'success');
         } catch (error: unknown) {
-            alert('Login failed');
+            addToast('Login failed...', 'warning');
             console.error('Login failed:', error);
         }
     };
@@ -58,7 +58,7 @@ function LoggingInHeader({ setIsLoggingIn }: LoggingInHeaderProps) {
                     </label>
 
                     <button type="submit" className={styles.buttonSubmitLoginHeader} disabled={loading}>
-                        {loading ? 'SIGNING IN...' : 'SIGN IN'}
+                        SIGN IN
                     </button>
                 </form>
             </section>
