@@ -6,6 +6,7 @@ import { Review } from '../entities/Review';
 import { validateReview } from '../middleware/reviewValidation';
 import { Movie } from '../entities/Movie';
 import { MovieLike } from '../entities/MovieLike';
+import { ReviewLike } from '../entities/ReviewLike';
 
 const reviewRouter = Router();
 
@@ -57,6 +58,53 @@ reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, re
         }
 
         res.status(201).send({ message: 'Review created successfully', review: newReview });
+    } catch (error) {
+        next(error);
+    }
+});
+
+reviewRouter.post('/:id/like', authenticateUser, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const reviewId = parseInt(req.params.id, 10);
+
+        const reviewRepository = AppDataSource.getRepository(Review);
+        const review = await reviewRepository.findOneBy({ id: reviewId });
+
+        if (!review) {
+            return res.status(404).send({
+                status: 'error',
+                message: 'Review not found',
+            });
+        }
+
+        const reviewLikeRepository = AppDataSource.getRepository(ReviewLike);
+
+        const existingLike = await reviewLikeRepository.findOne({
+            where: {
+                review: { id: reviewId },
+                user: { id: req.user.id },
+            },
+        });
+
+        if (existingLike) {
+            await reviewLikeRepository.remove(existingLike);
+            return res.status(200).send({
+                status: 'ok',
+                message: 'Review unliked successfully',
+            });
+        }
+
+        const newLike = reviewLikeRepository.create({
+            review: { id: reviewId },
+            user: { id: req.user.id },
+        });
+
+        await reviewLikeRepository.save(newLike);
+
+        res.status(200).send({
+            status: 'ok',
+            message: 'Review liked successfully',
+        });
     } catch (error) {
         next(error);
     }

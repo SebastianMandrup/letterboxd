@@ -1,4 +1,5 @@
 import userService from '../../../services/userService';
+import { useToastStore } from '../../../stores/useToastStore';
 import styles from './signUpModal.module.css';
 
 interface SignUpModalProps {
@@ -6,6 +7,8 @@ interface SignUpModalProps {
 }
 
 function SignUpModal({ setIsSigningUp }: SignUpModalProps) {
+    const { addToast } = useToastStore();
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -13,12 +16,12 @@ function SignUpModal({ setIsSigningUp }: SignUpModalProps) {
         const acceptedTos = (event.currentTarget.elements.namedItem('privacyPolicy') as HTMLInputElement).checked;
 
         if (!isAtLeast16) {
-            alert('You must be at least 16 years old to sign up.');
+            addToast('You must be at least 16 years old to sign up.', 'warning');
             return;
         }
 
         if (!acceptedTos) {
-            alert('You must accept the privacy policy to sign up.');
+            addToast('You must accept the privacy policy to sign up.', 'warning');
             return;
         }
 
@@ -30,10 +33,11 @@ function SignUpModal({ setIsSigningUp }: SignUpModalProps) {
             })
             .then(() => {
                 setIsSigningUp(false);
-                alert('Sign up successful! You can now log in.');
+                addToast('Successfully signed up!', 'success');
             })
             .catch((error: Error) => {
-                alert('Sign up failed: ' + error.message);
+                addToast(`Sign up failed: ${error.message}`, 'warning');
+                console.error('Sign up failed:', error);
             });
     };
 

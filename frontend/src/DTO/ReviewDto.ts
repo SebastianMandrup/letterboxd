@@ -13,4 +13,5 @@ export default interface ReviewDto {
         releaseDate: string;
     };
     likeCount: number;
+    isLiked: boolean;
 }

@@ -6,8 +6,10 @@ import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
 import Plus from '../../components/shared/icons/Plus';
 import Minus from '../../components/shared/icons/Minus';
 import listClient from '../../services/ListClient';
+import { useUserStore } from '../../stores/useUserStore';
 
 const CreateListPage: FunctionComponent = () => {
+    const { user } = useUserStore();
     const [moviesToAdd, setMoviesToAdd] = useState<MovieDto[]>([]);
     const [searchedMovies, setSearchedMovies] = useState<MovieDto[]>([]);
 
@@ -34,6 +36,7 @@ const CreateListPage: FunctionComponent = () => {
 
         try {
             await listClient.create({ name, description, movieIds });
+            location.href = `/user/${user?.username}`;
         } catch (error) {
             console.error('Error creating list:', error);
         }
