@@ -16,7 +16,9 @@ jest.mock('../startup/data-source', () => ({
 
 // 3. Mock authentication middleware
 jest.mock('../middleware/authenticateUser', () => ({
-    authenticateUser: jest.fn((req, res, next) => next()),
+    authenticateUser: (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        next();
+    },
 }));
 
 jest.mock('../services/movies/movieService', () => ({
