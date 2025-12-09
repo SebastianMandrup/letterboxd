@@ -76,6 +76,8 @@
 }
 
 .buttonLogRateReview,
+.buttonView,
+.buttonReview,
 .buttonShareMovie {
     background-color: var(--darkerGrey);
     color: var(--lightGrey);
@@ -90,7 +92,15 @@
     }
 }
 
-.buttonLogRateReview {
+.buttonView {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.buttonLogRateReview,
+.buttonView {
     border-radius: var(--mediumBorderRadius) var(--mediumBorderRadius) 0 0;
     border-bottom: none;
 }

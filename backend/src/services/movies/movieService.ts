@@ -40,8 +40,8 @@ const getMoviesQueryBuilder = async (req: Request) => {
     return queryBuilder;
 };
 
-export const getMovieBySlug = async (slug: string) => {
-    return await movieRepository
+export const getMovieBySlug = async (req: Request, slug: string) => {
+    const query = movieRepository
         .createQueryBuilder('cmovie')
         .where('cmovie.slug = :slug', { slug })
         .leftJoinAndSelect('cmovie.reviews', 'review')
@@ -54,8 +54,38 @@ export const getMovieBySlug = async (slug: string) => {
         .loadRelationCountAndMap('list.commentCount', 'list.comments')
         .leftJoinAndSelect('list.movies', 'movies')
         .leftJoin('list.user', 'user')
-        .addSelect(['user.id', 'user.username'])
-        .getOne();
+        .addSelect(['user.id', 'user.username']);
+
+    let userId;
+    if (req.session.user) {
+        userId = req.session.user.id;
+    }
+
+    if (userId) {
+        query.leftJoin('cmovie.views', 'view', 'view.userId = :userId', { userId }).addSelect(
+            `
+                CASE 
+                    WHEN view.id IS NOT NULL THEN true 
+                    ELSE false 
+                END`,
+            'cmovie_isViewed',
+        );
+    }
+
+    const result = await query.getOne();
+
+    if (!result) {
+        return null;
+    }
+
+    if (result && userId) {
+        const isViewed = (await query.getRawOne())['cmovie_isViewed'];
+        result.isViewed = isViewed === '0' ? false : true;
+    } else {
+        result.isViewed = false;
+    }
+
+    return result;
 };
 
 export const getMoviesByPartialSlug = async (partialSlug: string) => {
@@ -64,6 +94,18 @@ export const getMoviesByPartialSlug = async (partialSlug: string) => {
         .where('movie.slug LIKE :partialSlug', { partialSlug: `%${partialSlug}%` })
         .take(20)
         .getMany();
+};
+
+export const getMovieById = async (movieId: number) => {
+    return await movieRepository.findOneBy({ id: movieId });
+};
+
+export const saveMovie = async (movie: Movie) => {
+    try {
+        return await movieRepository.save(movie);
+    } catch (error) {
+        throw new Error(`Error saving movie: ${error}`);
+    }
 };
 
 export const getMovies = async (req: Request) => {

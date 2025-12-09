@@ -52,7 +52,7 @@ jest.mock('../../services/movies/movieService', () => ({
 }));
 
 // Mock review service
-jest.mock('../../services/ReviewClient', () => ({
+jest.mock('../../services/reviewService', () => ({
     getReviews: mockGetReviews,
 }));
 
