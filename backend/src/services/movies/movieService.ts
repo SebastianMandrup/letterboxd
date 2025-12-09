@@ -96,6 +96,18 @@ export const getMoviesByPartialSlug = async (partialSlug: string) => {
         .getMany();
 };
 
+export const getMovieById = async (movieId: number) => {
+    return await movieRepository.findOneBy({ id: movieId });
+};
+
+export const saveMovie = async (movie: Movie) => {
+    try {
+        return await movieRepository.save(movie);
+    } catch (error) {
+        throw new Error(`Error saving movie: ${error}`);
+    }
+};
+
 export const getMovies = async (req: Request) => {
     const page = req.query.page ? Number(req.query.page) : START_PAGE;
     let pageSize = req.query.pageSize ? Number(req.query.pageSize) : DEFAULT_PAGE_SIZE;

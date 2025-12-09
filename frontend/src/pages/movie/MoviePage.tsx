@@ -12,11 +12,15 @@ import { useEffect, useState } from 'react';
 import ReviewModal from '../../components/movie/ReviewModal';
 import type ReviewDto from '../../DTO/ReviewDto';
 import Eye from '../../components/shared/icons/Eye';
+import movieService from '../../services/movieService';
+import { useToastStore } from '../../stores/useToastStore';
 
 function MoviePage() {
     const title = useParams().title || '';
 
     const { isAuthenticated } = useUserStore();
+
+    const { addToast } = useToastStore();
 
     const { data: movie, error, isLoading } = useMovieByTitle(title);
 
@@ -24,15 +28,36 @@ function MoviePage() {
 
     const [reviews, setReviews] = useState<ReviewDto[]>([]);
 
+    const [isViewed, setIsViewed] = useState(false);
+
     useEffect(() => {
         console.log('Movie data changed:', movie);
         if (movie && movie.reviews) {
             setReviews(movie.reviews);
         }
+        if (movie && movie.isViewed) {
+            setIsViewed(movie.isViewed);
+        }
     }, [movie]);
 
-    const handleView = () => {
-        console.log('View movie clicked');
+    const handleView = async () => {
+        if (!movie) return;
+
+        try {
+            const response = await movieService.viewMovie(movie.id);
+
+            if (response.message === 'Movie viewed successfully') {
+                setIsViewed(true);
+                addToast('Movie marked as viewed!', 'success');
+            }
+
+            if (response.message === 'Movie view removed successfully') {
+                setIsViewed(false);
+                addToast('Movie unmarked as viewed!', 'success');
+            }
+        } catch {
+            addToast('Failed to update view status.', 'error');
+        }
     };
 
     if (!title) return <p>No movie title provided.</p>;
@@ -76,10 +101,11 @@ function MoviePage() {
                                     </>
                                 ) : (
                                     <>
-                                        <button className={styles.buttonLogRateReview} onClick={() => handleView()}>
-                                            <Eye size={24} color={'var(--green)'} /> View
+                                        <button className={styles.buttonView} onClick={() => handleView()}>
+                                            <Eye size={24} color={isViewed ? 'var(--green)' : 'var(--grey)'} />
+                                            {isViewed ? 'Unmark as Viewed' : 'Mark as Viewed'}
                                         </button>
-                                        <button className={styles.buttonLogRateReview} onClick={() => setIsReviewing(true)}>
+                                        <button className={styles.buttonReview} onClick={() => setIsReviewing(true)}>
                                             Review
                                         </button>
                                         <button className={styles.buttonShareMovie}>Share</button>

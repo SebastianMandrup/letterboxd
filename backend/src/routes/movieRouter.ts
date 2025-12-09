@@ -1,6 +1,9 @@
 import { Router } from 'express';
-import { deleteMovieById, getMovieBySlug, getMovies, getMoviesByPartialSlug } from '../services/movies/movieService';
+import { deleteMovieById, getMovieById, getMovieBySlug, getMovies, getMoviesByPartialSlug } from '../services/movies/movieService';
 import buildPaginatedResponse from './helper/buildPaginatedResponse';
+import { authenticateUser } from '../middleware/authenticateUser';
+import { View } from '../entities/View';
+import { AppDataSource } from '../startup/data-source';
 
 const movieRouter = Router();
 
@@ -46,6 +49,43 @@ movieRouter.get('/like/:partialSlug', async (req, res) => {
     } catch (error) {
         console.error(`Error fetching movies like ${partialSlug}:`, error);
         res.status(500).send({ error: 'Internal server error' });
+    }
+});
+
+movieRouter.post('/:id/view', authenticateUser, async (req, res) => {
+    const movieId = Number(req.params.id);
+    try {
+        const movie = await getMovieById(movieId);
+
+        if (!movie) {
+            return res.status(404).send({ error: `Movie with ID ${movieId} not found.` });
+        }
+
+        const userId = req.user.id;
+
+        const viewRepository = AppDataSource.getRepository(View);
+
+        const existingView = await viewRepository.findOne({
+            where: {
+                movie: { id: movieId },
+                user: { id: userId },
+            },
+        });
+
+        if (existingView) {
+            await viewRepository.remove(existingView);
+            return res.status(200).send({ message: 'Movie view removed successfully' });
+        }
+
+        const newView = viewRepository.create({
+            movie: movie,
+            user: req.user,
+        });
+        await viewRepository.save(newView);
+        return res.status(200).send({ message: 'Movie viewed successfully' });
+    } catch (error) {
+        console.error(`Error updating view status for movie ID ${movieId}:`, error);
+        return res.status(500).send({ error: 'Internal server error' });
     }
 });
 
