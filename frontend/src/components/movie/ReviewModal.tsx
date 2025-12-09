@@ -7,13 +7,16 @@ import Heart from '../shared/icons/Heart';
 import StarRating from './StarRating';
 import reviewService from '../../services/reviewService';
 import { useToastStore } from '../../stores/useToastStore';
+import type ReviewDto from '../../DTO/ReviewDto';
 
 interface ReviewModalProps {
     setIsReviewing: (value: boolean) => void;
     movie: MovieDto;
+    reviews: ReviewDto[];
+    setReviews: (reviews: ReviewDto[]) => void;
 }
 
-const ReviewModal: FunctionComponent<ReviewModalProps> = ({ setIsReviewing, movie }) => {
+const ReviewModal: FunctionComponent<ReviewModalProps> = ({ setIsReviewing, movie, reviews, setReviews }) => {
     const [liked, setLiked] = useState(false);
     const [rating, setRating] = useState(0);
     const { addToast } = useToastStore();
@@ -23,6 +26,12 @@ const ReviewModal: FunctionComponent<ReviewModalProps> = ({ setIsReviewing, movi
 
         const formData = new FormData(e.target as HTMLFormElement);
         const review = formData.get('review') as string;
+
+        if (rating === 0 || rating > 5) {
+            addToast('Please provide a rating before submitting your review.', 'error');
+            return;
+        }
+
         const reviewData = {
             review,
             rating,
@@ -31,7 +40,8 @@ const ReviewModal: FunctionComponent<ReviewModalProps> = ({ setIsReviewing, movi
         };
 
         try {
-            await reviewService.create(reviewData);
+            const newReview = await reviewService.create(reviewData);
+            setReviews([newReview, ...reviews]);
             setIsReviewing(false);
         } catch (error) {
             console.error('Error creating review:', error);
@@ -57,7 +67,14 @@ const ReviewModal: FunctionComponent<ReviewModalProps> = ({ setIsReviewing, movi
                                 <h2 className={styles.movieTitle}>{movie.title}</h2>
                                 <p className={styles.releaseYear}>{movie.releaseDate?.toString().split('-')[0] || ''}</p>
                             </div>
-                            <textarea name="review" id="review" className={styles.reviewTextarea} placeholder="Add a review..."></textarea>
+                            <textarea
+                                name="review"
+                                id="review"
+                                className={styles.reviewTextarea}
+                                placeholder="Add a review..."
+                                minLength={10}
+                                maxLength={255}
+                            ></textarea>
                             <div className={styles.ratingLikeContainer}>
                                 <div>
                                     <p className={styles.label}>Rating</p>

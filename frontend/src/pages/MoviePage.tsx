@@ -8,8 +8,9 @@ import ListCardWithDescription from '../components/shared/listCard/ListCardWithD
 import useMovieByTitle from '../hooks/useMovieByTitle';
 import ReviewCardContent from '../components/shared/reviewCard/ReviewCardContent';
 import { useUserStore } from '../stores/useUserStore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReviewModal from '../components/movie/ReviewModal';
+import type ReviewDto from '../DTO/ReviewDto';
 
 function MoviePage() {
     const title = useParams().title || '';
@@ -19,6 +20,14 @@ function MoviePage() {
     const { data: movie, error, isLoading } = useMovieByTitle(title);
 
     const [isReviewing, setIsReviewing] = useState(false);
+
+    const [reviews, setReviews] = useState<ReviewDto[]>([]);
+
+    useEffect(() => {
+        if (movie && movie.reviews) {
+            setReviews(movie.reviews);
+        }
+    }, [movie]);
 
     if (!title) return <p>No movie title provided.</p>;
 
@@ -72,9 +81,9 @@ function MoviePage() {
                     </section>
                     <section>
                         <SectionHeader title="Popular Reviews" subtitle="MORE" link="./reviews" />
-                        {movie.reviews && movie.reviews.length > 0 ? (
+                        {reviews && reviews.length > 0 ? (
                             <section className={styles.sectionReviews}>
-                                {movie.reviews.map((review) => (
+                                {reviews.map((review) => (
                                     <ReviewCardContent key={review.id} review={review} />
                                 ))}
                             </section>
@@ -97,7 +106,7 @@ function MoviePage() {
                 </section>
             </section>
 
-            {isReviewing && <ReviewModal setIsReviewing={setIsReviewing} movie={movie} />}
+            {isReviewing && <ReviewModal setIsReviewing={setIsReviewing} movie={movie} reviews={reviews} setReviews={setReviews} />}
         </>
     );
 }
