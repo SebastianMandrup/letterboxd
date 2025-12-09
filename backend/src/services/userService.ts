@@ -11,6 +11,20 @@ const MAX_PAGE_SIZE = 40;
 const FEATURED_USER_IDS = [1, 2, 3, 4, 5];
 const HQ_USER_IDS = [6, 7, 8, 9, 10, 13, 14, 15];
 
+const addIsFollowed = (queryBuilder: SelectQueryBuilder<User>, currentUserId: number | undefined) => {
+    if (!currentUserId) {
+        queryBuilder.addSelect('0', 'isFollowed');
+    } else {
+        const mainAlias = queryBuilder.alias;
+
+        queryBuilder
+            .leftJoin('user_following', 'uf', `uf.following_id = ${mainAlias}.id AND uf.follower_id = :currentUserId`, { currentUserId })
+            .addSelect('CASE WHEN uf.follower_id IS NOT NULL THEN 1 ELSE 0 END', 'isFollowed');
+    }
+
+    return queryBuilder; // Always return this
+};
+
 const addNumberOfWatchedFilms = (queryBuilder: SelectQueryBuilder<User>) => {
     queryBuilder.leftJoin('user.views', 'view').addSelect('COUNT(DISTINCT view.id)', 'numberOfWatchedFilms').groupBy('user.id');
 };
@@ -47,12 +61,14 @@ const addSorting = (queryBuilder: SelectQueryBuilder<User>, sortBy: string) => {
     }
 };
 
-const getUserQueryBuilder = async (req: Request) => {
+const getUserQueryBuilder = async (req: Request, userId: number | undefined = undefined) => {
     const queryBuilder = userRepository.createQueryBuilder('user');
 
     addNumberOfReviews(queryBuilder);
     addNumberOfWatchedFilms(queryBuilder);
     addReviewLikeCount(queryBuilder);
+    addIsFollowed(queryBuilder, userId);
+    console.log('Current User ID in getUserQueryBuilder:', userId);
 
     const filterBy = req.query.filterBy ? String(req.query.filterBy) : undefined;
     if (filterBy) {
@@ -67,13 +83,13 @@ const getUserQueryBuilder = async (req: Request) => {
     return queryBuilder;
 };
 
-export const getUsers = async (req: Request) => {
+export const getUsers = async (req: Request, userId: number | undefined = undefined) => {
     const page = req.query.page ? Number(req.query.page) : START_PAGE;
     let pageSize = req.query.pageSize ? Number(req.query.pageSize) : DEFAULT_PAGE_SIZE;
 
     if (pageSize > MAX_PAGE_SIZE) pageSize = MAX_PAGE_SIZE;
 
-    const queryBuilder = await getUserQueryBuilder(req);
+    const queryBuilder = await getUserQueryBuilder(req, userId);
 
     try {
         queryBuilder.skip((page - 1) * pageSize).take(pageSize);
@@ -86,6 +102,7 @@ export const getUsers = async (req: Request) => {
             user.numberOfReviews = parseInt(raw[index]?.numberOfReviews || 0, 10);
             user.numberOfWatchedFilms = parseInt(raw[index]?.numberOfWatchedFilms || 0, 10);
             user.reviewLikeCount = parseInt(raw[index]?.reviewLikeCount || 0, 10);
+            user.isFollowed = raw[index]?.isFollowed === 1;
         });
 
         return { users, total };
