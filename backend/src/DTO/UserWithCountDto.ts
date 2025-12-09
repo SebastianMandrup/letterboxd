@@ -10,6 +10,7 @@ export interface UserWithCountDto {
     numberOfWatchedFilms: number;
     reviewLikeCount: number;
     recentlyWatchedMovies?: Movie[];
+    isFollowed?: boolean;
 }
 
 export function toUserWithCountDto(user: User): UserWithCountDto {
@@ -22,5 +23,6 @@ export function toUserWithCountDto(user: User): UserWithCountDto {
         numberOfWatchedFilms: user.numberOfWatchedFilms ?? 0,
         reviewLikeCount: user.reviewLikeCount ?? 0,
         recentlyWatchedMovies: user.recentlyWatchedMovies ?? [],
+        isFollowed: user.isFollowed ?? false,
     };
 }

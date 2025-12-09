@@ -1,7 +1,8 @@
-import type { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import type UserDto from '../../../DTO/UserDto';
 import styles from './userCard.module.css';
 import { getApiAvatar } from '../../../services/getApiAvatar';
+import FollowButton from './FollowButton';
 
 interface UserCardProps {
     user: UserDto;
@@ -21,9 +22,7 @@ const UserCard: FunctionComponent<UserCardProps> = ({ user }) => {
                         <p className={styles.reviewsCount}>{user.numberOfReviews} reviews</p>
                     </div>
                 </div>
-                <button className={styles.followButton} title="Follow user">
-                    &#43;
-                </button>
+                <FollowButton user={user} />
             </div>
         </article>
     );
