@@ -34,7 +34,10 @@ userRouter.get('/', async (req, res) => {
 userRouter.get('/:username', async (req, res) => {
     try {
         const username = req.params.username;
-        const user = await getUserByUsername(username);
+
+        const currentUserId = req.session.user?.id;
+
+        const user = await getUserByUsername(username, currentUserId);
 
         if (!user) {
             return res.status(404).send({ error: 'User not found' });

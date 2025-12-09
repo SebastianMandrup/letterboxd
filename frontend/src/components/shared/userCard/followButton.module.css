@@ -1,0 +1,19 @@
+.followButton,
+.unfollowButton {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    font-size: 20px;
+    color: var(--darkestGrey);
+    background-color: var(--grey);
+    border: none;
+    cursor: pointer;
+}
+
+.followButton:hover {
+    background-color: var(--darkGreen);
+}
+
+.unfollowButton:hover {
+    background-color: var(--orange);
+}

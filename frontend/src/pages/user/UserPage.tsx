@@ -8,21 +8,22 @@ import UserDataItem from '../../components/user/UserDataItem';
 import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
 import ReviewCard from '../../components/shared/reviewCard/ReviewCard';
 import ListCard from '../../components/shared/listCard/ListCard';
+import FollowButton from '../../components/shared/userCard/FollowButton';
 
 const UserPage: FunctionComponent = () => {
     const username = useParams().username || '';
 
-    const { data, isLoading, error } = useUserByUsername(username);
+    const { data: user, isLoading, error } = useUserByUsername(username);
 
     if (isLoading) {
         return <div className={styles.div}>Loading...</div>;
     }
-    if (error || !data) {
+    if (error || !user) {
         return <div className={styles.div}>Error loading user data.</div>;
     }
 
     let lastWatchedMovie;
-    if (data.views.length > 0) lastWatchedMovie = data.views[0].movie;
+    if (user.views.length > 0) lastWatchedMovie = user.views[0].movie;
 
     return (
         <>
@@ -33,18 +34,16 @@ const UserPage: FunctionComponent = () => {
             )}
             <section className={styles.userSection}>
                 <div className={styles.avatarContainer}>
-                    <img className={styles.avatar} src={getApiAvatar(data.username)} alt={`${data.username}'s avatar`} />
+                    <img className={styles.avatar} src={getApiAvatar(user.username)} alt={`${user.username}'s avatar`} />
                     <div className={styles.userInfo}>
-                        <h1 className={styles.username}>{data.username}</h1>
+                        <h1 className={styles.username}>{user.username}</h1>
                     </div>
-                    <button className={styles.moreOptionsButton} aria-label="More options">
-                        ...
-                    </button>
+                    <FollowButton user={user} />
                 </div>
                 <div className={styles.userData}>
-                    <UserDataItem value={data.views.length} label="movie" />
-                    <UserDataItem value={data.lists.length} label="list" />
-                    <UserDataItem value={data.reviews.length} label="review" />
+                    <UserDataItem value={user.views.length} label="movie" />
+                    <UserDataItem value={user.lists.length} label="list" />
+                    <UserDataItem value={user.reviews.length} label="review" />
                 </div>
             </section>
 
@@ -52,10 +51,10 @@ const UserPage: FunctionComponent = () => {
                 <section className={styles.recentReviews}>
                     <SectionHeader title="Recent Reviews" />
                     <div>
-                        {data.reviews.length === 0 ? (
+                        {user.reviews.length === 0 ? (
                             <p className={styles.noReviewsMessage}>This user has not written any reviews yet.</p>
                         ) : (
-                            data.reviews.slice(0, 5).map((review) => <ReviewCard key={review.id} review={review} />)
+                            user.reviews.slice(0, 5).map((review) => <ReviewCard key={review.id} review={review} />)
                         )}
                     </div>
                 </section>
@@ -65,20 +64,20 @@ const UserPage: FunctionComponent = () => {
                         <SectionHeader title="Bio" />
                         <div>
                             <p>
-                                Member since <span className={styles.memberSince}>{new Date(data.createdAt).toLocaleDateString()}</span>
+                                Member since <span className={styles.memberSince}>{new Date(user.createdAt).toLocaleDateString()}</span>
                             </p>
 
-                            <p>{data.bio ? data.bio : 'This user has not added a bio yet.'}</p>
+                            <p>{user.bio ? user.bio : 'This user has not added a bio yet.'}</p>
                         </div>
                     </section>
 
                     <section className={styles.recentLists}>
                         <SectionHeader title="Recent Lists" />
                         <div>
-                            {data.lists.length === 0 ? (
+                            {user.lists.length === 0 ? (
                                 <p className={styles.noReviewsMessage}>This user has not created any lists yet.</p>
                             ) : (
-                                data.lists.slice(0, 3).map((list) => <ListCard key={list.id} list={list} />)
+                                user.lists.slice(0, 3).map((list) => <ListCard key={list.id} list={list} />)
                             )}
                         </div>
                     </section>

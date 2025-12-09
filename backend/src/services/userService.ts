@@ -112,7 +112,7 @@ export const getUsers = async (req: Request, userId: number | undefined = undefi
     }
 };
 
-export const getUserByUsername = async (username: string) => {
+export const getUserByUsername = async (username: string, currentUserId: number | undefined = undefined) => {
     const queryBuilder = userRepository.createQueryBuilder('user');
 
     queryBuilder
@@ -132,7 +132,18 @@ export const getUserByUsername = async (username: string) => {
         .addOrderBy('review.createdAt', 'DESC')
         .addOrderBy('view.viewedAt', 'DESC');
 
-    return queryBuilder.getOne();
+    addIsFollowed(queryBuilder, currentUserId);
+
+    const { raw, entities } = await queryBuilder.getRawAndEntities();
+
+    const user = entities[0];
+
+    if (!user) {
+        return null;
+    }
+
+    user.isFollowed = raw[0]?.isFollowed === 1;
+    return user;
 };
 
 export const deleteUserById = async (userId: number) => {

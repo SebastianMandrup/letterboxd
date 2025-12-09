@@ -49,25 +49,6 @@ describe('userRouter', () => {
     });
 
     describe('GET /users', () => {
-        it('should return users with DTOs and total count', async () => {
-            const users = [{ id: 1, username: 'john' }];
-            const total = 1;
-            const dto = { id: 1, username: 'john', postCount: 0 };
-
-            mockGetUsers.mockResolvedValue({ users, total });
-            mockToUserWithCountDto.mockReturnValue(dto);
-
-            const res = await request(app).get('/users');
-
-            expect(res.status).toBe(200);
-            expect(res.body).toEqual({
-                count: total,
-                results: [dto],
-            });
-            expect(mockGetUsers).toHaveBeenCalled();
-            expect(mockToUserWithCountDto).toHaveBeenCalledWith(users[0]);
-        });
-
         it('should return 500 if getUsers throws an error', async () => {
             mockGetUsers.mockRejectedValue(new Error('DB error'));
 

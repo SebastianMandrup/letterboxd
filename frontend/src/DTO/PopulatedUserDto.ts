@@ -10,6 +10,8 @@ export default interface PopulatedUserDto {
     createdAt: string;
     bio?: string;
 
+    isFollowed: boolean;
+
     lists: ListDto[];
     reviews: ReviewDto[];
     views: ViewDto[];
