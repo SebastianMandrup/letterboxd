@@ -1,5 +1,4 @@
 import type { FunctionComponent } from 'react';
-import styles from './ListPage.module.css';
 import { useParams } from 'react-router-dom';
 import useList from '../../hooks/useList';
 import Backdrop from '../../components/index/backdrop/Backdrop';
@@ -9,6 +8,7 @@ import CollapseText from '../../components/users/CollapseText';
 import { getMediumPoster } from '../../services/getMediumPoster';
 import Heart from '../../components/shared/icons/Heart';
 import ListComments from '../../components/list/ListComments';
+import styles from './llistPage.module.css';
 
 const ListPage: FunctionComponent = () => {
     const listName = useParams().name || '';
