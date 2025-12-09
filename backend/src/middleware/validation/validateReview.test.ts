@@ -3,9 +3,7 @@ import { MuoError } from '../errorHandler';
 
 describe('validateReview', () => {
     it('returns the trimmed review when valid', () => {
-        expect(validateReview('This is a great movie that everyone should watch')).toBe(
-            'This is a great movie that everyone should watch',
-        );
+        expect(validateReview('This is a great movie that everyone should watch')).toBe('This is a great movie that everyone should watch');
         expect(validateReview('  Valid review with spaces  ')).toBe('Valid review with spaces');
     });
 
