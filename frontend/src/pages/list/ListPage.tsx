@@ -1,14 +1,14 @@
 import type { FunctionComponent } from 'react';
 import styles from './ListPage.module.css';
 import { useParams } from 'react-router-dom';
-import useList from '../hooks/useList';
-import Backdrop from '../components/index/backdrop/Backdrop';
-import { getApiAvatar } from '../services/getApiAvatar';
-import MovieCard from '../components/shared/movieCard/MovieCard';
-import CollapseText from '../components/users/CollapseText';
-import { getMediumPoster } from '../services/getMediumPoster';
-import Heart from '../components/shared/icons/Heart';
-import ListComments from '../components/list/ListComments';
+import useList from '../../hooks/useList';
+import Backdrop from '../../components/index/backdrop/Backdrop';
+import { getApiAvatar } from '../../services/getApiAvatar';
+import MovieCard from '../../components/shared/movieCard/MovieCard';
+import CollapseText from '../../components/users/CollapseText';
+import { getMediumPoster } from '../../services/getMediumPoster';
+import Heart from '../../components/shared/icons/Heart';
+import ListComments from '../../components/list/ListComments';
 
 const ListPage: FunctionComponent = () => {
     const listName = useParams().name || '';
@@ -70,7 +70,7 @@ const ListPage: FunctionComponent = () => {
                 <aside className={styles.sidebar}>
                     <div className={styles.sidebarButtons}>
                         <button className={styles.likeButton}>
-                            <Heart />
+                            <Heart size={32} color="var(--orange)" />
                             Like this list?
                         </button>
                         <button className={styles.cloneButton}>Go PRO to clone or see stats</button>

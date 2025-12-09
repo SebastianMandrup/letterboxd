@@ -53,13 +53,20 @@
     padding: 0 40px;
 }
 
-.moreUserData > div {
-    padding: 20px;
+.moreUserData > div,
+.recentLists > div {
+    padding: 10px 20px;
 }
 
 .moreUserData p {
     color: var(--grey);
     margin-bottom: 10px;
+}
+
+.memberSince {
+    color: var(--lightBlue);
+    font-weight: bold;
+    margin: 0 4px;
 }
 
 .moreUserData p:last-child {

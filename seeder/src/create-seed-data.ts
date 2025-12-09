@@ -49,6 +49,7 @@ const users = Array.from({ length: NUM_USERS }, (_, i) => {
         username: username,
         email: faker.internet.email(),
         password: bcrypt.hashSync('password', 10),
+        bio: faker.lorem.sentence(20),
     };
 });
 

@@ -7,6 +7,8 @@ export default interface UserDto {
     username: string;
     role: string;
     email: string;
+    createdAt: string;
+    bio?: string;
 
     lists: ListDto[];
     reviews: ReviewDto[];

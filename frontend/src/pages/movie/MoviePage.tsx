@@ -1,16 +1,16 @@
 import { useParams } from 'react-router-dom';
-import Backdrop from '../components/index/backdrop/Backdrop';
-import ArticleMovie from '../components/shared/movieCard/MovieCard';
-import SectionHeader from '../components/shared/sectionHeader/SectionHeader';
-import { getMediumPoster } from '../services/getMediumPoster';
+import Backdrop from '../../components/index/backdrop/Backdrop';
+import ArticleMovie from '../../components/shared/movieCard/MovieCard';
+import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
+import { getMediumPoster } from '../../services/getMediumPoster';
 import styles from './moviePage.module.css';
-import ListCardWithDescription from '../components/shared/listCard/ListCardWithDescription';
-import useMovieByTitle from '../hooks/useMovieByTitle';
-import ReviewCardContent from '../components/shared/reviewCard/ReviewCardContent';
-import { useUserStore } from '../stores/useUserStore';
+import ListCardWithDescription from '../../components/shared/listCard/ListCardWithDescription';
+import useMovieByTitle from '../../hooks/useMovieByTitle';
+import ReviewCardContent from '../../components/shared/reviewCard/ReviewCardContent';
+import { useUserStore } from '../../stores/useUserStore';
 import { useEffect, useState } from 'react';
-import ReviewModal from '../components/movie/ReviewModal';
-import type ReviewDto from '../DTO/ReviewDto';
+import ReviewModal from '../../components/movie/ReviewModal';
+import type ReviewDto from '../../DTO/ReviewDto';
 
 function MoviePage() {
     const title = useParams().title || '';
