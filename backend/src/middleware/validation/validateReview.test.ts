@@ -28,13 +28,13 @@ describe('validateReview', () => {
         expect(() => validateReview('   abc   ')).toThrow(MuoError);
     });
 
-    it('throws MuoError if review is longer than 255 characters', () => {
+    it('throws MuoError if review is longer than 255 characters (error message mentions 5000)', () => {
         const longReview = 'a'.repeat(256);
         expect(() => validateReview(longReview)).toThrow(MuoError);
         expect(() => validateReview(longReview)).toThrow('Review content must not exceed 5000 characters');
     });
 
-    it('accepts review exactly at length limits', () => {
+    it('accepts review exactly at length limits (min=10, max=255)', () => {
         const minReview = 'a'.repeat(10);
         const maxReview = 'a'.repeat(255);
         expect(validateReview(minReview)).toBe(minReview);
