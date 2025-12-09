@@ -12,4 +12,17 @@ export default interface TmdbMovie {
     original_language: string;
     vote_count: number;
     vote_average: number;
+    videos?: { id: string; key: string; name: string; site: string; type: string }[];
+    credits?: {
+        cast: {
+            id: number;
+            gender: number;
+            profile_path?: string;
+            name: string;
+            character?: string;
+            known_for_department: string;
+            department: string;
+            job?: string;
+        }[];
+    };
 }

@@ -43,4 +43,6 @@ export class Review {
     likes: ReviewLike[];
 
     likeCount: number;
+
+    isLiked: boolean;
 }

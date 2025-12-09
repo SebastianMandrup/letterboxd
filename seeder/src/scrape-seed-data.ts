@@ -2,6 +2,7 @@ import 'dotenv/config';
 import fs from 'fs';
 import type TmdbMovie from './types/TmdbMovie';
 import TmdbResponse from './types/TmdbResponse';
+import path from 'path';
 
 // turning off your wifi is pretty effective
 // thrown error will write partial data to file
@@ -36,12 +37,12 @@ async function fetchMoviesAsync() {
 
         console.log(`Total movies fetched: ${allMovies.length}`);
         console.log('Writing data to scraped-data.json');
-        fs.writeFileSync('../data/scraped-data.json', JSON.stringify(allMovies, null, 2));
+        fs.writeFileSync(path.join('./data/scraped-data.json'), JSON.stringify(allMovies, null, 2));
     } catch (error) {
         console.error('Error fetching movies:', error);
         console.log(`Total movies fetched so far: ${allMovies.length}`);
         console.log('Writing partial data to scraped-data.json');
-        fs.writeFileSync('../data/scraped-data.json', JSON.stringify(allMovies, null, 2));
+        fs.writeFileSync(path.join('./data/scraped-data.json'), JSON.stringify(allMovies, null, 2));
     }
 }
 

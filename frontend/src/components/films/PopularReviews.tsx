@@ -11,24 +11,18 @@ const PopularReviews: FunctionComponent = () => {
         },
     });
 
-    if (isLoading) {
-        return (
-            <div className="spinnerContainer">
-                <div className="spinner"></div>
-            </div>
-        );
-    }
-
-    if (error || !data) {
-        return <p>Failed to load popular reviews.</p>;
-    }
-
     return (
         <section>
             <SectionHeader title="popular reviews this week" />
-            {data.results.map((review) => (
-                <ReviewCard key={review.id} review={review} />
-            ))}
+            {isLoading && (
+                <div className="spinnerContainer">
+                    <div className="spinner"></div>
+                </div>
+            )}
+
+            {error || !data ? <p>Failed to load popular reviews.</p> : null}
+
+            {data && data.results.map((review) => <ReviewCard key={review.id} review={review} />)}
         </section>
     );
 };

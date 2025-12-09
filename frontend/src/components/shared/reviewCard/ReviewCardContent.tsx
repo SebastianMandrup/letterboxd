@@ -1,25 +1,66 @@
-import type { FunctionComponent } from 'react';
+import { useState, type FunctionComponent } from 'react';
 import styles from './reviewCardContent.module.css';
 import type ReviewDto from '../../../DTO/ReviewDto';
 import { getSlug } from '../../../services/getSlug';
 import { getApiAvatar } from '../../../services/getApiAvatar';
 import { useUserStore } from '../../../stores/useUserStore';
+import { useToastStore } from '../../../stores/useToastStore';
+import Heart from '../icons/Heart';
+import reviewService from '../../../services/ReviewClient';
 
 interface ReviewCardContentProps {
     review: ReviewDto;
+    withMovieTitle?: boolean;
 }
 
-const ReviewCardContent: FunctionComponent<ReviewCardContentProps> = ({ review }) => {
-    const { isAuthenticated } = useUserStore();
+const ReviewCardContent: FunctionComponent<ReviewCardContentProps> = ({ review, withMovieTitle = true }) => {
+    const { user } = useUserStore();
+    const { addToast } = useToastStore();
+    const [isLiked, setIsLiked] = useState(review.isLiked);
+    const [likedCount, setLikedCount] = useState(review.likeCount);
+
+    const handleLike = async () => {
+        if (!user) {
+            addToast('You must be logged in to like reviews.', 'warning');
+            return;
+        }
+
+        try {
+            const response = await reviewService.likeReview(review.id);
+
+            if (!(response.status === 'ok')) {
+                addToast(response.message, 'error');
+                return;
+            }
+
+            if (response.message === 'Review unliked successfully') {
+                setLikedCount(likedCount - 1);
+                setIsLiked(false);
+                addToast('Review unliked successfully.', 'success');
+                return;
+            } else if (response.message === 'Review liked successfully') {
+                setLikedCount(likedCount + 1);
+                setIsLiked(true);
+                addToast('Review liked successfully.', 'success');
+                return;
+            }
+        } catch (error) {
+            console.error('Error liking review:', error);
+            addToast('An error occurred while liking the review.', 'error');
+            return;
+        }
+    };
 
     return (
         <div>
-            <section className={styles.titleAndYear}>
-                <a className={styles.movieTitle} href={`/movie/${getSlug(review.movie.title)}`}>
-                    {review.movie.title}
-                </a>
-                <p className={styles.movieYear}>{new Date(review.movie.releaseDate).getFullYear()}</p>
-            </section>
+            {withMovieTitle && (
+                <section className={styles.titleAndYear}>
+                    <a className={styles.movieTitle} href={`/movie/${getSlug(review.movie.title)}`}>
+                        {review.movie.title}
+                    </a>
+                    <p className={styles.movieYear}>{new Date(review.movie.releaseDate).getFullYear()}</p>
+                </section>
+            )}
             <section>
                 <div className={styles.authorAndAvatar}>
                     <img className={styles.avatar} alt={`${review.author.username}'s avatar`} src={getApiAvatar(review.author.username)}></img>
@@ -34,20 +75,10 @@ const ReviewCardContent: FunctionComponent<ReviewCardContentProps> = ({ review }
                 </div>
                 <p className={styles.reviewText}>{review.review}</p>
                 <div className={styles.likeContainer}>
-                    {isAuthenticated() && (
-                        <button className={styles.buttonLikeReview}>
-                            <div>
-                                <svg width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="Liked">
-                                    <path
-                                        d="M12 21.4s-6.7-4.6-9.3-7.3C.9 11.9 1 7.9 4.3 5.9 6.1 4.7 8.4 5 10 6.3c.9.8 1.6 1.6 2 2 .4-.4 1.1-1.2 2-2 1.6-1.3 3.9-1.6 5.7-.4 3.3 2 3.4 6 1.6 8.2-2.6 2.7-9.3 7.3-9.3 7.3z"
-                                        fill="currentColor"
-                                    ></path>
-                                </svg>
-                            </div>
-                            <p>Like Review</p>
-                        </button>
-                    )}
-                    <p className={styles.likeCount}>{review.likeCount} likes</p>
+                    <button className={styles.buttonLikeReview} onClick={() => handleLike()}>
+                        <Heart size={28} color={isLiked ? 'var(--orange)' : 'var(--grey)'} />
+                    </button>
+                    <p className={styles.likeCount}>{likedCount} likes</p>
                 </div>
             </section>
         </div>
