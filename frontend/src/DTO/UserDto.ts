@@ -18,4 +18,6 @@ export default interface UserDto {
     numberOfReviews: number;
     numberOfWatchedFilms: number;
     reviewLikeCount: number;
+
+    isFollowed: boolean;
 }
