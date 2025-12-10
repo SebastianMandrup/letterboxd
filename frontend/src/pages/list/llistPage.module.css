@@ -23,11 +23,16 @@
     border-bottom: 1px solid var(--darkGrey);
 }
 
-.avatar {
+.avatar,
+.loadingAvatar {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.loadingAvatar {
+    background-color: var(--darkGrey);
 }
 
 .username {
@@ -36,12 +41,27 @@
     color: var(--lighterBlue);
 }
 
-.publishDate {
+.loadingUsername {
+    width: 100px;
+    height: 30px;
+    background-color: var(--darkerGrey);
+    border-radius: 4px;
+}
+
+.publishDate,
+.loadingPublishDate {
     margin-bottom: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid var(--darkGrey);
     font-size: 14px;
     color: var(--grey);
+}
+
+.loadingPublishDate {
+    width: 150px;
+    height: 20px;
+    background-color: var(--darkerGrey);
+    border-radius: 4px;
 }
 
 .publishedDate {
@@ -50,18 +70,34 @@
     color: var(--lighterBlue);
 }
 
-.listName {
+.listName,
+.loadingListName {
     font-size: 32px;
     font-weight: 700;
     margin: 15px 0;
     color: var(--white);
 }
 
-.description > p {
+.loadingListName {
+    width: 300px;
+    height: 40px;
+    background-color: var(--darkerGrey);
+    border-radius: 4px;
+}
+
+.loadingDescription,
+.description>p {
     font-size: 16px;
     line-height: 1.5;
     color: var(--lightGrey);
     margin-bottom: 40px;
+}
+
+.loadingDescription {
+    width: 100%;
+    height: 80px;
+    background-color: var(--darkerGrey);
+    border-radius: 4px;
 }
 
 .moviesGrid {
@@ -71,7 +107,8 @@
     gap: 20px;
 }
 
-.moviesGrid > button {
+.moviesGrid>button,
+.moviesGrid>div {
     width: 100%;
     height: auto;
     margin-bottom: 30px;
@@ -93,6 +130,20 @@
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+}
+
+.loadingSidebarBox {
+    width: 100%;
+    height: 150px;
+    background-color: var(--darkerGrey);
+    border-radius: 10px;
+}
+
+.loadingMovieCard {
+    width: 100%;
+    height: 100%;
+    background-color: var(--darkerGrey);
+    border-radius: 8px;
 }
 
 .likeButton,

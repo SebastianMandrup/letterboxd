@@ -87,3 +87,10 @@
         border-top: 6px solid var(--darkGrey);
     }
 }
+
+.loadingArticleMovie {
+    background: var(--darkGrey);
+    border-radius: var(--lightBorderRadius);
+    height: 120px;
+    width: 76px;
+}
