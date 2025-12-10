@@ -11,8 +11,8 @@
 .sectionBrowseResults ul {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    grid-template-columns: 1fr;
+    gap: 40px;
 }
 
 .sectionBrowseResults ul li {
@@ -32,18 +32,42 @@
 
 .pagination {
     margin-top: 14px;
-    padding-top: 14px;
+    padding: 40px 0;
     border-top: 1px solid var(--darkGrey);
     width: 100%;
     display: flex;
     justify-content: space-between;
 
     button {
-        padding: 0.25rem 0.75rem;
+        padding: 8px 16px;
         font-size: 1rem;
         cursor: pointer;
         background-color: var(--darkerGrey);
-        color: var(--black);
+        color: var(--white);
         outline: none;
+        border: none;
+        border-radius: 4px;
+    }
+}
+
+.pagination button:hover {
+    background-color: var(--darkestGrey);
+}
+
+@media screen and (min-width: 600px) {
+    .sectionBrowseResults ul {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .sectionBrowseResults ul {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    .sectionBrowseResults ul {
+        grid-template-columns: repeat(4, 1fr);
     }
 }
