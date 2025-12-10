@@ -3,7 +3,6 @@ import SectionFeaturedMovies from '../components/index/sectionFeaturedMovies/Sec
 import SectionGetStarted from '../components/index/sectionGetStarted/SectionGetStarted';
 import SectionJustReviewed from '../components/index/sectionJustReviewed/SectionJustReviewed';
 import SectionLetterboxLetsYou from '../components/index/sectionLetterboxLetsYou/SectionLetterboxLetsYou';
-import SectionRecentStories from '../components/index/sectionRecentStories/SectionRecentStories';
 
 function IndexPage() {
     return (
@@ -13,7 +12,6 @@ function IndexPage() {
             <SectionFeaturedMovies />
             <SectionLetterboxLetsYou />
             <SectionJustReviewed />
-            <SectionRecentStories />
         </>
     );
 }

@@ -80,6 +80,7 @@
 }
 
 .buttonCloseLoginHeader {
+    display: block;
     background-color: transparent;
     border: none;
     position: absolute;
@@ -94,4 +95,7 @@
         cursor: pointer;
         color: var(--lightGrey);
     }
+}
+
+@media screen {
 }

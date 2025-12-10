@@ -23,6 +23,7 @@ const Header = () => {
             addToast('Successfully logged out!', 'success');
         } catch (err) {
             console.error('Logout failed:', err);
+            addToast('Logout failed. Please try again.', 'error');
         }
     };
 

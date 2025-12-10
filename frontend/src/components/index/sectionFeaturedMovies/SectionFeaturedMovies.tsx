@@ -8,10 +8,6 @@ const SectionFeaturedMovies = () => {
         params: { featured: true },
     });
 
-    if (data) {
-        console.log('Featured movies data:', data);
-    }
-
     return (
         <section id={styles.sectionFeaturedMovies}>
             {isLoading && <p>Loading...</p>}

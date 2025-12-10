@@ -13,7 +13,7 @@
     height: 64px;
 
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 16px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -31,6 +31,17 @@
         }
     }
 
+    button > div,
+    a > div {
+        display: none;
+    }
+
+    button > svg,
+    a > svg {
+        display: flex;
+    }
+
+    button,
     a {
         font-size: 2rem;
         font-weight: 600;
@@ -40,6 +51,22 @@
         &:hover {
             cursor: pointer;
             color: inherit;
+        }
+    }
+}
+
+@media screen and (min-width: 868px) {
+    .headerMain {
+        padding: 0 40px;
+
+        button > div,
+        a > div {
+            display: block;
+        }
+
+        button > svg,
+        a > svg {
+            display: none;
         }
     }
 }
