@@ -5,7 +5,7 @@ import { getSlug } from '../../../services/getSlug';
 import { getApiAvatar } from '../../../services/getApiAvatar';
 import { useUserStore } from '../../../stores/useUserStore';
 import { useToastStore } from '../../../stores/useToastStore';
-import Heart from '../icons/Heart';
+import Heart from '../icons/HeartIcon';
 import reviewService from '../../../services/ReviewClient';
 
 interface ReviewCardContentProps {

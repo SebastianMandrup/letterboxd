@@ -15,6 +15,12 @@
 .listName {
     font-size: 22px;
     font-weight: bold;
+    color: var(--lightBlue);
+    text-decoration: none;
+}
+
+.listName:hover {
+    color: var(--blue);
 }
 
 .avatar {
@@ -26,7 +32,7 @@
 .listAuthor,
 .aAuthor {
     font-size: 14px;
-    color: var(--grey);
+    color: var(--lightGrey);
     display: flex;
     align-items: center;
     justify-content: left;
@@ -36,8 +42,7 @@
 }
 
 .aAuthor:hover {
-    text-decoration: underline;
-    color: var(--green);
+    color: var(--blue);
 }
 
 .listDataContainer {

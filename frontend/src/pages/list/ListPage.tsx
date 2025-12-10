@@ -6,7 +6,7 @@ import { getApiAvatar } from '../../services/getApiAvatar';
 import MovieCard from '../../components/shared/movieCard/MovieCard';
 import CollapseText from '../../components/users/CollapseText';
 import { getMediumPoster } from '../../services/getMediumPoster';
-import Heart from '../../components/shared/icons/Heart';
+import Heart from '../../components/shared/icons/HeartIcon';
 import ListComments from '../../components/list/ListComments';
 import styles from './llistPage.module.css';
 

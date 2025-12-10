@@ -1,5 +1,5 @@
 import Eye from '../../shared/icons/Eye';
-import Heart from '../../shared/icons/Heart';
+import Heart from '../../shared/icons/HeartIcon';
 import ArticleMovie from '../../shared/movieCard/MovieCard';
 import styles from './articleFeaturedMovie.module.css';
 
