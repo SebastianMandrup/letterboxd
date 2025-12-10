@@ -40,8 +40,8 @@
         margin-left: 8px;
     }
 
-    button>div,
-    a>div {
+    button > div,
+    a > div {
         display: none;
         font-size: 16px;
 
@@ -50,8 +50,8 @@
         text-decoration: none;
     }
 
-    button>.headerIcon,
-    a>.headerIcon {
+    button > .headerIcon,
+    a > .headerIcon {
         display: flex;
     }
 }
@@ -75,13 +75,13 @@
             text-decoration: none;
         }
 
-        button>div,
-        a>div {
+        button > div,
+        a > div {
             display: block;
         }
 
-        button>.headerIcon,
-        a>.headerIcon {
+        button > .headerIcon,
+        a > .headerIcon {
             display: none;
         }
     }
