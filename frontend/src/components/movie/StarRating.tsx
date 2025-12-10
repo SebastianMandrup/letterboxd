@@ -13,7 +13,6 @@ const StarRating = ({ value = 0, onChange, disabled = false, size = 32, allowHal
     const [hoverRating, setHoverRating] = useState(0);
     const starRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-    // Initialize refs
     if (starRefs.current.length !== 5) {
         starRefs.current = Array(5).fill(null);
     }
