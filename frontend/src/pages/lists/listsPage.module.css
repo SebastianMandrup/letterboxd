@@ -43,15 +43,11 @@
     grid-template-columns: 1fr;
 }
 
-.crewPicksLists>article {
+.crewPicksLists > article {
     margin: auto auto;
 }
 
-
-
-
 @media screen and (min-width: 660px) {
-
     .featuredListsSection {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -60,11 +56,9 @@
     .crewPicksLists {
         grid-template-columns: 1fr 1fr;
     }
-
 }
 
 @media screen and (min-width: 1000px) {
-
     .featuredListsSection {
         display: flex;
         flex-direction: row;
@@ -80,5 +74,4 @@
         display: grid;
         grid-template-columns: 2fr;
     }
-
 }
