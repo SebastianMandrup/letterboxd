@@ -21,8 +21,8 @@
 
 #navFooterTopLeft {
     ul {
-        list-style: none;
         display: flex;
+        flex-wrap: wrap;
         gap: 14px;
         color: var(--lightGrey);
 

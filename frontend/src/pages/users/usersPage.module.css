@@ -12,6 +12,14 @@
 
 .usersListContainer {
     display: grid;
-    grid-template-columns: 3fr 1fr;
-    margin-top: 40px;
+    grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 768px) {
+    .usersListContainer {
+        grid-template-columns: 3fr 1fr;
+        margin-top: 40px;
+
+    }
+
 }

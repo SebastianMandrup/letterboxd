@@ -1,5 +1,6 @@
 .ul {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     justify-content: center;
     align-items: center;
     list-style: none;
@@ -7,5 +8,18 @@
 }
 
 li {
+    justify-content: center;
+    align-items: center;
     display: flex;
+}
+
+@media screen and (min-width: 600px) {
+    .ul {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .ul li {
+        justify-content: center;
+        align-items: center;
+    }
 }
