@@ -1,7 +1,7 @@
 .toastContainer {
     position: fixed;
-    bottom: 20px;
-    right: 10vw;
+    bottom: 10px;
+    right: 50vw;
     transform: translateX(50%);
     z-index: 1000;
     display: flex;
