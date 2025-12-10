@@ -86,7 +86,7 @@
 }
 
 .loadingDescription,
-.description>p {
+.description > p {
     font-size: 16px;
     line-height: 1.5;
     color: var(--lightGrey);
@@ -107,8 +107,8 @@
     gap: 20px;
 }
 
-.moviesGrid>button,
-.moviesGrid>div {
+.moviesGrid > button,
+.moviesGrid > div {
     width: 100%;
     height: auto;
     margin-bottom: 30px;
