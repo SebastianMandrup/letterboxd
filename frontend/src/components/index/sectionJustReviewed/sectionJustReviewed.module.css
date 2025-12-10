@@ -27,5 +27,11 @@
 
 #sectionPopularReviewsAndLists {
     display: grid;
-    grid-template-columns: 6fr 3fr;
+    grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 768px) {
+    #sectionPopularReviewsAndLists {
+        grid-template-columns: 6fr 3fr;
+    }
 }

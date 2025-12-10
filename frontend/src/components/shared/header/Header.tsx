@@ -23,6 +23,7 @@ const Header = () => {
             addToast('Successfully logged out!', 'success');
         } catch (err) {
             console.error('Logout failed:', err);
+            addToast('Logout failed. Please try again.', 'error');
         }
     };
 
@@ -31,7 +32,9 @@ const Header = () => {
             <div className={styles.headerContainer}>
                 <header className={styles.headerMain}>
                     <img src="/letterboxd-icon.png" alt="icon" />
-                    <a href="/">Boxedletter</a>
+                    <a href="/" className={styles.logo}>
+                        Boxedletter
+                    </a>
 
                     {user ? (
                         <LoggedInHeader onLogout={handleLogout} user={user} />

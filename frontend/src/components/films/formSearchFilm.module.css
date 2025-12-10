@@ -1,5 +1,13 @@
 .formSearchFilm {
+    display: none;
+
     label {
+        color: var(--lightGrey);
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+
         input {
             background-color: var(--darkGrey);
             color: var(--darkestGrey);
@@ -15,5 +23,11 @@
                 color: var(--black);
             }
         }
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .formSearchFilm {
+        display: flex;
     }
 }

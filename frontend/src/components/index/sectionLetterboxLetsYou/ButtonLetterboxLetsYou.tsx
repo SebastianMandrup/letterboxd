@@ -7,9 +7,9 @@ interface ButtonLetterboxLetsYouProps {
 
 function ButtonLetterboxLetsYou({ svg, text }: ButtonLetterboxLetsYouProps) {
     return (
-        <button>
+        <button title={text}>
             {svg}
-            {text}
+            <div>{text}</div>
         </button>
     );
 }

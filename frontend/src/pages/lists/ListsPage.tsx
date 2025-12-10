@@ -56,7 +56,9 @@ const ListsPage: FunctionComponent = () => {
                 </section>
                 <section>
                     <SectionHeader title="crew picks" />
-                    {crewPicksLists.data && crewPicksLists.data.results.map((list) => <ListCardWithData key={list.id} list={list} large />)}
+                    <div className={styles.crewPicksLists}>
+                        {crewPicksLists.data && crewPicksLists.data.results.map((list) => <ListCardWithData key={list.id} list={list} large />)}
+                    </div>
                 </section>
             </div>
         </>

@@ -1,4 +1,13 @@
-.articleFeaturedMovie {
-    height: 100%;
-    width: 100%;
+.overlay > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+@media screen and (min-width: 768px) {
+    .overlay {
+        height: 100%;
+        width: 100%;
+    }
 }

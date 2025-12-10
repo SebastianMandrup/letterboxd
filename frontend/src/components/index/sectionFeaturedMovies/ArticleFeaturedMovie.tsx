@@ -1,6 +1,7 @@
 import Eye from '../../shared/icons/Eye';
 import Heart from '../../shared/icons/Heart';
 import ArticleMovie from '../../shared/movieCard/MovieCard';
+import styles from './articleFeaturedMovie.module.css';
 
 export interface ArticleFeaturedMovieProps {
     title: string;
@@ -12,13 +13,13 @@ export interface ArticleFeaturedMovieProps {
 
 function ArticleFeaturedMovie({ title, src, alt, viewCount, likeCount }: ArticleFeaturedMovieProps) {
     const overlay = (
-        <section>
+        <section className={styles.overlay}>
             <div>
-                <Eye size={34} color="var(--green)" />
+                <Eye size={28} color="var(--green)" />
                 <span>{viewCount}</span>
             </div>
             <div>
-                <Heart size={34} color="var(--orange)" />
+                <Heart size={28} color="var(--orange)" />
                 <span>{likeCount > 1000 ? (likeCount / 1000).toFixed(1) + 'K' : likeCount}</span>
             </div>
         </section>

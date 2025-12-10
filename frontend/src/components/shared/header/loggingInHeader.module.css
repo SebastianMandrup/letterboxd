@@ -80,6 +80,7 @@
 }
 
 .buttonCloseLoginHeader {
+    display: block;
     background-color: transparent;
     border: none;
     position: absolute;
@@ -93,5 +94,11 @@
     &:hover {
         cursor: pointer;
         color: var(--lightGrey);
+    }
+}
+
+@media screen and (min-width: 868px) {
+    .buttonCloseLoginHeader {
+        display: block !important;
     }
 }

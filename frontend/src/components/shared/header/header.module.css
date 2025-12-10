@@ -13,7 +13,7 @@
     height: 64px;
 
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 16px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -31,15 +31,58 @@
         }
     }
 
-    a {
-        font-size: 2rem;
-        font-weight: 600;
+    .logo {
+        display: none;
+        font-size: 18px;
+        font-weight: 700;
         color: var(--white);
         text-decoration: none;
+        margin-left: 8px;
+    }
 
-        &:hover {
-            cursor: pointer;
-            color: inherit;
+    button > div,
+    a > div {
+        display: none;
+        font-size: 16px;
+
+        font-weight: 300;
+        color: var(--white);
+        text-decoration: none;
+    }
+
+    button > .headerIcon,
+    a > .headerIcon {
+        display: flex;
+    }
+}
+
+@media screen and (min-width: 528px) {
+    .headerMain {
+        .logo {
+            display: flex;
+        }
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .headerMain {
+        padding: 0 40px;
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        button > div,
+        a > div {
+            display: block;
+        }
+
+        button > .headerIcon,
+        a > .headerIcon {
+            display: none;
         }
     }
 }

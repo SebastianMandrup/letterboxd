@@ -1,23 +1,39 @@
 .formBrowseBy {
-    label {
-        select {
-            background-color: var(--darkBlue);
-            color: var(--lightGrey);
-            width: 120px;
-            border-right: none;
-            padding: 0.3rem;
+    p {
+        display: none;
+        color: var(--lightGrey);
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+    }
 
-            border-color: var(--darkerGrey);
-        }
+    select {
+        background-color: var(--darkBlue);
+        color: var(--lightGrey);
+        width: 120px;
+        border-right: none;
+        padding: 0.3rem;
 
-        select:first-child {
-            margin-left: 0.75rem;
-            border-radius: 4px 0 0 4px;
-        }
+        border-color: var(--darkerGrey);
+    }
 
-        select:last-child {
-            border-right: 1px solid var(--darkGrey);
-            border-radius: 0 4px 4px 0;
+    select:first-child {
+        margin-left: 0.75rem;
+        border-radius: 4px 0 0 4px;
+    }
+
+    select:last-child {
+        border-right: 1px solid var(--darkGrey);
+        border-radius: 0 4px 4px 0;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .formBrowseBy {
+        p {
+            display: inline-block;
+            margin-right: 0.5rem;
         }
     }
 }
