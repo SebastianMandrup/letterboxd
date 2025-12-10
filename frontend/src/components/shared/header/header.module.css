@@ -31,19 +31,27 @@
         }
     }
 
+    .logo {
+        display: none;
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--white);
+        text-decoration: none;
+        margin-left: 8px;
+    }
+
     button > div,
     a > div {
         display: none;
     }
 
-    button > svg,
-    a > svg {
+    button > .headerIcon,
+    a > .headerIcon {
         display: flex;
     }
 
     button,
     a {
-        font-size: 2rem;
         font-weight: 600;
         color: var(--white);
         text-decoration: none;
@@ -55,17 +63,32 @@
     }
 }
 
+@media screen and (min-width: 528px) {
+    .headerMain {
+        .logo {
+            display: flex;
+        }
+    }
+}
+
 @media screen and (min-width: 868px) {
     .headerMain {
         padding: 0 40px;
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
 
         button > div,
         a > div {
             display: block;
         }
 
-        button > svg,
-        a > svg {
+        button > .headerIcon,
+        a > .headerIcon {
             display: none;
         }
     }

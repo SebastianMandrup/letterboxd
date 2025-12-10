@@ -1,5 +1,6 @@
 .sectionBackdrop {
     position: relative;
+    min-height: 300px;
     max-height: 460px;
     overflow: hidden;
     display: flex;

@@ -59,3 +59,26 @@
         }
     }
 }
+
+@media screen and (min-width: 868px) {
+    .sectionDefaultHeader {
+        padding: 0 40px;
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        button > div,
+        a > div {
+            display: block;
+        }
+
+        button > svg,
+        a > svg {
+            display: none;
+        }
+    }
+}

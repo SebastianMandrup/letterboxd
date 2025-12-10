@@ -7,6 +7,7 @@ interface SignInIconProps {
 const SignInIcon: FunctionComponent<SignInIconProps> = ({ size }) => {
     return (
         <svg
+            className="headerIcon"
             xmlns="http://www.w3.org/2000/svg"
             width={size}
             height={size}

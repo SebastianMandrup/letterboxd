@@ -7,6 +7,7 @@ interface MoviesIconProps {
 const MoviesIcon: FunctionComponent<MoviesIconProps> = ({ size }) => {
     return (
         <svg
+            className="headerIcon"
             xmlns="http://www.w3.org/2000/svg"
             width={size}
             height={size}

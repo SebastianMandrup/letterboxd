@@ -4,6 +4,7 @@
     padding: 20px 0;
     padding: 40px 20px;
     border-bottom: 1px solid var(--darkGrey);
+    gap: 40px;
 }
 
 .reviewCard:last-child {
