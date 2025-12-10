@@ -12,6 +12,7 @@
             gap: 16px;
 
             li {
+
                 button,
                 a {
                     background-color: transparent;
@@ -60,7 +61,7 @@
     }
 }
 
-@media screen and (min-width: 868px) {
+@media screen and (min-width: 1000px) {
     .sectionDefaultHeader {
         padding: 0 40px;
 
@@ -71,13 +72,13 @@
             text-decoration: none;
         }
 
-        button > div,
-        a > div {
+        button>div,
+        a>div {
             display: block;
         }
 
-        button > svg,
-        a > svg {
+        button>svg,
+        a>svg {
             display: none;
         }
     }

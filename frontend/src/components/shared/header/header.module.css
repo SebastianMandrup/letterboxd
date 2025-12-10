@@ -40,26 +40,19 @@
         margin-left: 8px;
     }
 
-    button > div,
-    a > div {
+    button>div,
+    a>div {
         display: none;
-    }
+        font-size: 16px;
 
-    button > .headerIcon,
-    a > .headerIcon {
-        display: flex;
-    }
-
-    button,
-    a {
-        font-weight: 600;
+        font-weight: 300;
         color: var(--white);
         text-decoration: none;
+    }
 
-        &:hover {
-            cursor: pointer;
-            color: inherit;
-        }
+    button>.headerIcon,
+    a>.headerIcon {
+        display: flex;
     }
 }
 
@@ -71,7 +64,7 @@
     }
 }
 
-@media screen and (min-width: 868px) {
+@media screen and (min-width: 1000px) {
     .headerMain {
         padding: 0 40px;
 
@@ -82,13 +75,13 @@
             text-decoration: none;
         }
 
-        button > div,
-        a > div {
+        button>div,
+        a>div {
             display: block;
         }
 
-        button > .headerIcon,
-        a > .headerIcon {
+        button>.headerIcon,
+        a>.headerIcon {
             display: none;
         }
     }
