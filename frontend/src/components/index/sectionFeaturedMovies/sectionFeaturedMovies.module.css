@@ -8,6 +8,8 @@
 }
 
 @media screen and (min-width: 768px) {
+
+    #sectionFeaturedMoviesw div,
     #sectionFeaturedMovies button {
         height: 231px;
         width: 156px;
