@@ -6,19 +6,20 @@ import { List } from '../entities/List';
 import { Comment } from '../entities/Comment';
 import { authenticateUser } from '../middleware/authenticateUser';
 import { validateListCreation } from '../middleware/listValidation';
+import { ApiError } from '../middleware/errorHandler';
 
 const listRouter = Router();
 
 const listRepository = AppDataSource.getRepository(List);
 
-listRouter.get('/', async (req, res) => {
+listRouter.get('/', async (req, res, next) => {
     try {
         const { lists, total } = await getLists(req);
         const response = buildPaginatedResponse(lists, total, req);
         res.status(200).send(response);
     } catch (error) {
         console.error('Error fetching lists:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 
@@ -37,6 +38,7 @@ listRouter.post('/', authenticateUser, validateListCreation, async (req, res, ne
 
         res.status(201).send({ message: 'List created successfully', list: newList });
     } catch (error) {
+        console.error('Error creating new list:', error);
         next(error);
     }
 });
@@ -52,7 +54,7 @@ listRouter.get('/:name', async (req, res) => {
         });
 
         if (!list) {
-            return res.status(404).send({ error: 'List not found' });
+            throw new ApiError('List not found', 404);
         }
 
         const listDto = {
@@ -72,12 +74,11 @@ listRouter.get('/:name', async (req, res) => {
         res.status(200).send(listDto);
     } catch (error) {
         console.error('Error fetching list by title:', error);
-        res.status(500).send({ error: 'Internal server error' });
     }
 });
 
 // get all comments for a list
-listRouter.get('/:id/comments', async (req, res) => {
+listRouter.get('/:id/comments', async (req, res, next) => {
     try {
         const listId = parseInt(req.params.id, 10);
         const list = await listRepository.findOne({
@@ -86,7 +87,7 @@ listRouter.get('/:id/comments', async (req, res) => {
         });
 
         if (!list) {
-            return res.status(404).send({ error: 'List not found' });
+            throw new ApiError('List not found', 404);
         }
 
         const commentsDto = list.comments.map((comment) => ({
@@ -102,20 +103,19 @@ listRouter.get('/:id/comments', async (req, res) => {
         res.status(200).send(commentsDto);
     } catch (error) {
         console.error('Error fetching comments for list:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 
 // add a comment to a list
-listRouter.post('/:id/comments', authenticateUser, async (req, res) => {
+listRouter.post('/:id/comments', authenticateUser, async (req, res, next) => {
     try {
         const listId = parseInt(req.params.id, 10);
         const { content } = req.body;
         const list = await listRepository.findOneBy({ id: listId });
 
-        // validate the list
         if (!list) {
-            return res.status(404).send({ error: 'List not found' });
+            throw new ApiError('List not found', 404);
         }
 
         const commentRepository = AppDataSource.getRepository(Comment);
@@ -141,7 +141,7 @@ listRouter.post('/:id/comments', authenticateUser, async (req, res) => {
         res.status(201).send({ message: 'Comment added successfully', data: newCommentDto });
     } catch (error) {
         console.error('Error adding comment to list:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 

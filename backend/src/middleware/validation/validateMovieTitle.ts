@@ -1,8 +1,10 @@
+import { ApiError } from '../errorHandler';
+
 export default (title: string): string => {
     const sanitizedTitle = title?.trim();
 
     if (!sanitizedTitle || typeof sanitizedTitle !== 'string') {
-        throw new Error('Movie title is required and must be a string.');
+        throw new ApiError('Movie title is required and must be a string.', 400);
     }
 
     return sanitizedTitle

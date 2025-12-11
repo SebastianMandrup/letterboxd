@@ -4,61 +4,62 @@ import buildPaginatedResponse from './helper/buildPaginatedResponse';
 import { authenticateUser } from '../middleware/authenticateUser';
 import { View } from '../entities/View';
 import { AppDataSource } from '../startup/data-source';
+import { ApiError } from '../middleware/errorHandler';
 
 const movieRouter = Router();
 
-movieRouter.get('/', async (req, res) => {
+movieRouter.get('/', async (req, res, next) => {
     try {
         const { movies, total } = await getMovies(req);
         const response = buildPaginatedResponse(movies, total, req);
         res.status(200).send(response);
     } catch (error) {
         console.error('Error fetching movies:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 
-movieRouter.get('/:slug', async (req, res) => {
+movieRouter.get('/:slug', async (req, res, next) => {
     const slug = req.params.slug;
 
     try {
         const movie = await getMovieBySlug(req, slug);
 
         if (!movie) {
-            return res.status(404).send({ error: `Movie with slug ${slug} not found.` });
+            throw new ApiError(`Movie with slug ${slug} not found.`, 404);
         }
 
         res.status(200).send(movie);
     } catch (error) {
         console.error(`Error fetching movie with slug ${slug}:`, error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 
-movieRouter.get('/like/:partialSlug', async (req, res) => {
+movieRouter.get('/like/:partialSlug', async (req, res, next) => {
     const partialSlug = req.params.partialSlug;
 
     try {
         const movies = await getMoviesByPartialSlug(partialSlug);
 
         if (movies.length === 0) {
-            return res.status(404).send({ error: `No movies found matching ${partialSlug}.` });
+            throw new ApiError(`No movies found matching ${partialSlug}.`, 404);
         }
 
         res.status(200).send(movies);
     } catch (error) {
         console.error(`Error fetching movies like ${partialSlug}:`, error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 
-movieRouter.post('/:id/view', authenticateUser, async (req, res) => {
+movieRouter.post('/:id/view', authenticateUser, async (req, res, next) => {
     const movieId = Number(req.params.id);
     try {
         const movie = await getMovieById(movieId);
 
         if (!movie) {
-            return res.status(404).send({ error: `Movie with ID ${movieId} not found.` });
+            throw new ApiError(`Movie with ID ${movieId} not found.`, 404);
         }
 
         const userId = req.user.id;
@@ -85,27 +86,26 @@ movieRouter.post('/:id/view', authenticateUser, async (req, res) => {
         return res.status(200).send({ message: 'Movie viewed successfully' });
     } catch (error) {
         console.error(`Error updating view status for movie ID ${movieId}:`, error);
-        return res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 
-movieRouter.delete('/:id', async (req, res) => {
-    const movieId = Number(req.params.id);
-
+movieRouter.delete('/:id', async (req, res, next) => {
     try {
+        const movieId = Number(req.params.id);
+
         const success = await deleteMovieById(movieId);
-        if (success) {
-            res.status(200).send({
-                message: `Movie with ID ${movieId} deleted successfully.`,
-            });
-        } else {
-            res.status(404).send({
-                error: `Movie with ID ${movieId} not found.`,
-            });
+
+        if (!success) {
+            throw new ApiError(`Movie with ID ${movieId} not found.`, 404);
         }
+
+        res.status(200).send({
+            message: `Movie with ID ${movieId} deleted successfully.`,
+        });
     } catch (error) {
-        console.error(`Error deleting movie with ID ${movieId}:`, error);
-        res.status(500).send({ error: 'Internal server error' });
+        console.error(`Error deleting movie with ID ${req.params.id}:`, error);
+        next(error);
     }
 });
 

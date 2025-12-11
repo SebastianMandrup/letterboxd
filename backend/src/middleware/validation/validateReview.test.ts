@@ -1,5 +1,5 @@
 import validateReview from './validateReview';
-import { MuoError } from '../errorHandler';
+import { ApiError } from '../errorHandler';
 
 describe('validateReview', () => {
     it('returns the trimmed review when valid', () => {
@@ -20,15 +20,15 @@ describe('validateReview', () => {
         expect(() => validateReview('')).toThrow('Review content must be a non-empty string');
     });
 
-    it('throws MuoError if trimmed review is shorter than 10 characters', () => {
-        expect(() => validateReview('short')).toThrow(MuoError);
+    it('throws ApiError if trimmed review is shorter than 10 characters', () => {
+        expect(() => validateReview('short')).toThrow(ApiError);
         expect(() => validateReview('         ')).toThrow('Review content must be at least 10 characters long');
-        expect(() => validateReview('   abc   ')).toThrow(MuoError);
+        expect(() => validateReview('   abc   ')).toThrow(ApiError);
     });
 
-    it('throws MuoError if review is longer than 255 characters (error message mentions 5000)', () => {
+    it('throws ApiError if review is longer than 255 characters (error message mentions 5000)', () => {
         const longReview = 'a'.repeat(256);
-        expect(() => validateReview(longReview)).toThrow(MuoError);
+        expect(() => validateReview(longReview)).toThrow(ApiError);
         expect(() => validateReview(longReview)).toThrow('Review content must not exceed 5000 characters');
     });
 

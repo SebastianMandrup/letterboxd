@@ -1,10 +1,12 @@
+import { ApiError } from '../errorHandler';
+
 export default (movieIds: number[]): number[] => {
     if (!Array.isArray(movieIds)) {
-        throw new Error('List movie IDs are required and must be an array.');
+        throw new ApiError('List movie IDs are required and must be an array.', 400);
     }
 
     if (movieIds.length > 40) {
-        throw new Error('List movie IDs must contain 40 or fewer items.');
+        throw new ApiError('List movie IDs must contain 40 or fewer items.', 400);
     }
 
     return movieIds;

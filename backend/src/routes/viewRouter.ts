@@ -6,13 +6,13 @@ const viewRouter = Router();
 
 const viewRepository = AppDataSource.getRepository(View);
 
-viewRouter.get('/', async (req, res) => {
+viewRouter.get('/', async (req, res, next) => {
     try {
         const totalViews = await viewRepository.count();
         res.send(totalViews);
     } catch (error) {
         console.error('Error fetching genres:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 

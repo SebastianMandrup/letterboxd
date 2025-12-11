@@ -7,12 +7,13 @@ import bcrypt from 'bcrypt';
 import { getUserByUsername, getUsers } from '../services/userService';
 import { toUserWithCountDto, UserWithCountDto } from '../DTO/UserWithCountDto';
 import { authenticateUser } from '../middleware/authenticateUser';
+import { ApiError } from '../middleware/errorHandler';
 
 const userRouter = Router();
 
 const userRepository = AppDataSource.getRepository(User);
 
-userRouter.get('/', async (req, res) => {
+userRouter.get('/', async (req, res, next) => {
     try {
         const userId = req.session.user?.id;
 
@@ -27,11 +28,11 @@ userRouter.get('/', async (req, res) => {
         res.send(response);
     } catch (error) {
         console.error('Error fetching genres:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 
-userRouter.get('/:username', async (req, res) => {
+userRouter.get('/:username', async (req, res, next) => {
     try {
         const username = req.params.username;
 
@@ -40,13 +41,13 @@ userRouter.get('/:username', async (req, res) => {
         const user = await getUserByUsername(username, currentUserId);
 
         if (!user) {
-            return res.status(404).send({ error: 'User not found' });
+            throw new ApiError('User not found', 404);
         }
 
         res.send(user);
     } catch (error) {
-        console.error('Error fetching user:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        console.error('Error fetching user by username:', error);
+        next(new ApiError('Error fetching user by username', 500));
     }
 });
 
@@ -64,17 +65,18 @@ userRouter.post('/', validateUserCreation, async (req, res, next: NextFunction) 
         await userRepository.save(newUser);
         res.status(201).send({ message: 'User created successfully' });
     } catch (error) {
+        console.error('Error creating new user:', error);
         next(error);
     }
 });
 
-userRouter.post('/:userId/follow', authenticateUser, async (req, res) => {
+userRouter.post('/:userId/follow', authenticateUser, async (req, res, next) => {
     try {
         const userToFollowId = parseInt(req.params.userId, 10);
         const userToFollow = await userRepository.findOneBy({ id: userToFollowId });
 
         if (!userToFollow) {
-            return res.status(404).send({ error: 'User to follow not found' });
+            throw new ApiError('User to follow not found', 404);
         }
 
         const currentUser = await userRepository.findOne({
@@ -83,7 +85,7 @@ userRouter.post('/:userId/follow', authenticateUser, async (req, res) => {
         });
 
         if (!currentUser) {
-            return res.status(404).send({ error: 'Current user not found' });
+            throw new ApiError('Current user not found', 404);
         }
 
         const isFollowing = currentUser.following.some((user) => user.id === userToFollowId);
@@ -99,7 +101,7 @@ userRouter.post('/:userId/follow', authenticateUser, async (req, res) => {
         res.send({ message: isFollowing ? 'Unfollowed successfully' : 'Followed successfully' });
     } catch (error) {
         console.error('Error following user:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 
