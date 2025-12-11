@@ -3,18 +3,21 @@ import styles from './userDataItem.module.css';
 
 interface UserDataProps {
     value: number;
-    label: string;
+    label: 'movies' | 'lists' | 'reviews';
+    setContent: (content: 'default' | 'movies' | 'lists' | 'reviews') => void;
 }
 
-const UserDataItem: FunctionComponent<UserDataProps> = ({ value, label }) => {
-    const uppercasedLabel = label.toUpperCase();
-    const formattedLabel = value > 1 ? uppercasedLabel + 'S' : uppercasedLabel + '';
-
+const UserDataItem: FunctionComponent<UserDataProps> = ({ value, label, setContent }) => {
     return (
-        <article className={styles.userDataItem}>
+        <button
+            className={styles.userDataItem}
+            onClick={() => {
+                setContent(label);
+            }}
+        >
             <h2>{value}</h2>
-            <p>{formattedLabel}</p>
-        </article>
+            <p>{label}</p>
+        </button>
     );
 };
 

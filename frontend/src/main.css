@@ -53,10 +53,12 @@ main {
     min-height: 80vh;
 }
 
-.spinnerContainer {
+.centeredContainer {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
 .spinner {

@@ -37,10 +37,12 @@ describe('requireAdmin middleware', () => {
 
         requireAdmin(req as Request, res as Response, next);
 
-        expect(next).toHaveBeenCalledWith(expect.objectContaining({
-            message: 'Admin privileges required',
-            statusCode: 403,
-        }));
+        expect(next).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: 'Admin privileges required',
+                statusCode: 403,
+            }),
+        );
         expect(res.status).not.toHaveBeenCalled();
         expect(res.json).not.toHaveBeenCalled();
     });
@@ -51,10 +53,12 @@ describe('requireAdmin middleware', () => {
 
         requireAdmin(req as Request, res as Response, next);
 
-        expect(next).toHaveBeenCalledWith(expect.objectContaining({
-            message: 'Admin privileges required',
-            statusCode: 403,
-        }));
+        expect(next).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: 'Admin privileges required',
+                statusCode: 403,
+            }),
+        );
         expect(res.status).not.toHaveBeenCalled();
         expect(res.json).not.toHaveBeenCalled();
     });

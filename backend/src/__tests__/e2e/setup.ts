@@ -92,7 +92,7 @@ export const createTestApp = () => {
     app.use('/movies', movieRouter);
     app.use('/reviews', reviewRouter);
     app.use('/lists', listRouter);
-    
+
     // Add error handler as the last middleware
     app.use(errorHandler);
 

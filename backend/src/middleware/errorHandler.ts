@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-export const errorHandler = (error: unknown, req: Request, res: Response, next: NextFunction) => {
+export const errorHandler = (error: unknown, req: Request, res: Response, _next: NextFunction) => {
     console.error('Error: ' + req.method + ' ' + req.originalUrl);
 
     const normalizedError = normalizeError(error);
@@ -20,10 +20,9 @@ export const errorHandler = (error: unknown, req: Request, res: Response, next: 
     };
 
     res.status(statusCode).json(response);
-    next();
 };
 
-export const notFoundHandler = (req: Request, res: Response) => {
+export const notFoundHandler = (req: Request, res: Response, _next: NextFunction) => {
     console.error(`Not Found: ${req.originalUrl}`);
 
     res.status(404).json({

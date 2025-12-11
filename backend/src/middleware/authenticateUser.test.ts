@@ -60,10 +60,12 @@ describe('authenticateUser', () => {
 
         await authenticateUser(mockRequest as Request, mockResponse as Response, nextFunction);
 
-        expect(nextFunction).toHaveBeenCalledWith(expect.objectContaining({
-            message: 'Unauthorized',
-            statusCode: 401,
-        }));
+        expect(nextFunction).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: 'Unauthorized',
+                statusCode: 401,
+            }),
+        );
         expect(mockResponse.status).not.toHaveBeenCalled();
         expect(mockResponse.json).not.toHaveBeenCalled();
     });
@@ -75,10 +77,12 @@ describe('authenticateUser', () => {
         await authenticateUser(mockRequest as Request, mockResponse as Response, nextFunction);
 
         expect(mockUserRepository.findOneBy).toHaveBeenCalledWith({ id: 999 });
-        expect(nextFunction).toHaveBeenCalledWith(expect.objectContaining({
-            message: 'Unauthorized',
-            statusCode: 401,
-        }));
+        expect(nextFunction).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: 'Unauthorized',
+                statusCode: 401,
+            }),
+        );
         expect(mockRequest.session!.destroy).toHaveBeenCalled();
         expect(mockResponse.status).not.toHaveBeenCalled();
         expect(mockResponse.json).not.toHaveBeenCalled();

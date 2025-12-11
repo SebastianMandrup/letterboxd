@@ -14,7 +14,7 @@ const SectionPopularReviewers: FunctionComponent = () => {
 
     if (isLoading || !data) {
         return (
-            <div className="spinnerContainer">
+            <div className="centeredContainer">
                 <div className="spinner"></div>
             </div>
         );
