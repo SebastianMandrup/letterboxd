@@ -1,4 +1,4 @@
-import { type FunctionComponent } from 'react';
+import { useState, type FunctionComponent } from 'react';
 import styles from './userPage.module.css';
 import useUserByUsername from '../../hooks/useUserByUsername';
 import { useParams } from 'react-router-dom';
@@ -6,13 +6,15 @@ import Backdrop from '../../components/index/backdrop/Backdrop';
 import { getApiAvatar } from '../../services/getApiAvatar';
 import UserDataItem from '../../components/user/UserDataItem';
 import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
-import ReviewCard from '../../components/shared/reviewCard/ReviewCard';
-import ListCard from '../../components/shared/listCard/ListCard';
 import FollowButton from '../../components/shared/userCard/FollowButton';
+import DefaultUserContent from './content/DefaultUserContent';
+import WatchedMoviesUserContent from './content/WatchedMoviesUserContent';
+import ListsUserContent from './content/ListsUserContent';
+import ReviewsUserContent from './content/ReviewsUserContent';
 
 const UserPage: FunctionComponent = () => {
     const username = useParams().username || '';
-    // const [content, setContent] = useState<'default' | 'movies' | 'lists' | 'reviews'>('default');
+    const [content, setContent] = useState<'default' | 'movies' | 'lists' | 'reviews'>('default');
     const { data: user, isLoading, error } = useUserByUsername(username);
 
     // TODO: loading user page
@@ -30,6 +32,19 @@ const UserPage: FunctionComponent = () => {
         lastWatchedMovie = undefined;
     }
 
+    const renderContent = () => {
+        switch (content) {
+            case 'movies':
+                return <WatchedMoviesUserContent views={user.views} />;
+            case 'lists':
+                return <ListsUserContent lists={user.lists} />;
+            case 'reviews':
+                return <ReviewsUserContent reviews={user.reviews} />;
+            default:
+                return <DefaultUserContent recentLists={user.lists} recentReviews={user.reviews} />;
+        }
+    };
+
     return (
         <>
             {lastWatchedMovie && lastWatchedMovie.backdropUrl ? (
@@ -46,36 +61,14 @@ const UserPage: FunctionComponent = () => {
                     <FollowButton user={user} />
                 </div>
                 <div className={styles.userData}>
-                    <UserDataItem value={user.views.length} label="movie" />
-                    <UserDataItem value={user.lists.length} label="list" />
-                    <UserDataItem value={user.reviews.length} label="review" />
+                    <UserDataItem value={user.views.length} label="movies" setContent={setContent} />
+                    <UserDataItem value={user.lists.length} label="lists" setContent={setContent} />
+                    <UserDataItem value={user.reviews.length} label="reviews" setContent={setContent} />
                 </div>
             </section>
 
             <section className={styles.userContent}>
-                <div>
-                    <section className={styles.recentLists}>
-                        <SectionHeader title="Recent Lists" />
-                        <div className={styles.listsContainer}>
-                            {user.lists.length === 0 ? (
-                                <p className={styles.noReviewsMessage}>This user has not created any lists yet.</p>
-                            ) : (
-                                user.lists.slice(0, 3).map((list) => <ListCard key={list.id} list={list} />)
-                            )}
-                        </div>
-                    </section>
-
-                    <section className={styles.recentReviews}>
-                        <SectionHeader title="Recent Reviews" />
-                        <div>
-                            {user.reviews.length === 0 ? (
-                                <p className={styles.noReviewsMessage}>This user has not written any reviews yet.</p>
-                            ) : (
-                                user.reviews.slice(0, 5).map((review) => <ReviewCard key={review.id} review={review} />)
-                            )}
-                        </div>
-                    </section>
-                </div>
+                {renderContent()}
                 <aside>
                     <section className={styles.moreUserData}>
                         <SectionHeader title="Bio" />
@@ -90,6 +83,17 @@ const UserPage: FunctionComponent = () => {
 
                     <section className={styles.moreUserData}>
                         <SectionHeader title="Followers" />
+                        <div>
+                            <p>
+                                Member since <span className={styles.memberSince}>{new Date(user.createdAt).toLocaleDateString()}</span>
+                            </p>
+
+                            <p>{user.bio ? user.bio : 'This user has not added a bio yet.'}</p>
+                        </div>
+                    </section>
+
+                    <section className={styles.moreUserData}>
+                        <SectionHeader title="Following" />
                         <div>
                             <p>
                                 Member since <span className={styles.memberSince}>{new Date(user.createdAt).toLocaleDateString()}</span>

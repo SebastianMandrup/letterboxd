@@ -5,7 +5,6 @@
     padding: 10px;
     position: relative;
     background-color: rgba(20, 24, 28, 0.5);
-    display: flex;
     justify-content: space-between;
 }
 
@@ -45,12 +44,7 @@
     margin-bottom: 40px;
 }
 
-.recentReviews > div {
-    padding: 0 40px;
-}
-
-.moreUserData > div,
-.recentLists > div {
+.moreUserData > div {
     padding: 10px 20px;
 }
 
@@ -69,17 +63,9 @@
     margin-bottom: 0;
 }
 
-.listsContainer {
-    display: grid;
-    grid-template-columns: 1fr;
-}
-
-.listsContainer > article {
-    margin: auto auto;
-}
-
 @media screen and (min-width: 768px) {
     .userSection {
+        display: flex;
         margin-top: -150px;
         padding: 40px;
     }
@@ -87,10 +73,6 @@
     .avatar {
         width: 100px;
         height: 100px;
-    }
-
-    .listsContainer {
-        grid-template-columns: 1fr 1fr;
     }
 }
 
@@ -101,10 +83,5 @@
         gap: 100px;
         padding: 0 40px;
         padding-bottom: 40px;
-    }
-
-    .listsContainer {
-        display: flex;
-        flex-direction: column;
     }
 }

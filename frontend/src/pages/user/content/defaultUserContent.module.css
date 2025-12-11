@@ -1,0 +1,29 @@
+.recentReviews > div {
+    padding: 0 40px;
+}
+
+.recentLists > div {
+    padding: 10px 20px;
+}
+
+.listsContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.listsContainer > article {
+    margin: auto auto;
+}
+
+@media screen and (min-width: 768px) {
+    .listsContainer {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .listsContainer {
+        display: flex;
+        flex-direction: column;
+    }
+}

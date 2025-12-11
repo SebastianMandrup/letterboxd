@@ -13,7 +13,7 @@ const FeaturedMembers: FunctionComponent = () => {
         <section>
             <SectionHeader title="Featured Members" />
             {isLoading && (
-                <div className="spinnerContainer">
+                <div className="centeredContainer">
                     <div className="spinner"></div>
                 </div>
             )}

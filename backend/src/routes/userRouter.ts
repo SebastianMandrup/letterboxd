@@ -8,6 +8,7 @@ import { getUserByUsername, getUsers } from '../services/userService';
 import { toUserWithCountDto, UserWithCountDto } from '../DTO/UserWithCountDto';
 import { authenticateUser } from '../middleware/authenticateUser';
 import { ApiError } from '../middleware/errorHandler';
+import validateUsername from '../middleware/validation/validateUsername';
 
 const userRouter = Router();
 
@@ -34,7 +35,7 @@ userRouter.get('/', async (req, res, next) => {
 
 userRouter.get('/:username', async (req, res, next) => {
     try {
-        const username = req.params.username;
+        const username = validateUsername(req.params.username);
 
         const currentUserId = req.session.user?.id;
 
@@ -48,6 +49,25 @@ userRouter.get('/:username', async (req, res, next) => {
     } catch (error) {
         console.error('Error fetching user by username:', error);
         next(new ApiError('Error fetching user by username', 500));
+    }
+});
+
+userRouter.get('/:username/watched', async (req, res, next) => {
+    try {
+        const username = validateUsername(req.params.username);
+
+        const user = await getUserByUsername(username);
+
+        if (!user) {
+            throw new ApiError('User not found', 404);
+        }
+
+        const watchedMovies = user.views.map((view) => view.movie);
+
+        res.send(watchedMovies);
+    } catch (error) {
+        console.error('Error fetching watched movies:', error);
+        next(error);
     }
 });
 

@@ -13,7 +13,7 @@ const PopularMembers: FunctionComponent = () => {
         <section>
             <SectionHeader title="Popular this week" link="/users/popular" />
             {isLoading && (
-                <div className="spinnerContainer">
+                <div className="centeredContainer">
                     <div className="spinner"></div>
                 </div>
             )}
