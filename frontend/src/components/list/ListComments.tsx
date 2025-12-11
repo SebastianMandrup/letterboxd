@@ -44,12 +44,14 @@ const ListComments: FunctionComponent<ListCommentsProps> = ({ id }) => {
         }
     };
 
-    if (isLoading) {
-        return <div>Loading comments...</div>;
+    if (error) {
+        console.error('Error fetching comments:', error);
+        addToast('Error fetching comments', 'error');
+        return null;
     }
 
-    if (error) {
-        return <div>Error loading comments</div>;
+    if (!isLoading && !data) {
+        return null;
     }
 
     return (
