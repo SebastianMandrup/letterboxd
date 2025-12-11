@@ -63,6 +63,21 @@
     margin-bottom: 0;
 }
 
+.followersList,
+.followingList {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+}
+
+.followerAvatar,
+.followingAvatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 @media screen and (min-width: 768px) {
     .userSection {
         display: flex;
@@ -83,5 +98,13 @@
         gap: 100px;
         padding: 0 40px;
         padding-bottom: 40px;
+    }
+
+    .followersList,
+    .followingList {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        list-style: none;
     }
 }

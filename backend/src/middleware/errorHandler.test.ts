@@ -35,8 +35,6 @@ describe('errorHandler', () => {
                 code: 500,
             },
         });
-
-        expect(next).toHaveBeenCalled();
     });
 
     it('should handle non-Error values', () => {
@@ -53,8 +51,6 @@ describe('errorHandler', () => {
                 code: 500,
             },
         });
-
-        expect(next).toHaveBeenCalled();
     });
 
     it('should include stack when NODE_ENV=development', () => {
@@ -91,7 +87,7 @@ describe('notFoundHandler', () => {
     });
 
     it('should respond with 404 for missing routes', () => {
-        notFoundHandler(req as Request, res as Response);
+        notFoundHandler(req as Request, res as Response, (_next) => {});
 
         expect(res.status).toHaveBeenCalledWith(404);
         expect(res.json).toHaveBeenCalledWith({

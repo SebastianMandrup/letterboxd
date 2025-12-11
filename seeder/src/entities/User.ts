@@ -58,7 +58,7 @@ export class User {
     @OneToMany(() => ListLike, (listLike) => listLike.user)
     listLikes: ListLike[];
 
-    @ManyToMany(() => User)
+    @ManyToMany(() => User, (user) => user.followers)
     @JoinTable({
         name: 'user_following',
         joinColumn: {

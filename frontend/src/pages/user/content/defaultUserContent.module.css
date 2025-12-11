@@ -20,10 +20,3 @@
         grid-template-columns: 1fr 1fr;
     }
 }
-
-@media screen and (min-width: 1024px) {
-    .listsContainer {
-        display: flex;
-        flex-direction: column;
-    }
-}

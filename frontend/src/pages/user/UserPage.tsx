@@ -11,13 +11,16 @@ import DefaultUserContent from './content/DefaultUserContent';
 import WatchedMoviesUserContent from './content/WatchedMoviesUserContent';
 import ListsUserContent from './content/ListsUserContent';
 import ReviewsUserContent from './content/ReviewsUserContent';
+import useFollowers from '../../hooks/useFollowers';
+import useFollowing from '../../hooks/useFollowing';
 
 const UserPage: FunctionComponent = () => {
     const username = useParams().username || '';
     const [content, setContent] = useState<'default' | 'movies' | 'lists' | 'reviews'>('default');
     const { data: user, isLoading, error } = useUserByUsername(username);
+    const { data: followers } = useFollowers(username);
+    const { data: following } = useFollowing(username);
 
-    // TODO: loading user page
     if (isLoading) {
         return <div className={styles.div}>Loading...</div>;
     }
@@ -84,22 +87,46 @@ const UserPage: FunctionComponent = () => {
                     <section className={styles.moreUserData}>
                         <SectionHeader title="Followers" />
                         <div>
-                            <p>
-                                Member since <span className={styles.memberSince}>{new Date(user.createdAt).toLocaleDateString()}</span>
-                            </p>
-
-                            <p>{user.bio ? user.bio : 'This user has not added a bio yet.'}</p>
+                            {followers && followers.length > 0 ? (
+                                <ul className={styles.followersList}>
+                                    {followers.map((follower) => (
+                                        <li key={follower.id} className={styles.followerItem}>
+                                            <a href={`/user/${follower.username}`} title={follower.username}>
+                                                <img
+                                                    className={styles.followerAvatar}
+                                                    src={getApiAvatar(follower.username)}
+                                                    alt={`${follower.username}'s avatar`}
+                                                />
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>This user has no followers yet.</p>
+                            )}
                         </div>
                     </section>
 
                     <section className={styles.moreUserData}>
                         <SectionHeader title="Following" />
                         <div>
-                            <p>
-                                Member since <span className={styles.memberSince}>{new Date(user.createdAt).toLocaleDateString()}</span>
-                            </p>
-
-                            <p>{user.bio ? user.bio : 'This user has not added a bio yet.'}</p>
+                            {following && following.length > 0 ? (
+                                <ul className={styles.followingList}>
+                                    {following.map((followedUser) => (
+                                        <li key={followedUser.id} className={styles.followingItem}>
+                                            <a href={`/user/${followedUser.username}`} title={followedUser.username}>
+                                                <img
+                                                    className={styles.followingAvatar}
+                                                    src={getApiAvatar(followedUser.username)}
+                                                    alt={`${followedUser.username}'s avatar`}
+                                                />
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>This user is not following anyone yet.</p>
+                            )}
                         </div>
                     </section>
                 </aside>

@@ -30,8 +30,8 @@ const init = (app: express.Application) => {
 
     setupRouters(app);
 
-    app.use(errorHandler);
     app.use(notFoundHandler);
+    app.use(errorHandler);
 };
 
 export default init;
