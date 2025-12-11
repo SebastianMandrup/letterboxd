@@ -1,9 +1,8 @@
 .userSection {
-    width: var(--mainWidth);
     margin: 0 auto;
-    margin-top: -150px;
+    margin-top: -40px;
     gap: 20px;
-    padding: 40px;
+    padding: 10px;
     position: relative;
     background-color: rgba(20, 24, 28, 0.5);
     display: flex;
@@ -17,11 +16,10 @@
 }
 
 .avatar {
-    width: 100px;
-    height: 100px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid var(--accentColor);
 }
 
 .moreOptionsButton {
@@ -42,19 +40,17 @@
 }
 
 .userContent {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    gap: 100px;
-    padding: 0 40px;
-    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 40px;
 }
 
-.recentReviews > div {
+.recentReviews>div {
     padding: 0 40px;
 }
 
-.moreUserData > div,
-.recentLists > div {
+.moreUserData>div,
+.recentLists>div {
     padding: 10px 20px;
 }
 
@@ -71,4 +67,49 @@
 
 .moreUserData p:last-child {
     margin-bottom: 0;
+}
+
+.listsContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.listsContainer>article {
+    margin: auto auto;
+}
+
+
+@media screen and (min-width: 768px) {
+
+    .userSection {
+        margin-top: -150px;
+        padding: 40px;
+    }
+
+    .avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .listsContainer {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+
+@media screen and (min-width: 1024px) {
+
+    .userContent {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        gap: 100px;
+        padding: 0 40px;
+        padding-bottom: 40px;
+    }
+
+    .listsContainer {
+        display: flex;
+        flex-direction: column;
+    }
 }

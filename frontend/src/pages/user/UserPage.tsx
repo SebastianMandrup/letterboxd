@@ -73,7 +73,7 @@ const UserPage: FunctionComponent = () => {
 
                     <section className={styles.recentLists}>
                         <SectionHeader title="Recent Lists" />
-                        <div>
+                        <div className={styles.listsContainer}>
                             {user.lists.length === 0 ? (
                                 <p className={styles.noReviewsMessage}>This user has not created any lists yet.</p>
                             ) : (
