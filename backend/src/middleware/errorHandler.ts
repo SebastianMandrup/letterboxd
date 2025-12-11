@@ -36,7 +36,7 @@ export const notFoundHandler = (req: Request, res: Response) => {
     });
 };
 
-export class MuoError extends Error {
+export class ApiError extends Error {
     public statusCode: number;
 
     constructor(message: string, statusCode: number) {
@@ -46,7 +46,7 @@ export class MuoError extends Error {
 }
 
 function normalizeError(error: unknown) {
-    if (error instanceof MuoError) {
+    if (error instanceof ApiError) {
         return {
             message: error.message,
             stack: error.stack,

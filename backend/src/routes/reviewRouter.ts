@@ -7,10 +7,11 @@ import { validateReview } from '../middleware/reviewValidation';
 import { Movie } from '../entities/Movie';
 import { MovieLike } from '../entities/MovieLike';
 import { ReviewLike } from '../entities/ReviewLike';
+import { ApiError } from '../middleware/errorHandler';
 
 const reviewRouter = Router();
 
-reviewRouter.get('/', async (req: Request, res: Response) => {
+reviewRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { reviews, total } = await getReviews(req);
 
@@ -21,7 +22,7 @@ reviewRouter.get('/', async (req: Request, res: Response) => {
         res.send(response);
     } catch (error) {
         console.error('Error fetching reviews:', error);
-        res.status(500).send({ error: 'Internal server error' });
+        next(error);
     }
 });
 
@@ -34,7 +35,7 @@ reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, re
         const movie = await movieRepository.findOneBy({ id: movieId });
 
         if (!movie) {
-            throw new Error('Movie not found');
+            throw new ApiError('Movie not found', 404);
         }
 
         const reviewRepository = AppDataSource.getRepository(Review);
@@ -71,10 +72,7 @@ reviewRouter.post('/:id/like', authenticateUser, async (req: Request, res: Respo
         const review = await reviewRepository.findOneBy({ id: reviewId });
 
         if (!review) {
-            return res.status(404).send({
-                status: 'error',
-                message: 'Review not found',
-            });
+            throw new ApiError('Review not found', 404);
         }
 
         const reviewLikeRepository = AppDataSource.getRepository(ReviewLike);

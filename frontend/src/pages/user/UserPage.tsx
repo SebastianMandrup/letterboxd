@@ -1,4 +1,4 @@
-import type { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import styles from './userPage.module.css';
 import useUserByUsername from '../../hooks/useUserByUsername';
 import { useParams } from 'react-router-dom';
@@ -12,9 +12,10 @@ import FollowButton from '../../components/shared/userCard/FollowButton';
 
 const UserPage: FunctionComponent = () => {
     const username = useParams().username || '';
-
+    // const [content, setContent] = useState<'default' | 'movies' | 'lists' | 'reviews'>('default');
     const { data: user, isLoading, error } = useUserByUsername(username);
 
+    // TODO: loading user page
     if (isLoading) {
         return <div className={styles.div}>Loading...</div>;
     }
@@ -23,7 +24,11 @@ const UserPage: FunctionComponent = () => {
     }
 
     let lastWatchedMovie;
-    if (user.views.length > 0) lastWatchedMovie = user.views[0].movie;
+    if (user.views.length > 0) {
+        lastWatchedMovie = user.views[0].movie;
+    } else {
+        lastWatchedMovie = undefined;
+    }
 
     return (
         <>
@@ -47,19 +52,31 @@ const UserPage: FunctionComponent = () => {
                 </div>
             </section>
 
-            <div className={styles.userContent}>
-                <section className={styles.recentReviews}>
-                    <SectionHeader title="Recent Reviews" />
-                    <div>
-                        {user.reviews.length === 0 ? (
-                            <p className={styles.noReviewsMessage}>This user has not written any reviews yet.</p>
-                        ) : (
-                            user.reviews.slice(0, 5).map((review) => <ReviewCard key={review.id} review={review} />)
-                        )}
-                    </div>
-                </section>
-
+            <section className={styles.userContent}>
                 <div>
+                    <section className={styles.recentLists}>
+                        <SectionHeader title="Recent Lists" />
+                        <div className={styles.listsContainer}>
+                            {user.lists.length === 0 ? (
+                                <p className={styles.noReviewsMessage}>This user has not created any lists yet.</p>
+                            ) : (
+                                user.lists.slice(0, 3).map((list) => <ListCard key={list.id} list={list} />)
+                            )}
+                        </div>
+                    </section>
+
+                    <section className={styles.recentReviews}>
+                        <SectionHeader title="Recent Reviews" />
+                        <div>
+                            {user.reviews.length === 0 ? (
+                                <p className={styles.noReviewsMessage}>This user has not written any reviews yet.</p>
+                            ) : (
+                                user.reviews.slice(0, 5).map((review) => <ReviewCard key={review.id} review={review} />)
+                            )}
+                        </div>
+                    </section>
+                </div>
+                <aside>
                     <section className={styles.moreUserData}>
                         <SectionHeader title="Bio" />
                         <div>
@@ -71,18 +88,18 @@ const UserPage: FunctionComponent = () => {
                         </div>
                     </section>
 
-                    <section className={styles.recentLists}>
-                        <SectionHeader title="Recent Lists" />
+                    <section className={styles.moreUserData}>
+                        <SectionHeader title="Followers" />
                         <div>
-                            {user.lists.length === 0 ? (
-                                <p className={styles.noReviewsMessage}>This user has not created any lists yet.</p>
-                            ) : (
-                                user.lists.slice(0, 3).map((list) => <ListCard key={list.id} list={list} />)
-                            )}
+                            <p>
+                                Member since <span className={styles.memberSince}>{new Date(user.createdAt).toLocaleDateString()}</span>
+                            </p>
+
+                            <p>{user.bio ? user.bio : 'This user has not added a bio yet.'}</p>
                         </div>
                     </section>
-                </div>
-            </div>
+                </aside>
+            </section>
         </>
     );
 };
