@@ -55,8 +55,14 @@ describe('userRouter', () => {
             const res = await request(app).get('/users');
 
             expect(res.status).toBe(500);
-            // Note: GET routes still catch errors and return generic message
-            expect(res.body).toEqual({ error: 'Internal server error' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'DB error',
+                    code: 500,
+                },
+            });
         });
     });
 
