@@ -45,12 +45,12 @@
     margin-bottom: 40px;
 }
 
-.recentReviews>div {
+.recentReviews > div {
     padding: 0 40px;
 }
 
-.moreUserData>div,
-.recentLists>div {
+.moreUserData > div,
+.recentLists > div {
     padding: 10px 20px;
 }
 
@@ -74,13 +74,11 @@
     grid-template-columns: 1fr;
 }
 
-.listsContainer>article {
+.listsContainer > article {
     margin: auto auto;
 }
 
-
 @media screen and (min-width: 768px) {
-
     .userSection {
         margin-top: -150px;
         padding: 40px;
@@ -94,12 +92,9 @@
     .listsContainer {
         grid-template-columns: 1fr 1fr;
     }
-
 }
 
-
 @media screen and (min-width: 1024px) {
-
     .userContent {
         display: grid;
         grid-template-columns: 3fr 1fr;
