@@ -1,4 +1,4 @@
-import { ApiError } from '../errorHandler';
+import { ApiError } from '../../interfaces/ApiError';
 
 export default (title: string): string => {
     const sanitizedTitle = title?.trim();

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppDataSource } from '../startup/data-source';
 import { User } from '../entities/User';
-import { ApiError } from './errorHandler';
+import { ApiError } from '../interfaces/ApiError';
 
 export async function authenticateUser(req: Request, res: Response, next: NextFunction) {
     try {

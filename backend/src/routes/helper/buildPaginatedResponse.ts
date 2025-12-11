@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import PaginatedResponse from '../../DTO/PaginatedResponse';
+import PaginatedResponse from '../../interfaces/PaginatedResponse';
 
 export default <T>(data: T[], total: number, req: Request): PaginatedResponse<T> => {
     const page = req.query.page ? Number(req.query.page) : 1;

@@ -1,5 +1,5 @@
+import { ApiError } from '../../interfaces/ApiError';
 import validateRating from './validateRating';
-import { ApiError } from '../errorHandler';
 
 describe('validateRating', () => {
     it('returns the rating when valid', () => {

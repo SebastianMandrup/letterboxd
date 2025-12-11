@@ -6,7 +6,7 @@ import { List } from '../entities/List';
 import { Comment } from '../entities/Comment';
 import { authenticateUser } from '../middleware/authenticateUser';
 import { validateListCreation } from '../middleware/listValidation';
-import { ApiError } from '../middleware/errorHandler';
+import { ApiError } from '../interfaces/ApiError';
 
 const listRouter = Router();
 

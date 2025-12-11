@@ -1,14 +1,14 @@
 import { Router, NextFunction } from 'express';
 import { AppDataSource } from '../startup/data-source';
 import { User } from '../entities/User';
-import type Response from '../DTO/Response';
+import type Response from '../interfaces/Response';
 import { validateUserCreation } from '../middleware/userValidation';
 import bcrypt from 'bcrypt';
 import { getUserByUsername, getUsers } from '../services/userService';
-import { toUserWithCountDto, UserWithCountDto } from '../DTO/UserWithCountDto';
+import { toUserWithCountDto, UserWithCountDto } from '../interfaces/UserWithCountDto';
 import { authenticateUser } from '../middleware/authenticateUser';
-import { ApiError } from '../middleware/errorHandler';
 import validateUsername from '../middleware/validation/validateUsername';
+import { ApiError } from '../interfaces/ApiError';
 
 const userRouter = Router();
 

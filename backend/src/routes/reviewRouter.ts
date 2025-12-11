@@ -7,7 +7,7 @@ import { validateReview } from '../middleware/reviewValidation';
 import { Movie } from '../entities/Movie';
 import { MovieLike } from '../entities/MovieLike';
 import { ReviewLike } from '../entities/ReviewLike';
-import { ApiError } from '../middleware/errorHandler';
+import { ApiError } from '../interfaces/ApiError';
 
 const reviewRouter = Router();
 

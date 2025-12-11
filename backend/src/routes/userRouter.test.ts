@@ -30,13 +30,13 @@ jest.mock('../services/userService', () => ({
     getUsers: (...args: any[]) => mockGetUsers(...args),
 }));
 
-jest.mock('../DTO/UserWithCountDto', () => ({
+jest.mock('../interfaces/UserWithCountDto', () => ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toUserWithCountDto: (...args: any[]) => mockToUserWithCountDto(...args),
 }));
 
 import userRouter from './userRouter';
-import { errorHandler } from '../middleware/errorHandler';
+import { errorHandler } from '../middleware/errorHandling/errorHandler';
 import session from 'express-session';
 
 const app = express();

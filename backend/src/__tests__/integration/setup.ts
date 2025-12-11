@@ -6,7 +6,8 @@ import userRouter from '../../routes/userRouter';
 import movieRouter from '../../routes/movieRouter';
 import reviewRouter from '../../routes/reviewRouter';
 import listRouter from '../../routes/listRouter';
-import { errorHandler, notFoundHandler } from '../../middleware/errorHandler';
+import { errorHandler } from '../../middleware/errorHandling/errorHandler';
+import { notFoundHandler } from '../../middleware/errorHandling/notFoundHandler';
 
 // Initialize test database
 export const initTestDb = async () => {

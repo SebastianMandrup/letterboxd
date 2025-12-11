@@ -1,4 +1,4 @@
-import { ApiError } from '../errorHandler';
+import { ApiError } from '../../interfaces/ApiError';
 
 export default (email: string): string => {
     const sanitizedEmail = email?.trim().toLowerCase();

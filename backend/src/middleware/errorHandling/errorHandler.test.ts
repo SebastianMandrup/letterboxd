@@ -1,5 +1,6 @@
-import { errorHandler, notFoundHandler } from './errorHandler';
+import { errorHandler } from './errorHandler';
 import { Request, Response, NextFunction } from 'express';
+import { notFoundHandler } from './notFoundHandler';
 
 describe('errorHandler', () => {
     let req: Partial<Request>;

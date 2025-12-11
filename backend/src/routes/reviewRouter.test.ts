@@ -53,7 +53,7 @@ jest.mock('../middleware/reviewValidation', () => ({
 
 // 6. Import the router after mocks
 import reviewRouter from './reviewRouter';
-import { errorHandler } from '../middleware/errorHandler';
+import { errorHandler } from '../middleware/errorHandling/errorHandler';
 
 const app = express();
 app.use(express.json());

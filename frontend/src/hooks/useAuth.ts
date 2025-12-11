@@ -9,14 +9,12 @@ export function useAuth() {
     const setUser = useUserStore((state) => state.setUser);
     const clearUser = useUserStore((state) => state.clearUser);
 
-    // Local state
     const [loading, setLoading] = useState(false);
     const [restoring, setRestoring] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     const hasRestored = useRef(false);
 
-    // Restore user on mount - RUNS ONLY ONCE
     useEffect(() => {
         if (hasRestored.current) {
             return;

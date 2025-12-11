@@ -40,7 +40,7 @@ jest.mock(
 
 // 4. Import the router after mocks
 import movieRouter from './movieRouter';
-import { errorHandler } from '../middleware/errorHandler';
+import { errorHandler } from '../middleware/errorHandling/errorHandler';
 
 const app = express();
 app.use(express.json());

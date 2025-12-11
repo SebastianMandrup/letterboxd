@@ -1,4 +1,4 @@
-import { ApiError } from '../errorHandler';
+import { ApiError } from '../../interfaces/ApiError';
 
 export default (name: string): string => {
     if (typeof name !== 'string') {

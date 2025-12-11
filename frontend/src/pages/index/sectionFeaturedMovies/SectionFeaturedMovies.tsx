@@ -1,13 +1,11 @@
-import useMovies from '../../../hooks/useMovies';
+import useFeaturedMovies from '../../../hooks/useFeaturedMovies';
 import { getMediumPoster } from '../../../services/getMediumPoster';
 import LoadingMovieCard from '../../shared/movieCard/LoadingMovieCard';
 import ArticleFeaturedMovie from './ArticleFeaturedMovie';
 import styles from './sectionFeaturedMovies.module.css';
 
 const SectionFeaturedMovies = () => {
-    const { data, error, isLoading } = useMovies({
-        params: { featured: true },
-    });
+    const { data, error, isLoading } = useFeaturedMovies();
 
     return (
         <section id={styles.sectionFeaturedMovies}>

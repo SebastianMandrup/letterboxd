@@ -3,7 +3,8 @@ import express from 'express';
 import session from 'express-session';
 import dbConnection from './dbConnection';
 import setupRouters from './setupRouters';
-import { errorHandler, notFoundHandler } from '../middleware/errorHandler';
+import { errorHandler } from '../middleware/errorHandling/errorHandler';
+import { notFoundHandler } from '../middleware/errorHandling/notFoundHandler';
 
 const init = (app: express.Application) => {
     app.use(express.json()); // Middleware to parse JSON request bodies

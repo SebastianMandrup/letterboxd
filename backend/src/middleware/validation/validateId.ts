@@ -1,4 +1,4 @@
-import { ApiError } from '../errorHandler';
+import { ApiError } from '../../interfaces/ApiError';
 
 export default (id: number) => {
     if (!Number.isInteger(id) || id <= 0) {

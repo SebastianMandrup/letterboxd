@@ -1,4 +1,4 @@
-import { ApiError } from '../errorHandler';
+import { ApiError } from '../../interfaces/ApiError';
 
 export default (rating: number) => {
     if (typeof rating !== 'number' || isNaN(rating)) {
