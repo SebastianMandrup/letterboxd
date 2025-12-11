@@ -1,13 +1,13 @@
 import type { FunctionComponent } from 'react';
 
-interface HeartProps {
+interface HeartIconProps {
     size: number;
-    color: string;
+    color?: string;
 }
 
-const Heart: FunctionComponent<HeartProps> = ({ size, color }) => {
+const HeartIcon: FunctionComponent<HeartIconProps> = ({ size, color = 'currentColor' }) => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill={color} viewBox="0 0 24 24">
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill={color} viewBox="0 0 24 24" aria-label="like">
             <path
                 d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
            2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
@@ -19,4 +19,4 @@ const Heart: FunctionComponent<HeartProps> = ({ size, color }) => {
     );
 };
 
-export default Heart;
+export default HeartIcon;

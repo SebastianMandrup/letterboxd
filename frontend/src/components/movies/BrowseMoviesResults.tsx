@@ -3,6 +3,7 @@ import useMovies from '../../hooks/useMovies';
 import MovieCard from '../shared/movieCard/MovieCard';
 import styles from './browseMoviesResults.module.css';
 import { getMediumPoster } from '../../services/getMediumPoster';
+import LoadingMovieCard from '../shared/movieCard/LoadingMovieCard';
 
 interface BrowseMoviesResultsProps {
     selectedDecade?: string;
@@ -34,32 +35,32 @@ const BrowseMoviesResults: FunctionComponent<BrowseMoviesResultsProps> = ({
 
     return (
         <section className={styles.sectionBrowseResults}>
-            {isLoading && <p>Loading movies...</p>}
+            {error && <p>Error loading movies.</p>}
+            <ul>
+                {isLoading &&
+                    Array.from({ length: 12 }).map((_, index) => (
+                        <li key={index}>
+                            <LoadingMovieCard />
+                        </li>
+                    ))}
 
-            {data && (
-                <>
-                    {isLoading && <div></div>}
-                    {error && <p>Error loading movies.</p>}
-
-                    <ul>
-                        {data.results.map((movie) => (
-                            <li key={movie.id}>
-                                <MovieCard
-                                    title={movie.title}
-                                    src={getMediumPoster(movie.posterUrl)}
-                                    alt={`Poster of ${movie.title}`}
-                                    overlay={<header>{movie.title}</header>}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                    <nav className={styles.pagination}>
-                        {data?.previous && <button onClick={() => setPage(page - 1)}>Previous</button>}
-                        {!data?.previous && <div></div>}
-                        {data?.next && <button onClick={() => setPage(page + 1)}>Next</button>}
-                    </nav>
-                </>
-            )}
+                {data &&
+                    data.results.map((movie) => (
+                        <li key={movie.id}>
+                            <MovieCard
+                                title={movie.title}
+                                src={getMediumPoster(movie.posterUrl)}
+                                alt={`Poster of ${movie.title}`}
+                                overlay={<header>{movie.title}</header>}
+                            />
+                        </li>
+                    ))}
+            </ul>
+            <nav className={styles.pagination}>
+                {data?.previous && <button onClick={() => setPage(page - 1)}>Previous</button>}
+                {!data?.previous && <div></div>}
+                {data?.next && <button onClick={() => setPage(page + 1)}>Next</button>}
+            </nav>
         </section>
     );
 };

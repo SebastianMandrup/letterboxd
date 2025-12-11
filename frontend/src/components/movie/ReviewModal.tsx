@@ -3,7 +3,7 @@ import styles from './reviewModal.module.css';
 import type MovieDto from '../../DTO/MovieDto';
 import MovieCard from '../shared/movieCard/MovieCard';
 import { getMediumPoster } from '../../services/getMediumPoster';
-import Heart from '../shared/icons/Heart';
+import Heart from '../shared/icons/HeartIcon';
 import StarRating from './StarRating';
 import reviewService from '../../services/ReviewClient';
 import { useToastStore } from '../../stores/useToastStore';

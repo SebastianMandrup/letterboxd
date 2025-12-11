@@ -11,7 +11,7 @@ import { useUserStore } from '../../stores/useUserStore';
 import { useEffect, useState } from 'react';
 import ReviewModal from '../../components/movie/ReviewModal';
 import type ReviewDto from '../../DTO/ReviewDto';
-import Eye from '../../components/shared/icons/Eye';
+import Eye from '../../components/shared/icons/EyeIcon';
 import movieService from '../../services/movieService';
 import { useToastStore } from '../../stores/useToastStore';
 

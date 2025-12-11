@@ -1,10 +1,10 @@
 import type { FunctionComponent } from 'react';
 
-interface SearchProps {
+interface SearchIconProps {
     size: number;
 }
 
-const Search: FunctionComponent<SearchProps> = ({ size }) => {
+const SearchIcon: FunctionComponent<SearchIconProps> = ({ size }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -22,4 +22,4 @@ const Search: FunctionComponent<SearchProps> = ({ size }) => {
     );
 };
 
-export default Search;
+export default SearchIcon;

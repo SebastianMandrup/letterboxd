@@ -1,5 +1,6 @@
 import useMovies from '../../../hooks/useMovies';
 import { getMediumPoster } from '../../../services/getMediumPoster';
+import LoadingMovieCard from '../../shared/movieCard/LoadingMovieCard';
 import ArticleFeaturedMovie from './ArticleFeaturedMovie';
 import styles from './sectionFeaturedMovies.module.css';
 
@@ -10,8 +11,10 @@ const SectionFeaturedMovies = () => {
 
     return (
         <section id={styles.sectionFeaturedMovies}>
-            {isLoading && <p>Loading...</p>}
             {error && <p>Error loading featured movies.</p>}
+
+            {isLoading && Array.from({ length: 6 }).map((_, index) => <LoadingMovieCard key={index} />)}
+
             {(data?.results ?? []).map((movie, index) => (
                 <ArticleFeaturedMovie
                     title={movie.title}

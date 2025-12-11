@@ -39,16 +39,16 @@
 }
 
 .avatar {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     margin-right: 6px;
     vertical-align: middle;
 }
 
 .movieCount {
-    font-weight: 600;
-    color: var(--white);
+    font-weight: 300;
+    color: var(--lightGrey);
 }
 
 .movieCount.large {

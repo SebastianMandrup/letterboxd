@@ -1,4 +1,10 @@
 import type UserDto from '../../../DTO/UserDto';
+import ListsIcon from '../icons/ListsIcon';
+import MoviesIcon from '../icons/MoviesIcon';
+import SearchIcon from '../icons/SearchIcon';
+import SignInIcon from '../icons/SignInIcon';
+import SignUpIcon from '../icons/SignUpIcon';
+import UsersIcon from '../icons/UsersIcon';
 import styles from './defaultHeader.module.css';
 
 interface LoggedInHeaderProps {
@@ -7,6 +13,8 @@ interface LoggedInHeaderProps {
 }
 
 function LoggedInHeader({ user, onLogout }: LoggedInHeaderProps) {
+    const iconSize = 22;
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -19,37 +27,40 @@ function LoggedInHeader({ user, onLogout }: LoggedInHeaderProps) {
             <nav>
                 <ul>
                     <li>
-                        <button onClick={() => onLogout()}>LOGOUT</button>
+                        <button onClick={() => onLogout()}>
+                            <div>LOGOUT</div>
+                            <SignInIcon size={iconSize} />
+                        </button>
                     </li>
                     <li>
-                        <a href={`/user/${user.username}`}>PROFILE</a>
+                        <a href={`/user/${user.username}`}>
+                            <div>PROFILE</div>
+                            <SignUpIcon size={iconSize} />
+                        </a>
                     </li>
                     <li>
-                        <a href="/movies">MOVIES</a>
+                        <a href="/movies">
+                            <div>MOVIES</div>
+                            <MoviesIcon size={iconSize} />
+                        </a>
                     </li>
                     <li>
-                        <a href="/lists">LISTS</a>
+                        <a href="/lists">
+                            <div>LISTS</div>
+                            <ListsIcon size={iconSize} />
+                        </a>
                     </li>
                     <li>
-                        <a href="/users">USERS</a>
+                        <a href="/users">
+                            <div>USERS</div>
+                            <UsersIcon size={iconSize} />
+                        </a>
                     </li>
                 </ul>
             </nav>
             <form onSubmit={handleSubmit}>
                 <input name="query" type="text" />
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                >
-                    <circle cx="8" cy="8" r="6" />
-                    <line x1="15" y1="15" x2="11.5" y2="11.5" />
-                </svg>
+                <SearchIcon size={20} />
             </form>
         </section>
     );

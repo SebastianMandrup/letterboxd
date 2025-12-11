@@ -1,6 +1,6 @@
 import ListsIcon from '../icons/ListsIcon';
 import MoviesIcon from '../icons/MoviesIcon';
-import Search from '../icons/Search';
+import SearchIcon from '../icons/SearchIcon';
 import SignInIcon from '../icons/SignInIcon';
 import SignUpIcon from '../icons/SignUpIcon';
 import UsersIcon from '../icons/UsersIcon';
@@ -59,7 +59,7 @@ function DefaultHeader({ setIsLoggingIn, setIsSigningUp }: DefaultHeaderProps) {
             </nav>
             <form onSubmit={handleSubmit}>
                 <input name="query" type="text" />
-                <Search size={18} />
+                <SearchIcon size={18} />
             </form>
         </section>
     );

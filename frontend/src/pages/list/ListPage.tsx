@@ -6,9 +6,10 @@ import { getApiAvatar } from '../../services/getApiAvatar';
 import MovieCard from '../../components/shared/movieCard/MovieCard';
 import CollapseText from '../../components/users/CollapseText';
 import { getMediumPoster } from '../../services/getMediumPoster';
-import Heart from '../../components/shared/icons/Heart';
+import Heart from '../../components/shared/icons/HeartIcon';
 import ListComments from '../../components/list/ListComments';
 import styles from './llistPage.module.css';
+import LoadingListPage from './LoadingListPage';
 
 const ListPage: FunctionComponent = () => {
     const listName = useParams().name || '';
@@ -16,7 +17,7 @@ const ListPage: FunctionComponent = () => {
     const { data: list, isLoading, error } = useList(listName);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <LoadingListPage />;
     }
 
     if (error || !list) {
