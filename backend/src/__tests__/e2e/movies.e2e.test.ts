@@ -68,7 +68,7 @@ describe('E2E Tests - Movies', () => {
             const res = await request(app).get('/movies/non-existent-movie');
 
             expect(res.status).toBe(404);
-            expect(res.body.error).toContain('not found');
+            expect(res.body.error.message).toContain('not found');
         });
 
         it('should delete a movie by ID', async () => {

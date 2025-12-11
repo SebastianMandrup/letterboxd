@@ -37,9 +37,17 @@ jest.mock('../DTO/UserWithCountDto', () => ({
 
 import userRouter from './userRouter';
 import { errorHandler } from '../middleware/errorHandler';
+import session from 'express-session';
 
 const app = express();
 app.use(express.json());
+app.use(
+    session({
+        secret: 'test-secret',
+        resave: false,
+        saveUninitialized: false,
+    }),
+);
 app.use('/users', userRouter);
 app.use(errorHandler);
 
@@ -55,8 +63,14 @@ describe('userRouter', () => {
             const res = await request(app).get('/users');
 
             expect(res.status).toBe(500);
-            // Note: GET routes still catch errors and return generic message
-            expect(res.body).toEqual({ error: 'Internal server error' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'DB error',
+                    code: 500,
+                },
+            });
         });
     });
 

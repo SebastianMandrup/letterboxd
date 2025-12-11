@@ -87,7 +87,7 @@ describe('Integration Tests - Authentication', () => {
             });
 
             expect(res.status).toBe(401);
-            expect(res.body.message).toBe('Invalid credentials');
+            expect(res.body.error.message).toBe('Invalid credentials');
         });
 
         it('should maintain session after login', async () => {

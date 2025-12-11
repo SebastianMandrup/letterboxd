@@ -23,6 +23,7 @@ jest.mock('bcrypt', () => ({
 
 // 4. Now import the router after mocks
 import authRouter from '../routes/authRouter';
+import { errorHandler } from '../middleware/errorHandler';
 
 // 5. Setup Express app
 const app = express();
@@ -35,6 +36,7 @@ app.use(
     }),
 );
 app.use('/auth', authRouter);
+app.use(errorHandler);
 
 describe('Auth Router', () => {
     afterEach(() => {
@@ -70,7 +72,14 @@ describe('Auth Router', () => {
             const res = await request(app).post('/auth/login').send({ username: 'wrong', password: 'password' });
 
             expect(res.status).toBe(401);
-            expect(res.body.message).toBe('Invalid credentials');
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Invalid credentials',
+                    code: 401,
+                },
+            });
         });
 
         it('should return 401 for invalid password', async () => {
@@ -87,7 +96,14 @@ describe('Auth Router', () => {
             const res = await request(app).post('/auth/login').send({ username: 'test', password: 'wrong' });
 
             expect(res.status).toBe(401);
-            expect(res.body.message).toBe('Invalid credentials');
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Invalid credentials',
+                    code: 401,
+                },
+            });
         });
     });
 
@@ -95,7 +111,14 @@ describe('Auth Router', () => {
         it('should return 401 if not logged in', async () => {
             const res = await request(app).get('/auth/me');
             expect(res.status).toBe(401);
-            expect(res.body).toBeNull();
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Not authenticated',
+                    code: 401,
+                },
+            });
         });
 
         it('should return user info if logged in', async () => {

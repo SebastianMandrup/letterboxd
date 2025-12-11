@@ -40,10 +40,12 @@ jest.mock(
 
 // 4. Import the router after mocks
 import movieRouter from './movieRouter';
+import { errorHandler } from '../middleware/errorHandler';
 
 const app = express();
 app.use(express.json());
 app.use('/movies', movieRouter);
+app.use(errorHandler);
 
 describe('movieRouter', () => {
     afterEach(() => {
@@ -73,7 +75,14 @@ describe('movieRouter', () => {
             const res = await request(app).get('/movies');
 
             expect(res.status).toBe(500);
-            expect(res.body).toEqual({ error: 'Internal server error' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Database error',
+                    code: 500,
+                },
+            });
         });
     });
 
@@ -95,7 +104,12 @@ describe('movieRouter', () => {
 
             expect(res.status).toBe(404);
             expect(res.body).toEqual({
-                error: 'Movie with slug nonexistent not found.',
+                success: false,
+                data: null,
+                error: {
+                    message: 'Movie with slug nonexistent not found.',
+                    code: 404,
+                },
             });
         });
 
@@ -105,7 +119,14 @@ describe('movieRouter', () => {
             const res = await request(app).get('/movies/movie-1');
 
             expect(res.status).toBe(500);
-            expect(res.body).toEqual({ error: 'Internal server error' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Service error',
+                    code: 500,
+                },
+            });
         });
     });
 
@@ -128,7 +149,14 @@ describe('movieRouter', () => {
             const res = await request(app).delete('/movies/999');
 
             expect(res.status).toBe(404);
-            expect(res.body).toEqual({ error: 'Movie with ID 999 not found.' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Movie with ID 999 not found.',
+                    code: 404,
+                },
+            });
         });
 
         it('should return 500 on service error', async () => {
@@ -137,7 +165,14 @@ describe('movieRouter', () => {
             const res = await request(app).delete('/movies/1');
 
             expect(res.status).toBe(500);
-            expect(res.body).toEqual({ error: 'Internal server error' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Delete error',
+                    code: 500,
+                },
+            });
         });
     });
 });

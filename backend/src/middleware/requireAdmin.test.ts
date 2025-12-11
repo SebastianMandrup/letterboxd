@@ -31,25 +31,35 @@ describe('requireAdmin middleware', () => {
         expect(res.json).not.toHaveBeenCalled();
     });
 
-    it('should return 403 if no user in session', () => {
+    it('should call next with ApiError if no user in session', () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         req.session = {} as any;
 
         requireAdmin(req as Request, res as Response, next);
 
-        expect(res.status).toHaveBeenCalledWith(403);
-        expect(res.json).toHaveBeenCalledWith({ message: 'Forbidden' });
-        expect(next).not.toHaveBeenCalled();
+        expect(next).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: 'Admin privileges required',
+                statusCode: 403,
+            }),
+        );
+        expect(res.status).not.toHaveBeenCalled();
+        expect(res.json).not.toHaveBeenCalled();
     });
 
-    it('should return 403 if user is not admin', () => {
+    it('should call next with ApiError if user is not admin', () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         req.session = { user: { role: 'user' } } as any;
 
         requireAdmin(req as Request, res as Response, next);
 
-        expect(res.status).toHaveBeenCalledWith(403);
-        expect(res.json).toHaveBeenCalledWith({ message: 'Forbidden' });
-        expect(next).not.toHaveBeenCalled();
+        expect(next).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: 'Admin privileges required',
+                statusCode: 403,
+            }),
+        );
+        expect(res.status).not.toHaveBeenCalled();
+        expect(res.json).not.toHaveBeenCalled();
     });
 });

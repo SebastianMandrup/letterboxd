@@ -88,7 +88,14 @@ describe('reviewRouter', () => {
             const res = await request(app).get('/reviews');
 
             expect(res.status).toBe(500);
-            expect(res.body).toEqual({ error: 'Internal server error' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Database error',
+                    code: 500,
+                },
+            });
         });
     });
 
@@ -200,7 +207,15 @@ describe('reviewRouter', () => {
 
             const res = await request(app).post('/reviews').send(reviewData);
 
-            expect(res.status).toBe(500);
+            expect(res.status).toBe(404);
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Movie not found',
+                    code: 404,
+                },
+            });
         });
 
         it('should handle errors during review creation', async () => {
