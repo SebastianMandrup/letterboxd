@@ -38,7 +38,9 @@ async function fetchMoviesAsync() {
             const creditsData = await creditsResponse.json();
             detailedMovie.credits = creditsData;
 
-            allPopulatedMovies.push(detailedMovie);
+            const mergedMovie = { ...movie, ...detailedMovie };
+
+            allPopulatedMovies.push(mergedMovie);
             console.log(`Fetched details for movie ID ${movie.id}: ${movie.title}`);
         }
 

@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 const NUM_USERS = 100;
 const NUM_REVIEWS = 500;
 const NUM_VIEWS = 1000;
-const NUM_LISTS = 50;
+const NUM_LISTS = 200; // Increased from 50
 const NUM_COMMENTS = 800;
 
 // ---------------- Paths ----------------
@@ -28,19 +28,19 @@ if (!fs.existsSync(dataDir)) {
 }
 
 // ---------------- Users ----------------
-// const usersMap = new Map<number, any>();
 const usedUsernames = new Set<string>();
 
-const users = Array.from({ length: NUM_USERS }, (_, i) => {
+// First, create user objects without relationships
+const usersBase = Array.from({ length: NUM_USERS }, (_, i) => {
     let username: string;
     let attempts = 0;
 
     // Generate unique username
     do {
-        const baseName = faker.person.fullName().replace(/\s+/g, '').toLowerCase();
+        const baseName = faker.person.firstName().replace(/\s+/g, '').toLowerCase().replace(/-/g, '');
         username = attempts === 0 ? baseName : `${baseName}${faker.number.int({ min: 1, max: 999 })}`;
         attempts++;
-    } while (usedUsernames.has(username) && attempts < 10); // Limit attempts to prevent infinite loop
+    } while (usedUsernames.has(username) && attempts < 10);
 
     usedUsernames.add(username);
 
@@ -50,7 +50,64 @@ const users = Array.from({ length: NUM_USERS }, (_, i) => {
         email: faker.internet.email(),
         password: bcrypt.hashSync('password', 10),
         bio: faker.lorem.sentence(20),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        followers: [] as any[], // Initialize as any[] to avoid type issues
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        following: [] as any[],
     };
+});
+
+// Now create follow relationships
+const users = usersBase.map((user) => {
+    // Each user follows between 5-30 other users
+    const numFollowing = faker.number.int({ min: 5, max: 30 });
+    const followedUserIds = new Set<number>();
+
+    // Get IDs of users to follow (excluding self)
+    for (let i = 0; i < numFollowing; i++) {
+        let followedUserId: number;
+        do {
+            followedUserId = faker.number.int({ min: 1, max: NUM_USERS });
+        } while (followedUserId === user.id || followedUserIds.has(followedUserId));
+
+        followedUserIds.add(followedUserId);
+    }
+
+    // Create the user object with following array containing user IDs
+    return {
+        ...user,
+        following: Array.from(followedUserIds).map((id) => ({ id })), // Array of {id: number} objects
+    };
+});
+
+// Now we need to populate the followers arrays
+// Create a map of user IDs to their following arrays
+const followingMap = new Map<number, number[]>();
+users.forEach((user) => {
+    followingMap.set(
+        user.id,
+        user.following.map((f) => f.id),
+    );
+});
+
+// Populate followers for each user
+const usersWithFollowers = users.map((user) => {
+    const followers = [];
+    // Check all other users to see if they follow this user
+    for (const [otherUserId, followingIds] of followingMap.entries()) {
+        if (otherUserId !== user.id && followingIds.includes(user.id)) {
+            followers.push({ id: otherUserId });
+        }
+    }
+    return {
+        ...user,
+        followers: followers,
+    };
+});
+
+console.log(`✅ Generated follow relationships`);
+usersWithFollowers.forEach((user) => {
+    console.log(`   User ${user.username}: follows ${user.following.length}, followed by ${user.followers.length}`);
 });
 
 // ---------------- Read TMDB movies ----------------
@@ -100,13 +157,35 @@ const movies = moviesData.map((movie, index) => {
 });
 
 // ---------------- Reviews ----------------
-const reviews = Array.from({ length: NUM_REVIEWS }, () => ({
-    review: faker.lorem.sentences({ min: 1, max: 3 }),
-    rating: parseFloat((Math.random() * 5).toFixed(1)),
-    movieId: faker.number.int({ min: 1, max: NUM_MOVIES }),
-    authorId: faker.number.int({ min: 1, max: NUM_USERS }),
-    createdAt: faker.date.past().toISOString(),
-}));
+const reviewTemplates = [
+    'An absolute masterpiece of cinema.',
+    'Surprisingly good for what it is.',
+    'Not my favorite, but worth watching.',
+    "One of the best movies I've seen this year.",
+    'The cinematography alone is worth the price of admission.',
+    'A bit overrated in my opinion, but still enjoyable.',
+    'A classic that holds up remarkably well.',
+    'The performances really carry this film.',
+    'Visually stunning but lacking in substance.',
+    'Better than I expected going in.',
+];
+
+const reviews = Array.from({ length: NUM_REVIEWS }, (_, i) => {
+    const template = faker.helpers.arrayElement(reviewTemplates);
+    const additionalThoughts = faker.lorem.sentences({ min: 1, max: 3 });
+    const fullReview = `${template} ${additionalThoughts}`;
+
+    const rating = parseFloat((Math.random() * 4 + 1).toFixed(1)); // Ratings between 1-5
+
+    return {
+        id: i + 1,
+        review: fullReview,
+        rating: rating,
+        movieId: faker.number.int({ min: 1, max: NUM_MOVIES }),
+        authorId: faker.number.int({ min: 1, max: NUM_USERS }),
+        createdAt: faker.date.past().toISOString(),
+    };
+});
 
 // ---------------- ReviewLikes ----------------
 const reviewLikes = Array.from({ length: NUM_REVIEWS * 2 }, () => ({
@@ -145,13 +224,48 @@ const commentLikes = Array.from({ length: NUM_COMMENTS * 2 }, () => ({
 }));
 
 // ---------------- Lists ----------------
-const lists = Array.from({ length: NUM_LISTS }, () => {
+const listThemes = [
+    'Classic',
+    'Modern',
+    'Cult',
+    'Underrated',
+    'Oscar-winning',
+    'Horror',
+    'Comedy',
+    'Drama',
+    'Action',
+    'Sci-Fi',
+    'Foreign Language',
+    'Documentary',
+    'Animated',
+    'Indie',
+    '90s',
+    '2000s',
+    '2010s',
+    '2020s',
+    'Directors',
+    'Actors',
+    'By Country',
+    'By Decade',
+    'Hidden Gems',
+    'Must Watch',
+    'Overrated',
+    'Underrated',
+    'Emotional',
+    'Funny',
+    'Scary',
+    'Thought-provoking',
+];
+
+const lists = Array.from({ length: NUM_LISTS }, (_, i) => {
+    const theme = faker.helpers.arrayElement(listThemes);
     const listMovieIds = Array.from(
-        new Set(Array.from({ length: faker.number.int({ min: 5, max: 50 }) }, () => faker.number.int({ min: 1, max: NUM_MOVIES }))),
+        new Set(Array.from({ length: faker.number.int({ min: 10, max: 80 }) }, () => faker.number.int({ min: 1, max: NUM_MOVIES }))),
     );
 
     return {
-        name: `${faker.word.adjective()} ${faker.word.noun()} List`,
+        id: i + 1,
+        name: `${theme} ${faker.word.noun()} List`,
         description: faker.lorem.sentence(200),
         createdAt: faker.date.past().toISOString(),
         userId: faker.number.int({ min: 1, max: NUM_USERS }),
@@ -168,7 +282,7 @@ const listLikes = Array.from({ length: NUM_LISTS * 2 }, () => ({
 
 // ---------------- Combine all ----------------
 const seedData = {
-    users,
+    users: usersWithFollowers, // Users now have followers and following arrays
     movies,
     genres,
     reviews,
@@ -184,3 +298,8 @@ const seedData = {
 fs.writeFileSync(seedFilePath, JSON.stringify(seedData, null, 2));
 
 console.log(`✅ seed-data.json created successfully at: ${seedFilePath}`);
+console.log(`📊 Stats:`);
+console.log(`   Users: ${NUM_USERS}`);
+console.log(`   Lists: ${NUM_LISTS} (increased from 50)`);
+console.log(`   Reviews: ${NUM_REVIEWS}`);
+console.log(`   Average follows per user: ${Math.round(usersWithFollowers.reduce((acc, user) => acc + user.following.length, 0) / NUM_USERS)}`);

@@ -1,5 +1,5 @@
 import { useAuth } from '../../../hooks/useAuth';
-import PopularReviews from '../../films/PopularReviews';
+import PopularReviews from '../../movies/PopularReviews';
 import SectionJustReviewedCards from '../../shared/sectionJustReviewdCards/SectionJustReviewedCards';
 import styles from './sectionJustReviewed.module.css';
 import SectionPopularLists from './SectionPopularLists';

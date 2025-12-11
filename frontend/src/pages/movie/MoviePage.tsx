@@ -1,17 +1,17 @@
 import { useParams } from 'react-router-dom';
-import Backdrop from '../../components/index/backdrop/Backdrop';
-import ArticleMovie from '../../components/shared/movieCard/MovieCard';
-import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
+import Backdrop from '../shared/backdrop/Backdrop';
+import ArticleMovie from '../shared/movieCard/MovieCard';
+import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import { getMediumPoster } from '../../services/getMediumPoster';
 import styles from './moviePage.module.css';
-import ListCardWithDescription from '../../components/shared/listCard/ListCardWithDescription';
+import ListCardWithDescription from '../shared/listCard/ListCardWithDescription';
 import useMovieByTitle from '../../hooks/useMovieByTitle';
-import ReviewCardContent from '../../components/shared/reviewCard/ReviewCardContent';
+import ReviewCardContent from '../shared/reviewCard/ReviewCardContent';
 import { useUserStore } from '../../stores/useUserStore';
 import { useEffect, useState } from 'react';
-import ReviewModal from '../../components/movie/ReviewModal';
+import ReviewModal from './ReviewModal';
 import type ReviewDto from '../../DTO/ReviewDto';
-import Eye from '../../components/shared/icons/EyeIcon';
+import Eye from '../shared/icons/EyeIcon';
 import movieService from '../../services/movieService';
 import { useToastStore } from '../../stores/useToastStore';
 

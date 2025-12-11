@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react';
-import LoadingBackdrop from '../../components/index/backdrop/LoadingBackdrop';
+import LoadingBackdrop from '../shared/backdrop/LoadingBackdrop';
 import styles from './llistPage.module.css';
-import LoadingMovieCard from '../../components/shared/movieCard/LoadingMovieCard';
+import LoadingMovieCard from '../shared/movieCard/LoadingMovieCard';
 
 const LoadingListPage: FunctionComponent = () => {
     return (

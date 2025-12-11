@@ -1,8 +1,8 @@
 import type { FunctionComponent } from 'react';
 import type ReviewDto from '../../../DTO/ReviewDto';
-import SectionHeader from '../../../components/shared/sectionHeader/SectionHeader';
+import SectionHeader from '../../shared/sectionHeader/SectionHeader';
 import styles from './reviewsUserContent.module.css';
-import ReviewCard from '../../../components/shared/reviewCard/ReviewCard';
+import ReviewCard from '../../shared/reviewCard/ReviewCard';
 
 interface ReviewsUserContentProps {
     reviews: ReviewDto[];

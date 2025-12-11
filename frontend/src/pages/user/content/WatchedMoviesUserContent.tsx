@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react';
 import type ViewDto from '../../../DTO/ViewDto';
-import SectionHeader from '../../../components/shared/sectionHeader/SectionHeader';
-import MovieCard from '../../../components/shared/movieCard/MovieCard';
+import SectionHeader from '../../shared/sectionHeader/SectionHeader';
+import MovieCard from '../../shared/movieCard/MovieCard';
 import { getMediumPoster } from '../../../services/getMediumPoster';
 import styles from './watchedMoviesUserContent.module.css';
 

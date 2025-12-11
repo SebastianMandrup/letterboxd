@@ -1,8 +1,8 @@
 import type { FunctionComponent } from 'react';
 import type ListDto from '../../../DTO/ListDto';
-import SectionHeader from '../../../components/shared/sectionHeader/SectionHeader';
+import SectionHeader from '../../shared/sectionHeader/SectionHeader';
 import styles from './listsUserContent.module.css';
-import ListCardWithDescription from '../../../components/shared/listCard/ListCardWithDescription';
+import ListCardWithDescription from '../../shared/listCard/ListCardWithDescription';
 
 interface ListsUserContentProps {
     lists: ListDto[];

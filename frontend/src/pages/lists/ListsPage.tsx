@@ -1,11 +1,11 @@
 import type { FunctionComponent } from 'react';
-import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
+import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import useLists from '../../hooks/useLists';
-import ListCard from '../../components/shared/listCard/ListCard';
+import ListCard from '../shared/listCard/ListCard';
 import styles from './listsPage.module.css';
-import AdBanner from '../../components/shared/adBanner/AdBanner';
-import ListCardWithData from '../../components/shared/listCard/ListCardWithData';
-import ListCardWithDescription from '../../components/shared/listCard/ListCardWithDescription';
+import AdBanner from '../shared/adBanner/AdBanner';
+import ListCardWithData from '../shared/listCard/ListCardWithData';
+import ListCardWithDescription from '../shared/listCard/ListCardWithDescription';
 import { useUserStore } from '../../stores/useUserStore';
 
 const ListsPage: FunctionComponent = () => {

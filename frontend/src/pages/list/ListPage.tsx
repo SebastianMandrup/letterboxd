@@ -1,13 +1,13 @@
 import type { FunctionComponent } from 'react';
 import { useParams } from 'react-router-dom';
 import useList from '../../hooks/useList';
-import Backdrop from '../../components/index/backdrop/Backdrop';
+import Backdrop from '../shared/backdrop/Backdrop';
 import { getApiAvatar } from '../../services/getApiAvatar';
-import MovieCard from '../../components/shared/movieCard/MovieCard';
-import CollapseText from '../../components/users/CollapseText';
+import MovieCard from '../shared/movieCard/MovieCard';
+import CollapseText from '../users/CollapseText';
 import { getMediumPoster } from '../../services/getMediumPoster';
-import Heart from '../../components/shared/icons/HeartIcon';
-import ListComments from '../../components/list/ListComments';
+import Heart from '../shared/icons/HeartIcon';
+import ListComments from './ListComments';
 import styles from './llistPage.module.css';
 import LoadingListPage from './LoadingListPage';
 

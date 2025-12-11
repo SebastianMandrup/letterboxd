@@ -10,7 +10,6 @@ export default (config: AxiosRequestConfig) =>
     useQuery<PaginatedResponse<ListDto>, Error>({
         queryKey: ['lists', config],
         queryFn: () => ListClient.getAll(config),
-        // initialData: featuredLists,
         staleTime: ms('24 hours'),
         gcTime: ms('24 hours'),
     });

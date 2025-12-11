@@ -1,6 +1,6 @@
 .userSection {
     margin: 0 auto;
-    margin-top: -40px;
+    margin-top: -60px;
     gap: 20px;
     padding: 10px;
     position: relative;
@@ -14,14 +14,26 @@
     gap: 10px;
 }
 
-.avatar {
+.avatar,
+.avatarLoading {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-.moreOptionsButton {
+.avatarLoading {
+    background-color: var(--darkGrey);
+}
+
+.usernameLoading {
+    width: 240px;
+    height: 30px;
+    background-color: var(--darkGrey);
+    border-radius: 4px;
+}
+
+.followButton {
     height: 30px;
     width: 30px;
     border-radius: 50%;
@@ -33,12 +45,21 @@
     padding-bottom: -40px;
 }
 
+.loadingDataItem {
+    width: 50px;
+    height: 50px;
+    background-color: var(--darkGrey);
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
 .userData {
     display: flex;
     align-items: start;
 }
 
-.userContent {
+.userContent,
+.loadingUserContent {
     display: flex;
     flex-direction: column-reverse;
     margin-bottom: 40px;
@@ -78,21 +99,37 @@
     object-fit: cover;
 }
 
+.loadingContentMain {
+    width: 100%;
+    height: 300px;
+    background-color: var(--darkestGrey);
+    border-radius: 4px;
+}
+
+.loadingContentAside {
+    width: 100%;
+    height: 300px;
+    background-color: var(--darkestGrey);
+    border-radius: 4px;
+}
+
 @media screen and (min-width: 768px) {
     .userSection {
         display: flex;
-        margin-top: -150px;
+        margin-top: -170px;
         padding: 40px;
     }
 
-    .avatar {
+    .avatar,
+    .avatarLoading {
         width: 100px;
         height: 100px;
     }
 }
 
 @media screen and (min-width: 1024px) {
-    .userContent {
+    .userContent,
+    .loadingUserContent {
         display: grid;
         grid-template-columns: 3fr 1fr;
         gap: 100px;

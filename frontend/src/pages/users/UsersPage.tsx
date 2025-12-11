@@ -1,10 +1,10 @@
 import type { FunctionComponent } from 'react';
 import styles from './usersPage.module.css';
-import AdBanner from '../../components/shared/adBanner/AdBanner';
-import FeaturedMembers from '../../components/users/FeaturedMembers';
-import PopularMembers from '../../components/users/PopularMembers';
-import UsersList from '../../components/users/UsersList';
-import HqUsers from '../../components/users/HqUsers';
+import AdBanner from '../shared/adBanner/AdBanner';
+import FeaturedMembers from './FeaturedMembers';
+import PopularMembers from './PopularMembers';
+import UsersList from './UsersList';
+import HqUsers from './HqUsers';
 
 const UsersPage: FunctionComponent = () => {
     return (

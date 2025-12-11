@@ -2,30 +2,29 @@ import { useState, type FunctionComponent } from 'react';
 import styles from './userPage.module.css';
 import useUserByUsername from '../../hooks/useUserByUsername';
 import { useParams } from 'react-router-dom';
-import Backdrop from '../../components/index/backdrop/Backdrop';
+import Backdrop from '../shared/backdrop/Backdrop';
 import { getApiAvatar } from '../../services/getApiAvatar';
-import UserDataItem from '../../components/user/UserDataItem';
-import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
-import FollowButton from '../../components/shared/userCard/FollowButton';
+import UserDataItem from './UserDataItem';
+import SectionHeader from '../shared/sectionHeader/SectionHeader';
+import FollowButton from '../shared/userCard/FollowButton';
 import DefaultUserContent from './content/DefaultUserContent';
 import WatchedMoviesUserContent from './content/WatchedMoviesUserContent';
 import ListsUserContent from './content/ListsUserContent';
 import ReviewsUserContent from './content/ReviewsUserContent';
 import useFollowers from '../../hooks/useFollowers';
 import useFollowing from '../../hooks/useFollowing';
+import LoadingUserPage from './LoadingUserPage';
 
 const UserPage: FunctionComponent = () => {
     const username = useParams().username || '';
     const [content, setContent] = useState<'default' | 'movies' | 'lists' | 'reviews'>('default');
+
     const { data: user, isLoading, error } = useUserByUsername(username);
     const { data: followers } = useFollowers(username);
     const { data: following } = useFollowing(username);
 
-    if (isLoading) {
-        return <div className={styles.div}>Loading...</div>;
-    }
-    if (error || !user) {
-        return <div className={styles.div}>Error loading user data.</div>;
+    if (isLoading || error || !user) {
+        return <LoadingUserPage error={error} />;
     }
 
     let lastWatchedMovie;

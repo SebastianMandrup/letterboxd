@@ -4,10 +4,10 @@ import type MovieDto from '../../DTO/MovieDto';
 import MovieCard from '../shared/movieCard/MovieCard';
 import { getMediumPoster } from '../../services/getMediumPoster';
 import Heart from '../shared/icons/HeartIcon';
-import StarRating from './StarRating';
 import reviewService from '../../services/ReviewClient';
 import { useToastStore } from '../../stores/useToastStore';
 import type ReviewDto from '../../DTO/ReviewDto';
+import StarRating from './StarRating';
 
 interface ReviewModalProps {
     setIsReviewing: (value: boolean) => void;

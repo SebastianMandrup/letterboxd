@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
-import BrowseMoviesResults from '../../components/movies/BrowseMoviesResults';
-import FormBrowseBy from '../../components/films/FormBrowseBy';
-import FormSearchFilm from '../../components/films/FormSearchFilm';
+import BrowseMoviesResults from './BrowseMoviesResults';
+import FormBrowseBy from '../movies/FormBrowseBy';
+import FormSearchFilm from '../movies/FormSearchFilm';
 import styles from './moviesBrowsePage.module.css';
 
 function MoviesBrowsePage() {
