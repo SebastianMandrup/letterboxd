@@ -72,6 +72,7 @@ import userRouter from '../../routes/userRouter';
 import movieRouter from '../../routes/movieRouter';
 import reviewRouter from '../../routes/reviewRouter';
 import listRouter from '../../routes/listRouter';
+import { errorHandler } from '../../middleware/errorHandler';
 
 // Setup Express app similar to the real app
 export const createTestApp = () => {
@@ -91,6 +92,9 @@ export const createTestApp = () => {
     app.use('/movies', movieRouter);
     app.use('/reviews', reviewRouter);
     app.use('/lists', listRouter);
+    
+    // Add error handler as the last middleware
+    app.use(errorHandler);
 
     return app;
 };

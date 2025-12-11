@@ -43,7 +43,7 @@ listRouter.post('/', authenticateUser, validateListCreation, async (req, res, ne
     }
 });
 
-listRouter.get('/:name', async (req, res) => {
+listRouter.get('/:name', async (req, res, next) => {
     try {
         let name = req.params.name;
         name = name.replace(/-/g, ' ');
@@ -74,6 +74,7 @@ listRouter.get('/:name', async (req, res) => {
         res.status(200).send(listDto);
     } catch (error) {
         console.error('Error fetching list by title:', error);
+        next(error);
     }
 });
 

@@ -37,9 +37,17 @@ jest.mock('../DTO/UserWithCountDto', () => ({
 
 import userRouter from './userRouter';
 import { errorHandler } from '../middleware/errorHandler';
+import session from 'express-session';
 
 const app = express();
 app.use(express.json());
+app.use(
+    session({
+        secret: 'test-secret',
+        resave: false,
+        saveUninitialized: false,
+    }),
+);
 app.use('/users', userRouter);
 app.use(errorHandler);
 
