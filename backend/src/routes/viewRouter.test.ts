@@ -15,10 +15,12 @@ jest.mock('../startup/data-source', () => ({
 
 // Import the router after mocks
 import viewRouter from './viewRouter';
+import { errorHandler } from '../middleware/errorHandler';
 
 const app = express();
 app.use(express.json());
 app.use('/views', viewRouter);
+app.use(errorHandler);
 
 describe('viewRouter', () => {
     afterEach(() => {
@@ -41,6 +43,13 @@ describe('viewRouter', () => {
         const res = await request(app).get('/views');
 
         expect(res.status).toBe(500);
-        expect(res.body).toEqual({ error: 'Internal server error' });
+        expect(res.body).toEqual({
+            success: false,
+            data: null,
+            error: {
+                message: 'DB error',
+                code: 500,
+            },
+        });
     });
 });

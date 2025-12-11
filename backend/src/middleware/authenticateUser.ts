@@ -4,22 +4,26 @@ import { User } from '../entities/User';
 import { ApiError } from './errorHandler';
 
 export async function authenticateUser(req: Request, res: Response, next: NextFunction) {
-    const userId = req.session.user?.id;
+    try {
+        const userId = req.session.user?.id;
 
-    if (!userId) {
-        throw new ApiError('Unauthorized', 401);
+        if (!userId) {
+            throw new ApiError('Unauthorized', 401);
+        }
+
+        const userRepository = AppDataSource.getRepository(User);
+
+        const user = await userRepository.findOneBy({ id: userId });
+
+        if (!user) {
+            req.session.destroy(() => {});
+            throw new ApiError('Unauthorized', 401);
+        }
+
+        req.user = user;
+
+        next();
+    } catch (error) {
+        next(error);
     }
-
-    const userRepository = AppDataSource.getRepository(User);
-
-    const user = await userRepository.findOneBy({ id: userId });
-
-    if (!user) {
-        req.session.destroy(() => {});
-        throw new ApiError('Unauthorized', 401);
-    }
-
-    req.user = user;
-
-    next();
 }

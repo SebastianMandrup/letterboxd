@@ -15,7 +15,7 @@ describe('E2E Tests - Error Handling', () => {
             const res = await request(app).get('/movies');
 
             expect(res.status).toBe(500);
-            expect(res.body.error).toBe('Internal server error');
+            expect(res.body.error.message).toBe('Database connection failed');
         });
 
         it('should handle invalid request data', async () => {

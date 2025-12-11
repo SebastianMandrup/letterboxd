@@ -86,7 +86,14 @@ describe('listRouter', () => {
             const res = await request(app).get('/lists');
 
             expect(res.status).toBe(500);
-            expect(res.body).toEqual({ error: 'Internal server error' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Database error',
+                    code: 500,
+                },
+            });
         });
     });
 
@@ -213,7 +220,14 @@ describe('listRouter', () => {
             const res = await request(app).get('/lists/NonExistent-List');
 
             expect(res.status).toBe(404);
-            expect(res.body).toEqual({ error: 'List not found' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'List not found',
+                    code: 404,
+                },
+            });
         });
 
         it('should handle errors when fetching list by name', async () => {
@@ -222,7 +236,14 @@ describe('listRouter', () => {
             const res = await request(app).get('/lists/My-List');
 
             expect(res.status).toBe(500);
-            expect(res.body).toEqual({ error: 'Internal server error' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Database error',
+                    code: 500,
+                },
+            });
         });
     });
 
@@ -263,7 +284,14 @@ describe('listRouter', () => {
             const res = await request(app).get('/lists/999/comments');
 
             expect(res.status).toBe(404);
-            expect(res.body).toEqual({ error: 'List not found' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'List not found',
+                    code: 404,
+                },
+            });
         });
 
         it('should handle errors when fetching comments', async () => {
@@ -272,7 +300,14 @@ describe('listRouter', () => {
             const res = await request(app).get('/lists/1/comments');
 
             expect(res.status).toBe(500);
-            expect(res.body).toEqual({ error: 'Internal server error' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Database error',
+                    code: 500,
+                },
+            });
         });
     });
 
@@ -309,7 +344,14 @@ describe('listRouter', () => {
             const res = await request(app).post('/lists/999/comments').send({ content: 'Great list!' });
 
             expect(res.status).toBe(404);
-            expect(res.body).toEqual({ error: 'List not found' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'List not found',
+                    code: 404,
+                },
+            });
         });
 
         it('should handle errors when adding comment', async () => {
@@ -325,7 +367,14 @@ describe('listRouter', () => {
             const res = await request(app).post('/lists/1/comments').send({ content: 'Great list!' });
 
             expect(res.status).toBe(500);
-            expect(res.body).toEqual({ error: 'Internal server error' });
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Database error',
+                    code: 500,
+                },
+            });
         });
     });
 });
