@@ -86,7 +86,7 @@
 }
 
 .loadingDescription,
-.description>p {
+.description > p {
     font-size: 16px;
     line-height: 1.5;
     color: var(--lightGrey);
@@ -105,8 +105,8 @@
     grid-template-columns: repeat(2, 1fr);
 }
 
-.moviesGrid>button,
-.moviesGrid>div {
+.moviesGrid > button,
+.moviesGrid > div {
     width: 140px;
     height: 220px;
     margin-bottom: 40px;
@@ -182,9 +182,7 @@
     border-radius: 0 0 10px 10px;
 }
 
-
 @media screen and (min-width: 768px) {
-
     .contentContainer {
         display: grid;
         grid-template-columns: 3fr 1fr;
@@ -193,16 +191,13 @@
         padding: 20px;
     }
 
-
     .moviesGrid {
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
     }
 }
 
-
 @media screen and (min-width: 1024px) {
-
     .moviesGrid {
         grid-template-columns: repeat(4, 1fr);
         gap: 15px;
