@@ -7,11 +7,14 @@ import Plus from '../../components/shared/icons/Plus';
 import Minus from '../../components/shared/icons/Minus';
 import listClient from '../../services/ListClient';
 import { useUserStore } from '../../stores/useUserStore';
+import { BackendError } from '../../services/apiClient';
+import { useToastStore } from '../../stores/useToastStore';
 
 const CreateListPage: FunctionComponent = () => {
     const { user } = useUserStore();
     const [moviesToAdd, setMoviesToAdd] = useState<MovieDto[]>([]);
     const [searchedMovies, setSearchedMovies] = useState<MovieDto[]>([]);
+    const { addToast } = useToastStore();
 
     const handleAddMovie = (movie: MovieDto) => {
         if (moviesToAdd.find((m) => m.id === movie.id)) {
@@ -37,8 +40,12 @@ const CreateListPage: FunctionComponent = () => {
         try {
             await listClient.create({ name, description, movieIds });
             location.href = `/user/${user?.username}`;
-        } catch (error) {
-            console.error('Error creating list:', error);
+        } catch (error: BackendError | unknown) {
+            if (error instanceof BackendError) {
+                addToast(error.message, 'error');
+            } else {
+                addToast('An unexpected error occurred.', 'error');
+            }
         }
     };
 

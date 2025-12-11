@@ -11,9 +11,10 @@ interface FollowButtonProps {
 }
 
 const FollowButton: FunctionComponent<FollowButtonProps> = ({ user }) => {
-    const { addToast } = useToastStore();
     const { user: currentUser } = useUserStore();
+
     const [isFollowed, setIsFollowed] = useState(user.isFollowed);
+    const { addToast } = useToastStore();
 
     useEffect(() => {
         setIsFollowed(user.isFollowed);
@@ -45,6 +46,11 @@ const FollowButton: FunctionComponent<FollowButtonProps> = ({ user }) => {
             addToast('An error occurred. Please try again later.', 'error');
         }
     };
+
+    // don't render the anything if its user's own page
+    if (currentUser?.id === user.id) {
+        return null;
+    }
 
     return (
         <>

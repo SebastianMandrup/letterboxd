@@ -1,6 +1,10 @@
 import axios, { type AxiosRequestConfig } from 'axios';
 import type PaginatedResponse from '../DTO/PaginatedResponse';
 
+export class BackendError extends Error {
+    status?: number;
+}
+
 class ApiClient<T, V = Partial<T>> {
     protected endpoint: string;
     protected axiosInstance;
@@ -12,13 +16,11 @@ class ApiClient<T, V = Partial<T>> {
             withCredentials: true,
         });
 
-        // Add response interceptor to handle errors
         this.axiosInstance.interceptors.response.use(
             (response) => response,
             (error) => {
-                // Extract error message from backend response
                 const errorMessage = error.response?.data?.error?.message || error.message || 'An unexpected error occurred';
-                const backendError: Error & { status?: number } = new Error(errorMessage);
+                const backendError: BackendError = new Error(errorMessage);
                 backendError.name = 'ApiError';
                 backendError.status = error.response?.status;
                 return Promise.reject(backendError);
