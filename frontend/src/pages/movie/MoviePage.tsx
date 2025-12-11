@@ -73,11 +73,7 @@ function MoviePage() {
     if (!movie) return null;
     return (
         <>
-            {movie.backdropUrl ? (
-                <Backdrop src={movie.backdropUrl || ''} alt={movie.title} caption="" />
-            ) : (
-                <Backdrop src="/default-backdrop.jpg" alt={movie.title} caption="" />
-            )}
+            {movie.backdropUrl ? <Backdrop src={movie.backdropUrl || ''} title={movie.title} /> : <Backdrop src="/default-backdrop.jpg" title={movie.title} />}
 
             <section className={styles.sectionMovieDetails}>
                 <section className={styles.sectionPoster}>

@@ -28,7 +28,7 @@ const ListPage: FunctionComponent = () => {
 
     return (
         <section className={styles.listPage}>
-            <Backdrop src={firstMovie.backdropUrl ? firstMovie.backdropUrl : 'default-backdrop.jpg'} alt={firstMovie.title} caption={firstMovie.title} />
+            <Backdrop src={firstMovie.backdropUrl ? firstMovie.backdropUrl : 'default-backdrop.jpg'} title={firstMovie.title} />
             <div className={styles.contentContainer}>
                 <section>
                     <div className={styles.userInfo}>
