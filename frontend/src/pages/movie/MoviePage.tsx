@@ -10,6 +10,7 @@ import type ReviewDto from '../../DTO/ReviewDto';
 import { getSlug } from '../../util/getSlug';
 import MovieAside from './MovieAside';
 import MovieButtonGroup from './MovieButtonGroup';
+import LoadingMoviePage from './LoadingMoviePage';
 
 function MoviePage() {
     const title = useParams().title || '';
@@ -17,16 +18,9 @@ function MoviePage() {
 
     const [reviews, setReviews] = useState<ReviewDto[]>([]);
 
-    // TODO: loading and error combined component
-    if (isLoading) {
-        return <p>Loading...</p>;
+    if (isLoading || error || !movie) {
+        return <LoadingMoviePage error={error} />;
     }
-
-    if (error) {
-        return <p>Error loading movie.</p>;
-    }
-
-    if (!movie) return null;
     return (
         <>
             <Backdrop backdropPath={movie.backdropPath} title={movie.title} />
