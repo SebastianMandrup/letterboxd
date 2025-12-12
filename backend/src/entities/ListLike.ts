@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { List } from './List';
 import { User } from './User';
 
@@ -7,10 +7,7 @@ export class ListLike {
     @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
     id: number;
 
-    @Column({
-        type: 'datetime',
-        default: () => 'CURRENT_TIMESTAMP',
-    })
+    @CreateDateColumn()
     createdAt: Date;
 
     @ManyToOne(() => List, (list) => list.likes)

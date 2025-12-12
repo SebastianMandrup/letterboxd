@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Comment } from './Comment.ts';
 import { ListLike } from './ListLike.ts';
 import { Movie } from './Movie.ts';
@@ -18,16 +18,23 @@ export class List {
     @Column('text', { name: 'description', nullable: true })
     description: string;
 
-    @Column({
-        type: 'datetime',
-        default: () => 'CURRENT_TIMESTAMP',
-    })
+    @CreateDateColumn()
     createdAt: Date;
 
     @ManyToOne(() => User, (user) => user.lists)
     user: UserType;
 
-    @JoinTable()
+    @JoinTable({
+        name: 'list_movie', // Join table name
+        joinColumn: {
+            name: 'listId', // Column name in join table pointing to List
+            referencedColumnName: 'id', // Column in List entity
+        },
+        inverseJoinColumn: {
+            name: 'movieId', // Column name in join table pointing to Movie
+            referencedColumnName: 'id', // Column in Movie entity
+        },
+    })
     @ManyToMany(() => Movie, (movie) => movie.lists)
     movies: MovieType[];
 

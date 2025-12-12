@@ -54,11 +54,19 @@ main {
 }
 
 .centeredContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1000;
+}
+
+.errorMessage {
+    color: var(--orange);
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    font-family: var(--fontThree);
 }
 
 .spinner {

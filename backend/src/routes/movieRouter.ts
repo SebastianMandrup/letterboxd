@@ -4,7 +4,7 @@ import buildPaginatedResponse from './helper/buildPaginatedResponse';
 import { authenticateUser } from '../middleware/authenticateUser';
 import { View } from '../entities/View';
 import { AppDataSource } from '../startup/data-source';
-import { ApiError } from '../middleware/errorHandler';
+import { ApiError } from '../interfaces/ApiError';
 
 const movieRouter = Router();
 

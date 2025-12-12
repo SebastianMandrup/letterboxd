@@ -3,7 +3,7 @@ import { Router } from 'express';
 import 'express-session';
 import { AppDataSource } from '../startup/data-source';
 import { User } from '../entities/User';
-import { ApiError } from '../middleware/errorHandler';
+import { ApiError } from '../interfaces/ApiError';
 
 const authRouter = Router();
 

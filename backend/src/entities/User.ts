@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Comment } from './Comment';
 import { CommentLike } from './CommentLike';
 import { List } from './List';
@@ -29,11 +29,11 @@ export class User {
     @Column('varchar', { name: 'bio', length: 255, nullable: true })
     bio: string;
 
-    @Column({
-        type: 'datetime',
-        default: () => 'CURRENT_TIMESTAMP',
-    })
+    @CreateDateColumn()
     createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
 
     @OneToMany(() => Review, (review) => review.author)
     reviews: Review[];

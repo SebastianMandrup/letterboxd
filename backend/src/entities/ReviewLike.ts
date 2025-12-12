@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Review } from './Review';
 import { User } from './User';
 
@@ -7,10 +7,7 @@ export class ReviewLike {
     @PrimaryGeneratedColumn({ type: 'int' })
     id: number;
 
-    @Column({
-        type: 'datetime',
-        default: () => 'CURRENT_TIMESTAMP',
-    })
+    @CreateDateColumn()
     createdAt: Date;
 
     @ManyToOne(() => Review, (review) => review.likes)

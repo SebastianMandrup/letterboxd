@@ -1,13 +1,13 @@
 import type { FunctionComponent } from 'react';
 import { useParams } from 'react-router-dom';
-import useList from '../../hooks/useList';
-import Backdrop from '../../components/index/backdrop/Backdrop';
-import { getApiAvatar } from '../../services/getApiAvatar';
-import MovieCard from '../../components/shared/movieCard/MovieCard';
-import CollapseText from '../../components/users/CollapseText';
-import { getMediumPoster } from '../../services/getMediumPoster';
-import Heart from '../../components/shared/icons/HeartIcon';
-import ListComments from '../../components/list/ListComments';
+import useList from '../../hooks/lists/useList';
+import Backdrop from '../shared/backdrop/Backdrop';
+import { getApiAvatar } from '../../util/getApiAvatar';
+import MovieCard from '../shared/movieCard/MovieCard';
+import CollapseText from '../shared/collapseText/CollapseText';
+import { getMediumPoster } from '../../util/getMediumPoster';
+import Heart from '../shared/icons/HeartIcon';
+import ListComments from './ListComments';
 import styles from './llistPage.module.css';
 import LoadingListPage from './LoadingListPage';
 
@@ -16,6 +16,7 @@ const ListPage: FunctionComponent = () => {
 
     const { data: list, isLoading, error } = useList(listName);
 
+    // TODO: loading and error combined component
     if (isLoading) {
         return <LoadingListPage />;
     }
@@ -28,7 +29,7 @@ const ListPage: FunctionComponent = () => {
 
     return (
         <section className={styles.listPage}>
-            <Backdrop src={firstMovie.backdropUrl ? firstMovie.backdropUrl : 'default-backdrop.jpg'} alt={firstMovie.title} caption={firstMovie.title} />
+            <Backdrop backdropPath={firstMovie.backdropPath ? firstMovie.backdropPath : undefined} title={firstMovie.title} />
             <div className={styles.contentContainer}>
                 <section>
                     <div className={styles.userInfo}>
@@ -56,7 +57,7 @@ const ListPage: FunctionComponent = () => {
                             <MovieCard
                                 key={movie.id}
                                 title={movie.title}
-                                src={getMediumPoster(movie.posterUrl)}
+                                src={getMediumPoster(movie.posterPath)}
                                 alt={movie.title}
                                 overlay={
                                     <div>
@@ -66,7 +67,7 @@ const ListPage: FunctionComponent = () => {
                             />
                         ))}
                     </div>
-                    <ListComments id={list.id} />
+                    <ListComments listId={list.id} />
                 </section>
                 <aside className={styles.sidebar}>
                     <div className={styles.sidebarButtons}>

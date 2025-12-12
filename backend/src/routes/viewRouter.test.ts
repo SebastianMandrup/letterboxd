@@ -15,7 +15,7 @@ jest.mock('../startup/data-source', () => ({
 
 // Import the router after mocks
 import viewRouter from './viewRouter';
-import { errorHandler } from '../middleware/errorHandler';
+import { errorHandler } from '../middleware/errorHandling/errorHandler';
 
 const app = express();
 app.use(express.json());

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CommentLike } from './CommentLike';
 import { List } from './List';
 import { User } from './User';
@@ -11,10 +11,7 @@ export class Comment {
     @Column('varchar', { name: 'content', length: 255 })
     content: string;
 
-    @Column({
-        type: 'datetime',
-        default: () => 'CURRENT_TIMESTAMP',
-    })
+    @CreateDateColumn()
     createdAt: Date;
 
     @ManyToOne(() => User, (user) => user.comments)

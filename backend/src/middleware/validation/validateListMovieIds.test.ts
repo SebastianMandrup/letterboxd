@@ -3,13 +3,13 @@ import validateListMovieIds from './validateListMovieIds';
 describe('validateListMovieIds', () => {
     describe('valid inputs', () => {
         it('should return the same array', () => {
-            const ids = [1, 2, 3];
+            const ids = [1, 2, 3, 4, 5];
             expect(validateListMovieIds(ids)).toBe(ids); // Same reference
-            expect(validateListMovieIds(ids)).toEqual([1, 2, 3]);
+            expect(validateListMovieIds(ids)).toEqual([1, 2, 3, 4, 5]);
         });
 
         it('should handle empty array', () => {
-            expect(validateListMovieIds([])).toEqual([]);
+            expect(() => validateListMovieIds([])).toThrow('List movie IDs must contain at least 5 items.');
         });
 
         it('should handle exactly 40 items', () => {

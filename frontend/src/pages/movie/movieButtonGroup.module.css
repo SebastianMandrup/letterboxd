@@ -1,0 +1,40 @@
+.divButtonsMoviePage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttonLogRateReview,
+.buttonView,
+.buttonReview,
+.buttonShareMovie {
+    background-color: var(--darkerGrey);
+    color: var(--lightGrey);
+    width: 220px;
+    height: 40px;
+    border: 1px solid var(--darkestGrey);
+    font-size: 0.8rem;
+
+    &:hover {
+        background-color: var(--darkGrey);
+        cursor: pointer;
+    }
+}
+
+.buttonView {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.buttonLogRateReview,
+.buttonView {
+    border-radius: var(--mediumBorderRadius) var(--mediumBorderRadius) 0 0;
+    border-bottom: none;
+}
+
+.buttonShareMovie {
+    border-radius: 0 0 var(--mediumBorderRadius) var(--mediumBorderRadius);
+}

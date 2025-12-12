@@ -1,5 +1,5 @@
+import { ApiError } from '../../interfaces/ApiError';
 import validateReview from './validateReview';
-import { ApiError } from '../errorHandler';
 
 describe('validateReview', () => {
     it('returns the trimmed review when valid', () => {

@@ -9,7 +9,7 @@ import path from 'path';
 async function fetchMoviesAsync() {
     const allMovies: TmdbMovie[] = [];
     const currentYear = new Date().getFullYear();
-    const lastYear = 2020;
+    const lastYear = 2024;
     const years = Array.from({ length: currentYear - lastYear + 1 }, (_, i) => currentYear - i);
 
     try {

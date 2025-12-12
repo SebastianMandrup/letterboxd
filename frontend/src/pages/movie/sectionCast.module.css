@@ -1,0 +1,48 @@
+.sectionCast {
+    display: none;
+}
+
+.castMemberList {
+    gap: 8px;
+    list-style: none;
+}
+
+.castMemberListItem {
+    display: flex;
+    white-space: nowrap;
+    gap: 4px;
+    padding: 8px 0;
+}
+
+.actorName,
+.noCastInfo {
+    font-weight: 300;
+    font-family: var(--fontThree);
+    color: var(--lightGrey);
+}
+
+.characterName {
+    font-weight: 400;
+    font-family: var(--fontThree);
+    color: var(--grey);
+}
+
+.divCharacterNameSeparator {
+    width: 100%;
+    border-bottom: 1px dashed var(--darkGrey);
+}
+
+.toggleButton {
+    background: none;
+    border: none;
+    color: var(--lightGrey);
+    font-family: var(--fontThree);
+    cursor: pointer;
+    padding: 8px 0;
+}
+
+@media screen and (min-width: 1216px) {
+    .sectionCast {
+        display: block;
+    }
+}

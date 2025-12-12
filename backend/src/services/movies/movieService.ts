@@ -44,6 +44,13 @@ export const getMovieBySlug = async (req: Request, slug: string) => {
     const query = movieRepository
         .createQueryBuilder('cmovie')
         .where('cmovie.slug = :slug', { slug })
+        .leftJoinAndSelect('cmovie.castMembers', 'castMember')
+        .orderBy('castMember.order', 'ASC')
+        .leftJoinAndSelect('cmovie.genres', 'genre')
+        .leftJoinAndSelect('cmovie.languages', 'language')
+        .leftJoinAndSelect('cmovie.productionCountries', 'productionCountry')
+        .leftJoinAndSelect('cmovie.productionCompanies', 'productionCompany')
+        .leftJoinAndSelect('cmovie.videos', 'video')
         .leftJoinAndSelect('cmovie.reviews', 'review')
         .loadRelationCountAndMap('review.likeCount', 'review.likes')
         .leftJoinAndSelect('review.movie', 'movie')

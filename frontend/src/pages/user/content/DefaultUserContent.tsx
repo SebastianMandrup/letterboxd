@@ -1,10 +1,10 @@
 import type { FunctionComponent } from 'react';
 import styles from './defaultUserContent.module.css';
-import SectionHeader from '../../../components/shared/sectionHeader/SectionHeader';
+import SectionHeader from '../../shared/sectionHeader/SectionHeader';
 import type ListDto from '../../../DTO/ListDto';
 import type ReviewDto from '../../../DTO/ReviewDto';
-import ListCard from '../../../components/shared/listCard/ListCard';
-import ReviewCard from '../../../components/shared/reviewCard/ReviewCard';
+import ListCard from '../../shared/listCard/ListCard';
+import ReviewCard from '../../shared/reviewCard/ReviewCard';
 
 interface DefaultUserContentProps {
     recentLists: ListDto[];

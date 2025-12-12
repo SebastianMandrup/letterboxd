@@ -1,20 +1,18 @@
 import { useState, type FunctionComponent } from 'react';
 import styles from './createListPage.module.css';
 import type MovieDto from '../../DTO/MovieDto';
-import movieService from '../../services/movieService';
-import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
-import Plus from '../../components/shared/icons/Plus';
-import Minus from '../../components/shared/icons/Minus';
-import listClient from '../../services/ListClient';
-import { useUserStore } from '../../stores/useUserStore';
-import { BackendError } from '../../services/apiClient';
+import SectionHeader from '../shared/sectionHeader/SectionHeader';
+import Plus from '../shared/icons/Plus';
+import Minus from '../shared/icons/Minus';
 import { useToastStore } from '../../stores/useToastStore';
+import MovieClient from '../../clients/MovieClient';
+import useCreateList from '../../hooks/lists/useCreateList';
 
 const CreateListPage: FunctionComponent = () => {
-    const { user } = useUserStore();
     const [moviesToAdd, setMoviesToAdd] = useState<MovieDto[]>([]);
     const [searchedMovies, setSearchedMovies] = useState<MovieDto[]>([]);
     const { addToast } = useToastStore();
+    const createListMutation = useCreateList();
 
     const handleAddMovie = (movie: MovieDto) => {
         if (moviesToAdd.find((m) => m.id === movie.id)) {
@@ -24,29 +22,31 @@ const CreateListPage: FunctionComponent = () => {
     };
 
     const handleMovieSearch = async (query: string) => {
-        const movies = await movieService.getByPartialSlug(query);
+        const movies = await MovieClient.getByPartialSlug(query);
         setSearchedMovies(movies);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        // TODO: frontend validation
         const formData = new FormData(e.target as HTMLFormElement);
         const name = formData.get('name') as string;
         const description = formData.get('description') as string;
         const movieIds = moviesToAdd.map((movie) => movie.id);
 
-        try {
-            await listClient.create({ name, description, movieIds });
-            location.href = `/user/${user?.username}`;
-        } catch (error: BackendError | unknown) {
-            if (error instanceof BackendError) {
-                addToast(error.message, 'error');
-            } else {
-                addToast('An unexpected error occurred.', 'error');
-            }
-        }
+        createListMutation.mutate(
+            { name, description, movieIds },
+            {
+                onSuccess: (response) => {
+                    addToast(response.message, 'success');
+                    (e.target as HTMLFormElement).reset();
+                    setMoviesToAdd([]);
+                },
+                onError: (error) => {
+                    console.error('Error creating list:', error);
+                    addToast(error.message || 'Failed to create list. Please try again.', 'error');
+                },
+            },
+        );
     };
 
     return (

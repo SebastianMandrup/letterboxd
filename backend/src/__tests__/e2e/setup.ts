@@ -72,7 +72,7 @@ import userRouter from '../../routes/userRouter';
 import movieRouter from '../../routes/movieRouter';
 import reviewRouter from '../../routes/reviewRouter';
 import listRouter from '../../routes/listRouter';
-import { errorHandler } from '../../middleware/errorHandler';
+import { errorHandler } from '../../middleware/errorHandling/errorHandler';
 
 // Setup Express app similar to the real app
 export const createTestApp = () => {

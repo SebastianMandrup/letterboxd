@@ -1,9 +1,8 @@
 .sectionMovieDetails {
-    width: var(--mainWidth);
     margin: 0 auto;
-    margin-top: -100px;
+    margin-top: -60px;
     display: grid;
-    grid-template-columns: 30% auto;
+    grid-template-columns: 1fr;
     gap: 20px;
     padding: 40px;
     position: relative;
@@ -12,16 +11,13 @@
     min-height: 30vh;
 }
 
-.sectionPoster {
-    position: sticky;
+.sectionLoadingAside {
     top: 4px;
-    margin-left: 80px;
-
-    button {
-        width: 240px;
-        height: auto;
-        border: none;
-    }
+    margin-right: 20px;
+    width: 100%;
+    height: auto;
+    background-color: var(--darkerGrey);
+    border-radius: 10px;
 }
 
 .sectionMain {
@@ -31,17 +27,20 @@
 }
 
 .sectionFirstContent {
-    display: grid;
-    grid-template-columns: 60% 40%;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 20px;
 }
 
 .headerMovieDetails {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     display: flex;
     flex-direction: row;
 }
 
-.h1MovieTitle {
+.h1MovieTitle,
+.loadingMovieTitle {
     margin-right: 20px;
     font-size: 1.8rem;
     font-weight: 700;
@@ -49,62 +48,106 @@
     font-family: var(--fontTwo);
 }
 
-.pReleaseYear {
+.loadingMovieTitle {
+    border-radius: 8px;
+    width: 200px;
+    height: 32px;
+    background-color: var(--darkerGrey);
+    border-radius: var(--smallBorderRadius);
+}
+
+.pReleaseYear,
+.loadingReleaseYear {
     color: var(--lightGrey);
     margin: auto 0 4px 0;
     font-size: 1.2rem;
-    text-decoration: underline;
     font-weight: 300;
 }
 
-.pMovieOverview {
+.loadingReleaseYear {
+    border-radius: 8px;
+    width: 80px;
+    height: 32px;
+    background-color: var(--darkerGrey);
+    border-radius: 8px;
+}
+
+.pMovieTagline,
+.loadingMovieTagline {
+    font-style: italic;
+    color: var(--grey);
+    margin-bottom: 12px;
+    font-size: 1rem;
+    font-family: var(--fontThree);
+}
+
+.loadingMovieTagline {
+    border-radius: 8px;
+    width: 300px;
+    height: 24px;
+    background-color: var(--darkerGrey);
+    border-radius: var(--smallBorderRadius);
+}
+
+.sectionMovieGenres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.linkGenre,
+.loadingLinkGenre {
+    background-color: var(--darkerGrey);
+    color: var(--lightGrey);
+    padding: 4px 8px;
+    border-radius: var(--smallBorderRadius);
+    font-size: 0.9rem;
+    font-family: var(--fontThree);
+    text-decoration: none;
+}
+
+.loadingLinkGenre {
+    width: 80px;
+    height: 24px;
+    border-radius: 8px;
+}
+
+.pMovieOverview,
+.loadingMovieOverview {
     margin-right: 40px;
     color: var(--lightGrey);
     font-size: 1.1rem;
     font-family: var(--fontTwo);
 }
 
+.loadingMovieOverview {
+    border-radius: 8px;
+    width: 100%;
+    height: 80px;
+    background-color: var(--darkerGrey);
+    border-radius: 12px;
+}
+
 .sectionRight {
     margin-top: 40px;
+    width: 100%;
 }
 
-.divButtonsMoviePage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.buttonLogRateReview,
-.buttonView,
-.buttonReview,
-.buttonShareMovie {
+.buttonGroupPlaceholder {
+    margin-left: auto;
+    width: 150px;
+    height: 120px;
     background-color: var(--darkerGrey);
-    color: var(--lightGrey);
-    width: 220px;
-    height: 40px;
-    border: 1px solid var(--darkestGrey);
-    font-size: 0.8rem;
+    border-radius: 8px;
+}
 
-    &:hover {
-        background-color: var(--darkGrey);
-        cursor: pointer;
+@media screen and (min-width: 768px) {
+    .sectionFirstContent {
+        flex-direction: row;
     }
-}
 
-.buttonView {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.buttonLogRateReview,
-.buttonView {
-    border-radius: var(--mediumBorderRadius) var(--mediumBorderRadius) 0 0;
-    border-bottom: none;
-}
-
-.buttonShareMovie {
-    border-radius: 0 0 var(--mediumBorderRadius) var(--mediumBorderRadius);
+    .sectionMovieDetails {
+        grid-template-columns: 35% auto;
+    }
 }

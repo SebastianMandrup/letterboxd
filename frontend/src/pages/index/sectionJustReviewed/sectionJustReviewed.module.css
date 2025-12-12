@@ -1,0 +1,38 @@
+.pWriteShare {
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--darkGrey);
+}
+
+.pBelow {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--darkGrey);
+    margin-bottom: 20px;
+}
+
+.btnSignup {
+    background-color: transparent;
+    border: none;
+    margin: 0 4px;
+    color: var(--lightBlue);
+    cursor: pointer;
+}
+
+.btnSignup:hover {
+    color: var(--white);
+}
+
+.sectionPopularReviewsAndLists {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 768px) {
+    .sectionPopularReviewsAndLists {
+        grid-template-columns: 2fr 1fr;
+    }
+}

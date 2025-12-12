@@ -23,7 +23,7 @@ jest.mock('bcrypt', () => ({
 
 // 4. Now import the router after mocks
 import authRouter from '../routes/authRouter';
-import { errorHandler } from '../middleware/errorHandler';
+import { errorHandler } from '../middleware/errorHandling/errorHandler';
 
 // 5. Setup Express app
 const app = express();

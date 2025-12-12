@@ -1,4 +1,4 @@
-import { ApiError } from '../errorHandler';
+import { ApiError } from '../../interfaces/ApiError';
 
 export default (review: string) => {
     if (typeof review !== 'string' || review.length === 0) {

@@ -6,7 +6,8 @@ import { List } from '../entities/List';
 import { Comment } from '../entities/Comment';
 import { authenticateUser } from '../middleware/authenticateUser';
 import { validateListCreation } from '../middleware/listValidation';
-import { ApiError } from '../middleware/errorHandler';
+import { ApiError } from '../interfaces/ApiError';
+import validateId from '../middleware/validation/validateId';
 
 const listRouter = Router();
 
@@ -36,7 +37,7 @@ listRouter.post('/', authenticateUser, validateListCreation, async (req, res, ne
 
         await listRepository.save(newList);
 
-        res.status(201).send({ message: 'List created successfully', list: newList });
+        res.status(201).send({ message: 'List created successfully', data: newList });
     } catch (error) {
         console.error('Error creating new list:', error);
         next(error);
@@ -82,6 +83,8 @@ listRouter.get('/:name', async (req, res, next) => {
 listRouter.get('/:id/comments', async (req, res, next) => {
     try {
         const listId = parseInt(req.params.id, 10);
+        validateId(listId);
+
         const list = await listRepository.findOne({
             where: { id: listId },
             relations: ['comments', 'comments.user'],
@@ -108,11 +111,19 @@ listRouter.get('/:id/comments', async (req, res, next) => {
     }
 });
 
+// TODO: validation middleware
 // add a comment to a list
 listRouter.post('/:id/comments', authenticateUser, async (req, res, next) => {
     try {
         const listId = parseInt(req.params.id, 10);
+        validateId(listId);
+
         const { content } = req.body;
+
+        if (!content || typeof content !== 'string' || content.trim().length === 0) {
+            throw new ApiError('Invalid comment content', 400);
+        }
+
         const list = await listRepository.findOneBy({ id: listId });
 
         if (!list) {

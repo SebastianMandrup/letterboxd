@@ -8,16 +8,16 @@ export default interface UserDto {
     password?: string;
     role: string;
     email: string;
-    createdAt: string;
+    createdAt?: string;
     bio?: string;
 
-    lists: ListDto[];
-    reviews: ReviewDto[];
-    views: ViewDto[];
+    lists?: ListDto[];
+    reviews?: ReviewDto[];
+    views?: ViewDto[];
 
-    numberOfReviews: number;
-    numberOfWatchedFilms: number;
-    reviewLikeCount: number;
+    numberOfReviews?: number;
+    numberOfWatchedFilms?: number;
+    reviewLikeCount?: number;
 
     isFollowed: boolean;
 }

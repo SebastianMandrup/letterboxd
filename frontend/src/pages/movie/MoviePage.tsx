@@ -1,88 +1,32 @@
 import { useParams } from 'react-router-dom';
-import Backdrop from '../../components/index/backdrop/Backdrop';
-import ArticleMovie from '../../components/shared/movieCard/MovieCard';
-import SectionHeader from '../../components/shared/sectionHeader/SectionHeader';
-import { getMediumPoster } from '../../services/getMediumPoster';
+import Backdrop from '../shared/backdrop/Backdrop';
+import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import styles from './moviePage.module.css';
-import ListCardWithDescription from '../../components/shared/listCard/ListCardWithDescription';
-import useMovieByTitle from '../../hooks/useMovieByTitle';
-import ReviewCardContent from '../../components/shared/reviewCard/ReviewCardContent';
-import { useUserStore } from '../../stores/useUserStore';
-import { useEffect, useState } from 'react';
-import ReviewModal from '../../components/movie/ReviewModal';
+import ListCardWithDescription from '../shared/listCard/ListCardWithDescription';
+import useMovieByTitle from '../../hooks/movies/useMovieByTitle';
+import ReviewCardContent from '../shared/reviewCard/ReviewCardContent';
+import { useState } from 'react';
 import type ReviewDto from '../../DTO/ReviewDto';
-import Eye from '../../components/shared/icons/EyeIcon';
-import movieService from '../../services/movieService';
-import { useToastStore } from '../../stores/useToastStore';
+import { getSlug } from '../../util/getSlug';
+import MovieAside from './MovieAside';
+import MovieButtonGroup from './MovieButtonGroup';
+import LoadingMoviePage from './LoadingMoviePage';
 
 function MoviePage() {
     const title = useParams().title || '';
-
-    const { isAuthenticated } = useUserStore();
-
-    const { addToast } = useToastStore();
-
     const { data: movie, error, isLoading } = useMovieByTitle(title);
-
-    const [isReviewing, setIsReviewing] = useState(false);
 
     const [reviews, setReviews] = useState<ReviewDto[]>([]);
 
-    const [isViewed, setIsViewed] = useState(false);
-
-    useEffect(() => {
-        console.log('Movie data changed:', movie);
-        if (movie && movie.reviews) {
-            setReviews(movie.reviews);
-        }
-        if (movie && movie.isViewed) {
-            setIsViewed(movie.isViewed);
-        }
-    }, [movie]);
-
-    const handleView = async () => {
-        if (!movie) return;
-
-        try {
-            const response = await movieService.viewMovie(movie.id);
-
-            if (response.message === 'Movie viewed successfully') {
-                setIsViewed(true);
-                addToast('Movie marked as viewed!', 'success');
-            }
-
-            if (response.message === 'Movie view removed successfully') {
-                setIsViewed(false);
-                addToast('Movie unmarked as viewed!', 'success');
-            }
-        } catch {
-            addToast('Failed to update view status.', 'error');
-        }
-    };
-
-    if (!title) return <p>No movie title provided.</p>;
-
-    if (isLoading) {
-        return <p>Loading...</p>;
+    if (isLoading || error || !movie) {
+        return <LoadingMoviePage error={error} />;
     }
-
-    if (error) {
-        return <p>Error loading movie.</p>;
-    }
-
-    if (!movie) return null;
     return (
         <>
-            {movie.backdropUrl ? (
-                <Backdrop src={movie.backdropUrl || ''} alt={movie.title} caption="" />
-            ) : (
-                <Backdrop src="/default-backdrop.jpg" alt={movie.title} caption="" />
-            )}
+            <Backdrop backdropPath={movie.backdropPath} title={movie.title} />
 
             <section className={styles.sectionMovieDetails}>
-                <section className={styles.sectionPoster}>
-                    <ArticleMovie title={movie.title} src={getMediumPoster(movie.posterUrl)} alt={'poster of ' + movie.title} />
-                </section>
+                <MovieAside movie={movie} />
                 <section className={styles.sectionMain}>
                     <section className={styles.sectionFirstContent}>
                         <section className={styles.sectionLeft}>
@@ -90,28 +34,18 @@ function MoviePage() {
                                 <h1 className={styles.h1MovieTitle}>{movie.title}</h1>
                                 <p className={styles.pReleaseYear}>{movie.releaseDate?.toString().split('-')[0] || ''}</p>
                             </header>
+                            <p className={styles.pMovieTagline}>{movie.tagline ? "'" + movie.tagline + "'" : ''}</p>
+                            <section className={styles.sectionMovieGenres}>
+                                {movie.genres.map((genre) => (
+                                    <a key={genre.id} className={styles.linkGenre} href={`/movies/browse?genre=${getSlug(genre.name)}`}>
+                                        {genre.name}
+                                    </a>
+                                ))}
+                            </section>
                             <p className={styles.pMovieOverview}>{movie.overview}</p>
                         </section>
                         <section className={styles.sectionRight}>
-                            <div className={styles.divButtonsMoviePage}>
-                                {!isAuthenticated() ? (
-                                    <>
-                                        <button className={styles.buttonLogRateReview}>Sign in to log, rate or review</button>
-                                        <button className={styles.buttonShareMovie}>Share</button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <button className={styles.buttonView} onClick={() => handleView()}>
-                                            <Eye size={24} color={isViewed ? 'var(--green)' : 'var(--grey)'} />
-                                            {isViewed ? 'Unmark as Viewed' : 'Mark as Viewed'}
-                                        </button>
-                                        <button className={styles.buttonReview} onClick={() => setIsReviewing(true)}>
-                                            Review
-                                        </button>
-                                        <button className={styles.buttonShareMovie}>Share</button>
-                                    </>
-                                )}
-                            </div>
+                            <MovieButtonGroup movie={movie} reviews={reviews} setReviews={setReviews} />
                         </section>
                     </section>
                     <section>
@@ -140,8 +74,6 @@ function MoviePage() {
                     </section>
                 </section>
             </section>
-
-            {isReviewing && <ReviewModal setIsReviewing={setIsReviewing} movie={movie} reviews={reviews} setReviews={setReviews} />}
         </>
     );
 }
