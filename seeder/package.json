@@ -10,7 +10,8 @@
     "scrape": "node --loader ts-node/esm ./src/scrape-seed-data.ts",
     "enrich": "node --loader ts-node/esm ./src/enrich-data.ts",
     "generate": "node --loader ts-node/esm ./src/create-seed-data.ts",
-    "populate": "node --loader ts-node/esm ./src/populate-database.ts"
+    "populate": "node --loader ts-node/esm ./src/populate-database.ts",
+    "populate:postgres": "node --loader ts-node/esm ./src/populate-postgres.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^10.1.0",

@@ -11,12 +11,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ---------------- Configuration ----------------
-const NUM_USERS = 20;
-const NUM_REVIEWS = 50;
-const NUM_VIEWS = 100;
-const NUM_LISTS = 20;
-const NUM_COMMENTS = 50;
-const MAX_MOVIES = 1000; // Limit movies to 1000, keep all cast/crew/videos for these movies
+const NUM_USERS = 40;
+const NUM_REVIEWS = 100;
+const NUM_VIEWS = 500;
+const NUM_LISTS = 50;
+const NUM_COMMENTS = 500;
+const MAX_MOVIES = 3000; // Limit movies to 1000, keep all cast/crew/videos for these movies
 
 // ---------------- Paths ----------------
 const dataDir = path.join(__dirname, './data');
@@ -38,7 +38,7 @@ const usersBase = Array.from({ length: NUM_USERS }, (_, i) => {
 
     return {
         id: i + 1,
-        username: `${firstName}_${uniqueId}`,
+        username: `${firstName}${uniqueId}`,
         email: `${firstName}.${uniqueId}@example.com`,
         password: bcrypt.hashSync('password', 10),
         bio: faker.lorem.sentence(20),
