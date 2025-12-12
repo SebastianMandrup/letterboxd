@@ -23,7 +23,7 @@ function SectionJustReviewedCards() {
                     <li key={index} className={styles.listItemReviewedMovie}>
                         <MovieCard
                             title={movie.title}
-                            src={getThumbnailPoster(movie.posterUrl)}
+                            src={getThumbnailPoster(movie.posterPath)}
                             alt={`Poster of ${movie.title}`}
                             overlay={<header>{movie.title}</header>}
                         />

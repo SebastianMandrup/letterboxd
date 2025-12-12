@@ -17,7 +17,7 @@ const PopularReviewsAside: FunctionComponent = () => {
             <SectionHeader title="crew picks" />
             <section className={styles.sectionCrewPicks}>
                 {crewPickMovies.data?.results.map((movie) => (
-                    <MovieCard key={movie.id} title={movie.title} src={getThumbnailPoster(movie.posterUrl)} alt={movie.title} />
+                    <MovieCard key={movie.id} title={movie.title} src={getThumbnailPoster(movie.posterPath)} alt={movie.title} />
                 ))}
             </section>
 

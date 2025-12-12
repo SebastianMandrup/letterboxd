@@ -49,7 +49,7 @@ const BrowseMoviesResults: FunctionComponent<BrowseMoviesResultsProps> = ({
                         <li key={movie.id}>
                             <MovieCard
                                 title={movie.title}
-                                src={getMediumPoster(movie.posterUrl)}
+                                src={getMediumPoster(movie.posterPath)}
                                 alt={`Poster of ${movie.title}`}
                                 overlay={<header>{movie.title}</header>}
                             />

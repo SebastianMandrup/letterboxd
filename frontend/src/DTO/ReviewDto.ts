@@ -4,7 +4,6 @@ export default interface ReviewDto {
     rating: number;
     createdAt: string;
     updatedAt: string;
-    deletedAt: string | null;
     author: {
         id: number;
         username: string;
@@ -12,7 +11,7 @@ export default interface ReviewDto {
     movie: {
         id: number;
         title: string;
-        posterUrl: string;
+        posterPath: string;
         releaseDate: string;
     };
     likeCount: number;

@@ -17,7 +17,7 @@ const SectionFeaturedMovies = () => {
                 <ArticleFeaturedMovie
                     title={movie.title}
                     key={index}
-                    src={getMediumPoster(movie.posterUrl)}
+                    src={getMediumPoster(movie.posterPath)}
                     alt={`post of ${movie.title}`}
                     viewCount={movie.viewCount ?? 0}
                     likeCount={movie.likeCount ?? 0}

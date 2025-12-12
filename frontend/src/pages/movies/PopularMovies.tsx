@@ -20,7 +20,7 @@ const PopularMovies = () => {
                     <ul className={styles.ulPopularMovies}>
                         {data.results.map((movie) => (
                             <li key={movie.id} className={styles.liTopMovies}>
-                                <ArticleMovie key={movie.id} title={movie.title} src={getMediumPoster(movie.posterUrl)} alt="" />
+                                <ArticleMovie key={movie.id} title={movie.title} src={getMediumPoster(movie.posterPath)} alt="" />
                             </li>
                         ))}
                     </ul>

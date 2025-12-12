@@ -9,8 +9,8 @@ export default interface MovieDto {
     genreIds?: number[] | null;
     overview?: string | null;
     popularity?: number | null;
-    posterUrl?: string | null;
-    backdropUrl?: string | null;
+    posterPath?: string | null;
+    backdropPath?: string | null;
     releaseDate?: string | Date;
     voteAverage?: number | null;
     voteCount?: number | null;

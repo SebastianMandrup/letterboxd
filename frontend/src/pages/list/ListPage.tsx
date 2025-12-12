@@ -29,7 +29,7 @@ const ListPage: FunctionComponent = () => {
 
     return (
         <section className={styles.listPage}>
-            <Backdrop src={firstMovie.backdropUrl ? firstMovie.backdropUrl : 'default-backdrop.jpg'} title={firstMovie.title} />
+            <Backdrop backdropPath={firstMovie.backdropPath ? firstMovie.backdropPath : undefined} title={firstMovie.title} />
             <div className={styles.contentContainer}>
                 <section>
                     <div className={styles.userInfo}>
@@ -57,7 +57,7 @@ const ListPage: FunctionComponent = () => {
                             <MovieCard
                                 key={movie.id}
                                 title={movie.title}
-                                src={getMediumPoster(movie.posterUrl)}
+                                src={getMediumPoster(movie.posterPath)}
                                 alt={movie.title}
                                 overlay={
                                     <div>

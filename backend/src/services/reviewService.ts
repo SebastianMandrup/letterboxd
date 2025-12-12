@@ -31,7 +31,7 @@ const addLikeCountSelect = (queryBuilder: SelectQueryBuilder<Review>) => {
 };
 
 const addMovieSelect = (queryBuilder: SelectQueryBuilder<Review>) => {
-    queryBuilder.leftJoin('review.movie', 'movie').addSelect(['movie.id', 'movie.title', 'movie.posterUrl', 'movie.releaseDate']);
+    queryBuilder.leftJoin('review.movie', 'movie').addSelect(['movie.id', 'movie.title', 'movie.posterPath', 'movie.releaseDate']);
 };
 
 const addUserSelect = (queryBuilder: SelectQueryBuilder<Review>) => {
@@ -87,7 +87,7 @@ export const getReviews = async (req: Request) => {
         return { reviews, total };
     } catch (error) {
         console.error('Error fetching reviews:', error);
-        return { reviews: [], total: 0 };
+        throw error;
     }
 };
 

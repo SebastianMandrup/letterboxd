@@ -1,7 +1,10 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm';
 import { Movie } from './Movie';
 import { ReviewLike } from './ReviewLike';
 import { User } from './User';
+
+import type { Movie as MovieType } from './Movie.ts'; // type-only
+import type { User as UserType } from './User.ts'; // type-only
 
 @Entity('reviews')
 @Unique(['author', 'movie'])
@@ -15,29 +18,17 @@ export class Review {
     @Column('float', { name: 'rating' })
     rating: number;
 
-    @Column({
-        type: 'datetime',
-        default: () => 'CURRENT_TIMESTAMP',
-    })
+    @CreateDateColumn()
     createdAt: Date;
 
-    @Column({
-        type: 'datetime',
-        default: () => 'CURRENT_TIMESTAMP',
-    })
+    @UpdateDateColumn()
     updatedAt: Date;
 
-    @Column({
-        type: 'datetime',
-        nullable: true,
-    })
-    deletedAt: Date | null;
-
     @ManyToOne(() => Movie, (movie) => movie.reviews)
-    movie: Movie;
+    movie: MovieType;
 
     @ManyToOne(() => User, (user) => user.reviews)
-    author: User;
+    author: UserType;
 
     @OneToMany(() => ReviewLike, (reviewLike) => reviewLike.review)
     likes: ReviewLike[];

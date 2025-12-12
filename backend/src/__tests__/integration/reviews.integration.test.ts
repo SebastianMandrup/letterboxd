@@ -36,62 +36,82 @@ describe('Integration Tests - Reviews', () => {
 
     describe('Review Operations', () => {
         it('should fetch list of reviews from database', async () => {
-            // Create test data
-            const user = userRepository.create({
-                username: 'reviewer',
-                email: 'reviewer@example.com',
+            // ... create test data ...
+
+            const user1 = userRepository.create({
+                username: 'testuser',
+                email: 'test@email.com',
                 password: await bcrypt.hash('password', 10),
                 role: 'user',
             });
-            await userRepository.save(user);
+            await userRepository.save(user1);
 
-            const movie1 = movieRepository.create({
-                title: 'Test Movie 1',
-                slug: 'test-movie-1',
-                originalTitle: 'Test Movie 1',
+            const user2 = userRepository.create({
+                username: 'anotheruser',
+                email: 'test2@email.com',
+                password: await bcrypt.hash('password', 10),
+                role: 'user',
+            });
+            await userRepository.save(user2);
+
+            const movie = movieRepository.create({
+                title: 'Test Movie',
+                slug: 'test-movie',
+                originalTitle: 'Test Movie',
+                posterPath: '/test-movie.jpg',
                 adult: false,
                 overview: 'A test movie',
                 releaseDate: new Date('2020-01-01'),
             });
+            await movieRepository.save(movie);
 
-            const movie2 = movieRepository.create({
-                title: 'Test Movie 2',
-                slug: 'test-movie-2',
-                originalTitle: 'Test Movie 2',
-                adult: false,
-                overview: 'Another test movie',
-                releaseDate: new Date('2020-02-01'),
-            });
-
-            await movieRepository.save([movie1, movie2]);
-
-            // Create reviews (different movies to avoid unique constraint)
             const review1 = reviewRepository.create({
                 review: 'Great movie!',
                 rating: 5,
-                author: user,
-                movie: movie1,
-                createdAt: new Date(),
-                updatedAt: new Date(),
             });
+
+            review1.author = user1;
+            review1.movie = movie;
 
             const review2 = reviewRepository.create({
                 review: 'Not bad',
                 rating: 3,
-                author: user,
-                movie: movie2,
-                createdAt: new Date(),
-                updatedAt: new Date(),
             });
+
+            review2.author = user2;
+            review2.movie = movie;
 
             await reviewRepository.save([review1, review2]);
 
-            // Fetch reviews via API
-            const res = await request(app).get('/reviews');
+            console.log('=== Making API request ===');
+            try {
+                const res = await request(app).get('/reviews');
+                console.log('✅ Request succeeded');
+                console.log('Status:', res.status);
+                console.log('Body:', JSON.stringify(res.body, null, 2));
 
-            expect(res.status).toBe(200);
-            expect(res.body.count).toBe(2);
-            expect(res.body.results).toHaveLength(2);
+                expect(res.status).toBe(200);
+                expect(res.body.count).toBe(2);
+                expect(res.body.results).toHaveLength(2);
+            } catch (error: any) {
+                console.error('❌ Request failed:');
+
+                if (error.response) {
+                    // Supertest error with response
+                    console.error('Response status:', error.response.status);
+                    console.error('Response body:', JSON.stringify(error.response.body, null, 2));
+                    console.error('Response headers:', error.response.headers);
+                } else if (error.request) {
+                    // Request made but no response
+                    console.error('No response received:', error.request);
+                } else {
+                    // Something else
+                    console.error('Error:', error.message);
+                    console.error('Stack:', error.stack);
+                }
+
+                throw error;
+            }
         });
 
         it('should handle pagination for reviews', async () => {

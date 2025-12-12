@@ -7,7 +7,7 @@ import SectionLetterboxLetsYou from './sectionLetterboxLetsYou/SectionLetterboxL
 function IndexPage() {
     return (
         <>
-            <Backdrop src="./backdrop.png" title="Filmmakers on Filmmakers (2025)" />
+            <Backdrop backdropPath={'es0N3A6vkLz2EmJavnM2M4urOEO.jpg'} title="Filmmakers on Filmmakers (2025)" />
             <SectionGetStarted />
             <SectionFeaturedMovies />
             <SectionLetterboxLetsYou />

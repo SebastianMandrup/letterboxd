@@ -19,7 +19,7 @@ const WatchedMovies: FunctionComponent<WatchedMoviesProps> = ({ views }) => {
                 <ul className={styles.movieList}>
                     {views.map((view) => (
                         <li key={view.movie.id} className={styles.movieListItem}>
-                            <MovieCard title={view.movie.title} src={getMediumPoster(view.movie.posterUrl)} alt={view.movie.title} />
+                            <MovieCard title={view.movie.title} src={getMediumPoster(view.movie.posterPath)} alt={view.movie.title} />
                         </li>
                     ))}
                 </ul>

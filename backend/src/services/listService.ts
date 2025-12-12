@@ -8,8 +8,8 @@ const listRepository = AppDataSource.getRepository(List);
 const START_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
 const MAX_PAGE_SIZE = 40;
-const FEATURE_LIST_IDS = [27, 44, 14, 17];
-const CREW_PICK_LIST_IDS = [5, 23, 30, 39, 41, 48];
+const FEATURE_LIST_IDS = [5, 14, 18, 20];
+const CREW_PICK_LIST_IDS = [2, 4, 11, 13, 15, 19];
 
 const addFilter = (queryBuilder: SelectQueryBuilder<List>, filter?: string | undefined) => {
     if (filter === 'featured') {
@@ -36,7 +36,7 @@ const addSorting = (qb: SelectQueryBuilder<List>, sortBy?: string) => {
     return qb;
 };
 
-const getMoviesQueryBuilder = async (req: Request) => {
+const getListsQueryBuilder = async (req: Request) => {
     const queryBuilder = listRepository.createQueryBuilder('list');
     const filterBy = req.query.filterBy as string | undefined;
     const sortBy = req.query.sortBy as string | undefined;
@@ -60,7 +60,7 @@ export const getLists = async (req: Request) => {
 
     if (pageSize > MAX_PAGE_SIZE) pageSize = MAX_PAGE_SIZE;
 
-    const queryBuilder = await getMoviesQueryBuilder(req);
+    const queryBuilder = await getListsQueryBuilder(req);
 
     try {
         queryBuilder.skip((page - 1) * pageSize).take(pageSize);
@@ -70,6 +70,6 @@ export const getLists = async (req: Request) => {
         return { lists, total };
     } catch (error) {
         console.error('Error fetching lists:', error);
-        return { lists: [], total: 0 };
+        throw error;
     }
 };

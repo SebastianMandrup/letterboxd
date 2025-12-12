@@ -4,6 +4,7 @@ import type { FunctionComponent } from 'react';
 import { getSlug } from '../../../util/getSlug';
 import styles from './posterStack.module.css';
 import { useEffect, useState } from 'react';
+import { getThumbnailPoster } from '../../../util/getThumbnailPoster';
 
 interface ListPosterStackProps {
     list: ListDto;
@@ -26,9 +27,9 @@ const ListPosterStack: FunctionComponent<ListPosterStackProps> = ({ list, large 
 
         firstFiveMovies.forEach((movie) => {
             const img = new Image();
-            img.src = movie.posterUrl ?? '/placeholder-movie.png';
+            img.src = getThumbnailPoster(movie.posterPath);
             img.onload = handleLoad;
-            img.onerror = handleLoad; // consider error as "loaded" too
+            img.onerror = handleLoad;
         });
     }, [firstFiveMovies]);
 
@@ -39,7 +40,7 @@ const ListPosterStack: FunctionComponent<ListPosterStackProps> = ({ list, large 
                     firstFiveMovies.map((movie, index) => (
                         <img
                             key={movie.id}
-                            src={movie.posterUrl ?? '/placeholder-movie.png'}
+                            src={getThumbnailPoster(movie.posterPath)}
                             alt={movie.title}
                             className={styles.posterImage + (large ? ` ${styles.large}` : '')}
                             style={{

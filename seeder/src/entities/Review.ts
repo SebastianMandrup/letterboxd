@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm';
 import { Movie } from './Movie.ts';
 import { ReviewLike } from './ReviewLike.ts';
 import { User } from './User.ts';
@@ -18,23 +18,11 @@ export class Review {
     @Column('float', { name: 'rating' })
     rating: number;
 
-    @Column({
-        type: 'datetime',
-        default: () => 'CURRENT_TIMESTAMP',
-    })
+    @CreateDateColumn()
     createdAt: Date;
 
-    @Column({
-        type: 'datetime',
-        default: () => 'CURRENT_TIMESTAMP',
-    })
+    @UpdateDateColumn()
     updatedAt: Date;
-
-    @Column({
-        type: 'datetime',
-        nullable: true,
-    })
-    deletedAt: Date | null;
 
     @ManyToOne(() => Movie, (movie) => movie.reviews)
     movie: MovieType;

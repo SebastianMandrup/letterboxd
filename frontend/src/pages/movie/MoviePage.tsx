@@ -59,11 +59,11 @@ function MoviePage() {
     if (!movie) return null;
     return (
         <>
-            {movie.backdropUrl ? <Backdrop src={movie.backdropUrl || ''} title={movie.title} /> : <Backdrop src="/default-backdrop.jpg" title={movie.title} />}
+            <Backdrop backdropPath={movie.backdropPath} title={movie.title} />
 
             <section className={styles.sectionMovieDetails}>
                 <section className={styles.sectionPoster}>
-                    <ArticleMovie title={movie.title} src={getMediumPoster(movie.posterUrl)} alt={'poster of ' + movie.title} />
+                    <ArticleMovie title={movie.title} src={getMediumPoster(movie.posterPath)} alt={'poster of ' + movie.title} />
                 </section>
                 <section className={styles.sectionMain}>
                     <section className={styles.sectionFirstContent}>

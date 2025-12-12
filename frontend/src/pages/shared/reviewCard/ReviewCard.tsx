@@ -16,7 +16,7 @@ const ReviewCard: FunctionComponent<ReviewCardProps> = ({ review }) => {
 
     return (
         <article className={styles.reviewCard}>
-            <MovieCard title={review.movie.title} src={getThumbnailPoster(review.movie.posterUrl)} alt={review.movie.title} />
+            <MovieCard title={review.movie.title} src={getThumbnailPoster(review.movie.posterPath)} alt={review.movie.title} />
             <ReviewCardContent review={review} />
         </article>
     );

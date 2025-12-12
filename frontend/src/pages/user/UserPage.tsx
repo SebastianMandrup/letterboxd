@@ -49,11 +49,7 @@ const UserPage: FunctionComponent = () => {
 
     return (
         <>
-            {lastWatchedMovie && lastWatchedMovie.backdropUrl ? (
-                <Backdrop src={lastWatchedMovie.backdropUrl || ''} title={lastWatchedMovie.title} />
-            ) : (
-                <Backdrop src="/default-backdrop.jpg" title="default" />
-            )}
+            <Backdrop backdropPath={lastWatchedMovie?.backdropPath} title={lastWatchedMovie?.title || 'default'} />
             <section className={styles.userSection}>
                 <div className={styles.avatarContainer}>
                     <img className={styles.avatar} src={getApiAvatar(user.username)} alt={`${user.username}'s avatar`} />

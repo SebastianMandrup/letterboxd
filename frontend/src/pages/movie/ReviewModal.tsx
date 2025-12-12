@@ -65,7 +65,7 @@ const ReviewModal: FunctionComponent<ReviewModalProps> = ({ setIsReviewing, movi
                 </header>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.reviewContent}>
-                        <MovieCard title={movie.title} src={getMediumPoster(movie.posterUrl)} alt={movie.title} />
+                        <MovieCard title={movie.title} src={getMediumPoster(movie.posterPath)} alt={movie.title} />
                         <div className={styles.reviewInputs}>
                             <div className={styles.movieInfo}>
                                 <h2 className={styles.movieTitle}>{movie.title}</h2>
