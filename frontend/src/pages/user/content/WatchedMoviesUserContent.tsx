@@ -2,7 +2,7 @@ import type { FunctionComponent } from 'react';
 import type ViewDto from '../../../DTO/ViewDto';
 import SectionHeader from '../../shared/sectionHeader/SectionHeader';
 import MovieCard from '../../shared/movieCard/MovieCard';
-import { getMediumPoster } from '../../../services/getMediumPoster';
+import { getMediumPoster } from '../../../util/getMediumPoster';
 import styles from './watchedMoviesUserContent.module.css';
 
 interface WatchedMoviesProps {

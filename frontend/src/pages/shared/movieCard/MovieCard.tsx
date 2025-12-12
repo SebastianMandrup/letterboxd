@@ -1,7 +1,7 @@
 import type React from 'react';
 import type { FunctionComponent } from 'react';
 import styles from './movieCard.module.css';
-import { getSlug } from '../../../services/getSlug';
+import { getSlug } from '../../../util/getSlug';
 
 interface MovieCardProps {
     title: string;

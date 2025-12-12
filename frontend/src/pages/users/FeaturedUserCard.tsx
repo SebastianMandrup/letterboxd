@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react';
 import type UserDto from '../../DTO/UserDto';
 import styles from './featuredUserCard.module.css';
-import { getApiAvatar } from '../../services/getApiAvatar';
+import { getApiAvatar } from '../../util/getApiAvatar';
 
 interface FeaturedUserCardProps {
     user: UserDto;

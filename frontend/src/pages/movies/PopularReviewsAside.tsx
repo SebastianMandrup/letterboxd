@@ -2,7 +2,7 @@ import type { FunctionComponent } from 'react';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import useMovies from '../../hooks/movies/useMovies';
 import MovieCard from '../shared/movieCard/MovieCard';
-import { getThumbnailPoster } from '../../services/getThumbnailPoster';
+import { getThumbnailPoster } from '../../util/getThumbnailPoster';
 import styles from './popularReviewsAside.module.css';
 import SectionPopularReviewers from '../shared/sectionPopularReviewers/SectionPopularReviewers';
 

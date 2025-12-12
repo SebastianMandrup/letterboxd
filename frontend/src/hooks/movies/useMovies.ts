@@ -3,7 +3,7 @@ import type { AxiosRequestConfig } from 'axios';
 import ms from 'ms';
 import type MovieDto from '../../DTO/MovieDto';
 import type PaginatedResponse from '../../DTO/PaginatedResponse';
-import MovieClient from '../../services/MovieClient';
+import MovieClient from '../../clients/MovieClient';
 
 export default (config: AxiosRequestConfig) =>
     useQuery<PaginatedResponse<MovieDto>, Error>({

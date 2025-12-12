@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 import ms from 'ms';
-import ListClient from '../services/ListClient';
-import type CommentDto from '../DTO/CommentDto';
+import ListClient from '../../clients/ListClient';
+import type CommentDto from '../../DTO/CommentDto';
 
 export default (id: number) =>
     useQuery<CommentDto[], Error>({

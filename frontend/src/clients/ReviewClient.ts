@@ -1,5 +1,5 @@
 import type ReviewDto from '../DTO/ReviewDto';
-import ApiClient from './apiClient';
+import ApiClient from './ApiClient';
 
 interface LikeReviewResponse {
     status: 'ok' | 'error';

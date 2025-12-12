@@ -1,6 +1,6 @@
 import type { FunctionComponent } from 'react';
 import type CommentDto from '../../DTO/CommentDto';
-import { getApiAvatar } from '../../services/getApiAvatar';
+import { getApiAvatar } from '../../util/getApiAvatar';
 import styles from './listComment.module.css';
 
 interface ListCommentProps {

@@ -3,20 +3,23 @@ import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import ListComment from './ListComment';
 import { useUserStore } from '../../stores/useUserStore';
 import styles from './listComments.module.css';
-import useFetchComments from '../../hooks/useFetchComments';
+import useComments from '../../hooks/comments/useComments';
 import type CommentDto from '../../DTO/CommentDto';
-import ListClient from '../../services/ListClient';
 import { useToastStore } from '../../stores/useToastStore';
+import useAddComment from '../../hooks/comments/useAddComment';
 
 interface ListCommentsProps {
-    id: number;
+    listId: number;
 }
 
-const ListComments: FunctionComponent<ListCommentsProps> = ({ id }) => {
-    const { data, isLoading, error } = useFetchComments(id);
+const ListComments: FunctionComponent<ListCommentsProps> = ({ listId }) => {
+    const { data, isLoading, error } = useComments(listId);
     const [comments, setComments] = useState<CommentDto[]>([]);
     const isAuthenticated = useUserStore((state) => state.isAuthenticated());
     const { addToast } = useToastStore();
+
+    // Get the mutation hook at the top level
+    const addCommentMutation = useAddComment(listId);
 
     useEffect(() => {
         if (data) {
@@ -24,24 +27,22 @@ const ListComments: FunctionComponent<ListCommentsProps> = ({ id }) => {
         }
     }, [data]);
 
-    const handleSubmit = async (event: React.FormEvent) => {
+    const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
         const contentInput = form.elements.namedItem('contentInput') as HTMLTextAreaElement;
 
-        const response = await ListClient.addCommentToList(id, contentInput.value);
-        contentInput.value = '';
-
-        if (response.error) {
-            addToast(response.error, 'error');
-            return;
-        }
-
-        if (response.message && response.data) {
-            const newComment = response.data;
-            setComments((prevComments) => [...prevComments, newComment]);
-            addToast(response.message, 'success');
-        }
+        addCommentMutation.mutate(contentInput.value, {
+            onSuccess: (response) => {
+                contentInput.value = '';
+                setComments((prevComments) => [...prevComments, response.data]);
+                addToast('Comment added successfully', 'success');
+            },
+            onError: (err) => {
+                console.error('Error adding comment:', err);
+                addToast(err.message, 'error');
+            },
+        });
     };
 
     if (error) {
@@ -50,8 +51,8 @@ const ListComments: FunctionComponent<ListCommentsProps> = ({ id }) => {
         return null;
     }
 
-    if (!isLoading && !data) {
-        return null;
+    if (isLoading) {
+        return <div>Loading comments...</div>;
     }
 
     return (

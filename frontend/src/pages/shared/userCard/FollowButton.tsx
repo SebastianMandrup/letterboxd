@@ -4,7 +4,7 @@ import { useToastStore } from '../../../stores/useToastStore';
 import { useUserStore } from '../../../stores/useUserStore';
 import type UserDto from '../../../DTO/UserDto';
 import type PopulatedUserDto from '../../../DTO/PopulatedUserDto';
-import UserClient from '../../../services/UserClient';
+import useFollowUser from '../../../hooks/users/useFollowUser';
 
 interface FollowButtonProps {
     user: UserDto | PopulatedUserDto;
@@ -12,7 +12,7 @@ interface FollowButtonProps {
 
 const FollowButton: FunctionComponent<FollowButtonProps> = ({ user }) => {
     const { user: currentUser } = useUserStore();
-
+    const followUser = useFollowUser();
     const [isFollowed, setIsFollowed] = useState(user.isFollowed);
     const { addToast } = useToastStore();
 
@@ -26,25 +26,15 @@ const FollowButton: FunctionComponent<FollowButtonProps> = ({ user }) => {
             return;
         }
 
-        try {
-            const response = await UserClient.followUser(user.id);
-
-            if (response.error) {
-                addToast(response.error, 'error');
-                return;
-            }
-
-            if (response.message === 'Followed successfully') {
-                setIsFollowed(true);
-                addToast(`You are now following ${user.username}.`, 'success');
-            } else if (response.message === 'Unfollowed successfully') {
-                setIsFollowed(false);
-                addToast(`You have unfollowed ${user.username}.`, 'warning');
-            }
-        } catch (error) {
-            console.error('Error following/unfollowing user:', error);
-            addToast('An error occurred. Please try again later.', 'error');
-        }
+        followUser.mutate(user.id, {
+            onSuccess: () => {
+                setIsFollowed(!isFollowed);
+                addToast(isFollowed ? `Unfollowed ${user.username}` : `Followed ${user.username}`, 'success');
+            },
+            onError: () => {
+                addToast('Failed to update follow status. Please try again.', 'error');
+            },
+        });
     };
 
     // don't render the anything if its user's own page

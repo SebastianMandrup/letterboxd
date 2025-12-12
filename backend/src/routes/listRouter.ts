@@ -7,6 +7,7 @@ import { Comment } from '../entities/Comment';
 import { authenticateUser } from '../middleware/authenticateUser';
 import { validateListCreation } from '../middleware/listValidation';
 import { ApiError } from '../interfaces/ApiError';
+import validateId from '../middleware/validation/validateId';
 
 const listRouter = Router();
 
@@ -82,6 +83,8 @@ listRouter.get('/:name', async (req, res, next) => {
 listRouter.get('/:id/comments', async (req, res, next) => {
     try {
         const listId = parseInt(req.params.id, 10);
+        validateId(listId);
+
         const list = await listRepository.findOne({
             where: { id: listId },
             relations: ['comments', 'comments.user'],
@@ -108,11 +111,19 @@ listRouter.get('/:id/comments', async (req, res, next) => {
     }
 });
 
+// TODO: validation middleware
 // add a comment to a list
 listRouter.post('/:id/comments', authenticateUser, async (req, res, next) => {
     try {
         const listId = parseInt(req.params.id, 10);
+        validateId(listId);
+
         const { content } = req.body;
+
+        if (!content || typeof content !== 'string' || content.trim().length === 0) {
+            throw new ApiError('Invalid comment content', 400);
+        }
+
         const list = await listRepository.findOneBy({ id: listId });
 
         if (!list) {

@@ -1,5 +1,5 @@
 import useJustReviewedMovies from '../../../hooks/movies/useJustReviewedMovies';
-import { getThumbnailPoster } from '../../../services/getThumbnailPoster';
+import { getThumbnailPoster } from '../../../util/getThumbnailPoster';
 import MovieCard from '../movieCard/MovieCard';
 import SectionHeader from '../sectionHeader/SectionHeader';
 import styles from './sectionJustReviewedCards.module.css';

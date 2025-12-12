@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react';
 import type ListDto from '../../../DTO/ListDto';
-import { getApiAvatar } from '../../../services/getApiAvatar';
-import { getSlug } from '../../../services/getSlug';
+import { getApiAvatar } from '../../../util/getApiAvatar';
+import { getSlug } from '../../../util/getSlug';
 import styles from './listCard.module.css';
 import ListPosterStack from './PosterStack';
 

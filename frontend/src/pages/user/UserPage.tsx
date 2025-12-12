@@ -3,7 +3,7 @@ import styles from './userPage.module.css';
 import useUserByUsername from '../../hooks/useUserByUsername';
 import { useParams } from 'react-router-dom';
 import Backdrop from '../shared/backdrop/Backdrop';
-import { getApiAvatar } from '../../services/getApiAvatar';
+import { getApiAvatar } from '../../util/getApiAvatar';
 import UserDataItem from './UserDataItem';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import FollowButton from '../shared/userCard/FollowButton';

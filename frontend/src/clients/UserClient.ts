@@ -1,8 +1,8 @@
 import type FollowDto from '../DTO/FollowDto';
 import type PopulatedUserDto from '../DTO/PopulatedUserDto';
 import type UserDto from '../DTO/UserDto';
-import ApiClient from './apiClient';
-import type ApiResponse from './ApiResponse.interface';
+import ApiClient from './ApiClient';
+import type ApiResponse from '../clients/ApiResponse.interface';
 
 class UserClient extends ApiClient<UserDto> {
     private static instance: UserClient;

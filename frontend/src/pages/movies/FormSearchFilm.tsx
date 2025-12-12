@@ -1,4 +1,4 @@
-import { getSlug } from '../../services/getSlug';
+import { getSlug } from '../../util/getSlug';
 import styles from './formSearchFilm.module.css';
 
 const FormSearchFilm = () => {

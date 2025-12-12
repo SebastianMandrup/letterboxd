@@ -2,10 +2,10 @@ import type { FunctionComponent } from 'react';
 import { useParams } from 'react-router-dom';
 import useList from '../../hooks/useList';
 import Backdrop from '../shared/backdrop/Backdrop';
-import { getApiAvatar } from '../../services/getApiAvatar';
+import { getApiAvatar } from '../../util/getApiAvatar';
 import MovieCard from '../shared/movieCard/MovieCard';
 import CollapseText from '../users/CollapseText';
-import { getMediumPoster } from '../../services/getMediumPoster';
+import { getMediumPoster } from '../../util/getMediumPoster';
 import Heart from '../shared/icons/HeartIcon';
 import ListComments from './ListComments';
 import styles from './llistPage.module.css';
@@ -66,7 +66,7 @@ const ListPage: FunctionComponent = () => {
                             />
                         ))}
                     </div>
-                    <ListComments id={list.id} />
+                    <ListComments listId={list.id} />
                 </section>
                 <aside className={styles.sidebar}>
                     <div className={styles.sidebarButtons}>

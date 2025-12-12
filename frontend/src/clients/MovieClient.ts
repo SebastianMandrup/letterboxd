@@ -1,6 +1,6 @@
 import type MessageDto from '../DTO/MessageDto';
 import type MovieDto from '../DTO/MovieDto';
-import ApiClient from './apiClient';
+import ApiClient from './ApiClient';
 
 class MovieClient extends ApiClient<MovieDto> {
     private static instance: MovieClient;

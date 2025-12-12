@@ -1,4 +1,4 @@
-import ApiClient from './apiClient';
+import ApiClient from './ApiClient';
 import type ListDto from '../DTO/ListDto';
 import type CommentDto from '../DTO/CommentDto';
 import type ApiResponse from './ApiResponse.interface';

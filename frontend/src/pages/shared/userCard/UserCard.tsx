@@ -1,7 +1,7 @@
 import { type FunctionComponent } from 'react';
 import type UserDto from '../../../DTO/UserDto';
 import styles from './userCard.module.css';
-import { getApiAvatar } from '../../../services/getApiAvatar';
+import { getApiAvatar } from '../../../util/getApiAvatar';
 import FollowButton from './FollowButton';
 
 interface UserCardProps {

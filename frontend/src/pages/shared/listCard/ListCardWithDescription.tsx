@@ -2,10 +2,10 @@ import type { FunctionComponent } from 'react';
 import type ListDto from '../../../DTO/ListDto';
 import ListPosterStack from './PosterStack';
 import styles from './listCardWithDescription.module.css';
-import { getApiAvatar } from '../../../services/getApiAvatar';
+import { getApiAvatar } from '../../../util/getApiAvatar';
 import HeartIcon from '../icons/HeartIcon';
 import CommentIcon from '../icons/CommentIcon';
-import { getSlug } from '../../../services/getSlug';
+import { getSlug } from '../../../util/getSlug';
 
 interface ListCardWithDescriptionProps {
     list: ListDto;

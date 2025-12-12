@@ -1,5 +1,5 @@
 import useMovies from '../../hooks/movies/useMovies';
-import { getMediumPoster } from '../../services/getMediumPoster';
+import { getMediumPoster } from '../../util/getMediumPoster';
 import ArticleMovie from '../shared/movieCard/MovieCard';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import styles from './popularMovies.module.css';

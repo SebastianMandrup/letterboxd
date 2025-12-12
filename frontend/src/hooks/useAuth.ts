@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, useRef } from 'react';
-import AuthClient from '../services/AuthClient';
+import AuthClient from '../clients/AuthClient';
 import { useUserStore } from '../stores/useUserStore';
 
 const authClient = new AuthClient();

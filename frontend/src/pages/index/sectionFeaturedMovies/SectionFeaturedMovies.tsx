@@ -1,5 +1,5 @@
 import useFeaturedMovies from '../../../hooks/movies/useFeaturedMovies';
-import { getMediumPoster } from '../../../services/getMediumPoster';
+import { getMediumPoster } from '../../../util/getMediumPoster';
 import LoadingMovieCard from '../../shared/movieCard/LoadingMovieCard';
 import ArticleFeaturedMovie from './ArticleFeaturedMovie';
 import styles from './sectionFeaturedMovies.module.css';

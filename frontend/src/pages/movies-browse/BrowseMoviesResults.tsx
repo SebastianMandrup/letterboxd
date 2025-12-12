@@ -2,7 +2,7 @@ import { useState, type FunctionComponent } from 'react';
 import useMovies from '../../hooks/movies/useMovies';
 import MovieCard from '../shared/movieCard/MovieCard';
 import styles from './browseMoviesResults.module.css';
-import { getMediumPoster } from '../../services/getMediumPoster';
+import { getMediumPoster } from '../../util/getMediumPoster';
 import LoadingMovieCard from '../shared/movieCard/LoadingMovieCard';
 
 interface BrowseMoviesResultsProps {

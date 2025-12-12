@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import ms from 'ms';
 import type Movie from '../../DTO/MovieDto';
-import MovieClient from '../../services/MovieClient';
+import MovieClient from '../../clients/MovieClient';
 
 export default (title: string) =>
     useQuery<Movie, Error>({

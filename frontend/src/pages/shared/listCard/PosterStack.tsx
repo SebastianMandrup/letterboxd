@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import type ListDto from '../../../DTO/ListDto';
 import type { FunctionComponent } from 'react';
-import { getSlug } from '../../../services/getSlug';
+import { getSlug } from '../../../util/getSlug';
 import styles from './posterStack.module.css';
 import { useEffect, useState } from 'react';
 

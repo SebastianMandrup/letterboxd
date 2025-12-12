@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react';
 import useUsers from '../../hooks/useUsers';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
-import { getApiAvatar } from '../../services/getApiAvatar';
+import { getApiAvatar } from '../../util/getApiAvatar';
 import styles from './hqUsers.module.css';
 
 const HqUsers: FunctionComponent = () => {

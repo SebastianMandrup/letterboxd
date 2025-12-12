@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import UserClient from '../../services/UserClient';
+import UserClient from '../../clients/UserClient';
 
-const useFollowUser = (userId: number) => {
+const useFollowUser = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: () => UserClient.followUser(userId),
+        mutationFn: (userId: number) => UserClient.followUser(userId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['followed-users'] });
         },

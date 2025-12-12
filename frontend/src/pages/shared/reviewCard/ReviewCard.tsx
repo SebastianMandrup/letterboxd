@@ -2,7 +2,7 @@ import type { FunctionComponent } from 'react';
 import type ReviewDto from '../../../DTO/ReviewDto';
 import styles from './reviewCard.module.css';
 import MovieCard from '../movieCard/MovieCard';
-import { getThumbnailPoster } from '../../../services/getThumbnailPoster';
+import { getThumbnailPoster } from '../../../util/getThumbnailPoster';
 import ReviewCardContent from './ReviewCardContent';
 
 interface ReviewCardProps {

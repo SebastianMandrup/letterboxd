@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import Backdrop from '../shared/backdrop/Backdrop';
 import ArticleMovie from '../shared/movieCard/MovieCard';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
-import { getMediumPoster } from '../../services/getMediumPoster';
+import { getMediumPoster } from '../../util/getMediumPoster';
 import styles from './moviePage.module.css';
 import ListCardWithDescription from '../shared/listCard/ListCardWithDescription';
 import useMovieByTitle from '../../hooks/movies/useMovieByTitle';
@@ -13,7 +13,7 @@ import ReviewModal from './ReviewModal';
 import type ReviewDto from '../../DTO/ReviewDto';
 import Eye from '../shared/icons/EyeIcon';
 import { useToastStore } from '../../stores/useToastStore';
-import MovieClient from '../../services/MovieClient';
+import MovieClient from '../../clients/MovieClient';
 
 function MoviePage() {
     const title = useParams().title || '';

@@ -4,7 +4,7 @@ import type { AxiosRequestConfig } from 'axios';
 import ms from 'ms';
 import type ListDto from '../DTO/ListDto';
 import type PaginatedResponse from '../DTO/PaginatedResponse';
-import ListClient from '../services/ListClient';
+import ListClient from '../clients/ListClient';
 
 export default (config: AxiosRequestConfig) =>
     useQuery<PaginatedResponse<ListDto>, Error>({

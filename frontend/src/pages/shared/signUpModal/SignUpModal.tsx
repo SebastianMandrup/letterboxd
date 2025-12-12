@@ -1,4 +1,4 @@
-import UserClient from '../../../services/UserClient';
+import UserClient from '../../../clients/UserClient';
 import { useToastStore } from '../../../stores/useToastStore';
 import styles from './signUpModal.module.css';
 

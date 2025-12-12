@@ -1,12 +1,12 @@
 import { useState, type FunctionComponent } from 'react';
 import styles from './reviewCardContent.module.css';
 import type ReviewDto from '../../../DTO/ReviewDto';
-import { getSlug } from '../../../services/getSlug';
-import { getApiAvatar } from '../../../services/getApiAvatar';
+import { getSlug } from '../../../util/getSlug';
+import { getApiAvatar } from '../../../util/getApiAvatar';
 import { useUserStore } from '../../../stores/useUserStore';
 import { useToastStore } from '../../../stores/useToastStore';
 import Heart from '../icons/HeartIcon';
-import reviewService from '../../../services/ReviewClient';
+import reviewService from '../../../clients/ReviewClient';
 
 interface ReviewCardContentProps {
     review: ReviewDto;

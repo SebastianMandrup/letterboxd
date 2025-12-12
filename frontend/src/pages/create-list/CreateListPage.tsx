@@ -4,11 +4,11 @@ import type MovieDto from '../../DTO/MovieDto';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import Plus from '../shared/icons/Plus';
 import Minus from '../shared/icons/Minus';
-import listClient from '../../services/ListClient';
+import listClient from '../../clients/ListClient';
 import { useUserStore } from '../../stores/useUserStore';
-import { BackendError } from '../../services/apiClient';
 import { useToastStore } from '../../stores/useToastStore';
-import MovieClient from '../../services/MovieClient';
+import MovieClient from '../../clients/MovieClient';
+import { ApiError } from '../../clients/ApiError';
 
 const CreateListPage: FunctionComponent = () => {
     const { user } = useUserStore();
@@ -40,8 +40,8 @@ const CreateListPage: FunctionComponent = () => {
         try {
             await listClient.create({ name, description, movieIds });
             location.href = `/user/${user?.username}`;
-        } catch (error: BackendError | unknown) {
-            if (error instanceof BackendError) {
+        } catch (error: ApiError | unknown) {
+            if (error instanceof ApiError) {
                 addToast(error.message, 'error');
             } else {
                 addToast('An unexpected error occurred.', 'error');

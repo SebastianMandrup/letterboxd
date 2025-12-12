@@ -4,7 +4,7 @@ import ms from 'ms';
 import type MovieDto from '../../DTO/MovieDto';
 import type PaginatedResponse from '../../DTO/PaginatedResponse';
 import featuredMovies from '../../data/featuredMovies';
-import MovieClient from '../../services/MovieClient';
+import MovieClient from '../../clients/MovieClient';
 
 export default () =>
     useQuery<PaginatedResponse<MovieDto>, Error>({

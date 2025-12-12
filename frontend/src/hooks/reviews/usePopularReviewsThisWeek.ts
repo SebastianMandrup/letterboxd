@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import ms from 'ms';
 import type PaginatedResponse from '../../DTO/PaginatedResponse';
 import type ReviewDto from '../../DTO/ReviewDto';
-import ReviewClient from '../../services/ReviewClient';
+import ReviewClient from '../../clients/ReviewClient';
 import popularReviewsThisWeek from '../../data/popularReviewsThisWeek';
 
 export default () =>
