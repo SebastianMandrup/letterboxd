@@ -5,15 +5,15 @@ import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import { getMediumPoster } from '../../services/getMediumPoster';
 import styles from './moviePage.module.css';
 import ListCardWithDescription from '../shared/listCard/ListCardWithDescription';
-import useMovieByTitle from '../../hooks/useMovieByTitle';
+import useMovieByTitle from '../../hooks/movies/useMovieByTitle';
 import ReviewCardContent from '../shared/reviewCard/ReviewCardContent';
 import { useUserStore } from '../../stores/useUserStore';
 import { useEffect, useState } from 'react';
 import ReviewModal from './ReviewModal';
 import type ReviewDto from '../../DTO/ReviewDto';
 import Eye from '../shared/icons/EyeIcon';
-import movieService from '../../services/movieService';
 import { useToastStore } from '../../stores/useToastStore';
+import MovieClient from '../../services/MovieClient';
 
 function MoviePage() {
     const title = useParams().title || '';
@@ -44,7 +44,7 @@ function MoviePage() {
         if (!movie) return;
 
         try {
-            const response = await movieService.viewMovie(movie.id);
+            const response = await MovieClient.viewMovie(movie.id);
 
             if (response.message === 'Movie viewed successfully') {
                 setIsViewed(true);

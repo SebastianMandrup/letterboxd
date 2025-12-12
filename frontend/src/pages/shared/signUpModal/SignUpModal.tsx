@@ -1,4 +1,4 @@
-import userService from '../../../services/userService';
+import UserClient from '../../../services/UserClient';
 import { useToastStore } from '../../../stores/useToastStore';
 import styles from './signUpModal.module.css';
 
@@ -25,12 +25,11 @@ function SignUpModal({ setIsSigningUp }: SignUpModalProps) {
             return;
         }
 
-        userService
-            .create({
-                email: (event.currentTarget.elements.namedItem('email') as HTMLInputElement).value,
-                username: (event.currentTarget.elements.namedItem('username') as HTMLInputElement).value,
-                password: (event.currentTarget.elements.namedItem('password') as HTMLInputElement).value,
-            })
+        UserClient.create({
+            email: (event.currentTarget.elements.namedItem('email') as HTMLInputElement).value,
+            username: (event.currentTarget.elements.namedItem('username') as HTMLInputElement).value,
+            password: (event.currentTarget.elements.namedItem('password') as HTMLInputElement).value,
+        })
             .then(() => {
                 setIsSigningUp(false);
                 addToast('Successfully signed up!', 'success');

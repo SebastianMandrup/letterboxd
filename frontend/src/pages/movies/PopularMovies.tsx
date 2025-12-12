@@ -1,4 +1,4 @@
-import useMovies from '../../hooks/useMovies';
+import useMovies from '../../hooks/movies/useMovies';
 import { getMediumPoster } from '../../services/getMediumPoster';
 import ArticleMovie from '../shared/movieCard/MovieCard';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';

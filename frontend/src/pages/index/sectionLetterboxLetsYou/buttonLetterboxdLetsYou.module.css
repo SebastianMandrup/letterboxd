@@ -1,0 +1,45 @@
+.button {
+    width: 100%;
+    height: 110px;
+    background-color: var(--darkerGrey);
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: var(--lightGrey);
+}
+
+.button:nth-child(3n + 1):hover {
+    background-color: var(--green);
+}
+
+.button:nth-child(3n + 2):hover {
+    background-color: var(--orange);
+}
+
+.button:nth-child(3n + 3):hover {
+    background-color: var(--blue);
+}
+
+.text {
+    display: none;
+    font-family: var(--fontThree);
+    padding: 0 10px;
+    text-align: left;
+    font-size: 14px;
+}
+
+@media screen and (min-width: 768px) {
+    .button .text {
+        display: flex;
+    }
+
+    .button svg {
+        width: 120px;
+        height: 120px;
+    }
+}

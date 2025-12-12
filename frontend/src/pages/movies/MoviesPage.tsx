@@ -4,7 +4,7 @@ import PopularMovies from './PopularMovies';
 import PopularReviews from './PopularReviews';
 import PopularReviewsAside from './PopularReviewsAside';
 import AdBanner from '../shared/adBanner/AdBanner';
-import SectionJustReviewedCards from '../shared/sectionJustReviewdCards/SectionJustReviewedCards';
+import SectionJustReviewedCards from '../shared/sectionJustReviewedCards/SectionJustReviewedCards';
 import styles from './moviesPage.module.css';
 
 function MoviesPage() {

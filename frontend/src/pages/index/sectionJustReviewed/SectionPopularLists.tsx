@@ -1,16 +1,11 @@
-import useLists from '../../../hooks/useLists';
 import ListCard from '../../shared/listCard/ListCard';
 import SectionHeader from '../../shared/sectionHeader/SectionHeader';
 import styles from './sectionPopularLists.module.css';
 import SectionPopularReviewers from '../../shared/sectionPopularReviewers/SectionPopularReviewers';
+import usePopularLists from '../../../hooks/lists/usePopularLists';
 
 function SectionPopularLists() {
-    const popularLists = useLists({
-        params: {
-            sortBy: 'popularity',
-            pageSize: 3,
-        },
-    });
+    const popularLists = usePopularLists();
 
     return (
         <section id={styles.sectionPopularLists}>

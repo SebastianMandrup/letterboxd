@@ -1,6 +1,6 @@
 import type { FunctionComponent } from 'react';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
-import useMovies from '../../hooks/useMovies';
+import useMovies from '../../hooks/movies/useMovies';
 import MovieCard from '../shared/movieCard/MovieCard';
 import { getThumbnailPoster } from '../../services/getThumbnailPoster';
 import styles from './popularReviewsAside.module.css';

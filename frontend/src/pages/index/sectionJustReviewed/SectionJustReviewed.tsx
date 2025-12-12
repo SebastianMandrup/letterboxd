@@ -1,6 +1,6 @@
 import { useAuth } from '../../../hooks/useAuth';
 import PopularReviews from '../../movies/PopularReviews';
-import SectionJustReviewedCards from '../../shared/sectionJustReviewdCards/SectionJustReviewedCards';
+import SectionJustReviewedCards from '../../shared/sectionJustReviewedCards/SectionJustReviewedCards';
 import styles from './sectionJustReviewed.module.css';
 import SectionPopularLists from './SectionPopularLists';
 
@@ -10,18 +10,18 @@ function SectionJustReviewed() {
     return (
         <section>
             <SectionJustReviewedCards />
-            <p id={styles.pWriteShare}>Write and share reviews. Compile your own lists. Share your life in film.</p>
-            <p id={styles.pBelow}>
+            <p className={styles.pWriteShare}>Write and share reviews. Compile your own lists. Share your life in film.</p>
+            <p className={styles.pBelow}>
                 Below are some popular reviews and lists from this week.
                 {!user && (
                     <>
-                        <button id={styles.btnSignup}> Sign up </button>
+                        <button className={styles.btnSignup}> Sign up </button>
                         <span>to create your own.</span>
                     </>
                 )}
             </p>
 
-            <section id={styles.sectionPopularReviewsAndLists}>
+            <section className={styles.sectionPopularReviewsAndLists}>
                 <PopularReviews />
                 <SectionPopularLists />
             </section>

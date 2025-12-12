@@ -26,5 +26,8 @@
     color: var(--darkGrey);
     font-size: 12px;
     right: 0;
-    transform: rotate(-90deg);
+    top: 50%;
+    transform: rotate(-90deg) translateY(-50%) translateX(50%);
+    transform-origin: right top;
+    margin-right: 20px;
 }

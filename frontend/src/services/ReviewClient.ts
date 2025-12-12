@@ -9,8 +9,17 @@ interface LikeReviewResponse {
 }
 
 class ReviewClient extends ApiClient<ReviewDto> {
-    constructor() {
+    private static instance: ReviewClient;
+
+    private constructor() {
         super('/reviews');
+    }
+
+    public static getInstance(): ReviewClient {
+        if (!ReviewClient.instance) {
+            ReviewClient.instance = new ReviewClient();
+        }
+        return ReviewClient.instance;
     }
 
     likeReview = (reviewId: number) => {
@@ -23,4 +32,4 @@ class ReviewClient extends ApiClient<ReviewDto> {
     };
 }
 
-export default new ReviewClient();
+export default ReviewClient.getInstance();

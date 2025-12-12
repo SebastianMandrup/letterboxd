@@ -1,4 +1,5 @@
 import type { JSX } from 'react';
+import styles from './buttonLetterboxdLetsYou.module.css';
 
 interface ButtonLetterboxLetsYouProps {
     svg: JSX.Element;
@@ -7,9 +8,9 @@ interface ButtonLetterboxLetsYouProps {
 
 function ButtonLetterboxLetsYou({ svg, text }: ButtonLetterboxLetsYouProps) {
     return (
-        <button title={text}>
+        <button title={text} className={styles.button}>
             {svg}
-            <div>{text}</div>
+            <p className={styles.text}>{text}</p>
         </button>
     );
 }

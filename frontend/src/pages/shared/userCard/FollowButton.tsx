@@ -2,9 +2,9 @@ import { useEffect, useState, type FunctionComponent } from 'react';
 import styles from './followButton.module.css';
 import { useToastStore } from '../../../stores/useToastStore';
 import { useUserStore } from '../../../stores/useUserStore';
-import userService from '../../../services/userService';
 import type UserDto from '../../../DTO/UserDto';
 import type PopulatedUserDto from '../../../DTO/PopulatedUserDto';
+import UserClient from '../../../services/UserClient';
 
 interface FollowButtonProps {
     user: UserDto | PopulatedUserDto;
@@ -27,7 +27,7 @@ const FollowButton: FunctionComponent<FollowButtonProps> = ({ user }) => {
         }
 
         try {
-            const response = await userService.followUser(user.id);
+            const response = await UserClient.followUser(user.id);
 
             if (response.error) {
                 addToast(response.error, 'error');

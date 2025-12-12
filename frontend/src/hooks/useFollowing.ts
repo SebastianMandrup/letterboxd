@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import userService from '../services/userService';
+import UserClient from '../services/UserClient';
 
 const useFollowing = (username: string) => {
     return useQuery({
         queryKey: ['following', username],
-        queryFn: () => userService.getFollowing(username),
+        queryFn: () => UserClient.getFollowing(username),
         enabled: !!username,
     });
 };

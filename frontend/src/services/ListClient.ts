@@ -4,8 +4,17 @@ import type CommentDto from '../DTO/CommentDto';
 import type ApiResponse from './ApiResponse.interface';
 
 class ListClient extends ApiClient<ListDto> {
-    constructor() {
+    private static instance: ListClient;
+
+    private constructor() {
         super('/lists');
+    }
+
+    public static getInstance(): ListClient {
+        if (!ListClient.instance) {
+            ListClient.instance = new ListClient();
+        }
+        return ListClient.instance;
     }
 
     getByName(name: string) {
@@ -21,4 +30,4 @@ class ListClient extends ApiClient<ListDto> {
     }
 }
 
-export default new ListClient();
+export default ListClient.getInstance();

@@ -1,4 +1,4 @@
-import useFeaturedMovies from '../../../hooks/useFeaturedMovies';
+import useFeaturedMovies from '../../../hooks/movies/useFeaturedMovies';
 import { getMediumPoster } from '../../../services/getMediumPoster';
 import LoadingMovieCard from '../../shared/movieCard/LoadingMovieCard';
 import ArticleFeaturedMovie from './ArticleFeaturedMovie';

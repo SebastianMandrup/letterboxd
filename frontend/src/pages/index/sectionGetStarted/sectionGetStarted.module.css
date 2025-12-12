@@ -1,13 +1,15 @@
 .sectionGetStarted {
     width: 100%;
     position: relative;
-    top: -100px;
+    top: -60px;
     text-align: center;
-    margin-bottom: -100px;
+    margin-bottom: -90px;
+    padding-bottom: 20px;
 }
 
 .header {
     font-family: var(--fontTwo);
+    font-size: 24px;
 }
 
 .button {
@@ -33,13 +35,25 @@
     justify-content: center;
     align-items: center;
     gap: 6px;
-    margin: 40px 0 20px 0;
+    padding-bottom: 40px;
 }
 
-@media screen and (min-width: 600px) {
-    #sectionGetStarted {
-        h2 {
-            font-size: 2.2rem;
-        }
+@media screen and (min-width: 768px) {
+    .sectionGetStarted {
+        margin-bottom: -70px;
+    }
+
+    .header {
+        font-size: 30px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .sectionGetStarted {
+        margin-bottom: -100px;
+    }
+
+    .header {
+        font-size: 38px;
     }
 }

@@ -1,5 +1,5 @@
 import { useState, type FunctionComponent } from 'react';
-import useMovies from '../../hooks/useMovies';
+import useMovies from '../../hooks/movies/useMovies';
 import MovieCard from '../shared/movieCard/MovieCard';
 import styles from './browseMoviesResults.module.css';
 import { getMediumPoster } from '../../services/getMediumPoster';

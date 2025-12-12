@@ -10,7 +10,6 @@ interface ReviewCardProps {
 }
 
 const ReviewCard: FunctionComponent<ReviewCardProps> = ({ review }) => {
-    console.log('reviewcard', review);
     if (review.review.length > 200) {
         review.review = review.review.slice(0, 200) + '...';
     }

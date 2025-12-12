@@ -1,7 +1,6 @@
 import { useState, type FunctionComponent } from 'react';
 import styles from './createListPage.module.css';
 import type MovieDto from '../../DTO/MovieDto';
-import movieService from '../../services/movieService';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import Plus from '../shared/icons/Plus';
 import Minus from '../shared/icons/Minus';
@@ -9,6 +8,7 @@ import listClient from '../../services/ListClient';
 import { useUserStore } from '../../stores/useUserStore';
 import { BackendError } from '../../services/apiClient';
 import { useToastStore } from '../../stores/useToastStore';
+import MovieClient from '../../services/MovieClient';
 
 const CreateListPage: FunctionComponent = () => {
     const { user } = useUserStore();
@@ -24,7 +24,7 @@ const CreateListPage: FunctionComponent = () => {
     };
 
     const handleMovieSearch = async (query: string) => {
-        const movies = await movieService.getByPartialSlug(query);
+        const movies = await MovieClient.getByPartialSlug(query);
         setSearchedMovies(movies);
     };
 

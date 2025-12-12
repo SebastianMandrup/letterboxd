@@ -1,19 +1,16 @@
 import type { FunctionComponent } from 'react';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
-import useReviews from '../../hooks/useReviews';
 import ReviewCard from '../shared/reviewCard/ReviewCard';
+import usePopularReviewsThisWeek from '../../hooks/reviews/usePopularReviewsThisWeek';
 
 const PopularReviews: FunctionComponent = () => {
-    const { data, error, isLoading } = useReviews({
-        params: {
-            filterBy: 'popularThisWeek',
-            pageSize: 6,
-        },
-    });
+    const { data, error, isLoading } = usePopularReviewsThisWeek();
 
     return (
         <section>
             <SectionHeader title="popular reviews this week" />
+
+            {/* TODO: refactor into single reusable component */}
             {isLoading && (
                 <div className="centeredContainer">
                     <div className="spinner"></div>
