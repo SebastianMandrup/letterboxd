@@ -38,7 +38,7 @@ const addReviewLikeCount = (queryBuilder: SelectQueryBuilder<User>) => {
         .leftJoin('user.reviews', 'review')
         .leftJoin('review.likes', 'reviewLike')
         .addSelect('COUNT(DISTINCT reviewLike.id)', 'reviewLikeCount')
-        .groupBy('user.id');
+        .groupBy('user.id, review.id, reviewLike.id');
 };
 
 const addUserFilter = (queryBuilder: SelectQueryBuilder<User>, filterBy: string) => {
