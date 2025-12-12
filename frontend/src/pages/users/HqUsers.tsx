@@ -1,14 +1,16 @@
 import type { FunctionComponent } from 'react';
-import useUsers from '../../hooks/useUsers';
+import useUsers from '../../hooks/users/useUsers';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import { getApiAvatar } from '../../util/getApiAvatar';
 import styles from './hqUsers.module.css';
 
 const HqUsers: FunctionComponent = () => {
+    // TODO: custom hook for initial data?
     const { data, isLoading, error } = useUsers({
         params: { filterBy: 'hq', pageSize: 10 },
     });
 
+    //TODO combined loading/error state
     if (!data || isLoading || error) {
         return null;
     }

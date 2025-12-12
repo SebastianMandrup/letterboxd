@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useUserStore } from '../stores/useUserStore';
-import AuthClient from '../clients/AuthClient';
+import { useUserStore } from '../../stores/useUserStore';
+import AuthClient from '../../clients/AuthClient';
 
 const authClient = new AuthClient();
 

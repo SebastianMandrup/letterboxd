@@ -1,4 +1,4 @@
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../../hooks/auth/useAuth';
 import PopularReviews from '../../movies/PopularReviews';
 import SectionJustReviewedCards from '../../shared/sectionJustReviewedCards/SectionJustReviewedCards';
 import styles from './sectionJustReviewed.module.css';

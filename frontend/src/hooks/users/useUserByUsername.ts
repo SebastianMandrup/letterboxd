@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import ms from 'ms';
-import type PopulatedUserDto from '../DTO/PopulatedUserDto';
-import UserClient from '../clients/UserClient';
+import type PopulatedUserDto from '../../DTO/PopulatedUserDto';
+import UserClient from '../../clients/UserClient';
 
 export default (username: string) =>
     useQuery<PopulatedUserDto, Error>({

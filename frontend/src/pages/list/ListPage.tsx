@@ -1,10 +1,10 @@
 import type { FunctionComponent } from 'react';
 import { useParams } from 'react-router-dom';
-import useList from '../../hooks/useList';
+import useList from '../../hooks/lists/useList';
 import Backdrop from '../shared/backdrop/Backdrop';
 import { getApiAvatar } from '../../util/getApiAvatar';
 import MovieCard from '../shared/movieCard/MovieCard';
-import CollapseText from '../users/CollapseText';
+import CollapseText from '../shared/collapseText/CollapseText';
 import { getMediumPoster } from '../../util/getMediumPoster';
 import Heart from '../shared/icons/HeartIcon';
 import ListComments from './ListComments';
@@ -16,6 +16,7 @@ const ListPage: FunctionComponent = () => {
 
     const { data: list, isLoading, error } = useList(listName);
 
+    // TODO: loading and error combined component
     if (isLoading) {
         return <LoadingListPage />;
     }

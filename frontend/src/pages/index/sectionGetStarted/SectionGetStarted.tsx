@@ -1,4 +1,4 @@
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../../hooks/auth/useAuth';
 import SocialMediaIcons from '../../shared/icons/SocialMediaIcons';
 import styles from './sectionGetStarted.module.css';
 

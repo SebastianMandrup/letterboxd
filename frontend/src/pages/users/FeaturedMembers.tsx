@@ -1,10 +1,11 @@
 import type { FunctionComponent } from 'react';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
-import useUsers from '../../hooks/useUsers';
+import useUsers from '../../hooks/users/useUsers';
 import FeaturedUserCard from './FeaturedUserCard';
 import styles from './featuredMembers.module.css';
 
 const FeaturedMembers: FunctionComponent = () => {
+    // TODO: custom hook for initial data?
     const { data, isLoading, error } = useUsers({
         params: { sortBy: 'popular', pageSize: 5 },
     });

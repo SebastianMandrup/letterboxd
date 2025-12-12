@@ -45,6 +45,7 @@ const ListComments: FunctionComponent<ListCommentsProps> = ({ listId }) => {
         });
     };
 
+    // TODO: error and loading combined component
     if (error) {
         console.error('Error fetching comments:', error);
         addToast('Error fetching comments', 'error');

@@ -1,13 +1,16 @@
 import type { FunctionComponent } from 'react';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
-import useUsers from '../../hooks/useUsers';
+import useUsers from '../../hooks/users/useUsers';
 import FeaturedUserCard from './FeaturedUserCard';
 import styles from './featuredMembers.module.css';
 
 const PopularMembers: FunctionComponent = () => {
+    // TODO: custom hook for initial data?
     const { data, isLoading, error } = useUsers({
         params: { filterBy: 'featured', pageSize: 5 },
     });
+
+    // TODO combined loading/error state
 
     return (
         <section>

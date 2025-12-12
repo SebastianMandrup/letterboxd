@@ -18,14 +18,14 @@ describe('validateListCreation integration', () => {
         req.body = {
             name: '  My Action List  ',
             description: '  My favorite movies  ',
-            movieIds: [1, 2, 3],
+            movieIds: [1, 2, 3, 4, 5],
         };
 
         validateListCreation(req as Request, res as Response, next);
 
         expect(req.body.name).toBe('my action list'); // trimmed & lowercase
         expect(req.body.description).toBe('My favorite movies'); // trimmed only
-        expect(req.body.movieIds).toEqual([1, 2, 3]); // unchanged
+        expect(req.body.movieIds).toEqual([1, 2, 3, 4, 5]); // unchanged
         expect(next).toHaveBeenCalled();
     });
 

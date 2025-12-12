@@ -4,10 +4,10 @@ import type MovieDto from '../../DTO/MovieDto';
 import MovieCard from '../shared/movieCard/MovieCard';
 import { getMediumPoster } from '../../util/getMediumPoster';
 import Heart from '../shared/icons/HeartIcon';
-import reviewService from '../../clients/ReviewClient';
 import { useToastStore } from '../../stores/useToastStore';
 import type ReviewDto from '../../DTO/ReviewDto';
 import StarRating from './StarRating';
+import useAddReview from '../../hooks/reviews/useAddReview';
 
 interface ReviewModalProps {
     setIsReviewing: (value: boolean) => void;
@@ -20,10 +20,12 @@ const ReviewModal: FunctionComponent<ReviewModalProps> = ({ setIsReviewing, movi
     const [liked, setLiked] = useState(false);
     const [rating, setRating] = useState(0);
     const { addToast } = useToastStore();
+    const addReviewMutation = useAddReview();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // TODO: front end validation
         const formData = new FormData(e.target as HTMLFormElement);
         const review = formData.get('review') as string;
 
@@ -39,15 +41,17 @@ const ReviewModal: FunctionComponent<ReviewModalProps> = ({ setIsReviewing, movi
             isLiked: liked,
         };
 
-        try {
-            const newReview = await reviewService.create(reviewData);
-            setReviews([newReview, ...reviews]);
-            setIsReviewing(false);
-        } catch (error) {
-            console.error('Error creating review:', error);
-            const message = (error as Error).message || 'Error creating review';
-            addToast(message, 'error');
-        }
+        addReviewMutation.mutate(reviewData, {
+            onSuccess: (response) => {
+                setReviews([...reviews, response.data]);
+                addToast('Review added successfully!', 'success');
+                setIsReviewing(false);
+            },
+            onError: (error) => {
+                console.error('Error adding review:', error);
+                addToast(error.message, 'error');
+            },
+        });
     };
 
     return (

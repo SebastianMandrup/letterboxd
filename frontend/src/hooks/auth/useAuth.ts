@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, useRef } from 'react';
-import AuthClient from '../clients/AuthClient';
-import { useUserStore } from '../stores/useUserStore';
+import AuthClient from '../../clients/AuthClient';
+import { useUserStore } from '../../stores/useUserStore';
 
 const authClient = new AuthClient();
 

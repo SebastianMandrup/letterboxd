@@ -37,7 +37,7 @@ listRouter.post('/', authenticateUser, validateListCreation, async (req, res, ne
 
         await listRepository.save(newList);
 
-        res.status(201).send({ message: 'List created successfully', list: newList });
+        res.status(201).send({ message: 'List created successfully', data: newList });
     } catch (error) {
         console.error('Error creating new list:', error);
         next(error);

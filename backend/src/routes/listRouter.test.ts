@@ -102,14 +102,14 @@ describe('listRouter', () => {
             const listData = {
                 name: 'My New List',
                 description: 'A great list',
-                movieIds: [1, 2, 3],
+                movieIds: [1, 2, 3, 4, 5],
             };
 
             const createdList = {
                 id: 1,
                 ...listData,
                 user: { id: 1, username: 'testuser' },
-                movies: [{ id: 1 }, { id: 2 }, { id: 3 }],
+                movies: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
             };
 
             mockListRepository.create.mockReturnValue(createdList);
@@ -119,7 +119,7 @@ describe('listRouter', () => {
 
             expect(res.status).toBe(201);
             expect(res.body.message).toBe('List created successfully');
-            expect(res.body.list).toEqual(createdList);
+            expect(res.body.data).toEqual(createdList);
             expect(mockListRepository.create).toHaveBeenCalled();
             expect(mockListRepository.save).toHaveBeenCalled();
         });

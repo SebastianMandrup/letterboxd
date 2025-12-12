@@ -1,6 +1,7 @@
 import axios, { type AxiosRequestConfig } from 'axios';
 import type PaginatedResponse from '../DTO/PaginatedResponse';
 import type { ApiError } from './ApiError';
+import type ApiResponse from './ApiResponse.interface';
 
 abstract class ApiClient<T, V = Partial<T>> {
     protected endpoint: string;
@@ -31,7 +32,7 @@ abstract class ApiClient<T, V = Partial<T>> {
 
     delete = (id: number) => this.axiosInstance.delete<T>(`${this.endpoint}/${id}`).then((res) => res.data);
 
-    create = (data: V) => this.axiosInstance.post<T>(this.endpoint, data).then((res) => res.data);
+    create = (data: V) => this.axiosInstance.post<ApiResponse<T>>(this.endpoint, data).then((res) => res.data);
 
     update = (id: number, data: Partial<T>) => this.axiosInstance.put<T>(`${this.endpoint}/${id}`, data).then((res) => res.data);
 }

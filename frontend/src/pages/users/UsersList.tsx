@@ -1,13 +1,15 @@
 import type { FunctionComponent } from 'react';
-import useUsers from '../../hooks/useUsers';
+import useUsers from '../../hooks/users/useUsers';
 import styles from './usersList.module.css';
 import UserCard from '../shared/userCard/UserCard';
 
 const UsersList: FunctionComponent = () => {
+    // TODO: custom hook for initial data?
     const { data, isLoading, error } = useUsers({
         params: { sortBy: 'popular', pageSize: 20 },
     });
 
+    // TODO combined loading/error state
     return (
         <section>
             {isLoading && (

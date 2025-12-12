@@ -4,7 +4,7 @@ import LoggingInHeader from './LoggingInHeader';
 import LoggedInHeader from './LoggedInHeader';
 import SignUpModal from '../signUpModal/SignUpModal';
 import styles from './header.module.css';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../../hooks/auth/useAuth';
 import { useUserStore } from '../../../stores/useUserStore';
 import { ToastContainer } from '../toast/ToastContainer';
 import { useToastStore } from '../../../stores/useToastStore';

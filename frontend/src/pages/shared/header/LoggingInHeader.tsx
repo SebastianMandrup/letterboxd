@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './loggingInHeader.module.css';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../../hooks/auth/useAuth';
 import { useToastStore } from '../../../stores/useToastStore';
 
 interface LoggingInHeaderProps {

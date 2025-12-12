@@ -1,5 +1,6 @@
 import type { FunctionComponent } from 'react';
 import styles from './backdrop.module.css';
+import LoadingBackdrop from './LoadingBackdrop';
 
 interface BackdropProps {
     src: string;
@@ -7,6 +8,10 @@ interface BackdropProps {
 }
 
 const Backdrop: FunctionComponent<BackdropProps> = ({ src, title }) => {
+    if (!src || !title) {
+        return <LoadingBackdrop />;
+    }
+
     const overlay = title.toUpperCase();
 
     return (

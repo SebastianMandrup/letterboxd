@@ -1,6 +1,6 @@
 import type { FunctionComponent } from 'react';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
-import useLists from '../../hooks/useLists';
+import useLists from '../../hooks/lists/useLists';
 import ListCard from '../shared/listCard/ListCard';
 import styles from './listsPage.module.css';
 import AdBanner from '../shared/adBanner/AdBanner';

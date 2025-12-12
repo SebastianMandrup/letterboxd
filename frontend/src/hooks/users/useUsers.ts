@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 import ms from 'ms';
-import type PaginatedResponse from '../DTO/PaginatedResponse';
-import type UserDto from '../DTO/UserDto';
-import UserClient from '../clients/UserClient';
+import type PaginatedResponse from '../../DTO/PaginatedResponse';
+import type UserDto from '../../DTO/UserDto';
+import UserClient from '../../clients/UserClient';
 
 export default (config: AxiosRequestConfig) =>
     useQuery<PaginatedResponse<UserDto>, Error>({

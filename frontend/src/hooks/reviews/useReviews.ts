@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import type { AxiosRequestConfig } from 'axios';
 import ms from 'ms';
-import type PaginatedResponse from '../DTO/PaginatedResponse';
-import type ReviewDto from '../DTO/ReviewDto';
-import reviewService from '../clients/ReviewClient';
+import type PaginatedResponse from '../../DTO/PaginatedResponse';
+import type ReviewDto from '../../DTO/ReviewDto';
+import reviewService from '../../clients/ReviewClient';
 
 export default (config: AxiosRequestConfig) =>
     useQuery<PaginatedResponse<ReviewDto>, Error>({

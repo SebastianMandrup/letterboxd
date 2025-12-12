@@ -7,6 +7,7 @@ import styles from './popularReviewsAside.module.css';
 import SectionPopularReviewers from '../shared/sectionPopularReviewers/SectionPopularReviewers';
 
 const PopularReviewsAside: FunctionComponent = () => {
+    // TODO: custom hook for initial data?
     const crewPickMovies = useMovies({
         params: { crewPicks: true, pageSize: 6 },
     });

@@ -5,6 +5,7 @@ import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import styles from './popularMovies.module.css';
 
 const PopularMovies = () => {
+    // TODO: custom hook for initial data?
     const { data, error, isLoading } = useMovies({
         params: { popularThisWeek: true },
     });

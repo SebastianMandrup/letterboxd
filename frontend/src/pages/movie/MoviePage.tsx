@@ -13,55 +13,41 @@ import ReviewModal from './ReviewModal';
 import type ReviewDto from '../../DTO/ReviewDto';
 import Eye from '../shared/icons/EyeIcon';
 import { useToastStore } from '../../stores/useToastStore';
-import MovieClient from '../../clients/MovieClient';
+import useViewMovie from '../../hooks/movies/useViewMovie';
 
 function MoviePage() {
     const title = useParams().title || '';
-
     const { isAuthenticated } = useUserStore();
-
     const { addToast } = useToastStore();
-
     const { data: movie, error, isLoading } = useMovieByTitle(title);
+    const viewMovieMutation = useViewMovie();
 
     const [isReviewing, setIsReviewing] = useState(false);
-
     const [reviews, setReviews] = useState<ReviewDto[]>([]);
-
     const [isViewed, setIsViewed] = useState(false);
 
     useEffect(() => {
-        console.log('Movie data changed:', movie);
-        if (movie && movie.reviews) {
-            setReviews(movie.reviews);
-        }
-        if (movie && movie.isViewed) {
-            setIsViewed(movie.isViewed);
-        }
+        if (!movie || !movie.reviews || !movie.isViewed) return;
+        setReviews(movie.reviews);
+        setIsViewed(movie.isViewed);
     }, [movie]);
 
     const handleView = async () => {
         if (!movie) return;
 
-        try {
-            const response = await MovieClient.viewMovie(movie.id);
-
-            if (response.message === 'Movie viewed successfully') {
-                setIsViewed(true);
-                addToast('Movie marked as viewed!', 'success');
-            }
-
-            if (response.message === 'Movie view removed successfully') {
-                setIsViewed(false);
-                addToast('Movie unmarked as viewed!', 'success');
-            }
-        } catch {
-            addToast('Failed to update view status.', 'error');
-        }
+        viewMovieMutation.mutate(movie.id, {
+            onSuccess: () => {
+                setIsViewed((prev) => !prev);
+                addToast(isViewed ? 'Marked as unviewed' : 'Marked as viewed', 'success');
+            },
+            onError: (error) => {
+                console.error('Error marking movie as viewed:', error);
+                addToast(error.message, 'error');
+            },
+        });
     };
 
-    if (!title) return <p>No movie title provided.</p>;
-
+    // TODO: loading and error combined component
     if (isLoading) {
         return <p>Loading...</p>;
     }

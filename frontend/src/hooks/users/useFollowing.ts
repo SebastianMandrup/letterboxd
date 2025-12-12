@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import UserClient from '../clients/UserClient';
+import UserClient from '../../clients/UserClient';
 
 const useFollowing = (username: string) => {
     return useQuery({

@@ -1,6 +1,6 @@
 import { useState, type FunctionComponent } from 'react';
 import styles from './userPage.module.css';
-import useUserByUsername from '../../hooks/useUserByUsername';
+import useUserByUsername from '../../hooks/users/useUserByUsername';
 import { useParams } from 'react-router-dom';
 import Backdrop from '../shared/backdrop/Backdrop';
 import { getApiAvatar } from '../../util/getApiAvatar';
@@ -11,8 +11,8 @@ import DefaultUserContent from './content/DefaultUserContent';
 import WatchedMoviesUserContent from './content/WatchedMoviesUserContent';
 import ListsUserContent from './content/ListsUserContent';
 import ReviewsUserContent from './content/ReviewsUserContent';
-import useFollowers from '../../hooks/useFollowers';
-import useFollowing from '../../hooks/useFollowing';
+import useFollowers from '../../hooks/users/useFollowers';
+import useFollowing from '../../hooks/users/useFollowing';
 import LoadingUserPage from './LoadingUserPage';
 
 const UserPage: FunctionComponent = () => {
@@ -50,9 +50,9 @@ const UserPage: FunctionComponent = () => {
     return (
         <>
             {lastWatchedMovie && lastWatchedMovie.backdropUrl ? (
-                <Backdrop src={lastWatchedMovie.backdropUrl || ''} alt={lastWatchedMovie.title} caption={lastWatchedMovie.title} />
+                <Backdrop src={lastWatchedMovie.backdropUrl || ''} title={lastWatchedMovie.title} />
             ) : (
-                <Backdrop src="/default-backdrop.jpg" alt={lastWatchedMovie ? lastWatchedMovie.title : ''} caption="" />
+                <Backdrop src="/default-backdrop.jpg" title="default" />
             )}
             <section className={styles.userSection}>
                 <div className={styles.avatarContainer}>

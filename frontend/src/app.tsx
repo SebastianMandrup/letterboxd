@@ -8,7 +8,7 @@ import Layout from './Layout';
 import UsersPage from './pages/users/UsersPage';
 import UserPage from './pages/user/UserPage';
 import ListPage from './pages/list/ListPage';
-import { useRestoreUser } from './hooks/useRestoreUser';
+import { useRestoreUser } from './hooks/auth/useRestoreUser';
 import CreateListPage from './pages/create-list/CreateListPage';
 import AuthLayout from './AuthLayout';
 
