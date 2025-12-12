@@ -95,6 +95,7 @@ export class Movie {
     @ManyToMany(() => Genre, (genre) => genre.movies)
     @JoinTable()
     genres: Genre[];
+
     @ManyToMany(() => Language, (language) => language.movies)
     @JoinTable()
     languages: Language[];

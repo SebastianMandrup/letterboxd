@@ -7,7 +7,6 @@ export default (title: string) =>
     useQuery<Movie, Error>({
         queryKey: ['movies', title],
         queryFn: () => MovieClient.getByTitle(title),
-        // initialData: featuredMovies,
         staleTime: ms('24 hours'),
         gcTime: ms('24 hours'),
     });

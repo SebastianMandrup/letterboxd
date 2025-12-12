@@ -1,0 +1,37 @@
+.sectionAside {
+    display: none;
+    position: sticky;
+    top: 4px;
+    margin-left: 80px;
+}
+
+.sectionAside > button {
+    width: 100%;
+    height: auto;
+    border: none;
+}
+
+.videoContainer {
+    background-color: var(--darkestGrey);
+    margin-top: 12px;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    /* 16:9 aspect ratio */
+    position: relative;
+}
+
+.trailerIframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@media screen and (min-width: 768px) {
+    .sectionAside {
+        display: block;
+    }
+}

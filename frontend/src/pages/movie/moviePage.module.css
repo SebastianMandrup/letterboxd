@@ -1,27 +1,14 @@
 .sectionMovieDetails {
-    width: var(--mainWidth);
     margin: 0 auto;
     margin-top: -100px;
     display: grid;
-    grid-template-columns: 30% auto;
+    grid-template-columns: 1fr;
     gap: 20px;
     padding: 40px;
     position: relative;
     overflow: hidden;
     background-color: rgba(20, 24, 28, 0.9);
     min-height: 30vh;
-}
-
-.sectionPoster {
-    position: sticky;
-    top: 4px;
-    margin-left: 80px;
-
-    button {
-        width: 240px;
-        height: auto;
-        border: none;
-    }
 }
 
 .sectionMain {
@@ -31,12 +18,14 @@
 }
 
 .sectionFirstContent {
-    display: grid;
-    grid-template-columns: 60% 40%;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 20px;
 }
 
 .headerMovieDetails {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     display: flex;
     flex-direction: row;
 }
@@ -53,8 +42,32 @@
     color: var(--lightGrey);
     margin: auto 0 4px 0;
     font-size: 1.2rem;
-    text-decoration: underline;
     font-weight: 300;
+}
+
+.pMovieTagline {
+    font-style: italic;
+    color: var(--grey);
+    margin-bottom: 12px;
+    font-size: 1rem;
+    font-family: var(--fontThree);
+}
+
+.sectionMovieGenres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.linkGenre {
+    background-color: var(--darkerGrey);
+    color: var(--lightGrey);
+    padding: 4px 8px;
+    border-radius: var(--smallBorderRadius);
+    font-size: 0.9rem;
+    font-family: var(--fontThree);
+    text-decoration: none;
 }
 
 .pMovieOverview {
@@ -68,43 +81,12 @@
     margin-top: 40px;
 }
 
-.divButtonsMoviePage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.buttonLogRateReview,
-.buttonView,
-.buttonReview,
-.buttonShareMovie {
-    background-color: var(--darkerGrey);
-    color: var(--lightGrey);
-    width: 220px;
-    height: 40px;
-    border: 1px solid var(--darkestGrey);
-    font-size: 0.8rem;
-
-    &:hover {
-        background-color: var(--darkGrey);
-        cursor: pointer;
+@media screen and (min-width: 768px) {
+    .sectionFirstContent {
+        flex-direction: row;
     }
-}
 
-.buttonView {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.buttonLogRateReview,
-.buttonView {
-    border-radius: var(--mediumBorderRadius) var(--mediumBorderRadius) 0 0;
-    border-bottom: none;
-}
-
-.buttonShareMovie {
-    border-radius: 0 0 var(--mediumBorderRadius) var(--mediumBorderRadius);
+    .sectionMovieDetails {
+        grid-template-columns: 30% auto;
+    }
 }
