@@ -1,6 +1,7 @@
 import axios, { type AxiosRequestConfig } from 'axios';
 import type PaginatedResponse from '../DTO/PaginatedResponse';
 import type ApiResponse from './ApiResponse.interface';
+import { getCsrfToken, fetchCsrfToken } from '../util/csrf';
 
 abstract class ApiClient<T, V = Partial<T>> {
     protected endpoint: string;
@@ -12,6 +13,26 @@ abstract class ApiClient<T, V = Partial<T>> {
             baseURL: import.meta.env['VITE_API_URL'],
             withCredentials: true,
         });
+
+        // Add request interceptor to include CSRF token
+        this.axiosInstance.interceptors.request.use(
+            async (config) => {
+                // Only add CSRF token for state-changing methods
+                if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(config.method?.toUpperCase() || '')) {
+                    let token = getCsrfToken();
+                    if (!token) {
+                        token = await fetchCsrfToken();
+                    }
+                    if (token) {
+                        config.headers['x-csrf-token'] = token;
+                    }
+                }
+                return config;
+            },
+            (error) => {
+                return Promise.reject(error);
+            }
+        );
     }
 
     getAll = (config?: AxiosRequestConfig) => this.axiosInstance.get<PaginatedResponse<T>>(this.endpoint, config).then((res) => res.data);

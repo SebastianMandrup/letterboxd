@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import App from './app';
 import './main.css';
+import { fetchCsrfToken } from './util/csrf';
 
 // Initialize Sentry
 if (import.meta.env.VITE_SENTRY_DSN) {
@@ -37,6 +38,11 @@ const queryClient = new QueryClient({
             gcTime: ms('15 minutes'),
         },
     },
+});
+
+// Fetch CSRF token on app initialization
+fetchCsrfToken().catch((error) => {
+    console.error('Failed to fetch initial CSRF token:', error);
 });
 
 createRoot(document.getElementById('root')!).render(

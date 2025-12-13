@@ -4,10 +4,33 @@ import 'express-session';
 import { AppDataSource } from '../startup/data-source';
 import { User } from '../entities/User';
 import { ApiError } from '../interfaces/ApiError';
+import { generateToken } from '../middleware/csrfProtection';
 
 const authRouter = Router();
 
 const userRepository = AppDataSource.getRepository(User);
+
+/**
+ * @swagger
+ * /auth/csrf-token:
+ *   get:
+ *     summary: Get CSRF token
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: CSRF token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ */
+authRouter.get('/csrf-token', (req, res) => {
+    const token = generateToken(req, res);
+    res.json({ token });
+});
 
 /**
  * @swagger
