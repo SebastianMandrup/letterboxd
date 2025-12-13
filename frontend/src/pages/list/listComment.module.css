@@ -7,6 +7,12 @@
     border-bottom: 1px solid var(--darkestGrey);
 }
 
+.comment:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
 .userInfo {
     display: flex;
     align-items: center;

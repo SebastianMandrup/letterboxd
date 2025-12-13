@@ -7,24 +7,32 @@ import AdBanner from '../shared/adBanner/AdBanner';
 import ListCardWithData from '../shared/listCard/ListCardWithData';
 import ListCardWithDescription from '../shared/listCard/ListCardWithDescription';
 import { useUserStore } from '../../stores/useUserStore';
+import LoadingListCard from '../shared/listCard/LoadingListCard';
+import LoadingListCardWithData from '../shared/listCard/LoadingListCardWithData';
+import LoadingListCardWithDescription from '../shared/listCard/LoadingListCardWithDescription';
 
 const ListsPage: FunctionComponent = () => {
     const user = useUserStore((state) => state.user);
 
+    const numberOfFeaturedListsToShow = 4;
+    const numberOfPopularListsToShow = 3;
+    const numberOfRecentlyLikedListsToShow = 10;
+    const numberOfCrewPicksListsToShow = 10;
+
     const featuredLists = useLists({
-        params: { filterBy: 'featured', pageSize: 10 },
+        params: { filterBy: 'featured', pageSize: numberOfFeaturedListsToShow },
     });
 
     const popularLists = useLists({
-        params: { sortBy: 'popularity', pageSize: 3 },
+        params: { sortBy: 'popularity', pageSize: numberOfPopularListsToShow },
     });
 
     const recentlyLikedLists = useLists({
-        params: { sortBy: 'recentlyLiked', pageSize: 10 },
+        params: { sortBy: 'recentlyLiked', pageSize: numberOfRecentlyLikedListsToShow },
     });
 
     const crewPicksLists = useLists({
-        params: { filterBy: 'crewPicks', pageSize: 10 },
+        params: { filterBy: 'crewPicks', pageSize: numberOfCrewPicksListsToShow },
     });
 
     return (
@@ -42,22 +50,38 @@ const ListsPage: FunctionComponent = () => {
             </header>
             <SectionHeader title="featured lists" subtitle="ALL" link="./lists/featured" />
             <section className={styles.featuredListsSection}>
-                {featuredLists.data && featuredLists.data.results.map((list) => <ListCard key={list.id} list={list} />)}
+                {featuredLists.data ? (
+                    featuredLists.data.results.map((list) => <ListCard key={list.id} list={list} />)
+                ) : (
+                    <LoadingListCard count={numberOfFeaturedListsToShow} />
+                )}
             </section>
             <AdBanner />
             <SectionHeader title="popular this week" subtitle="MORE" link="./lists/featured" />
             <section className={styles.featuredListsSection}>
-                {popularLists.data && popularLists.data.results.map((list) => <ListCardWithData key={list.id} list={list} large withLikesAndComments />)}
+                {popularLists.data ? (
+                    popularLists.data.results.map((list) => <ListCardWithData key={list.id} list={list} large withLikesAndComments />)
+                ) : (
+                    <LoadingListCardWithData count={numberOfPopularListsToShow} />
+                )}
             </section>
             <div id={styles.divRecentlyLikedAndCrewPicks}>
                 <section>
                     <SectionHeader title="recently liked lists" />
-                    {recentlyLikedLists.data && recentlyLikedLists.data.results.map((list) => <ListCardWithDescription key={list.id} list={list} />)}
+                    {recentlyLikedLists.data ? (
+                        recentlyLikedLists.data.results.map((list) => <ListCardWithDescription key={list.id} list={list} />)
+                    ) : (
+                        <LoadingListCardWithDescription count={numberOfRecentlyLikedListsToShow} />
+                    )}
                 </section>
                 <section>
                     <SectionHeader title="crew picks" />
                     <div className={styles.crewPicksLists}>
-                        {crewPicksLists.data && crewPicksLists.data.results.map((list) => <ListCardWithData key={list.id} list={list} large />)}
+                        {crewPicksLists.data ? (
+                            crewPicksLists.data.results.map((list) => <ListCardWithData key={list.id} list={list} large />)
+                        ) : (
+                            <LoadingListCardWithData count={numberOfCrewPicksListsToShow} />
+                        )}
                     </div>
                 </section>
             </div>

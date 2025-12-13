@@ -35,7 +35,9 @@ const ListPage: FunctionComponent = () => {
                         <img className={styles.avatar} src={getApiAvatar(list.user.username)} alt={`${list.user.username}'s avatar`} />
                         <p>
                             List by
-                            <span className={styles.username}>{list.user.username}</span>
+                            <a href={`/user/${list.user.username}`} className={styles.username}>
+                                {list.user.username}
+                            </a>
                         </p>
                     </div>
                     <div className={styles.publishDate}>
@@ -72,7 +74,7 @@ const ListPage: FunctionComponent = () => {
                     <div className={styles.sidebarButtons}>
                         <ListLikeButton listId={list.id} likeCount={list.likeCount} isLiked={list.isLiked} />
                         <button className={styles.cloneButton}>
-                            Go <span>PRO</span> to clone
+                            Go <span className={styles.proText}>PRO</span> to clone
                         </button>
                         <button className={styles.shareButton}>Share</button>
                     </div>

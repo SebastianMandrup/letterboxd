@@ -38,7 +38,12 @@
 .username {
     margin-left: 5px;
     font-weight: 600;
-    color: var(--lighterBlue);
+    color: var(--lightBlue);
+    text-decoration: none;
+}
+
+.username:hover {
+    text-decoration: underline;
 }
 
 .loadingUsername {
@@ -163,6 +168,11 @@
 .cloneButton {
     border-radius: 0;
     border-bottom: 1px solid var(--darkGrey);
+}
+
+.proText {
+    color: var(--lightBlue);
+    font-weight: 600;
 }
 
 .shareButton {
