@@ -9,6 +9,18 @@ const VITE_API_URL = process.env.VITE_API_URL;
 const fetchWithCookies = fetchCookie(fetch);
 
 describe('Auth API Integration', () => {
+    // Store CSRF token between tests
+    let csrfToken: string | null = null;
+
+    // Helper to get CSRF token
+    async function getCsrfToken(): Promise<string> {
+        const res = await fetchWithCookies(`${VITE_API_URL}/auth/csrf-token`, {
+            method: 'GET',
+        });
+        const data: any = await res.json();
+        return data.csrfToken;
+    }
+
     it('registers a user successfully', async () => {
         const res = await fetchWithCookies(`${VITE_API_URL}/users`, {
             method: 'POST',
@@ -35,9 +47,26 @@ describe('Auth API Integration', () => {
         expect(data.message).toBe('Logged in successfully');
     });
 
-    it('logs the user out successfully', async () => {
+    it('gets CSRF token for logout', async () => {
+        // Get CSRF token after login (important: cookies are preserved)
+        csrfToken = await getCsrfToken();
+        expect(csrfToken).toBeDefined();
+        expect(typeof csrfToken).toBe('string');
+        expect(csrfToken.length).toBeGreaterThan(0);
+    });
+
+    it('logs the user out successfully with CSRF protection', async () => {
+        // Ensure we have a CSRF token
+        if (!csrfToken) {
+            csrfToken = await getCsrfToken();
+        }
+
         const res = await fetchWithCookies(`${VITE_API_URL}/auth/logout`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken!,
+            },
         });
         const data: any = await res.json();
         expect(res.status).toBe(200);

@@ -15,12 +15,9 @@ abstract class ApiClient<T, V = Partial<T>> {
         });
 
         // Add request interceptor to include CSRF token
-        this.axiosInstance.interceptors.request.use(
-            csrfTokenInterceptor,
-            (error) => {
-                return Promise.reject(error);
-            }
-        );
+        this.axiosInstance.interceptors.request.use(csrfTokenInterceptor, (error) => {
+            return Promise.reject(error);
+        });
     }
 
     getAll = (config?: AxiosRequestConfig) => this.axiosInstance.get<PaginatedResponse<T>>(this.endpoint, config).then((res) => res.data);

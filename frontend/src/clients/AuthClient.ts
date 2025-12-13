@@ -15,12 +15,9 @@ const axiosInstance = axios.create({
 });
 
 // Add request interceptor to include CSRF token
-axiosInstance.interceptors.request.use(
-    csrfTokenInterceptor,
-    (error) => {
-        return Promise.reject(error);
-    }
-);
+axiosInstance.interceptors.request.use(csrfTokenInterceptor, (error) => {
+    return Promise.reject(error);
+});
 
 class AuthClient {
     me = () => axiosInstance.get<UserDto>('/me').then((res) => res.data);
@@ -32,19 +29,19 @@ class AuthClient {
                 user: UserDto;
             }>('/login', data)
             .then((res) => res.data);
-        
+
         // Fetch CSRF token after successful login
         await fetchCsrfToken();
-        
+
         return result;
     };
 
     logout = async () => {
         const result = await axiosInstance.post('/logout').then((res) => res.data);
-        
+
         // Clear CSRF token after logout
         clearCsrfToken();
-        
+
         return result;
     };
 }
