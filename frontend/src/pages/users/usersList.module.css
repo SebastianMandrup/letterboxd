@@ -14,3 +14,11 @@
 .userItem:last-child {
     border-bottom: none;
 }
+
+.error,
+.loading {
+    color: var(--grey);
+    text-align: center;
+    margin: 20px 0;
+    font-style: italic;
+}

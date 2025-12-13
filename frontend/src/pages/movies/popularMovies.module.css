@@ -6,21 +6,28 @@
     overflow-y: hidden;
     gap: 16px;
     padding-bottom: 10px;
+    height: 200px;
 
-    scrollbar-color: #888 transparent;
+    scrollbar-color: var(--grey) transparent;
 
     li {
+        div,
         button {
             margin: 4px;
             height: 175px;
-            width: 120px;
+            min-width: 120px;
         }
     }
 }
 
 @media screen and (min-width: 800px) {
-    .ulPopularMovies li button {
-        height: 350px;
-        width: 240px;
+    .ulPopularMovies {
+        height: 420px;
+    }
+
+    .ulPopularMovies li button,
+    .ulPopularMovies li div {
+        height: 400px;
+        min-width: 240px;
     }
 }

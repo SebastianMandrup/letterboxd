@@ -1,5 +1,5 @@
 .noReviews {
-    padding: 20px;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--grey);
+    font-style: italic;
 }

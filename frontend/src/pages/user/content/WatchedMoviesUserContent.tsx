@@ -14,7 +14,7 @@ const WatchedMovies: FunctionComponent<WatchedMoviesProps> = ({ views }) => {
         <section>
             <SectionHeader title="Watched Movies" />
             {views.length === 0 ? (
-                <p>This user has not watched any movies yet.</p>
+                <p className={styles.noMoviesMessage}>This user has not watched any movies yet.</p>
             ) : (
                 <ul className={styles.movieList}>
                     {views.map((view) => (

@@ -1,29 +1,42 @@
-import { useState, type FunctionComponent } from 'react';
+import { useRef, useState, type FunctionComponent } from 'react';
 import styles from './createListPage.module.css';
 import type MovieDto from '../../DTO/MovieDto';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import Plus from '../shared/icons/Plus';
 import Minus from '../shared/icons/Minus';
 import { useToastStore } from '../../stores/useToastStore';
-import MovieClient from '../../clients/MovieClient';
 import useCreateList from '../../hooks/lists/useCreateList';
+import useMoviesByPartialSlug from '../../hooks/movies/useMoviesByPartialSlug';
 
 const CreateListPage: FunctionComponent = () => {
     const [moviesToAdd, setMoviesToAdd] = useState<MovieDto[]>([]);
-    const [searchedMovies, setSearchedMovies] = useState<MovieDto[]>([]);
     const { addToast } = useToastStore();
     const createListMutation = useCreateList();
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const moviesQuery = useMoviesByPartialSlug(searchTerm);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const handleAddMovie = (movie: MovieDto) => {
         if (moviesToAdd.find((m) => m.id === movie.id)) {
             return;
         }
         setMoviesToAdd([...moviesToAdd, movie]);
+
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+        }
+        setSearchTerm('');
     };
 
-    const handleMovieSearch = async (query: string) => {
-        const movies = await MovieClient.getByPartialSlug(query);
-        setSearchedMovies(movies);
+    const handleSearchTermChange = (value: string) => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        timeoutRef.current = setTimeout(() => {
+            setSearchTerm(value);
+        }, 2000);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -56,18 +69,18 @@ const CreateListPage: FunctionComponent = () => {
                 <div className={styles.listDetails}>
                     <label>
                         Name
-                        <input name="name" type="text" />
+                        <input name="name" type="text" placeholder="List Name" />
                     </label>
                     <label>
                         Description
-                        <textarea name="description" />
+                        <textarea name="description" placeholder="List Description" />
                     </label>
                     <label>
                         Add Movie
-                        <input name="addMovie" type="text" onChange={(e) => handleMovieSearch(e.target.value)} />
+                        <input name="addMovie" type="text" onChange={(e) => handleSearchTermChange(e.target.value)} placeholder="Search for movies to add" />
                     </label>
                     <div className={styles.addMovieSection}>
-                        {searchedMovies.map((movie) => (
+                        {moviesQuery.data?.map((movie) => (
                             <div key={movie.id} className={styles.searchedMovie}>
                                 <span>{movie.title}</span>
                                 <button
@@ -76,7 +89,7 @@ const CreateListPage: FunctionComponent = () => {
                                     title="Add movie to list"
                                     onClick={() => {
                                         handleAddMovie(movie);
-                                        setSearchedMovies([]);
+                                        setSearchTerm('');
                                         (document.getElementsByName('addMovie')[0] as HTMLInputElement).value = '';
                                     }}
                                 >
@@ -84,6 +97,11 @@ const CreateListPage: FunctionComponent = () => {
                                 </button>
                             </div>
                         ))}
+                        {moviesQuery.error && (
+                            <div className={styles.errorContainer}>
+                                <p className={styles.errorMessage}>{moviesQuery.error.message}</p>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <section className={styles.movieList}>

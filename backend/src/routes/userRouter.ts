@@ -186,6 +186,20 @@ userRouter.get('/:username/following', async (req, res, next) => {
 userRouter.post('/', validateUserCreation, async (req, res, next: NextFunction) => {
     try {
         const { username, password, email } = req.body;
+
+        const existingUser = await userRepository.findOne({
+            where: [{ username }, { email }],
+        });
+
+        if (existingUser) {
+            if (existingUser.username === username) {
+                throw new ApiError('Username already taken', 409);
+            }
+            if (existingUser.email === email) {
+                throw new ApiError('Email already registered', 409);
+            }
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = userRepository.create({
             username,
@@ -195,7 +209,16 @@ userRouter.post('/', validateUserCreation, async (req, res, next: NextFunction) 
         });
 
         await userRepository.save(newUser);
-        res.status(201).send({ message: 'User created successfully' });
+
+        res.status(201).json({
+            success: true,
+            message: 'User created successfully',
+            data: {
+                id: newUser.id,
+                username: newUser.username,
+                email: newUser.email,
+            },
+        });
     } catch (error) {
         console.error('Error creating new user:', error);
         next(error);

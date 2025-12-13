@@ -2,6 +2,7 @@ import type { FunctionComponent } from 'react';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import ReviewCard from '../shared/reviewCard/ReviewCard';
 import usePopularReviewsThisWeek from '../../hooks/reviews/usePopularReviewsThisWeek';
+import LoadingMovieCard from '../shared/movieCard/LoadingMovieCard';
 
 const PopularReviews: FunctionComponent = () => {
     const { data, error, isLoading } = usePopularReviewsThisWeek();
@@ -10,15 +11,7 @@ const PopularReviews: FunctionComponent = () => {
         <section>
             <SectionHeader title="popular reviews this week" />
 
-            {/* TODO: refactor into single reusable component */}
-            {isLoading && (
-                <div className="centeredContainer">
-                    <div className="spinner"></div>
-                </div>
-            )}
-
-            {error || !data ? <p>Failed to load popular reviews.</p> : null}
-
+            {isLoading || error || !data ? Array.from({ length: 3 }).map((_, index) => <LoadingMovieCard key={index} />) : null}
             {data && data.results.map((review) => <ReviewCard key={review.id} review={review} />)}
         </section>
     );

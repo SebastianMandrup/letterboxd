@@ -9,20 +9,19 @@ const SectionFeaturedMovies = () => {
 
     return (
         <section id={styles.sectionFeaturedMovies}>
-            {error && <p>Error loading featured movies.</p>}
+            {(error || isLoading) && Array.from({ length: 6 }).map((_, index) => <LoadingMovieCard key={index} />)}
 
-            {isLoading && Array.from({ length: 6 }).map((_, index) => <LoadingMovieCard key={index} />)}
-
-            {(data?.results ?? []).map((movie, index) => (
-                <ArticleFeaturedMovie
-                    title={movie.title}
-                    key={index}
-                    src={getMediumPoster(movie.posterPath)}
-                    alt={`post of ${movie.title}`}
-                    viewCount={movie.viewCount ?? 0}
-                    likeCount={movie.likeCount ?? 0}
-                />
-            ))}
+            {data &&
+                (data.results ?? []).map((movie, index) => (
+                    <ArticleFeaturedMovie
+                        title={movie.title}
+                        key={index}
+                        src={getMediumPoster(movie.posterPath)}
+                        alt={`post of ${movie.title}`}
+                        viewCount={movie.viewCount ?? 0}
+                        likeCount={movie.likeCount ?? 0}
+                    />
+                ))}
         </section>
     );
 };

@@ -13,9 +13,7 @@ const ListsUserContent: FunctionComponent<ListsUserContentProps> = ({ lists }) =
         <section>
             <SectionHeader title="Lists" />
             {lists.length === 0 ? (
-                <div className="centeredContainer">
-                    <p className={styles.noLists}>This user has not created any lists yet.</p>
-                </div>
+                <p className={styles.noLists}>This user has not created any lists yet.</p>
             ) : (
                 lists.map((list) => <ListCardWithDescription key={list.id} list={list} />)
             )}

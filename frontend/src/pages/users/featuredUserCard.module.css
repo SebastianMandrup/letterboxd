@@ -4,13 +4,18 @@
     text-align: center;
 }
 
-.avatar {
+.avatar,
+.loadingAvatar {
     margin: 0 auto;
     width: 60px;
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 10px;
+}
+
+.loadingAvatar {
+    background-color: var(--darkGrey);
 }
 
 .username {
@@ -24,6 +29,15 @@
     color: var(--lightBlue);
 }
 
+.loadingUsername {
+    width: 80px;
+    height: 22px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    background-color: var(--darkGrey);
+    border-radius: 4px;
+}
+
 .stats {
     display: flex;
     justify-content: center;
@@ -33,8 +47,17 @@
     font-size: 12px;
 }
 
+.loadingStats {
+    width: 100px;
+    height: 22px;
+    background-color: var(--darkGrey);
+    border-radius: 4px;
+    margin: 0 auto;
+}
+
 @media screen and (min-width: 600px) {
-    .avatar {
+    .avatar,
+    .loadingAvatar {
         width: 120px;
         height: 120px;
     }

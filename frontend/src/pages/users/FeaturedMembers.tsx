@@ -3,9 +3,9 @@ import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import useUsers from '../../hooks/users/useUsers';
 import FeaturedUserCard from './FeaturedUserCard';
 import styles from './featuredMembers.module.css';
+import LoadingFeaturedUserCard from './LoadingFeaturedUserCard';
 
 const FeaturedMembers: FunctionComponent = () => {
-    // TODO: custom hook for initial data?
     const { data, isLoading, error } = useUsers({
         params: { sortBy: 'popular', pageSize: 5 },
     });
@@ -13,21 +13,21 @@ const FeaturedMembers: FunctionComponent = () => {
     return (
         <section>
             <SectionHeader title="Featured Members" />
-            {isLoading && (
-                <div className="centeredContainer">
-                    <div className="spinner"></div>
-                </div>
-            )}
-            {(error || !data) && <p>Error loading featured members.</p>}
-            {data && (
-                <ul className={styles.ul}>
-                    {data.results.map((user) => (
+            <ul className={styles.ul}>
+                {isLoading &&
+                    Array.from({ length: 5 }).map((_, index) => (
+                        <li key={index}>
+                            <LoadingFeaturedUserCard />
+                        </li>
+                    ))}
+                {error && <p className={styles.error}>Failed to load featured members.</p>}
+                {data &&
+                    data.results.map((user) => (
                         <li key={user.id}>
                             <FeaturedUserCard user={user} />
                         </li>
                     ))}
-                </ul>
-            )}
+            </ul>
         </section>
     );
 };
