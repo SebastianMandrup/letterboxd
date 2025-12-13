@@ -13,7 +13,7 @@ describe('Auth API Integration', () => {
 
     // Step 1: Fetch a CSRF token before running auth tests
     beforeEach(async () => {
-        const csrfRes = await fetchWithCookies(`${VITE_API_URL}/auth/csrf`, {
+        const csrfRes = await fetchWithCookies(`${VITE_API_URL}/csrf-token`, {
             method: 'GET',
         });
         // The token might be in the response body, a custom header, or a cookie.
