@@ -25,5 +25,5 @@ export const logErrorToSentry = (error: Error): void => {
 // Error middleware - MUST be defined as 4-parameter function
 export const sentryErrorHandler = (error: Error, _req: Request, _res: Response, next: NextFunction): void => {
     logErrorToSentry(error);
-    next(error); // Pass to next error handler
+    next(error);
 };
