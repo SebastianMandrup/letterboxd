@@ -14,6 +14,25 @@ const listRouter = Router();
 
 const listRepository = AppDataSource.getRepository(List);
 
+/**
+ * @swagger
+ * /lists:
+ *   get:
+ *     summary: Get all lists with pagination
+ *     tags: [Lists]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Paginated lists response
+ */
 listRouter.get('/', async (req, res, next) => {
     try {
         const { lists, total } = await getLists(req);
@@ -25,6 +44,37 @@ listRouter.get('/', async (req, res, next) => {
     }
 });
 
+/**
+ * @swagger
+ * /lists:
+ *   post:
+ *     summary: Create a new list
+ *     tags: [Lists]
+ *     security:
+ *       - session: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               movieIds:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *     responses:
+ *       201:
+ *         description: List created successfully
+ *       401:
+ *         description: Unauthorized
+ */
 listRouter.post('/', authenticateUser, validateListCreation, async (req, res, next: NextFunction) => {
     try {
         const { name, description, movieIds } = req.body;
@@ -45,6 +95,24 @@ listRouter.post('/', authenticateUser, validateListCreation, async (req, res, ne
     }
 });
 
+/**
+ * @swagger
+ * /lists/{name}:
+ *   get:
+ *     summary: Get a list by name
+ *     tags: [Lists]
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List details
+ *       404:
+ *         description: List not found
+ */
 listRouter.get('/:name', async (req, res, next) => {
     try {
         let name = req.params.name;
@@ -85,7 +153,24 @@ listRouter.get('/:name', async (req, res, next) => {
     }
 });
 
-// get all comments for a list
+/**
+ * @swagger
+ * /lists/{id}/comments:
+ *   get:
+ *     summary: Get all comments for a list
+ *     tags: [Lists]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: List comments
+ *       404:
+ *         description: List not found
+ */
 listRouter.get('/:id/comments', async (req, res, next) => {
     try {
         const listId = parseInt(req.params.id, 10);
@@ -117,6 +202,30 @@ listRouter.get('/:id/comments', async (req, res, next) => {
     }
 });
 
+/**
+ * @swagger
+ * /lists/{id}/like:
+ *   post:
+ *     summary: Toggle like on a list
+ *     tags: [Lists]
+ *     security:
+ *       - session: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: List unliked
+ *       201:
+ *         description: List liked
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: List not found
+ */
 listRouter.post('/:id/like', authenticateUser, async (req, res, next) => {
     try {
         const listId = parseInt(req.params.id, 10);
@@ -157,8 +266,41 @@ listRouter.post('/:id/like', authenticateUser, async (req, res, next) => {
     }
 });
 
-// TODO: validation middleware
-// add a comment to a list
+/**
+ * @swagger
+ * /lists/{id}/comments:
+ *   post:
+ *     summary: Add a comment to a list
+ *     tags: [Lists]
+ *     security:
+ *       - session: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - content
+ *             properties:
+ *               content:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Comment added
+ *       400:
+ *         description: Invalid comment content
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: List not found
+ */
 listRouter.post('/:id/comments', authenticateUser, async (req, res, next) => {
     try {
         const listId = parseInt(req.params.id, 10);
