@@ -1,6 +1,7 @@
 import axios, { type AxiosRequestConfig } from 'axios';
 import type PaginatedResponse from '../DTO/PaginatedResponse';
 import type ApiResponse from './ApiResponse.interface';
+import { csrfTokenInterceptor } from '../util/csrf';
 
 abstract class ApiClient<T, V = Partial<T>> {
     protected endpoint: string;
@@ -11,6 +12,11 @@ abstract class ApiClient<T, V = Partial<T>> {
         this.axiosInstance = axios.create({
             baseURL: import.meta.env['VITE_API_URL'],
             withCredentials: true,
+        });
+
+        // Add request interceptor to include CSRF token
+        this.axiosInstance.interceptors.request.use(csrfTokenInterceptor, (error) => {
+            return Promise.reject(error);
         });
     }
 

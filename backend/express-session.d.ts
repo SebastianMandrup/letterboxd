@@ -7,5 +7,7 @@ declare module "express-session" {
 			username: string;
 			role: string;
 		};
+
+		csrfSecret?: string;
 	}
 }

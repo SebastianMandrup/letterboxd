@@ -8,6 +8,7 @@ import { notFoundHandler } from '../middleware/errorHandling/notFoundHandler';
 import { setupSwagger } from './swagger';
 import { initSentry, sentryErrorHandler } from './sentry';
 import cookieParser from 'cookie-parser';
+import { doubleCsrfProtection } from '../middleware/csrfProtection';
 
 const init = async (app: Application) => {
     initSentry();
@@ -39,6 +40,9 @@ const init = async (app: Application) => {
 
     // 🔥 WAIT for DB to finish connecting
     await dbConnection();
+
+    // Apply CSRF protection before routes
+    app.use(doubleCsrfProtection);
 
     setupRouters(app);
 
