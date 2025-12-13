@@ -7,10 +7,9 @@ import { errorHandler } from '../middleware/errorHandling/errorHandler';
 import { notFoundHandler } from '../middleware/errorHandling/notFoundHandler';
 import { setupSwagger } from './swagger';
 import { initSentry, sentryErrorHandler } from './sentry';
-import { doubleCsrfProtection, generateToken } from '../middleware/csrf';
+import cookieParser from 'cookie-parser';
 
 const init = async (app: Application) => {
-    // Initialize Sentry first
     initSentry();
 
     app.use(express.json());
@@ -20,6 +19,8 @@ const init = async (app: Application) => {
             credentials: true,
         }),
     );
+
+    app.use(cookieParser());
 
     app.use(
         session({
@@ -34,17 +35,7 @@ const init = async (app: Application) => {
         }),
     );
 
-    // Setup Swagger API documentation
     setupSwagger(app);
-
-    // Apply CSRF protection to all routes except GET, HEAD, OPTIONS
-    app.use(doubleCsrfProtection);
-
-    // CSRF Protection - endpoint to get token
-    app.get('/csrf-token', (req, res) => {
-        const token = generateToken(req, res);
-        res.json({ token });
-    });
 
     // 🔥 WAIT for DB to finish connecting
     await dbConnection();
