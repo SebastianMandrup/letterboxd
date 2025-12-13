@@ -5,8 +5,14 @@ import dbConnection from './dbConnection';
 import setupRouters from './setupRouters';
 import { errorHandler } from '../middleware/errorHandling/errorHandler';
 import { notFoundHandler } from '../middleware/errorHandling/notFoundHandler';
+import { setupSwagger } from './swagger';
+import { initSentry, sentryErrorHandler } from './sentry';
+import { doubleCsrfProtection, generateToken } from '../middleware/csrf';
 
 const init = async (app: express.Application) => {
+    // Initialize Sentry first
+    initSentry(app);
+
     app.use(express.json());
     app.use(
         cors({
@@ -28,12 +34,26 @@ const init = async (app: express.Application) => {
         }),
     );
 
+    // Setup Swagger API documentation
+    setupSwagger(app);
+
+    // CSRF Protection - endpoint to get token
+    app.get('/csrf-token', (req, res) => {
+        const token = generateToken(req, res);
+        res.json({ token });
+    });
+
+    // Apply CSRF protection to all routes except GET, HEAD, OPTIONS
+    app.use(doubleCsrfProtection);
+
     // 🔥 WAIT for DB to finish connecting
     await dbConnection();
 
     setupRouters(app);
 
     app.use(notFoundHandler);
+    // Sentry error handler must be before other error handlers
+    app.use(sentryErrorHandler());
     app.use(errorHandler);
 };
 export default init;

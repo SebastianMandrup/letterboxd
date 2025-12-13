@@ -8,6 +8,38 @@ import { ApiError } from '../interfaces/ApiError';
 
 const movieRouter = Router();
 
+/**
+ * @swagger
+ * /movies:
+ *   get:
+ *     summary: Get all movies with pagination
+ *     tags: [Movies]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Number of items per page
+ *     responses:
+ *       200:
+ *         description: List of movies
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 pagination:
+ *                   type: object
+ */
 movieRouter.get('/', async (req, res, next) => {
     try {
         const { movies, total } = await getMovies(req);
