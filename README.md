@@ -30,6 +30,7 @@ Inspired by Letterboxd, built with a modern stack.
 - mysql database / mysqlite test database
 - session based auth with bcrypt encryption
 - validation middleware
+- documentation @ `http://localhost:5050/api-docs`
 
 ### Infrastructure
 - hosting: render.com

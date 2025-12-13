@@ -128,7 +128,7 @@ describe('ApiClient CSRF Integration', () => {
 
         // Simulate the error interceptor behavior
         const errorHandler = mockAxiosInstance.interceptors.response.use.mock.calls[0][1];
-        
+
         try {
             await errorHandler(mockError);
             // Should not reach here
@@ -147,7 +147,7 @@ describe('ApiClient CSRF Integration', () => {
         };
 
         const errorHandler = mockAxiosInstance.interceptors.response.use.mock.calls[0][1];
-        
+
         try {
             await errorHandler(mockError);
             // Should not reach here
