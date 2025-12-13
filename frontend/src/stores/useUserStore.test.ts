@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useUserStore } from './useUserStore';
-import type UserDto from '../DTO/UserDto';
 
 describe('useUserStore', () => {
     beforeEach(() => {
@@ -14,7 +13,7 @@ describe('useUserStore', () => {
     });
 
     it('should set user correctly', () => {
-        const mockUser: UserDto = {
+        const mockUser = {
             id: 1,
             username: 'testuser',
             email: 'test@example.com',
@@ -29,7 +28,7 @@ describe('useUserStore', () => {
     });
 
     it('should clear user correctly', () => {
-        const mockUser: UserDto = {
+        const mockUser = {
             id: 1,
             username: 'testuser',
             email: 'test@example.com',
@@ -49,7 +48,7 @@ describe('useUserStore', () => {
     });
 
     it('should return true for isAuthenticated when user exists', () => {
-        const mockUser: UserDto = {
+        const mockUser = {
             id: 1,
             username: 'testuser',
             email: 'test@example.com',
@@ -63,7 +62,7 @@ describe('useUserStore', () => {
     });
 
     it('should handle setting user to null', () => {
-        const mockUser: UserDto = {
+        const mockUser = {
             id: 1,
             username: 'testuser',
             email: 'test@example.com',
@@ -78,7 +77,7 @@ describe('useUserStore', () => {
     });
 
     it('should persist user state across multiple accesses', () => {
-        const mockUser: UserDto = {
+        const mockUser = {
             id: 1,
             username: 'testuser',
             email: 'test@example.com',

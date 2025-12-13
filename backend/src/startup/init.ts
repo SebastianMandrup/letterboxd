@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express from 'express';
+import express, { Application } from 'express';
 import session from 'express-session';
 import dbConnection from './dbConnection';
 import setupRouters from './setupRouters';
@@ -9,9 +9,9 @@ import { setupSwagger } from './swagger';
 import { initSentry, sentryErrorHandler } from './sentry';
 import { doubleCsrfProtection, generateToken } from '../middleware/csrf';
 
-const init = async (app: express.Application) => {
+const init = async (app: Application) => {
     // Initialize Sentry first
-    initSentry(app);
+    initSentry();
 
     app.use(express.json());
     app.use(
@@ -52,8 +52,7 @@ const init = async (app: express.Application) => {
     setupRouters(app);
 
     app.use(notFoundHandler);
-    // Sentry error handler must be before other error handlers
-    app.use(sentryErrorHandler());
+    app.use(sentryErrorHandler);
     app.use(errorHandler);
 };
 export default init;

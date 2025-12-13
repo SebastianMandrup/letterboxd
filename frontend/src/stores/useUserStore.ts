@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import type UserDto from '../DTO/UserDto';
 
 interface UserState {
-    user: UserDto | null;
-    setUser: (user: UserDto | null) => void;
+    user: Partial<UserDto> | null;
+    setUser: (user: Partial<UserDto> | null) => void;
     clearUser: () => void;
     isAuthenticated: () => boolean;
 }
