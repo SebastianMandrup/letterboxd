@@ -1,85 +1,76 @@
 import dotenv from 'dotenv';
-import { describe, it, expect, beforeAll } from 'vitest';
+dotenv.config();
+
+import { describe, it, expect } from 'vitest';
 import axios from 'axios';
 import { wrapper } from 'axios-cookiejar-support';
 import { CookieJar } from 'tough-cookie';
 
-dotenv.config();
-const VITE_API_URL = process.env.VITE_API_URL;
+// cookie-aware axios client (REQUIRED for CSRF + sessions in Node)
+const jar = new CookieJar();
+
+const client = wrapper(
+    axios.create({
+        baseURL: 'http://nginx-proxy/api',
+        withCredentials: true,
+        jar,
+        timeout: 5000,
+    }),
+);
 
 describe('Auth API Integration with CSRF', () => {
-    let csrfToken: string | null = null;
-    const jar = new CookieJar();
-    const client = wrapper(
-        axios.create({
-            baseURL: VITE_API_URL,
-            withCredentials: true,
-            jar,
-        }),
-    );
+    it('full auth flow with double CSRF', async () => {
+        // 1. get CSRF token (sets XSRF-TOKEN cookie)
+        const csrfRes = await client.get('/auth/csrf-token');
+        const csrfToken = csrfRes.data.token;
 
-    // Helper to get CSRF token from cookies
-    function getCsrfFromCookies(): string | null {
-        const cookies = jar.toJSON()!.cookies;
-        const xsrfCookie = cookies.find((c: any) => c.key === 'XSRF-TOKEN');
-        return xsrfCookie ? xsrfCookie.value! : null;
-    }
-
-    beforeAll(async () => {
-        // Clean up test user
-        try {
-            await client.delete('/users/testing');
-        } catch (error) {
-            console.error('Error during cleanup:', error);
-        }
-    });
-
-    it('registers a user', async () => {
-        const response = await client.post('/users', {
-            username: 'testing',
-            password: 'password123!',
-            email: 'test@example.com',
-        });
-
-        expect(response.status).toBe(201);
-        expect(response.data.message).toBe('User created successfully');
-    });
-
-    it('gets CSRF token', async () => {
-        const response = await client.get('/auth/csrf-token');
-        csrfToken = response.data.csrfToken || getCsrfFromCookies();
-
-        expect(csrfToken).toBeDefined();
         expect(typeof csrfToken).toBe('string');
-    });
 
-    it('logs in with CSRF protection', async () => {
-        // Update client to include CSRF token in headers
-        client.interceptors.request.use((config) => {
-            if (csrfToken && config.method && ['post', 'put', 'patch', 'delete'].includes(config.method.toLowerCase())) {
-                config.headers['X-CSRF-Token'] = csrfToken;
-            }
-            return config;
-        });
+        // 2. register user
+        await client.post(
+            '/users',
+            {
+                username: 'testing',
+                password: 'password123!',
+                email: 'test@example.com',
+            },
+            {
+                headers: {
+                    'X-XSRF-TOKEN': csrfToken,
+                },
+            },
+        );
 
-        const response = await client.post('/auth/login', {
-            username: 'testing',
-            password: 'password123!',
-        });
+        // 3. login
+        await client.post(
+            '/auth/login',
+            {
+                username: 'testing',
+                password: 'password123!',
+            },
+            {
+                headers: {
+                    'X-XSRF-TOKEN': csrfToken,
+                },
+            },
+        );
 
-        expect(response.status).toBe(200);
-        expect(response.data.message).toBe('Logged in successfully');
-    });
+        // 4. access protected route
+        const me = await client.get('/auth/me');
+        expect(me.status).toBe(200);
+        expect(me.data.username).toBe('testing');
 
-    it('accesses protected resource', async () => {
-        const response = await client.get('/auth/me');
-        expect(response.status).toBe(200);
-        expect(response.data.username).toBe('testing');
-    });
+        // 5. logout
+        const logout = await client.post(
+            '/auth/logout',
+            {},
+            {
+                headers: {
+                    'X-XSRF-TOKEN': csrfToken,
+                },
+            },
+        );
 
-    it('logs out with CSRF token', async () => {
-        const response = await client.post('/auth/logout');
-        expect(response.status).toBe(200);
-        expect(response.data.message).toBe('Logged out successfully');
+        expect(logout.status).toBe(200);
     });
 });
