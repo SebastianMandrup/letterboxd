@@ -69,7 +69,7 @@ export const getMovieBySlug = async (req: Request, slug: string) => {
     }
 
     if (userId) {
-        query.leftJoin('cmovie.views', 'view', 'view.userId = :userId', { userId }).addSelect(
+        query.leftJoin('cmovie.views', 'view', 'view.userId = :userId && view.movieId = cmovie.id', { userId }).addSelect(
             `
                 CASE 
                     WHEN view.id IS NOT NULL THEN true 
@@ -87,7 +87,7 @@ export const getMovieBySlug = async (req: Request, slug: string) => {
 
     if (result && userId) {
         const isViewed = (await query.getRawOne())['cmovie_isViewed'];
-        result.isViewed = isViewed === '0' ? false : true;
+        result.isViewed = isViewed !== 0;
     } else {
         result.isViewed = false;
     }

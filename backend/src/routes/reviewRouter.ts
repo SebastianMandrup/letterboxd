@@ -11,6 +11,16 @@ import { ApiError } from '../interfaces/ApiError';
 
 const reviewRouter = Router();
 
+/**
+ * @swagger
+ * /reviews:
+ *   get:
+ *     summary: Get all reviews
+ *     tags: [Reviews]
+ *     responses:
+ *       200:
+ *         description: List of reviews
+ */
 reviewRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { reviews, total } = await getReviews(req);
@@ -26,6 +36,37 @@ reviewRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
     }
 });
 
+/**
+ * @swagger
+ * /reviews:
+ *   post:
+ *     summary: Create a new review
+ *     tags: [Reviews]
+ *     security:
+ *       - session: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               review:
+ *                 type: string
+ *               rating:
+ *                 type: number
+ *               movieId:
+ *                 type: integer
+ *               isLiked:
+ *                 type: boolean
+ *     responses:
+ *       201:
+ *         description: Review created
+ *       404:
+ *         description: Movie not found
+ *       401:
+ *         description: Unauthorized
+ */
 reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { review, rating, movieId, isLiked } = req.body;
@@ -64,6 +105,28 @@ reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, re
     }
 });
 
+/**
+ * @swagger
+ * /reviews/{id}/like:
+ *   post:
+ *     summary: Toggle like on a review
+ *     tags: [Reviews]
+ *     security:
+ *       - session: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Review like toggled
+ *       404:
+ *         description: Review not found
+ *       401:
+ *         description: Unauthorized
+ */
 reviewRouter.post('/:id/like', authenticateUser, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const reviewId = parseInt(req.params.id, 10);

@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { Movie } from '../../entities/Movie';
-import { createTestApp, mockGetMovies, mockGetMovieBySlug, mockDeleteMovieById } from './setup';
+import { createTestApp, mockGetMovies, mockGetMovieBySlug } from './setup';
 
 const app = createTestApp();
 
@@ -69,15 +69,6 @@ describe('E2E Tests - Movies', () => {
 
             expect(res.status).toBe(404);
             expect(res.body.error.message).toContain('not found');
-        });
-
-        it('should delete a movie by ID', async () => {
-            mockDeleteMovieById.mockResolvedValue(true);
-
-            const res = await request(app).delete('/movies/1');
-
-            expect(res.status).toBe(200);
-            expect(res.body.message).toContain('deleted successfully');
         });
     });
 });

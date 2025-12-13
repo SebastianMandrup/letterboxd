@@ -14,6 +14,16 @@ const userRouter = Router();
 
 const userRepository = AppDataSource.getRepository(User);
 
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Get all users
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: List of users
+ */
 userRouter.get('/', async (req, res, next) => {
     try {
         const userId = req.session.user?.id;
@@ -33,31 +43,24 @@ userRouter.get('/', async (req, res, next) => {
     }
 });
 
-userRouter.get('/:id/follow-status', authenticateUser, async (req, res, next) => {
-    try {
-        const userId = parseInt(req.params.id, 10);
-        const currentUserId = req.user!.id;
-
-        const userWithFollowers = await userRepository
-            .createQueryBuilder('user')
-            .leftJoin('user.followers', 'followers')
-            .addSelect(['followers.id', 'followers.username'])
-            .where('user.id = :userId', { userId })
-            .getOne();
-
-        if (!userWithFollowers) {
-            throw new ApiError('Current user not found', 404);
-        }
-
-        const isFollowing = userWithFollowers.followers.some((followedUser) => followedUser.id === currentUserId);
-
-        res.send({ isFollowing });
-    } catch (error) {
-        console.error('Error checking follow status:', error);
-        next(error);
-    }
-});
-
+/**
+ * @swagger
+ * /users/{username}:
+ *   get:
+ *     summary: Get user by username
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User details
+ *       404:
+ *         description: User not found
+ */
 userRouter.get('/:username', async (req, res, next) => {
     try {
         const username = validateUsername(req.params.username);
@@ -77,6 +80,24 @@ userRouter.get('/:username', async (req, res, next) => {
     }
 });
 
+/**
+ * @swagger
+ * /users/{username}/followers:
+ *   get:
+ *     summary: Get user's followers
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of followers
+ *       404:
+ *         description: User not found
+ */
 userRouter.get('/:username/followers', async (req, res, next) => {
     try {
         const username = validateUsername(req.params.username);
@@ -99,6 +120,24 @@ userRouter.get('/:username/followers', async (req, res, next) => {
     }
 });
 
+/**
+ * @swagger
+ * /users/{username}/following:
+ *   get:
+ *     summary: Get users this user is following
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of followed users
+ *       404:
+ *         description: User not found
+ */
 userRouter.get('/:username/following', async (req, res, next) => {
     try {
         const username = validateUsername(req.params.username);
@@ -121,25 +160,29 @@ userRouter.get('/:username/following', async (req, res, next) => {
     }
 });
 
-userRouter.get('/:username/watched', async (req, res, next) => {
-    try {
-        const username = validateUsername(req.params.username);
-
-        const user = await getUserByUsername(username);
-
-        if (!user) {
-            throw new ApiError('User not found', 404);
-        }
-
-        const watchedMovies = user.views.map((view) => view.movie);
-
-        res.send(watchedMovies);
-    } catch (error) {
-        console.error('Error fetching watched movies:', error);
-        next(error);
-    }
-});
-
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Create a new user (register)
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User created
+ */
 userRouter.post('/', validateUserCreation, async (req, res, next: NextFunction) => {
     try {
         const { username, password, email } = req.body;
@@ -159,6 +202,28 @@ userRouter.post('/', validateUserCreation, async (req, res, next: NextFunction) 
     }
 });
 
+/**
+ * @swagger
+ * /users/{userId}/follow:
+ *   post:
+ *     summary: Toggle follow/unfollow a user
+ *     tags: [Users]
+ *     security:
+ *       - session: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Follow toggled
+ *       404:
+ *         description: User not found
+ *       401:
+ *         description: Unauthorized
+ */
 userRouter.post('/:userId/follow', authenticateUser, async (req, res, next) => {
     try {
         const userToFollowId = parseInt(req.params.userId, 10);

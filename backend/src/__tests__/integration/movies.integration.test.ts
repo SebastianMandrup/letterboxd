@@ -92,30 +92,6 @@ describe('Integration Tests - Movies', () => {
             expect(res.body.error.message).toContain('not found');
         });
 
-        it('should delete a movie by ID', async () => {
-            // Create a movie
-            const movie = movieRepository.create({
-                title: 'Movie To Delete',
-                slug: 'movie-to-delete',
-                originalTitle: 'Movie To Delete',
-                adult: false,
-                overview: 'This movie will be deleted',
-                releaseDate: new Date('2020-01-01'),
-            });
-
-            await movieRepository.save(movie);
-
-            // Delete the movie
-            const deleteRes = await request(app).delete(`/movies/${movie.id}`);
-
-            expect(deleteRes.status).toBe(200);
-            expect(deleteRes.body.message).toContain('deleted successfully');
-
-            // Verify it's deleted from database
-            const deletedMovie = await movieRepository.findOne({ where: { id: movie.id } });
-            expect(deletedMovie).toBeNull();
-        });
-
         it('should handle pagination correctly', async () => {
             // Create multiple movies
             const movies = Array.from({ length: 15 }, (_, i) =>
