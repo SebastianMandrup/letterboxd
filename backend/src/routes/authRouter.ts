@@ -12,7 +12,14 @@ const userRepository = AppDataSource.getRepository(User);
 authRouter.get('/me', (req, res, next) => {
     try {
         if (!req.session.user) {
-            throw new ApiError('Not authenticated', 401);
+            return res.status(401).json({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Not authenticated',
+                    code: 401,
+                },
+            });
         }
         return res.json(req.session.user);
     } catch (error) {
