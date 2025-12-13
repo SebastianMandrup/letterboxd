@@ -8,15 +8,31 @@
     gap: 20px;
 }
 
+.loadingPosterStack {
+    position: relative;
+    width: 236px;
+    height: 120px;
+    border-radius: 4px;
+    background-color: var(--darkestGrey);
+}
+
 .listCardWithDescription:last-of-type {
     border-bottom: none;
 }
 
-.listName {
+.listName,
+.loadingListName {
     font-size: 22px;
     font-weight: bold;
     color: var(--lightBlue);
     text-decoration: none;
+}
+
+.loadingListName {
+    width: 240px;
+    height: 32px;
+    background-color: var(--darkestGrey);
+    border-radius: 4px;
 }
 
 .listName:hover {
@@ -30,7 +46,8 @@
 }
 
 .listAuthor,
-.aAuthor {
+.aAuthor,
+.loadingAuthor {
     font-size: 14px;
     color: var(--lightGrey);
     display: flex;
@@ -45,10 +62,43 @@
     color: var(--blue);
 }
 
-.listDataContainer {
+.loadingAuthor {
+    width: 150px;
+    height: 32px;
+    background-color: var(--darkestGrey);
+    border-radius: 4px;
+}
+
+.loadingListAuthorContainer {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.listDataContainer,
+.loadingListDataContainer {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.loadingListDataContainer {
+    gap: 20px;
+}
+
+.loadingListDataItem {
+    width: 40px;
+    height: 32px;
+    background-color: var(--darkestGrey);
+    border-radius: 4px;
+}
+
+.loadingListDescription {
+    width: 400px;
+    height: 60px;
+    background-color: var(--darkestGrey);
+    border-radius: 4px;
+    margin-top: 10px;
 }
 
 @media screen and (min-width: 600px) {
