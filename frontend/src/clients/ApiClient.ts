@@ -2,6 +2,7 @@ import axios, { type AxiosRequestConfig } from 'axios';
 import type PaginatedResponse from '../DTO/PaginatedResponse';
 import type ApiResponse from './ApiResponse.interface';
 import { csrfTokenInterceptor } from '../util/csrf';
+import type { ApiError } from './ApiError';
 
 abstract class ApiClient<T, V = Partial<T>> {
     protected endpoint: string;
@@ -14,10 +15,20 @@ abstract class ApiClient<T, V = Partial<T>> {
             withCredentials: true,
         });
 
-        // Add request interceptor to include CSRF token
         this.axiosInstance.interceptors.request.use(csrfTokenInterceptor, (error) => {
             return Promise.reject(error);
         });
+
+        this.axiosInstance.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                const errorMessage = error.response?.data?.error?.message || error.message || 'An unexpected error occurred';
+                const backendError: ApiError = new Error(errorMessage);
+                backendError.name = 'ApiError';
+                backendError.status = error.response?.status;
+                return Promise.reject(backendError);
+            },
+        );
     }
 
     getAll = (config?: AxiosRequestConfig) => this.axiosInstance.get<PaginatedResponse<T>>(this.endpoint, config).then((res) => res.data);

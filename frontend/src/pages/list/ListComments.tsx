@@ -17,8 +17,6 @@ const ListComments: FunctionComponent<ListCommentsProps> = ({ listId }) => {
     const [comments, setComments] = useState<CommentDto[]>([]);
     const isAuthenticated = useUserStore((state) => state.isAuthenticated());
     const { addToast } = useToastStore();
-
-    // Get the mutation hook at the top level
     const addCommentMutation = useAddComment(listId);
 
     useEffect(() => {
@@ -38,9 +36,9 @@ const ListComments: FunctionComponent<ListCommentsProps> = ({ listId }) => {
                 setComments((prevComments) => [...prevComments, response.data]);
                 addToast('Comment added successfully', 'success');
             },
-            onError: (err) => {
-                console.error('Error adding comment:', err);
-                addToast(err.message, 'error');
+            onError: (errror) => {
+                console.error('Error adding comment:', errror);
+                addToast(errror.message, 'error');
             },
         });
     };

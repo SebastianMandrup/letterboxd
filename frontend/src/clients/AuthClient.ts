@@ -19,6 +19,18 @@ axiosInstance.interceptors.request.use(csrfTokenInterceptor, (error) => {
     return Promise.reject(error);
 });
 
+axiosInstance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        // If a 403 error is encountered, try to refresh the CSRF token
+        if (error.response && error.response.status === 403) {
+            await fetchCsrfToken();
+            return axiosInstance.request(error.config);
+        }
+        return Promise.reject(error);
+    },
+);
+
 class AuthClient {
     me = () => axiosInstance.get<UserDto>('/me').then((res) => res.data);
 

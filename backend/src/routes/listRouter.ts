@@ -8,6 +8,7 @@ import { authenticateUser } from '../middleware/authenticateUser';
 import { validateListCreation } from '../middleware/listValidation';
 import { ApiError } from '../interfaces/ApiError';
 import validateId from '../middleware/validation/validateId';
+import { ListLike } from '../entities/ListLike';
 
 const listRouter = Router();
 
@@ -51,12 +52,16 @@ listRouter.get('/:name', async (req, res, next) => {
 
         const list = await listRepository.findOne({
             where: { name },
-            relations: ['user', 'movies', 'likes', 'comments'],
+            relations: ['user', 'movies', 'likes', 'likes.user', 'comments'],
         });
 
         if (!list) {
             throw new ApiError('List not found', 404);
         }
+
+        console.log('Fetched list:', list);
+
+        const currentUserId = req.session.user ? req.session.user.id : null;
 
         const listDto = {
             id: list.id,
@@ -70,6 +75,7 @@ listRouter.get('/:name', async (req, res, next) => {
             likeCount: list.likes.length,
             commentCount: list.comments.length,
             createdAt: list.createdAt,
+            isLiked: currentUserId ? list.likes.some((like) => like.user.id === currentUserId) : false,
         };
 
         res.status(200).send(listDto);
@@ -107,6 +113,46 @@ listRouter.get('/:id/comments', async (req, res, next) => {
         res.status(200).send(commentsDto);
     } catch (error) {
         console.error('Error fetching comments for list:', error);
+        next(error);
+    }
+});
+
+listRouter.post('/:id/like', authenticateUser, async (req, res, next) => {
+    try {
+        const listId = parseInt(req.params.id, 10);
+        validateId(listId);
+
+        const list = await listRepository.findOne({
+            where: { id: listId },
+            relations: ['likes', 'likes.user'],
+        });
+
+        if (!list) {
+            throw new ApiError('List not found', 404);
+        }
+
+        const existingLike = list.likes.find((like) => like.user.id === req.user.id);
+
+        if (existingLike) {
+            // Unlike the list
+            list.likes = list.likes.filter((like) => like.user.id !== req.user.id);
+            await listRepository.save(list);
+            res.status(200).send({ message: 'List unliked successfully', likeCount: list.likes.length, isLiked: false });
+        } else {
+            // Like the list
+            const likeRepository = AppDataSource.getRepository(ListLike);
+
+            const newLike = likeRepository.create({
+                user: req.user,
+                list,
+            });
+
+            await likeRepository.save(newLike);
+
+            res.status(201).send({ message: 'List liked successfully', likeCount: list.likes.length + 1, isLiked: true });
+        }
+    } catch (error) {
+        console.error('Error liking/unliking list:', error);
         next(error);
     }
 });

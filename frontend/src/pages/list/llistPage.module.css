@@ -141,7 +141,6 @@
     border-radius: 8px;
 }
 
-.likeButton,
 .cloneButton,
 .shareButton {
     background-color: var(--darkestGrey);
@@ -156,26 +155,14 @@
     cursor: pointer;
 }
 
-.likeButton:hover,
 .cloneButton:hover,
 .shareButton:hover {
     background-color: var(--darkerGrey);
 }
 
-.likeButton svg {
-    fill: var(--white);
-    width: 20px;
-    height: 20px;
-}
-
-.likeButton {
-    margin-bottom: 2px;
-    border-radius: 10px 10px 0 0;
-}
-
 .cloneButton {
-    margin-bottom: 2px;
     border-radius: 0;
+    border-bottom: 1px solid var(--darkGrey);
 }
 
 .shareButton {
