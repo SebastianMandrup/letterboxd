@@ -134,6 +134,13 @@
     width: 100%;
 }
 
+.pNoReviews,
+.pNoLists {
+    color: var(--grey);
+    font-size: 14px;
+    font-style: italic;
+}
+
 .buttonGroupPlaceholder {
     margin-left: auto;
     width: 150px;

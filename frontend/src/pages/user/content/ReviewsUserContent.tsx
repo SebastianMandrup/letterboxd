@@ -13,9 +13,7 @@ const ReviewsUserContent: FunctionComponent<ReviewsUserContentProps> = ({ review
         <section>
             <SectionHeader title="Reviews" />
             {reviews.length === 0 ? (
-                <div className="centeredContainer">
-                    <p className={styles.noReviews}>This user has not written any reviews yet.</p>
-                </div>
+                <p className={styles.noReviews}>This user has not written any reviews yet.</p>
             ) : (
                 reviews.map((review) => <ReviewCard key={review.id} review={review} />)
             )}

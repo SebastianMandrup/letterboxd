@@ -9,3 +9,8 @@
     padding: 30px 0 20px 0;
     scrollbar-color: #888 transparent;
 }
+
+.listJustReviewedCards > div {
+    height: 120px;
+    width: 76px;
+}

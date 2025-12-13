@@ -13,6 +13,13 @@ li {
     display: flex;
 }
 
+.error {
+    color: var(--grey);
+    text-align: center;
+    font-size: 18px;
+    font-style: italic;
+}
+
 @media screen and (min-width: 600px) {
     .ul {
         grid-template-columns: repeat(5, 1fr);

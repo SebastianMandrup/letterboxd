@@ -45,7 +45,6 @@ export const getMovieBySlug = async (req: Request, slug: string) => {
         .createQueryBuilder('cmovie')
         .where('cmovie.slug = :slug', { slug })
         .leftJoinAndSelect('cmovie.castMembers', 'castMember')
-        .orderBy('castMember.order', 'ASC')
         .leftJoinAndSelect('cmovie.genres', 'genre')
         .leftJoinAndSelect('cmovie.languages', 'language')
         .leftJoinAndSelect('cmovie.productionCountries', 'productionCountry')

@@ -162,7 +162,7 @@ describe('Integration Tests - Authentication', () => {
             });
 
             // Should fail due to unique constraint or validation
-            expect([400, 500]).toContain(res.status);
+            expect([400, 409, 500]).toContain(res.status);
         });
     });
 });

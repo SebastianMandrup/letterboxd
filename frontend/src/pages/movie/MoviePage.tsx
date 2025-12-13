@@ -5,7 +5,7 @@ import styles from './moviePage.module.css';
 import ListCardWithDescription from '../shared/listCard/ListCardWithDescription';
 import useMovieByTitle from '../../hooks/movies/useMovieByTitle';
 import ReviewCardContent from '../shared/reviewCard/ReviewCardContent';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type ReviewDto from '../../DTO/ReviewDto';
 import { getSlug } from '../../util/getSlug';
 import MovieAside from './MovieAside';
@@ -17,6 +17,12 @@ function MoviePage() {
     const { data: movie, error, isLoading } = useMovieByTitle(title);
 
     const [reviews, setReviews] = useState<ReviewDto[]>([]);
+
+    useEffect(() => {
+        if (movie && movie.reviews) {
+            setReviews(movie.reviews);
+        }
+    }, [movie]);
 
     if (isLoading || error || !movie) {
         return <LoadingMoviePage error={error} />;
@@ -32,9 +38,9 @@ function MoviePage() {
                         <section className={styles.sectionLeft}>
                             <header className={styles.headerMovieDetails}>
                                 <h1 className={styles.h1MovieTitle}>{movie.title}</h1>
-                                <p className={styles.pReleaseYear}>{movie.releaseDate?.toString().split('-')[0] || ''}</p>
                             </header>
                             <p className={styles.pMovieTagline}>{movie.tagline ? "'" + movie.tagline + "'" : ''}</p>
+                            <p className={styles.pReleaseYear}>{movie.releaseDate?.toString().split('-')[0] || ''}</p>
                             <section className={styles.sectionMovieGenres}>
                                 {movie.genres.map((genre) => (
                                     <a key={genre.id} className={styles.linkGenre} href={`/movies/browse?genre=${getSlug(genre.name)}`}>
@@ -57,7 +63,7 @@ function MoviePage() {
                                 ))}
                             </section>
                         ) : (
-                            <p>No reviews available.</p>
+                            <p className={styles.pNoReviews}>No reviews available.</p>
                         )}
                     </section>
                     <section>
@@ -69,7 +75,7 @@ function MoviePage() {
                                 ))}
                             </section>
                         ) : (
-                            <p>No lists available.</p>
+                            <p className={styles.pNoLists}>No lists available.</p>
                         )}
                     </section>
                 </section>

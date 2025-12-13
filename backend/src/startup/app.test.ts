@@ -4,7 +4,6 @@ import authRouter from '../routes/authRouter';
 import userRouter from '../routes/userRouter';
 import movieRouter from '../routes/movieRouter';
 import reviewRouter from '../routes/reviewRouter';
-import viewRouter from '../routes/viewRouter';
 import listRouter from '../routes/listRouter';
 
 const app = express();
@@ -22,6 +21,5 @@ app.use('/lists', listRouter);
 app.use('/movies', movieRouter);
 app.use('/reviews', reviewRouter);
 app.use('/users', userRouter);
-app.use('/views', viewRouter);
 
 export default app;

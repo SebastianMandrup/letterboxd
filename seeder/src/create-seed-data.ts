@@ -11,12 +11,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ---------------- Configuration ----------------
-const NUM_USERS = 40;
-const NUM_REVIEWS = 100;
-const NUM_VIEWS = 500;
-const NUM_LISTS = 50;
-const NUM_COMMENTS = 500;
-const MAX_MOVIES = 3000; // Limit movies to 1000, keep all cast/crew/videos for these movies
+const NUM_USERS = 100;
+const NUM_REVIEWS = 500;
+const NUM_VIEWS = 1000;
+const NUM_LISTS = 100;
+const NUM_COMMENTS = 1000;
+const MAX_MOVIES = 5000; // Limit movies to 1000, keep all cast/crew/videos for these movies
 
 // ---------------- Paths ----------------
 const dataDir = path.join(__dirname, './data');

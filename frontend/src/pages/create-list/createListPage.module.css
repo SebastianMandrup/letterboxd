@@ -21,6 +21,11 @@
     border-radius: 4px;
 }
 
+.listDetails input::placeholder,
+.listDetails textarea::placeholder {
+    color: var(--darkestGrey);
+}
+
 .listDetails label {
     display: flex;
     flex-direction: column;
@@ -67,6 +72,12 @@
 
 .searchedMovie:last-child {
     border-bottom: none;
+}
+
+.errorMessage {
+    color: var(--orange);
+    font-size: 14px;
+    text-align: center;
 }
 
 .movieList {

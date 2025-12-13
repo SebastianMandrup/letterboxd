@@ -1,5 +1,5 @@
 .noLists {
-    font-size: 18px;
     color: var(--grey);
-    padding: 20px;
+    font-size: 16px;
+    font-style: italic;
 }

@@ -3,26 +3,25 @@ import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import useUsers from '../../hooks/users/useUsers';
 import FeaturedUserCard from './FeaturedUserCard';
 import styles from './featuredMembers.module.css';
+import LoadingFeaturedUserCard from './LoadingFeaturedUserCard';
 
 const PopularMembers: FunctionComponent = () => {
-    // TODO: custom hook for initial data?
     const { data, isLoading, error } = useUsers({
         params: { filterBy: 'featured', pageSize: 5 },
     });
 
-    // TODO combined loading/error state
-
     return (
         <section>
             <SectionHeader title="Popular this week" link="/users/popular" />
-            {isLoading && (
-                <div className="centeredContainer">
-                    <div className="spinner"></div>
-                </div>
-            )}
-            {(error || !data) && <p>Error loading featured members.</p>}
             {data && (
                 <ul className={styles.ul}>
+                    {isLoading ||
+                        (error &&
+                            Array.from({ length: 5 }).map((_, index) => (
+                                <li key={index}>
+                                    <LoadingFeaturedUserCard />
+                                </li>
+                            )))}
                     {data.results.map((user) => (
                         <li key={user.id}>
                             <FeaturedUserCard user={user} />
