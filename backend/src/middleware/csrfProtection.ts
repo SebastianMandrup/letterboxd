@@ -1,10 +1,17 @@
 import { doubleCsrf } from 'csrf-csrf';
 
+const csrfSecret = process.env.CSRF_SECRET;
+
+// Require CSRF secret in production
+if (process.env.NODE_ENV === 'production' && !csrfSecret) {
+    throw new Error('CSRF_SECRET environment variable must be set in production');
+}
+
 const {
     generateCsrfToken,
     doubleCsrfProtection,
 } = doubleCsrf({
-    getSecret: () => process.env.CSRF_SECRET || 'csrf-secret-key-change-in-production',
+    getSecret: () => csrfSecret || 'csrf-secret-key-for-development',
     cookieName: 'x-csrf-token',
     cookieOptions: {
         httpOnly: true,

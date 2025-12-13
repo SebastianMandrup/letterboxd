@@ -1,7 +1,7 @@
 import axios, { type AxiosRequestConfig } from 'axios';
 import type PaginatedResponse from '../DTO/PaginatedResponse';
 import type ApiResponse from './ApiResponse.interface';
-import { getCsrfToken, fetchCsrfToken } from '../util/csrf';
+import { csrfTokenInterceptor } from '../util/csrf';
 
 abstract class ApiClient<T, V = Partial<T>> {
     protected endpoint: string;
@@ -16,19 +16,7 @@ abstract class ApiClient<T, V = Partial<T>> {
 
         // Add request interceptor to include CSRF token
         this.axiosInstance.interceptors.request.use(
-            async (config) => {
-                // Only add CSRF token for state-changing methods
-                if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(config.method?.toUpperCase() || '')) {
-                    let token = getCsrfToken();
-                    if (!token) {
-                        token = await fetchCsrfToken();
-                    }
-                    if (token) {
-                        config.headers['x-csrf-token'] = token;
-                    }
-                }
-                return config;
-            },
+            csrfTokenInterceptor,
             (error) => {
                 return Promise.reject(error);
             }

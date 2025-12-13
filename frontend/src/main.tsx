@@ -41,6 +41,8 @@ const queryClient = new QueryClient({
 });
 
 // Fetch CSRF token on app initialization
+// If this fails, the app continues and the token will be fetched automatically
+// when the first state-changing request is made
 fetchCsrfToken().catch((error) => {
     console.error('Failed to fetch initial CSRF token:', error);
 });

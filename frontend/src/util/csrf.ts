@@ -23,3 +23,20 @@ export const getCsrfToken = (): string | null => {
 export const clearCsrfToken = (): void => {
     csrfToken = null;
 };
+
+/**
+ * Axios request interceptor that adds CSRF token to state-changing requests
+ */
+export const csrfTokenInterceptor = async (config: any) => {
+    // Only add CSRF token for state-changing methods
+    if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(config.method?.toUpperCase() || '')) {
+        let token = getCsrfToken();
+        if (!token) {
+            token = await fetchCsrfToken();
+        }
+        if (token) {
+            config.headers['x-csrf-token'] = token;
+        }
+    }
+    return config;
+};

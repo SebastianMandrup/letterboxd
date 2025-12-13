@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type UserDto from '../DTO/UserDto';
-import { getCsrfToken, fetchCsrfToken, clearCsrfToken } from '../util/csrf';
+import { fetchCsrfToken, clearCsrfToken, csrfTokenInterceptor } from '../util/csrf';
 
 export interface PaginatedUserResponse {
     count: number;
@@ -16,19 +16,7 @@ const axiosInstance = axios.create({
 
 // Add request interceptor to include CSRF token
 axiosInstance.interceptors.request.use(
-    async (config) => {
-        // Only add CSRF token for state-changing methods
-        if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(config.method?.toUpperCase() || '')) {
-            let token = getCsrfToken();
-            if (!token) {
-                token = await fetchCsrfToken();
-            }
-            if (token) {
-                config.headers['x-csrf-token'] = token;
-            }
-        }
-        return config;
-    },
+    csrfTokenInterceptor,
     (error) => {
         return Promise.reject(error);
     }
