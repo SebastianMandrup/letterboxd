@@ -1,7 +1,7 @@
 import { doubleCsrf } from 'csrf-csrf';
 
 const {
-    generateToken,
+    generateCsrfToken,
     doubleCsrfProtection,
 } = doubleCsrf({
     getSecret: () => process.env.CSRF_SECRET || 'csrf-secret-key-change-in-production',
@@ -14,6 +14,10 @@ const {
     },
     size: 64,
     ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
+    getSessionIdentifier: (req) => {
+        // Use session ID if available, otherwise use a fallback
+        return (req.session?.id as string) || '';
+    },
 });
 
-export { generateToken, doubleCsrfProtection };
+export { generateCsrfToken, doubleCsrfProtection };
