@@ -6,14 +6,13 @@ import { getApiAvatar } from '../../util/getApiAvatar';
 import MovieCard from '../shared/movieCard/MovieCard';
 import CollapseText from '../shared/collapseText/CollapseText';
 import { getMediumPoster } from '../../util/getMediumPoster';
-import Heart from '../shared/icons/HeartIcon';
 import ListComments from './ListComments';
 import styles from './llistPage.module.css';
 import LoadingListPage from './LoadingListPage';
+import ListLikeButton from './ListLikeButton';
 
 const ListPage: FunctionComponent = () => {
     const listName = useParams().name || '';
-
     const { data: list, isLoading, error } = useList(listName);
 
     // TODO: loading and error combined component
@@ -71,11 +70,10 @@ const ListPage: FunctionComponent = () => {
                 </section>
                 <aside className={styles.sidebar}>
                     <div className={styles.sidebarButtons}>
-                        <button className={styles.likeButton}>
-                            <Heart size={32} color="var(--orange)" />
-                            Like this list?
+                        <ListLikeButton listId={list.id} likeCount={list.likeCount} isLiked={list.isLiked} />
+                        <button className={styles.cloneButton}>
+                            Go <span>PRO</span> to clone
                         </button>
-                        <button className={styles.cloneButton}>Go PRO to clone or see stats</button>
                         <button className={styles.shareButton}>Share</button>
                     </div>
                 </aside>

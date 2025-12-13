@@ -13,4 +13,5 @@ export default interface ListDto {
     likeCount: number;
     commentCount: number;
     createdAt: string;
+    isLiked: boolean;
 }

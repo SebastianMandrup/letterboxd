@@ -1,0 +1,23 @@
+.likeButton {
+    background-color: var(--darkestGrey);
+    color: var(--white);
+    padding: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid var(--darkGrey);
+}
+
+.likeButton.liked,
+.likeButton:hover {
+    color: var(--orange);
+}
+
+.likeButton:hover {
+    background-color: var(--darkerGrey);
+}
