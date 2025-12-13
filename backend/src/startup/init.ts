@@ -37,14 +37,14 @@ const init = async (app: Application) => {
     // Setup Swagger API documentation
     setupSwagger(app);
 
+    // Apply CSRF protection to all routes except GET, HEAD, OPTIONS
+    app.use(doubleCsrfProtection);
+
     // CSRF Protection - endpoint to get token
     app.get('/csrf-token', (req, res) => {
         const token = generateToken(req, res);
         res.json({ token });
     });
-
-    // Apply CSRF protection to all routes except GET, HEAD, OPTIONS
-    app.use(doubleCsrfProtection);
 
     // 🔥 WAIT for DB to finish connecting
     await dbConnection();
