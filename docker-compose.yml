@@ -2,7 +2,7 @@ services:
   mysql:
     image: mysql:latest
     env_file:
-      - ./seeder/.env
+      - ./backend/.env
     ports:
       - 3307:3306
     volumes:

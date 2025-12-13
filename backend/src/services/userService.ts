@@ -68,7 +68,6 @@ const getUserQueryBuilder = async (req: Request, userId: number | undefined = un
     addNumberOfWatchedFilms(queryBuilder);
     addReviewLikeCount(queryBuilder);
     addIsFollowed(queryBuilder, userId);
-    console.log('Current User ID in getUserQueryBuilder:', userId);
 
     const filterBy = req.query.filterBy ? String(req.query.filterBy) : undefined;
     if (filterBy) {
