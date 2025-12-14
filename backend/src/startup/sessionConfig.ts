@@ -1,73 +1,119 @@
-import session from 'express-session';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { SessionOptions, CookieOptions } from 'express-session';
 import { createClient } from 'redis';
 import { RedisStore } from 'connect-redis';
 
-export async function getSessionConfig(): Promise<session.SessionOptions> {
+export async function getSessionConfig(): Promise<SessionOptions> {
     const isProduction = process.env.NODE_ENV === 'production';
 
-    // Default development config
-    const defaultConfig: session.SessionOptions = {
-        secret: process.env.SESSION_SECRET || 'dev-secret',
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            secure: isProduction,
-            sameSite: isProduction ? 'lax' : 'strict', // Type-safe values
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000,
-        },
+    // Fix: Type 'sameSite' properly
+    const cookieOptions: CookieOptions = {
+        secure: isProduction,
+        sameSite: isProduction ? 'lax' : 'strict', // TypeScript knows these are valid
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
     };
 
     if (isProduction && process.env.REDIS_URL) {
-        console.log('🔐 Using Redis session store for production');
+        console.log('🔐 Attempting to connect to internal Redis...');
 
         try {
+            // Parse the URL
+            const redisUrl = process.env.REDIS_URL;
+            console.log('🔗 Redis URL:', redisUrl);
+
+            // For internal Redis without password, use simple connection
             const redisClient = createClient({
-                url: process.env.REDIS_URL,
-                socket: {
-                    tls: true,
-                    rejectUnauthorized: false,
-                },
+                url: redisUrl,
+                // No TLS, no password for internal services
             });
 
-            // Add event listeners for debugging
+            // Add event listeners
             redisClient.on('error', (err) => {
-                console.error('Redis Client Error:', err.message);
+                console.error('Redis error:', err.message);
             });
 
             redisClient.on('connect', () => {
-                console.log('✅ Connected to Redis');
+                console.log('Redis: Connected');
             });
 
+            console.log('Connecting...');
             await redisClient.connect();
+            console.log('✅ Connected to internal Redis!');
 
-            // Directly use RedisStore as a class
+            // Quick test
+            await redisClient.set('internal_test', 'success_' + Date.now());
+            console.log('✅ Redis test write successful');
+
             const redisStore = new RedisStore({
                 client: redisClient,
                 prefix: 'sess:',
-                ttl: 86400, // Optional: session TTL in seconds
             });
 
             return {
-                ...defaultConfig,
                 store: redisStore,
-                proxy: true, // Important for production
+                secret: process.env.SESSION_SECRET || 'dev-secret',
+                resave: false,
+                saveUninitialized: false,
+                proxy: true,
+                cookie: cookieOptions,
             };
-        } catch (error) {
-            console.error('❌ Failed to connect to Redis:', error);
-            console.log('⚠️  Falling back to MemoryStore (not recommended for production!)');
+        } catch (error: any) {
+            console.error('❌ Redis connection failed:', error.message);
 
-            // Add warning headers in production if Redis fails
-            if (isProduction) {
-                console.error('🚨 WARNING: Using MemoryStore in production!');
-                console.error('🚨 This will cause session and CSRF issues!');
+            // Try alternative - maybe the hostname is different internally
+            console.log('🔄 Trying alternative connection...');
+
+            try {
+                // Sometimes internal services use different hostnames
+                // Try connecting with just host and port
+                const url = new URL(process.env.REDIS_URL!);
+                const internalClient = createClient({
+                    socket: {
+                        host: url.hostname,
+                        port: parseInt(url.port),
+                        // No TLS for internal
+                        connectTimeout: 5000,
+                    },
+                });
+
+                await internalClient.connect();
+                console.log('✅ Connected via direct host/port!');
+
+                const redisStore = new RedisStore({
+                    client: internalClient,
+                    prefix: 'sess:',
+                });
+
+                return {
+                    store: redisStore,
+                    secret: process.env.SESSION_SECRET || 'dev-secret',
+                    resave: false,
+                    saveUninitialized: false,
+                    proxy: true,
+                    cookie: cookieOptions,
+                };
+            } catch (fallbackError: any) {
+                console.error('❌ Fallback also failed:', fallbackError.message);
+
+                // Last resort: use MemoryStore but log warning
+                console.log('⚠️  Using MemoryStore (will cause CSRF issues!)');
+                return {
+                    secret: process.env.SESSION_SECRET || 'dev-secret',
+                    resave: false,
+                    saveUninitialized: false,
+                    proxy: true,
+                    cookie: cookieOptions,
+                };
             }
-
-            return defaultConfig;
         }
     }
 
-    // Development: use MemoryStore
     console.log('💻 Using MemoryStore for development');
-    return defaultConfig;
+    return {
+        secret: process.env.SESSION_SECRET || 'dev-secret',
+        resave: false,
+        saveUninitialized: false,
+        cookie: cookieOptions,
+    };
 }
