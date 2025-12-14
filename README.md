@@ -75,24 +75,30 @@ Inspired by Letterboxd, built with a modern stack.
 ```
 
 ### Backend Setup
+```
 cd backend
 cp .env.example .env  # Configure environment variables
 cd ..
 docker compose up
+```
 
 ## Seeder Setup (seperate terminal)
+```
 cd seeder
 cp .env.example .env # must use your own TMDB api key
 npm run scrape # can be skipped (data available)
 npm run enrich # can be skipped
 npm run generate 
 npm run populate
+```
 
 ### Frontend Setup (separate terminal)
+```
 cd frontend
 npm install
 cp .env.example .env  # Configure environment variables
 npm run dev
+```
 
 ### 📄 License
 This project is for educational purposes. Letterboxd is a trademark of Letterboxd Ltd.
