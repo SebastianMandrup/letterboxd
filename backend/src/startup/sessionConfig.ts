@@ -113,7 +113,7 @@ export async function getSessionConfig(): Promise<SessionOptions> {
     return {
         secret: process.env.SESSION_SECRET || 'dev-secret',
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true, // Changed to true to ensure sessions are created for CSRF
         cookie: cookieOptions,
     };
 }
