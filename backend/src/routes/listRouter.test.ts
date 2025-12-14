@@ -8,6 +8,7 @@ const mockListRepository = {
     save: jest.fn(),
     findOne: jest.fn(),
     findOneBy: jest.fn(),
+    remove: jest.fn(),
 };
 const mockCommentRepository = {
     create: jest.fn(),
@@ -206,6 +207,26 @@ describe('listRouter', () => {
             const res = await request(app).post('/lists').send(listData);
 
             expect(res.status).toBe(500);
+        });
+    });
+
+    describe('DELETE /:id', () => {
+        it('should return 404 if list to delete is not found', async () => {
+            const listId = 999;
+
+            mockListRepository.findOne.mockResolvedValue(null);
+
+            const res = await request(app).delete(`/lists/${listId}`);
+
+            expect(res.status).toBe(404);
+            expect(res.body).toEqual({
+                success: false,
+                data: null,
+                error: {
+                    message: 'List not found',
+                    code: 404,
+                },
+            });
         });
     });
 

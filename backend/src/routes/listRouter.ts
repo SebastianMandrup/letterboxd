@@ -127,8 +127,6 @@ listRouter.get('/:name', async (req, res, next) => {
             throw new ApiError('List not found', 404);
         }
 
-        console.log('Fetched list:', list);
-
         const currentUserId = req.session.user ? req.session.user.id : null;
 
         const listDto = {
@@ -149,6 +147,72 @@ listRouter.get('/:name', async (req, res, next) => {
         res.status(200).send(listDto);
     } catch (error) {
         console.error('Error fetching list by title:', error);
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /lists/{id}:
+ *   delete:
+ *     summary: Delete a specific list
+ *     description: |
+ *       Delete a list by ID.
+ *       - User must be authenticated
+ *       - User can only delete their own lists
+ *     tags: [Lists]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the list to delete
+ *         schema:
+ *           type: integer
+ *           example: 42
+ *     responses:
+ *       '200':
+ *         description: List deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "List deleted successfully"
+ *       '401':
+ *         description: Unauthorized - Authentication required
+ *       '403':
+ *         description: Forbidden - User doesn't own this list
+ *       '404':
+ *         description: List not found
+ *       '500':
+ *         description: Internal server error
+ */
+listRouter.delete('/:id', authenticateUser, async (req, res, next) => {
+    try {
+        const listId = parseInt(req.params.id, 10);
+        validateId(listId);
+
+        const list = await listRepository.findOne({
+            where: { id: listId },
+            relations: ['user'],
+        });
+
+        if (!list) {
+            throw new ApiError('List not found', 404);
+        }
+
+        if (list.user.id !== req.user.id) {
+            throw new ApiError('Unauthorized to delete this list', 403);
+        }
+
+        await listRepository.remove(list);
+        res.status(200).send({ message: 'List deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting list:', error);
         next(error);
     }
 });

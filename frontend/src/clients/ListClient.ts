@@ -21,6 +21,10 @@ class ListClient extends ApiClient<ListDto> {
         return this.axiosInstance.get<ListDto>(`${this.endpoint}/${encodeURIComponent(name)}`).then((res) => res.data);
     }
 
+    deleteById(id: number) {
+        return this.axiosInstance.delete<ApiResponse<null>>(`${this.endpoint}/${id}`).then((res) => res.data);
+    }
+
     getCommentsById(id: number) {
         return this.axiosInstance.get<CommentDto[]>(`${this.endpoint}/${id}/comments`).then((res) => res.data);
     }
