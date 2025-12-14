@@ -36,7 +36,7 @@ const CreateListPage: FunctionComponent = () => {
 
         timeoutRef.current = setTimeout(() => {
             setSearchTerm(value);
-        }, 2000);
+        }, 500);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {

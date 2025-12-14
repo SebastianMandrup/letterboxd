@@ -4,6 +4,7 @@ import type ReviewDto from './ReviewDto';
 
 export default interface MovieDto {
     id: number;
+    slug: string;
     title: string;
     originalTitle?: string | null;
     adult: boolean;

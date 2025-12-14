@@ -132,6 +132,22 @@
     max-width: 200px;
 }
 
+.sidebarButtons > button {
+    background-color: var(--darkestGrey);
+    color: var(--white);
+    font-size: 14px;
+    border: none;
+    border-bottom: 1px solid var(--darkGrey);
+}
+
+.sidebarButtons > button:last-child {
+    border-bottom: none;
+}
+
+.sidebarButtons > button:hover {
+    background-color: var(--darkerGrey);
+}
+
 .loadingSidebarBox {
     width: 100%;
     height: 150px;
@@ -146,37 +162,22 @@
     border-radius: 8px;
 }
 
-.cloneButton,
-.shareButton {
-    background-color: var(--darkestGrey);
-    color: var(--white);
-    border: none;
+.cloneButton {
     padding: 14px;
-    font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 5px;
     cursor: pointer;
-}
-
-.cloneButton:hover,
-.shareButton:hover {
-    background-color: var(--darkerGrey);
 }
 
 .cloneButton {
     border-radius: 0;
-    border-bottom: 1px solid var(--darkGrey);
 }
 
 .proText {
     color: var(--lightBlue);
     font-weight: 600;
-}
-
-.shareButton {
-    border-radius: 0 0 10px 10px;
 }
 
 @media screen and (min-width: 768px) {

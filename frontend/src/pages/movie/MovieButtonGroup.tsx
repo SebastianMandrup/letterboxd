@@ -7,6 +7,7 @@ import useViewMovie from '../../hooks/movies/useViewMovie';
 import { useToastStore } from '../../stores/useToastStore';
 import EyeIcon from '../shared/icons/EyeIcon';
 import type ReviewDto from '../../DTO/ReviewDto';
+import ShareButton from '../shared/shareButton/ShareButton';
 
 interface MovieButtonGroupProps {
     movie: MovieDto;
@@ -46,10 +47,7 @@ const MovieButtonGroup: FunctionComponent<MovieButtonGroupProps> = ({ movie, rev
     return (
         <div className={styles.divButtonsMoviePage}>
             {!isAuthenticated() ? (
-                <>
-                    <button className={styles.buttonLogRateReview}>Sign in to log, rate or review</button>
-                    <button className={styles.buttonShareMovie}>Share</button>
-                </>
+                <button className={styles.buttonLogRateReview}>Sign in to log, rate or review</button>
             ) : (
                 <>
                     <button className={styles.buttonView} onClick={() => handleView()}>
@@ -59,10 +57,10 @@ const MovieButtonGroup: FunctionComponent<MovieButtonGroupProps> = ({ movie, rev
                     <button className={styles.buttonReview} onClick={() => setIsReviewing(true)}>
                         Review
                     </button>
-                    <button className={styles.buttonShareMovie}>Share</button>
-                    {isReviewing && <ReviewModal setIsReviewing={setIsReviewing} movie={movie} reviews={reviews} setReviews={setReviews} />}
                 </>
             )}
+            <ShareButton />
+            {isReviewing && <ReviewModal setIsReviewing={setIsReviewing} movie={movie} reviews={reviews} setReviews={setReviews} />}
         </div>
     );
 };
