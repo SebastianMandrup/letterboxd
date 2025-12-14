@@ -1,0 +1,10 @@
+.shareButton {
+    border: none;
+    padding: 14px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 0 0 10px 10px;
+}

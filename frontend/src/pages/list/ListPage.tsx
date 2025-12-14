@@ -10,6 +10,7 @@ import ListComments from './ListComments';
 import styles from './llistPage.module.css';
 import LoadingListPage from './LoadingListPage';
 import ListLikeButton from './ListLikeButton';
+import ShareButton from '../shared/shareButton/ShareButton';
 
 const ListPage: FunctionComponent = () => {
     const listName = useParams().name || '';
@@ -76,7 +77,7 @@ const ListPage: FunctionComponent = () => {
                         <button className={styles.cloneButton}>
                             Go <span className={styles.proText}>PRO</span> to clone
                         </button>
-                        <button className={styles.shareButton}>Share</button>
+                        <ShareButton />
                     </div>
                 </aside>
             </div>

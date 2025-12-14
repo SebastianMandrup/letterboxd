@@ -16,7 +16,7 @@ const NUM_REVIEWS = 500;
 const NUM_VIEWS = 1000;
 const NUM_LISTS = 100;
 const NUM_COMMENTS = 1000;
-const MAX_MOVIES = 5000; // Limit movies to 1000, keep all cast/crew/videos for these movies
+const MAX_MOVIES = 2000;
 
 // ---------------- Paths ----------------
 const dataDir = path.join(__dirname, './data');

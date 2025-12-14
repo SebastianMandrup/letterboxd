@@ -5,21 +5,18 @@
     justify-content: center;
 }
 
-.buttonLogRateReview,
-.buttonView,
-.buttonReview,
-.buttonShareMovie {
+.divButtonsMoviePage > button {
     background-color: var(--darkerGrey);
     color: var(--lightGrey);
     width: 220px;
     height: 40px;
     border: 1px solid var(--darkestGrey);
     font-size: 0.8rem;
+    cursor: pointer;
+}
 
-    &:hover {
-        background-color: var(--darkGrey);
-        cursor: pointer;
-    }
+.divButtonsMoviePage > button:hover {
+    background-color: var(--darkGrey);
 }
 
 .buttonView {
