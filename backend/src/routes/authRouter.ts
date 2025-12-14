@@ -29,7 +29,16 @@ const userRepository = AppDataSource.getRepository(User);
  */
 authRouter.get('/csrf-token', (req, res) => {
     const token = generateCsrfToken(req, res);
-    res.json({ token });
+    if (req.session) {
+        req.session.save((err) => {
+            if (err) {
+                console.error('Failed to save session:', err);
+            }
+            res.json({ token });
+        });
+    } else {
+        res.json({ token });
+    }
 });
 
 /**
