@@ -25,10 +25,8 @@ export async function getSessionConfig(): Promise<SessionOptions> {
             // For internal Redis without password, use simple connection
             const redisClient = createClient({
                 url: redisUrl,
-                // No TLS, no password for internal services
             });
 
-            // Add event listeners
             redisClient.on('error', (err) => {
                 console.error('Redis error:', err.message);
             });
@@ -101,7 +99,7 @@ export async function getSessionConfig(): Promise<SessionOptions> {
                 return {
                     secret: process.env.SESSION_SECRET || 'dev-secret',
                     resave: false,
-                    saveUninitialized: false,
+                    saveUninitialized: true,
                     proxy: true,
                     cookie: cookieOptions,
                 };
