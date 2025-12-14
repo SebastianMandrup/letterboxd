@@ -86,7 +86,7 @@ export const getMovieBySlug = async (req: Request, slug: string) => {
 
     if (result && userId) {
         const isViewed = (await query.getRawOne())['cmovie_isViewed'];
-        result.isViewed = isViewed;
+        result.isViewed = isViewed === '1' || isViewed === true;
     } else {
         result.isViewed = false;
     }
