@@ -9,7 +9,7 @@ export async function getSessionConfig(): Promise<SessionOptions> {
     // Fix: Type 'sameSite' properly
     const cookieOptions: CookieOptions = {
         secure: isProduction,
-        sameSite: isProduction ? 'lax' : 'strict', // TypeScript knows these are valid
+        sameSite: 'lax',
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
     };
