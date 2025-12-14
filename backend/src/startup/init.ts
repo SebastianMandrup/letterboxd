@@ -9,6 +9,7 @@ import { setupSwagger } from './swagger';
 import { initSentry, sentryErrorHandler } from './sentry';
 import cookieParser from 'cookie-parser';
 import { doubleCsrfProtection } from '../middleware/csrfProtection';
+import { getSessionConfig } from './sessionConfig';
 
 const init = async (app: Application) => {
     initSentry();
@@ -24,19 +25,8 @@ const init = async (app: Application) => {
 
     app.use(cookieParser());
 
-    app.use(
-        session({
-            secret: process.env.SESSION_SECRET || 'secretdevkey',
-            resave: false,
-            saveUninitialized: false,
-            cookie: {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
-                maxAge: 1000 * 60 * 60 * 24,
-            },
-        }),
-    );
+    const sessionConfig = await getSessionConfig();
+    app.use(session(sessionConfig));
 
     setupSwagger(app);
 
