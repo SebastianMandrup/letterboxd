@@ -59,7 +59,14 @@ function MoviePage() {
                         {reviews && reviews.length > 0 ? (
                             <section className={styles.sectionReviews}>
                                 {reviews.map((review) => (
-                                    <ReviewCardContent key={review.id} review={review} withMovieTitle={false} />
+                                    <ReviewCardContent
+                                        key={review.id}
+                                        review={review}
+                                        withMovieTitle={false}
+                                        handleDelete={() => {
+                                            setReviews(reviews.filter((r) => r.id !== review.id));
+                                        }}
+                                    />
                                 ))}
                             </section>
                         ) : (

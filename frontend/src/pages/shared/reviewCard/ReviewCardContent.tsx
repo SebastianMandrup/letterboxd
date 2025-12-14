@@ -6,56 +6,65 @@ import { getApiAvatar } from '../../../util/getApiAvatar';
 import { useUserStore } from '../../../stores/useUserStore';
 import { useToastStore } from '../../../stores/useToastStore';
 import Heart from '../icons/HeartIcon';
-import reviewService from '../../../clients/ReviewClient';
+import DeleteIcon from '../icons/DeleteIcon';
+import useLikeReview from '../../../hooks/reviews/useLikeReview';
+import useDeleteReview from '../../../hooks/reviews/useDeleteReview';
 
 interface ReviewCardContentProps {
     review: ReviewDto;
     withMovieTitle?: boolean;
+    handleDelete: () => void;
 }
 
-const ReviewCardContent: FunctionComponent<ReviewCardContentProps> = ({ review, withMovieTitle = true }) => {
+const ReviewCardContent: FunctionComponent<ReviewCardContentProps> = ({ review, withMovieTitle = true, handleDelete }) => {
+    // TODO: move logic
     if (!review.likeCount) {
         review.likeCount = 0;
     }
+
     const { user } = useUserStore();
     const { addToast } = useToastStore();
     const [isLiked, setIsLiked] = useState(review.isLiked);
     const [likedCount, setLikedCount] = useState(review.likeCount);
+    const likeReviewMutation = useLikeReview();
+    const deleteReviewMutation = useDeleteReview();
 
-    const handleLike = async () => {
+    const handleLike = () => {
         if (!user) {
             addToast('You must be logged in to like reviews.', 'warning');
             return;
         }
 
-        try {
-            const response = await reviewService.likeReview(review.id);
+        likeReviewMutation.mutate(review.id, {
+            onSuccess: (response) => {
+                if (response.message === 'Review liked successfully') {
+                    setIsLiked(true);
+                    setLikedCount((count) => count + 1);
+                } else {
+                    setIsLiked(false);
+                    setLikedCount((count) => count - 1);
+                }
+            },
+            onError: (error) => {
+                addToast(error.message, 'error');
+            },
+        });
+    };
 
-            if (!(response.status === 'ok')) {
-                addToast(response.message, 'error');
-                return;
-            }
-
-            if (response.message === 'Review unliked successfully') {
-                setLikedCount(likedCount - 1);
-                setIsLiked(false);
-                addToast('Review unliked successfully.', 'success');
-                return;
-            } else if (response.message === 'Review liked successfully') {
-                setLikedCount(likedCount + 1);
-                setIsLiked(true);
-                addToast('Review liked successfully.', 'success');
-                return;
-            }
-        } catch (error) {
-            console.error('Error liking review:', error);
-            addToast('An error occurred while liking the review.', 'error');
-            return;
-        }
+    const handleDeleteClick = () => {
+        deleteReviewMutation.mutate(review.id, {
+            onSuccess: (response) => {
+                addToast(response.message, 'success');
+                handleDelete();
+            },
+            onError: (error) => {
+                addToast(error.message, 'error');
+            },
+        });
     };
 
     return (
-        <div>
+        <article className={styles.reviewCardContent}>
             {withMovieTitle && (
                 <section className={styles.titleAndYear}>
                     <a className={styles.movieTitle} href={`/movie/${getSlug(review.movie.title)}`}>
@@ -83,8 +92,13 @@ const ReviewCardContent: FunctionComponent<ReviewCardContentProps> = ({ review, 
                     </button>
                     <p className={styles.likeCount}>{likedCount} likes</p>
                 </div>
+                {user && user.username === review.author.username && (
+                    <button className={styles.deleteButton} onClick={() => handleDeleteClick()}>
+                        <DeleteIcon size={24} />
+                    </button>
+                )}
             </section>
-        </div>
+        </article>
     );
 };
 

@@ -44,7 +44,7 @@ const ReviewModal: FunctionComponent<ReviewModalProps> = ({ setIsReviewing, movi
             onSuccess: (response) => {
                 const filteredReviews = reviews.filter((r) => r.author.id !== response.data.author.id);
 
-                setReviews([response.data, ...filteredReviews]);
+                setReviews([...filteredReviews, response.data]);
                 addToast('Review added successfully!', 'success');
                 setIsReviewing(false);
             },

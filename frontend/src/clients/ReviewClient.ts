@@ -1,12 +1,6 @@
 import type ReviewDto from '../DTO/ReviewDto';
 import ApiClient from './ApiClient';
-
-interface LikeReviewResponse {
-    status: 'ok' | 'error';
-    statusCode: number;
-    message: string;
-    data?: ReviewDto;
-}
+import type ApiResponse from './ApiResponse.interface';
 
 class ReviewClient extends ApiClient<ReviewDto> {
     private static instance: ReviewClient;
@@ -23,7 +17,16 @@ class ReviewClient extends ApiClient<ReviewDto> {
     }
 
     likeReview = (reviewId: number) => {
-        return this.axiosInstance.post<LikeReviewResponse>(`${this.endpoint}/${reviewId}/like`).then((res) => {
+        return this.axiosInstance.post<ApiResponse<null>>(`${this.endpoint}/${reviewId}/like`).then((res) => {
+            return {
+                ...res.data,
+                statusCode: res.status,
+            };
+        });
+    };
+
+    deleteReview = (reviewId: number) => {
+        return this.axiosInstance.delete<ApiResponse<null>>(`${this.endpoint}/${reviewId}`).then((res) => {
             return {
                 ...res.data,
                 statusCode: res.status,

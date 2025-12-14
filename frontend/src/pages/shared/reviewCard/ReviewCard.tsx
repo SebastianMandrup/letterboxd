@@ -1,4 +1,4 @@
-import type { FunctionComponent } from 'react';
+import { useState, type FunctionComponent } from 'react';
 import type ReviewDto from '../../../DTO/ReviewDto';
 import styles from './reviewCard.module.css';
 import MovieCard from '../movieCard/MovieCard';
@@ -10,6 +10,12 @@ interface ReviewCardProps {
 }
 
 const ReviewCard: FunctionComponent<ReviewCardProps> = ({ review }) => {
+    const [isDeleted, setIsDeleted] = useState(false);
+
+    if (isDeleted) {
+        return null;
+    }
+
     if (review.review.length > 200) {
         review.review = review.review.slice(0, 200) + '...';
     }
@@ -17,7 +23,7 @@ const ReviewCard: FunctionComponent<ReviewCardProps> = ({ review }) => {
     return (
         <article className={styles.reviewCard}>
             <MovieCard title={review.movie.title} src={getThumbnailPoster(review.movie.posterPath)} alt={review.movie.title} />
-            <ReviewCardContent review={review} />
+            <ReviewCardContent review={review} handleDelete={() => setIsDeleted(true)} />
         </article>
     );
 };

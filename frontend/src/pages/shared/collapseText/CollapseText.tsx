@@ -21,17 +21,15 @@ const CollapseText: FunctionComponent<CollapseTextProps> = ({ text, length = 200
     const secondPart = text.slice(length);
 
     return (
-        <>
-            <p>
-                {firstPart}
-                {isCollapsed ? '... ' : secondPart}
-            </p>
+        <p>
+            {firstPart}
+            {isCollapsed ? '... ' : secondPart}
             {isCollapsed && (
                 <button className={styles.showMore} onClick={toggleCollapse}>
                     more
                 </button>
             )}
-        </>
+        </p>
     );
 };
 
