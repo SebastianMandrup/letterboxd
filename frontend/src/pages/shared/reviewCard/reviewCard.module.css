@@ -1,6 +1,6 @@
 .reviewCard {
     display: grid;
-    grid-template-columns: 2fr 6fr 1fr;
+    grid-template-columns: 2fr 6fr;
     padding: 20px 40px;
     border-bottom: 1px solid var(--darkestGrey);
     gap: 40px;

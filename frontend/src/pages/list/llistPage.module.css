@@ -168,6 +168,7 @@
     height: 150px;
     background-color: var(--darkerGrey);
     border-radius: 10px;
+    max-width: 200px;
 }
 
 .loadingMovieCard {

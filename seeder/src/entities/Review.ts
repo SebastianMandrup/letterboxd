@@ -30,6 +30,6 @@ export class Review {
     @ManyToOne(() => User, (user) => user.reviews)
     author: UserType;
 
-    @OneToMany(() => ReviewLike, (reviewLike) => reviewLike.review)
+    @OneToMany(() => ReviewLike, (reviewLike) => reviewLike.review, { cascade: true, onDelete: 'CASCADE' })
     likes: ReviewLike[];
 }

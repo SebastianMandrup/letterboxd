@@ -10,7 +10,7 @@ export class ReviewLike {
     @CreateDateColumn()
     createdAt: Date;
 
-    @ManyToOne(() => Review, (review) => review.likes)
+    @ManyToOne(() => Review, (review) => review.likes, { onDelete: 'CASCADE' })
     review: Review;
 
     @ManyToOne(() => User, (user) => user.reviewLikes)

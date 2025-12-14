@@ -183,6 +183,36 @@ reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, re
     }
 });
 
+reviewRouter.delete('/:id', authenticateUser, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const reviewId = parseInt(req.params.id, 10);
+        const userId = req.user.id;
+
+        const reviewRepository = AppDataSource.getRepository(Review);
+        const review = await reviewRepository.findOne({
+            where: { id: reviewId },
+            relations: ['author'],
+        });
+
+        if (!review) {
+            throw new ApiError('Review not found', 404);
+        }
+
+        if (review.author.id !== userId) {
+            throw new ApiError('Unauthorized to delete this review', 403);
+        }
+
+        await reviewRepository.remove(review);
+
+        res.status(200).send({
+            status: 'ok',
+            message: 'Review deleted successfully',
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
 /**
  * @swagger
  * /reviews/{id}/like:
