@@ -13,6 +13,10 @@ import { doubleCsrfProtection } from '../middleware/csrfProtection';
 const init = async (app: Application) => {
     initSentry();
 
+    // Trust proxy when behind reverse proxy (nginx, load balancer, etc.)
+    // This is needed for secure cookies to work properly
+    app.set('trust proxy', 1);
+
     app.use(express.json());
     app.use(
         cors({
@@ -30,7 +34,8 @@ const init = async (app: Application) => {
             saveUninitialized: false,
             cookie: {
                 httpOnly: true,
-                secure: false,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
                 maxAge: 1000 * 60 * 60 * 24,
             },
         }),
