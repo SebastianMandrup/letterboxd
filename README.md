@@ -82,6 +82,8 @@ cd ..
 docker compose up
 ```
 
+**For production deployment**, see [Backend Production Guide](backend/PRODUCTION.md) for security configuration and deployment checklist.
+
 ## Seeder Setup (seperate terminal)
 ```
 cd seeder
