@@ -11,6 +11,15 @@
     padding: 20px;
 }
 
+.errorMessage {
+    margin-bottom: 20px;
+    padding: 15px;
+    color: var(--white);
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+
 .userInfo {
     display: flex;
     align-items: center;
@@ -64,7 +73,7 @@
 
 .loadingPublishDate {
     width: 150px;
-    height: 20px;
+    height: 30px;
     background-color: var(--darkerGrey);
     border-radius: 4px;
 }
@@ -138,6 +147,12 @@
     font-size: 14px;
     border: none;
     border-bottom: 1px solid var(--darkGrey);
+    padding: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .sidebarButtons > button:last-child {
@@ -160,15 +175,6 @@
     height: 100%;
     background-color: var(--darkerGrey);
     border-radius: 8px;
-}
-
-.cloneButton {
-    padding: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    cursor: pointer;
 }
 
 .cloneButton {

@@ -3,12 +3,17 @@ import LoadingBackdrop from '../shared/backdrop/LoadingBackdrop';
 import styles from './llistPage.module.css';
 import LoadingMovieCard from '../shared/movieCard/LoadingMovieCard';
 
-const LoadingListPage: FunctionComponent = () => {
+interface LoadingListPageProps {
+    errorMessage: string | undefined;
+}
+
+const LoadingListPage: FunctionComponent<LoadingListPageProps> = ({ errorMessage }) => {
     return (
         <section className={styles.listPage}>
             <LoadingBackdrop />
             <div className={styles.contentContainer}>
                 <section>
+                    <div className={styles.errorMessage}>{errorMessage && <p>{errorMessage}</p>}</div>
                     <div className={styles.userInfo}>
                         <div className={`${styles.loadingAvatar} pulsing`} />
                         <div className={`${styles.loadingUsername} pulsing`} />

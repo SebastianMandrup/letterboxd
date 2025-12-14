@@ -11,18 +11,22 @@ import styles from './llistPage.module.css';
 import LoadingListPage from './LoadingListPage';
 import ListLikeButton from './ListLikeButton';
 import ShareButton from '../shared/shareButton/ShareButton';
+import DeleteListButton from './DeleteListButton';
 
 const ListPage: FunctionComponent = () => {
     const listName = useParams().name || '';
     const { data: list, isLoading, error } = useList(listName);
 
-    // TODO: loading and error combined component
-    if (isLoading) {
-        return <LoadingListPage />;
-    }
+    if (isLoading || error || !list) {
+        let errorMessage;
 
-    if (error || !list) {
-        return <div>Error loading list: {error?.message}</div>;
+        if (error) {
+            errorMessage = `Error loading list: ${error.message}`;
+        } else if (!isLoading && !list) {
+            errorMessage = 'List not found.';
+        }
+
+        return <LoadingListPage errorMessage={errorMessage} />;
     }
 
     const firstMovie = list.movies[0];
@@ -77,6 +81,7 @@ const ListPage: FunctionComponent = () => {
                         <button className={styles.cloneButton}>
                             Go <span className={styles.proText}>PRO</span> to clone
                         </button>
+                        <DeleteListButton list={list} />
                         <ShareButton />
                     </div>
                 </aside>
