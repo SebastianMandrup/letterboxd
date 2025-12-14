@@ -5,6 +5,8 @@
     margin-bottom: 10px;
     padding: 10px 0 20px 0;
     border-bottom: 1px solid var(--darkestGrey);
+    width: 100%;
+    position: relative;
 }
 
 .comment:last-child {
@@ -47,6 +49,17 @@
     align-items: center;
     font-size: 16px;
     color: var(--grey);
+}
+
+.deleteButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    cursor: pointer;
+    color: var(--darkGrey);
+    background: none;
+    border: none;
 }
 
 @media screen and (min-width: 768px) {

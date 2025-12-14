@@ -70,36 +70,114 @@ reviewRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
 reviewRouter.post('/', authenticateUser, validateReview, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { review, rating, movieId, isLiked } = req.body;
+        const userId = req.user.id;
 
         const movieRepository = AppDataSource.getRepository(Movie);
+        const reviewRepository = AppDataSource.getRepository(Review);
+        const movieLikeRepository = AppDataSource.getRepository(MovieLike);
 
+        // Check if movie exists
         const movie = await movieRepository.findOneBy({ id: movieId });
-
         if (!movie) {
-            throw new ApiError('Movie not found', 404);
+            return res.status(404).json({
+                success: false,
+                data: null,
+                error: {
+                    message: 'Movie not found',
+                    code: 404,
+                },
+            });
         }
 
-        const reviewRepository = AppDataSource.getRepository(Review);
+        // Handle movie like if isLiked is true
+        if (isLiked === true) {
+            try {
+                const existingLike = await movieLikeRepository.findOne({
+                    where: {
+                        movie: { id: movieId },
+                        user: { id: userId },
+                    },
+                });
 
+                if (!existingLike) {
+                    const newLike = movieLikeRepository.create({
+                        movie: { id: movieId },
+                        user: { id: userId },
+                    });
+                    await movieLikeRepository.save(newLike);
+                }
+            } catch (likeError) {
+                console.error('Error saving movie like:', likeError);
+            }
+        }
+
+        // Check for existing review - REMOVE the select clause
+        const existingReview = await reviewRepository.findOne({
+            where: {
+                movie: { id: movieId },
+                author: { id: userId },
+            },
+            relations: ['author'], // Add this to load the author relation
+        });
+
+        if (existingReview) {
+            // Update existing review
+            existingReview.review = review;
+            existingReview.rating = rating;
+            await reviewRepository.save(existingReview);
+
+            const reviewDTO = {
+                id: existingReview.id,
+                review: existingReview.review,
+                rating: existingReview.rating,
+                author: {
+                    id: existingReview.author.id,
+                    username: existingReview.author.username,
+                },
+            };
+
+            return res.status(200).json({
+                success: true,
+                data: reviewDTO,
+                message: 'Review updated successfully',
+            });
+        }
+
+        // Create new review
         const newReview = reviewRepository.create({
             review,
             rating,
             movie: { id: movieId },
-            author: { id: req.user.id },
+            author: { id: userId },
         });
 
         await reviewRepository.save(newReview);
 
-        if (isLiked === true) {
-            const movieLikeRepository = AppDataSource.getRepository(MovieLike);
-            const newLike = movieLikeRepository.create({
-                movie: { id: movieId },
-                user: { id: req.user.id },
-            });
-            await movieLikeRepository.save(newLike);
+        // For new reviews, you might need to fetch with author relation
+        const savedReview = await reviewRepository.findOne({
+            where: { id: newReview.id },
+            relations: ['author'],
+        });
+
+        if (!savedReview) {
+            throw new ApiError('Error retrieving saved review', 500);
         }
 
-        res.status(201).send({ message: 'Review created successfully', review: newReview });
+        const reviewDTO = {
+            id: savedReview.id,
+            review: savedReview.review,
+            rating: savedReview.rating,
+            author: {
+                id: savedReview.author.id,
+                username: savedReview.author.username,
+            },
+        };
+
+        return res.status(201).json({
+            success: true,
+            data: reviewDTO,
+            message: 'Review created successfully',
+        });
     } catch (error) {
         next(error);
     }

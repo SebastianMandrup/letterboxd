@@ -25,7 +25,6 @@ const ReviewModal: FunctionComponent<ReviewModalProps> = ({ setIsReviewing, movi
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // TODO: front end validation
         const formData = new FormData(e.target as HTMLFormElement);
         const review = formData.get('review') as string;
 
@@ -43,13 +42,16 @@ const ReviewModal: FunctionComponent<ReviewModalProps> = ({ setIsReviewing, movi
 
         addReviewMutation.mutate(reviewData, {
             onSuccess: (response) => {
-                setReviews([...reviews, response.data]);
+                const filteredReviews = reviews.filter((r) => r.author.id !== response.data.author.id);
+
+                setReviews([response.data, ...filteredReviews]);
                 addToast('Review added successfully!', 'success');
                 setIsReviewing(false);
             },
             onError: (error) => {
                 console.error('Error adding review:', error);
                 addToast(error.message, 'error');
+                setIsReviewing(false);
             },
         });
     };

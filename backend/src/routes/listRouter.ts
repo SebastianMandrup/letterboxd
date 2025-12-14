@@ -204,6 +204,67 @@ listRouter.get('/:id/comments', async (req, res, next) => {
 
 /**
  * @swagger
+ * /lists/{id}/comments/{commentId}:
+ *   delete:
+ *     summary: Delete a comment from a list
+ *     tags: [Lists]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: List ID
+ *       - in: path
+ *         name: commentId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Comment ID to delete
+ *     responses:
+ *       200:
+ *         description: Comment deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Comment deleted successfully"
+ *       404:
+ *         description: List or comment not found
+ */
+listRouter.delete('/comments/:commentId', authenticateUser, async (req, res, next) => {
+    try {
+        const commentId = parseInt(req.params.commentId, 10);
+        validateId(commentId);
+
+        const commentRepository = AppDataSource.getRepository(Comment);
+
+        const comment = await commentRepository.findOne({
+            where: { id: commentId },
+            relations: ['user'],
+        });
+
+        if (!comment) {
+            throw new ApiError('Comment not found', 404);
+        }
+
+        if (comment.user.id !== req.user.id) {
+            throw new ApiError('Unauthorized to delete this comment', 403);
+        }
+
+        await commentRepository.remove(comment);
+        res.status(200).send({ message: 'Comment deleted successfully' });
+    } catch (error) {
+        console.error('Error fetching comments for list:', error);
+        next(error);
+    }
+});
+
+/**
+ * @swagger
  * /lists/{id}/like:
  *   post:
  *     summary: Toggle like on a list

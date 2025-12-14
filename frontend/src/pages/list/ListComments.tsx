@@ -50,7 +50,11 @@ const ListComments: FunctionComponent<ListCommentsProps> = ({ listId }) => {
     return (
         <section>
             <SectionHeader title={`${comments.length > 0 ? comments.length : ''} Comments`} />
-            <section>{comments.length > 0 ? comments.map((comment) => <ListComment key={comment.id} comment={comment} />) : 'No comments available.'}</section>
+            <section>
+                {comments.length > 0
+                    ? comments.map((comment) => <ListComment key={comment.id} comment={comment} comments={comments} setComments={setComments} />)
+                    : 'No comments available.'}
+            </section>
             {isAuthenticated && (
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <textarea name="contentInput" placeholder="Add a comment..." rows={4} className={styles.textarea} required />

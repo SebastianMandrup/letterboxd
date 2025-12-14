@@ -32,6 +32,10 @@ class ListClient extends ApiClient<ListDto> {
     likeList(id: number) {
         return this.axiosInstance.post<ApiResponse<null>>(`${this.endpoint}/${id}/like`).then((res) => res.data);
     }
+
+    deleteComment(commentId: number) {
+        return this.axiosInstance.delete<ApiResponse<null>>(`${this.endpoint}/comments/${commentId}`).then((res) => res.data);
+    }
 }
 
 export default ListClient.getInstance();
