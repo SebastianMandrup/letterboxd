@@ -29,7 +29,19 @@ const userRepository = AppDataSource.getRepository(User);
  */
 authRouter.get('/csrf-token', (req, res) => {
     const token = generateCsrfToken(req, res);
-    res.json({ token });
+    
+    // Explicitly save the session to ensure CSRF secret persists
+    // This is crucial when saveUninitialized: false is set in production
+    if (req.session) {
+        req.session.save((err) => {
+            if (err) {
+                console.error('Failed to save session:', err);
+            }
+            res.json({ token });
+        });
+    } else {
+        res.json({ token });
+    }
 });
 
 /**

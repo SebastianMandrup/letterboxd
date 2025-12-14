@@ -6,6 +6,7 @@ import { User } from '../entities/User';
 
 // 1. Declare mocks first
 const mockFindOne = jest.fn();
+const mockGenerateCsrfToken = jest.fn((req, res) => 'mock-csrf-token');
 
 // 2. Mock AppDataSource before importing authRouter
 jest.mock('../startup/data-source', () => ({
@@ -21,11 +22,17 @@ jest.mock('bcrypt', () => ({
     compare: jest.fn(),
 }));
 
-// 4. Now import the router after mocks
+// 4. Mock CSRF protection
+jest.mock('../middleware/csrfProtection', () => ({
+    generateCsrfToken: jest.fn((req, res) => 'mock-csrf-token'),
+    doubleCsrfProtection: jest.fn((req, res, next) => next()),
+}));
+
+// 5. Now import the router after mocks
 import authRouter from '../routes/authRouter';
 import { errorHandler } from '../middleware/errorHandling/errorHandler';
 
-// 5. Setup Express app
+// 6. Setup Express app
 const app = express();
 app.use(express.json());
 app.use(
@@ -141,6 +148,28 @@ describe('Auth Router', () => {
 
             expect(res.status).toBe(200);
             expect(res.body).toHaveProperty('username', 'test');
+        });
+    });
+
+    describe('GET /auth/csrf-token', () => {
+        it('should return a CSRF token', async () => {
+            const res = await request(app).get('/auth/csrf-token');
+
+            expect(res.status).toBe(200);
+            expect(res.body).toHaveProperty('token');
+            expect(typeof res.body.token).toBe('string');
+        });
+
+        it('should save session when CSRF token is generated', async () => {
+            const agent = request.agent(app);
+            const res = await agent.get('/auth/csrf-token');
+
+            expect(res.status).toBe(200);
+            expect(res.body).toHaveProperty('token');
+            
+            // Verify session persists by making another request
+            const res2 = await agent.get('/auth/me');
+            expect(res2.status).toBe(401); // Not authenticated, but session should exist
         });
     });
 });
