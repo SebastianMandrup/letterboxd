@@ -6,10 +6,11 @@ import { RedisStore } from 'connect-redis';
 export async function getSessionConfig(): Promise<SessionOptions> {
     const isProduction = process.env.NODE_ENV === 'production';
 
-    // Fix: Type 'sameSite' properly
+    // For cross-origin production deployment (e.g., Render.com with separate frontend/backend domains)
+    // we need sameSite: 'none' to allow cookies to be sent across origins
     const cookieOptions: CookieOptions = {
         secure: isProduction,
-        sameSite: 'lax',
+        sameSite: isProduction ? 'none' : 'lax', // 'none' for cross-origin in production
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
     };

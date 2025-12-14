@@ -28,6 +28,7 @@ const userRepository = AppDataSource.getRepository(User);
  *                   type: string
  */
 authRouter.get('/csrf-token', (req, res) => {
+    // Generate token - this will set csrfSecret in session via getSecret callback
     const token = generateCsrfToken(req, res);
     
     // Helper function to send response
@@ -36,13 +37,19 @@ authRouter.get('/csrf-token', (req, res) => {
     // Explicitly save the session to ensure CSRF secret persists
     // This is crucial when saveUninitialized: false is set in production
     if (req.session) {
+        // Log session details for debugging
+        console.log('[CSRF Token] Session ID:', req.session.id, 'Has secret:', !!req.session.csrfSecret);
+        
         req.session.save((err) => {
             if (err) {
                 console.error('Failed to save CSRF session - this may indicate Redis connectivity issues:', err.message || err);
+            } else {
+                console.log('[CSRF Token] Session saved successfully with ID:', req.session?.id);
             }
             sendResponse();
         });
     } else {
+        console.error('[CSRF Token] WARNING: No session available! CSRF will not work.');
         sendResponse();
     }
 });

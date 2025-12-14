@@ -15,12 +15,16 @@ const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
         if (req?.session) {
             // If using sessions, store secret in session
             if (!req.session.csrfSecret) {
+                console.log('[CSRF] Generating new secret for session:', req.session.id);
                 req.session.csrfSecret = randomBytes(32).toString('hex');
+            } else {
+                console.log('[CSRF] Using existing secret from session:', req.session.id);
             }
             return req.session.csrfSecret;
         }
 
         // Fallback: Use environment variable or generate random
+        console.warn('[CSRF] WARNING: No session available, using fallback secret!');
         return csrfSecret || randomBytes(32).toString('hex');
     },
 
@@ -38,13 +42,14 @@ const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
         // Fallback options if not using sessions
         const ip = req.ip || req.socket?.remoteAddress || 'unknown-ip';
         const userAgent = req.get('user-agent') || 'unknown-agent';
+        console.warn('[CSRF] WARNING: Using IP/UA fallback for session identifier');
         return `${ip}-${userAgent}`;
     },
 
     cookieName: 'X-Csrf-Token',
     cookieOptions: {
         httpOnly: true,
-        sameSite: 'lax',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-origin in production
         secure: process.env.NODE_ENV === 'production',
         path: '/',
     },
