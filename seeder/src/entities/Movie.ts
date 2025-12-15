@@ -107,7 +107,17 @@ export class Movie {
     crewMembers: CrewMemberType[];
 
     @ManyToMany(() => Genre, (genre) => genre.movies)
-    @JoinTable()
+    @JoinTable({
+        name: 'movie_genre', // CORRECT TABLE NAME
+        joinColumn: {
+            name: 'movieId', // Could be 'movieId', 'movie_id', 'moviesId'
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'genreId', // Could be 'genreId', 'genre_id', 'genresId'
+            referencedColumnName: 'id',
+        },
+    })
     genres: GenreType[];
 
     @ManyToMany(() => Language, (language) => language.movies)

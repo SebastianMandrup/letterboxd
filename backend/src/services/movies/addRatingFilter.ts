@@ -5,12 +5,12 @@ export default function addRatingFilter(queryBuilder: SelectQueryBuilder<Movie>,
     if (!rating) return;
 
     if (rating === 'lowest') {
-        queryBuilder.orderBy('movie.voteAverage', 'ASC');
+        queryBuilder.orderBy('movie.vote_average', 'ASC');
         return;
     }
 
     if (rating === 'highest') {
-        queryBuilder.orderBy('movie.voteAverage', 'DESC');
+        queryBuilder.orderBy('movie.vote_average', 'DESC');
         return;
     }
 }

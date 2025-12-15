@@ -5,9 +5,7 @@ export default function addTitleFilter(queryBuilder: SelectQueryBuilder<Movie>, 
     if (!title) return;
 
     const decodedTitle = decodeURIComponent(title);
-    const cleanedTitle = decodedTitle
-        .replace(/[-\s]+/g, ' ') // Replace hyphens and multiple spaces with single space
-        .trim();
+    const cleanedTitle = decodedTitle.replace(/[-\s]+/g, ' ').trim();
 
     queryBuilder.andWhere('movie.title LIKE :title', {
         title: `%${cleanedTitle}%`,
