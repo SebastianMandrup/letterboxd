@@ -1,0 +1,22 @@
+.notFoundSection {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	min-height: 55vh;
+	min-width: 200px;
+}
+
+.notFoundTitle {
+	font-size: 30px;
+	font-weight: bold;
+	font-family: var(--fontThree);
+	margin-bottom: 15px;
+}
+
+.notFoundMessage {
+	font-size: 18px;
+	font-weight: 300;
+	font-family: var(--fontTwo);
+}

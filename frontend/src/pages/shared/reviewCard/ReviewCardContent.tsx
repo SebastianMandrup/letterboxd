@@ -18,11 +18,6 @@ interface ReviewCardContentProps {
 }
 
 const ReviewCardContent: FunctionComponent<ReviewCardContentProps> = ({ review, withMovieTitle = true, handleDelete }) => {
-    // TODO: move logic
-    if (!review.likeCount) {
-        review.likeCount = 0;
-    }
-
     const { user } = useUserStore();
     const { addToast } = useToastStore();
     const [isLiked, setIsLiked] = useState(review.isLiked);

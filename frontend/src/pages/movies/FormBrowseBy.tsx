@@ -15,13 +15,12 @@ const FormBrowseBy = ({ selectedDecade, selectedRating, selectedPopular, selecte
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>, key: string) => {
         const value = event.target.value;
 
-        // Clone current params so we keep all existing ones
         const newParams = new URLSearchParams(searchParams);
 
         if (value) {
             newParams.set(key, value);
         } else {
-            newParams.delete(key); // if user resets dropdown
+            newParams.delete(key);
         }
 
         navigate(`/movies/browse?${newParams.toString()}`);
@@ -61,10 +60,15 @@ const FormBrowseBy = ({ selectedDecade, selectedRating, selectedPopular, selecte
             <select name="genre" value={selectedGenre || ''} onChange={(e) => handleChange(e, 'genre')}>
                 <option value="">GENRE</option>
                 <option value="action">Action</option>
+                <option value="adventure">Adventure</option>
+                <option value="animation">Animation</option>
                 <option value="comedy">Comedy</option>
-                <option value="drama">Drama</option>
-                <option value="horror">Horror</option>
+                <option value="crime">Crime</option>
                 <option value="documentary">Documentary</option>
+                <option value="drama">Drama</option>
+                <option value="family">Family</option>
+                <option value="fantasy">Fantasy</option>
+                <option value="horror">Horror</option>
             </select>
         </form>
     );

@@ -11,6 +11,7 @@ import ListPage from './pages/list/ListPage';
 import { useRestoreUser } from './hooks/auth/useRestoreUser';
 import CreateListPage from './pages/create-list/CreateListPage';
 import AuthLayout from './AuthLayout';
+import NotFoundPage from './pages/not-found/NotFoundPage';
 
 export default function App() {
     useRestoreUser();
@@ -29,6 +30,8 @@ export default function App() {
                 <Route element={<AuthLayout />}>
                     <Route path="/lists/new" element={<CreateListPage />} />
                 </Route>
+                {/* Catch-all route for 404 pages */}
+                <Route path="*" element={<NotFoundPage />} />
             </Route>
         </Routes>
     );

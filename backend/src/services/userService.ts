@@ -2,6 +2,9 @@ import { SelectQueryBuilder } from 'typeorm';
 import { AppDataSource } from '../startup/data-source';
 import { User } from '../entities/User';
 import { Request } from 'express';
+import { List } from '../entities/List';
+import { Review } from '../entities/Review';
+import { View } from '../entities/View';
 
 const userRepository = AppDataSource.getRepository(User);
 
@@ -201,42 +204,113 @@ const addLikeStatsToReviews = async (reviews: any[], currentUserId: number | und
 };
 
 export const getUserByUsername = async (username: string, currentUserId: number | undefined = undefined) => {
-    const queryBuilder = userRepository.createQueryBuilder('user');
-
-    queryBuilder
+    // First, get basic user info without relations
+    const user = await userRepository
+        .createQueryBuilder('user')
         .select(['user.id', 'user.username', 'user.role', 'user.createdAt', 'user.bio'])
-        .leftJoinAndSelect('user.lists', 'list')
-        .leftJoin('list.user', 'listUser')
-        .addSelect(['listUser.id', 'listUser.username'])
-        .leftJoinAndSelect('list.movies', 'movie')
-        .leftJoinAndSelect('user.reviews', 'review')
-        .leftJoinAndSelect('review.movie', 'reviewMovie')
-        .leftJoinAndSelect('review.author', 'reviewAuthor')
-        .addSelect(['reviewAuthor.id', 'reviewAuthor.username'])
-        .leftJoinAndSelect('user.views', 'view')
-        .leftJoinAndSelect('view.movie', 'viewMovie')
         .where('user.username = :username', { username })
-        .orderBy('list.createdAt', 'DESC')
-        .addOrderBy('review.createdAt', 'DESC')
-        .addOrderBy('view.viewedAt', 'DESC');
-
-    addIsFollowed(queryBuilder, currentUserId);
-
-    const { raw, entities } = await queryBuilder.getRawAndEntities();
-    const user = entities[0];
+        .getOne();
 
     if (!user) {
         return null;
     }
 
-    user.isFollowed = raw[0]?.isFollowed === 1;
+    const listRepository = AppDataSource.getRepository(List);
 
-    // Enhance reviews with like stats
-    if (user.reviews) {
-        user.reviews = await addLikeStatsToReviews(user.reviews, currentUserId);
+    // Get lists with pagination
+    const [lists, listCount] = await listRepository
+        .createQueryBuilder('list')
+        .select(['list', 'listUser.id', 'listUser.username'])
+        .leftJoin('list.user', 'listUser')
+        .leftJoinAndSelect('list.movies', 'movie')
+        .where('list.userId = :userId', { userId: user.id })
+        .orderBy('list.createdAt', 'DESC')
+        .take(10) // Limit the number of lists
+        .skip(0)
+        .getManyAndCount();
+
+    // Get lists with counts using separate queries
+    const enhancedLists = await Promise.all(
+        lists.map(async (list) => {
+            const [likeCount, commentCount] = await Promise.all([
+                listRepository
+                    .createQueryBuilder('list')
+                    .leftJoin('list.likes', 'like')
+                    .where('list.id = :listId', { listId: list.id })
+                    .select('COUNT(DISTINCT like.id)', 'count')
+                    .getRawOne()
+                    .then((result) => parseInt(result?.count || '0')),
+                listRepository
+                    .createQueryBuilder('list')
+                    .leftJoin('list.comments', 'comment')
+                    .where('list.id = :listId', { listId: list.id })
+                    .select('COUNT(DISTINCT comment.id)', 'count')
+                    .getRawOne()
+                    .then((result) => parseInt(result?.count || '0')),
+            ]);
+
+            return {
+                ...list,
+                likeCount,
+                commentCount,
+            };
+        }),
+    );
+
+    const reviewRepository = AppDataSource.getRepository(Review);
+    // Get reviews with pagination
+    const [reviews, reviewCount] = await reviewRepository
+        .createQueryBuilder('review')
+        .select([
+            'review',
+            'reviewAuthor.id',
+            'reviewAuthor.username',
+            'reviewMovie.id',
+            'reviewMovie.title',
+            'reviewMovie.releaseDate',
+            'reviewMovie.posterPath',
+        ])
+        .leftJoin('review.author', 'reviewAuthor')
+        .leftJoin('review.movie', 'reviewMovie')
+        .where('review.authorId = :userId', { userId: user.id })
+        .orderBy('review.createdAt', 'DESC')
+        .take(10) // Limit the number of reviews
+        .skip(0)
+        .getManyAndCount();
+
+    const viewRepository = AppDataSource.getRepository(View);
+    // Get views with pagination
+    const [views, viewCount] = await viewRepository
+        .createQueryBuilder('view')
+        .leftJoinAndSelect('view.movie', 'viewMovie')
+        .where('view.userId = :userId', { userId: user.id })
+        .orderBy('view.viewedAt', 'DESC')
+        .take(10) // Limit the number of views
+        .skip(0)
+        .getManyAndCount();
+
+    // Check if current user follows this user
+    let isFollowed = false;
+    if (currentUserId) {
+        const currentUser = await userRepository.findOne({
+            where: { id: currentUserId },
+            relations: ['following'],
+        });
+        isFollowed = currentUser?.following?.some((following) => following.id === user.id) || false;
     }
 
-    return user;
+    return {
+        ...user,
+        lists: enhancedLists,
+        reviews: await addLikeStatsToReviews(reviews, currentUserId),
+        views,
+        isFollowed,
+        counts: {
+            lists: listCount,
+            reviews: reviewCount,
+            views: viewCount,
+        },
+    };
 };
 
 export const deleteUserById = async (userId: number) => {
