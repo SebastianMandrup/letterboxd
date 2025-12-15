@@ -16,29 +16,44 @@ const addIsFollowed = (queryBuilder: SelectQueryBuilder<User>, currentUserId: nu
         queryBuilder.addSelect('0', 'isFollowed');
     } else {
         const mainAlias = queryBuilder.alias;
-
         queryBuilder
             .leftJoin('user_following', 'uf', `uf.following_id = ${mainAlias}.id AND uf.follower_id = :currentUserId`, { currentUserId })
             .addSelect('CASE WHEN uf.follower_id IS NOT NULL THEN 1 ELSE 0 END', 'isFollowed');
     }
-
-    return queryBuilder; // Always return this
+    return queryBuilder;
 };
 
-const addNumberOfWatchedFilms = (queryBuilder: SelectQueryBuilder<User>) => {
-    queryBuilder.leftJoin('user.views', 'view').addSelect('COUNT(DISTINCT view.id)', 'numberOfWatchedFilms').groupBy('user.id');
-};
+const addUserAggregationsSafe = (queryBuilder: SelectQueryBuilder<User>) => {
+    const mainAlias = queryBuilder.alias;
 
-const addNumberOfReviews = (queryBuilder: SelectQueryBuilder<User>) => {
-    queryBuilder.leftJoin('user.reviews', 'reviewCount').addSelect('COUNT(DISTINCT reviewCount.id)', 'numberOfReviews').groupBy('user.id');
-};
+    const reviewsSubQuery = queryBuilder.connection
+        .createQueryBuilder()
+        .select('COUNT(DISTINCT r.id)', 'count')
+        .from('reviews', 'r')
+        .where(`r.authorId = ${mainAlias}.id`)
+        .getQuery();
 
-const addReviewLikeCount = (queryBuilder: SelectQueryBuilder<User>) => {
+    const viewsSubQuery = queryBuilder.connection
+        .createQueryBuilder()
+        .select('COUNT(DISTINCT v.id)', 'count')
+        .from('views', 'v')
+        .where(`v.userId = ${mainAlias}.id`)
+        .getQuery();
+
+    const likesSubQuery = queryBuilder.connection
+        .createQueryBuilder()
+        .select('COUNT(DISTINCT rl.id)', 'count')
+        .from('review_likes', 'rl')
+        .innerJoin('reviews', 'r', 'r.id = rl.reviewId')
+        .where(`r.authorId = ${mainAlias}.id`)
+        .getQuery();
+
     queryBuilder
-        .leftJoin('user.reviews', 'review')
-        .leftJoin('review.likes', 'reviewLike')
-        .addSelect('COUNT(DISTINCT reviewLike.id)', 'reviewLikeCount')
-        .groupBy('user.id, review.id, reviewLike.id');
+        .addSelect(`(${reviewsSubQuery})`, 'numberOfReviews')
+        .addSelect(`(${viewsSubQuery})`, 'numberOfWatchedFilms')
+        .addSelect(`(${likesSubQuery})`, 'reviewLikeCount');
+
+    return queryBuilder;
 };
 
 const addUserFilter = (queryBuilder: SelectQueryBuilder<User>, filterBy: string) => {
@@ -53,20 +68,21 @@ const addUserFilter = (queryBuilder: SelectQueryBuilder<User>, filterBy: string)
     } else if (filterBy === 'hq') {
         queryBuilder.where('user.id IN (:...hqIds)', { hqIds: HQ_USER_IDS }).orderBy('reviewLikeCount', 'DESC');
     }
+    return queryBuilder;
 };
 
 const addSorting = (queryBuilder: SelectQueryBuilder<User>, sortBy: string) => {
     if (sortBy === 'popular') {
         queryBuilder.orderBy('reviewLikeCount', 'DESC');
     }
+    return queryBuilder;
 };
 
 const getUserQueryBuilder = async (req: Request, userId: number | undefined = undefined) => {
     const queryBuilder = userRepository.createQueryBuilder('user');
 
-    addNumberOfReviews(queryBuilder);
-    addNumberOfWatchedFilms(queryBuilder);
-    addReviewLikeCount(queryBuilder);
+    // Try different versions to see which works
+    addUserAggregationsSafe(queryBuilder); // Try the safe option first
     addIsFollowed(queryBuilder, userId);
 
     const filterBy = req.query.filterBy ? String(req.query.filterBy) : undefined;
@@ -91,24 +107,101 @@ export const getUsers = async (req: Request, userId: number | undefined = undefi
     const queryBuilder = await getUserQueryBuilder(req, userId);
 
     try {
+        // First, let's log the generated SQL to see what's wrong
+        const sql = queryBuilder.getSql();
+        console.log('Generated SQL:', sql);
+
         queryBuilder.skip((page - 1) * pageSize).take(pageSize);
 
         const { entities: users, raw } = await queryBuilder.getRawAndEntities();
 
-        const total = parseInt(raw[0]?.totalCount || '0', 10) || users.length;
+        // Get total count separately
+        const totalQueryBuilder = await getUserQueryBuilder(req, userId);
+        const total = await totalQueryBuilder.getCount();
 
-        users.forEach(async (user, index) => {
-            user.numberOfReviews = parseInt(raw[index]?.numberOfReviews || 0, 10);
-            user.numberOfWatchedFilms = parseInt(raw[index]?.numberOfWatchedFilms || 0, 10);
-            user.reviewLikeCount = parseInt(raw[index]?.reviewLikeCount || 0, 10);
-            user.isFollowed = raw[index]?.isFollowed === 1;
+        // Map raw data to entities
+        users.forEach((user, index) => {
+            if (raw[index]) {
+                user.numberOfReviews = parseInt(raw[index].numberOfReviews || '0', 10);
+                user.numberOfWatchedFilms = parseInt(raw[index].numberOfWatchedFilms || '0', 10);
+                user.reviewLikeCount = parseInt(raw[index].reviewLikeCount || '0', 10);
+                user.isFollowed = raw[index].isFollowed === 1 || raw[index].isFollowed === true;
+            }
         });
 
         return { users, total };
     } catch (error) {
         console.error('Error fetching users:', error);
+
+        // Debug: Check the actual table structure
+        try {
+            const reviewColumns = await AppDataSource.query('SHOW COLUMNS FROM reviews');
+            console.log('Reviews table columns:', reviewColumns);
+
+            const viewColumns = await AppDataSource.query('SHOW COLUMNS FROM views');
+            console.log('Views table columns:', viewColumns);
+        } catch (debugError) {
+            console.error('Debug error:', debugError);
+        }
+
         return { users: [], total: 0 };
     }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const addLikeStatsToReviews = async (reviews: any[], currentUserId: number | undefined) => {
+    if (!reviews || reviews.length === 0) return reviews;
+
+    const reviewIds = reviews.map((review) => review.id);
+
+    const query = userRepository.manager
+        .createQueryBuilder()
+        .from('reviews', 'r')
+        .select(['r.id as reviewId', 'COUNT(DISTINCT rl.id) as likeCount'])
+        .leftJoin('review_likes', 'rl', 'rl.reviewId = r.id')
+        .where('r.id IN (:...reviewIds)', { reviewIds })
+        .groupBy('r.id');
+
+    // Add isLiked calculation if we have a current user
+    if (currentUserId) {
+        query.addSelect(
+            `
+            CASE 
+                WHEN EXISTS(
+                    SELECT 1 
+                    FROM review_likes rl2 
+                    WHERE rl2.reviewId = r.id 
+                    AND rl2.userId = :currentUserId
+                ) THEN 1 
+                ELSE 0 
+            END`,
+            'isLiked',
+        );
+        query.setParameter('currentUserId', currentUserId);
+    } else {
+        query.addSelect('0', 'isLiked');
+    }
+
+    const reviewStats = await query.getRawMany();
+
+    // Create a map for easy lookup
+    const statsMap = new Map();
+    reviewStats.forEach((stat) => {
+        statsMap.set(stat.reviewId, {
+            likeCount: parseInt(stat.likeCount || '0', 10),
+            isLiked: stat.isLiked === 1 || stat.isLiked === true,
+        });
+    });
+
+    // Add stats to each review
+    return reviews.map((review) => {
+        const stats = statsMap.get(review.id);
+        return {
+            ...review,
+            likeCount: stats?.likeCount || 0,
+            isLiked: stats?.isLiked || false,
+        };
+    });
 };
 
 export const getUserByUsername = async (username: string, currentUserId: number | undefined = undefined) => {
@@ -134,7 +227,6 @@ export const getUserByUsername = async (username: string, currentUserId: number 
     addIsFollowed(queryBuilder, currentUserId);
 
     const { raw, entities } = await queryBuilder.getRawAndEntities();
-
     const user = entities[0];
 
     if (!user) {
@@ -142,6 +234,12 @@ export const getUserByUsername = async (username: string, currentUserId: number 
     }
 
     user.isFollowed = raw[0]?.isFollowed === 1;
+
+    // Enhance reviews with like stats
+    if (user.reviews) {
+        user.reviews = await addLikeStatsToReviews(user.reviews, currentUserId);
+    }
+
     return user;
 };
 
