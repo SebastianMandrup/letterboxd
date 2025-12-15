@@ -1,7 +1,7 @@
 import { useState, type FunctionComponent } from 'react';
 import styles from './userPage.module.css';
 import useUserByUsername from '../../hooks/users/useUserByUsername';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Backdrop from '../shared/backdrop/Backdrop';
 import { getApiAvatar } from '../../util/getApiAvatar';
 import UserDataItem from './UserDataItem';
@@ -86,13 +86,13 @@ const UserPage: FunctionComponent = () => {
                                 <ul className={styles.followersList}>
                                     {followers.map((follower) => (
                                         <li key={follower.id} className={styles.followerItem}>
-                                            <a href={`/user/${follower.username}`} title={follower.username}>
+                                            <Link to={`/user/${follower.username}`} title={follower.username}>
                                                 <img
                                                     className={styles.followerAvatar}
                                                     src={getApiAvatar(follower.username)}
                                                     alt={`${follower.username}'s avatar`}
                                                 />
-                                            </a>
+                                            </Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -109,13 +109,13 @@ const UserPage: FunctionComponent = () => {
                                 <ul className={styles.followingList}>
                                     {following.map((followedUser) => (
                                         <li key={followedUser.id} className={styles.followingItem}>
-                                            <a href={`/user/${followedUser.username}`} title={followedUser.username}>
+                                            <Link to={`/user/${followedUser.username}`} title={followedUser.username}>
                                                 <img
                                                     className={styles.followingAvatar}
                                                     src={getApiAvatar(followedUser.username)}
                                                     alt={`${followedUser.username}'s avatar`}
                                                 />
-                                            </a>
+                                            </Link>
                                         </li>
                                     ))}
                                 </ul>

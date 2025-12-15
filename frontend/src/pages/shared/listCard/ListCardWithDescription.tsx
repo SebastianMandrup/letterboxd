@@ -6,6 +6,7 @@ import { getApiAvatar } from '../../../util/getApiAvatar';
 import HeartIcon from '../icons/HeartIcon';
 import CommentIcon from '../icons/CommentIcon';
 import { getSlug } from '../../../util/getSlug';
+import { Link } from 'react-router-dom';
 
 interface ListCardWithDescriptionProps {
     list: ListDto;
@@ -18,14 +19,14 @@ const ListCardWithDescription: FunctionComponent<ListCardWithDescriptionProps> =
         <article className={styles.listCardWithDescription}>
             <ListPosterStack list={list} />
             <section>
-                <a href={`/lists/${getSlug(list.name)}`} className={styles.listName}>
+                <Link to={`/lists/${getSlug(list.name)}`} className={styles.listName}>
                     {list.name}
-                </a>
+                </Link>
                 <div className={styles.listAuthor}>
                     <img className={styles.avatar} src={getApiAvatar(list.user.username)} alt={list.user.username} />
-                    <a className={styles.aAuthor} href={`/user/${list.user.username}`}>
+                    <Link to={`/user/${getSlug(list.user.username)}`} className={styles.aAuthor}>
                         {list.user.username}
-                    </a>
+                    </Link>
 
                     <div className={styles.listDataContainer}>
                         <HeartIcon size={24} color="var(--lightBlue)" />

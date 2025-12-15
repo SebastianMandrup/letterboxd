@@ -1,5 +1,6 @@
 import type { FunctionComponent } from 'react';
 import styles from './sectionHeader.module.css';
+import { Link } from 'react-router-dom';
 
 interface SectionHeaderProps {
     title: string;
@@ -15,9 +16,9 @@ const SectionHeader: FunctionComponent<SectionHeaderProps> = ({ title, subtitle,
             {title}
 
             {link && (
-                <a href={link} className={styles.subtitle}>
+                <Link to={link} className={styles.subtitle}>
                     {subtitle ? subtitle : 'MORE'}
-                </a>
+                </Link>
             )}
 
             {!link && subtitle && <p>{subtitle}</p>}

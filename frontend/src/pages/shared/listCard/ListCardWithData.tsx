@@ -6,6 +6,7 @@ import ListPosterStack from './PosterStack';
 import { getApiAvatar } from '../../../util/getApiAvatar';
 import CommentIcon from '../icons/CommentIcon';
 import HeartIcon from '../icons/HeartIcon';
+import { Link } from 'react-router-dom';
 
 interface ListCardWithDataProps {
     list: ListDto;
@@ -18,14 +19,14 @@ const ListCardWithData: FunctionComponent<ListCardWithDataProps> = ({ list, larg
         <article className={styles.listCard}>
             <ListPosterStack list={list} large={large} />
             <section className={styles.listInfo}>
-                <a className={styles.listName + (large ? ` ${styles.large}` : '')} href={`/lists/${getSlug(list.name)}`}>
+                <Link className={styles.listName + (large ? ` ${styles.large}` : '')} to={`/lists/${getSlug(list.name)}`}>
                     {list.name}
-                </a>
+                </Link>
                 <div className={styles.listStats}>
-                    <a className={styles.listAuthor + (large ? ` ${styles.large}` : '')} href={`/user/${getSlug(list.user.username)}`}>
+                    <Link className={styles.listAuthor + (large ? ` ${styles.large}` : '')} to={`/user/${getSlug(list.user.username)}`}>
                         <img className={styles.avatar} src={getApiAvatar(list.user.username)} alt={list.user.username} />
                         <span className={styles.username}>{list.user.username}</span>
-                    </a>
+                    </Link>
                     <p className={styles.movieCount + (large ? ` ${styles.large}` : '')}>{list.movies.length} movies</p>
                     {withLikesAndComments && (
                         <>

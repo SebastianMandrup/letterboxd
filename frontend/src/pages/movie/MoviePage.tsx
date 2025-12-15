@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Backdrop from '../shared/backdrop/Backdrop';
 import SectionHeader from '../shared/sectionHeader/SectionHeader';
 import styles from './moviePage.module.css';
@@ -43,9 +43,9 @@ function MoviePage() {
                             <p className={styles.pReleaseYear}>{movie.releaseDate?.toString().split('-')[0] || ''}</p>
                             <section className={styles.sectionMovieGenres}>
                                 {movie.genres.map((genre) => (
-                                    <a key={genre.id} className={styles.linkGenre} href={`/movies/browse?genre=${getSlug(genre.name)}`}>
+                                    <Link key={genre.id} className={styles.linkGenre} to={`/movies/browse?genre=${getSlug(genre.name)}`}>
                                         {genre.name}
-                                    </a>
+                                    </Link>
                                 ))}
                             </section>
                             <p className={styles.pMovieOverview}>{movie.overview}</p>

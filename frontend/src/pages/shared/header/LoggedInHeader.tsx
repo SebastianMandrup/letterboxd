@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import type UserDto from '../../../DTO/UserDto';
 import ListsIcon from '../icons/ListsIcon';
 import MoviesIcon from '../icons/MoviesIcon';
@@ -33,28 +34,28 @@ function LoggedInHeader({ user, onLogout }: LoggedInHeaderProps) {
                         </button>
                     </li>
                     <li>
-                        <a href={`/user/${user.username}`}>
+                        <Link to={`/user/${user.username}`}>
                             <div>PROFILE</div>
                             <SignUpIcon size={iconSize} />
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="/movies">
+                        <Link to="/movies">
                             <div>MOVIES</div>
                             <MoviesIcon size={iconSize} />
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="/lists">
+                        <Link to="/lists">
                             <div>LISTS</div>
                             <ListsIcon size={iconSize} />
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="/users">
+                        <Link to="/users">
                             <div>USERS</div>
                             <UsersIcon size={iconSize} />
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </nav>
