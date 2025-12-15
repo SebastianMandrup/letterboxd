@@ -40,8 +40,6 @@ const addUserSelect = (queryBuilder: SelectQueryBuilder<Review>) => {
 
 const addFilterBy = (queryBuilder: SelectQueryBuilder<Review>, filterBy: string | undefined) => {
     if (filterBy === 'popularThisWeek') {
-        addLikeCountSelect(queryBuilder);
-
         const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
         queryBuilder.andWhere('review.createdAt >= :oneWeekAgo', { oneWeekAgo }).orderBy('likeCount', 'DESC');
     }
@@ -50,15 +48,16 @@ const addFilterBy = (queryBuilder: SelectQueryBuilder<Review>, filterBy: string 
 const getReviewQueryBuilder = async (req: Request) => {
     const queryBuilder = reviewRepository.createQueryBuilder('review');
 
-    const filterBy = req.query.filterBy ? String(req.query.filterBy) : undefined;
-
-    addFilterBy(queryBuilder, filterBy);
-
     const userId = req.session.user ? req.session.user.id : undefined;
 
+    addLikeCountSelect(queryBuilder);
     addIsLikedSelect(queryBuilder, userId);
     addMovieSelect(queryBuilder);
     addUserSelect(queryBuilder);
+
+    const filterBy = req.query.filterBy ? String(req.query.filterBy) : undefined;
+    addFilterBy(queryBuilder, filterBy);
+
     return queryBuilder;
 };
 

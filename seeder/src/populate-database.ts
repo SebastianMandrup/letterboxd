@@ -28,6 +28,24 @@ const __dirname = path.dirname(__filename);
 // ---------------- Paths ----------------
 const seedFilePath = path.join(__dirname, './data/seed-data.json');
 
+// ---------------- Helper function to deduplicate reviews ----------------
+function deduplicateReviews(reviews: any[]): any[] {
+    const seen = new Set<string>();
+    const uniqueReviews = [];
+
+    for (const review of reviews) {
+        const key = `${review.authorId}-${review.movieId}`;
+        if (!seen.has(key)) {
+            seen.add(key);
+            uniqueReviews.push(review);
+        } else {
+            console.log(`⚠️  Removing duplicate review: user ${review.authorId} already has a review for movie ${review.movieId}`);
+        }
+    }
+
+    return uniqueReviews;
+}
+
 // ---------------- Seed Function ----------------
 async function populateDatabase() {
     if (!fs.existsSync(seedFilePath)) {
@@ -60,7 +78,23 @@ async function populateDatabase() {
             );
         `);
 
-        // Create all other tables similarly or use TypeORM's migration runner
+        // Create reviews table with unique constraint
+        await manager.query(`
+            CREATE TABLE IF NOT EXISTS reviews (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                review TEXT,
+                rating DECIMAL(3,1),
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                movieId INT,
+                authorId INT,
+                FOREIGN KEY (movieId) REFERENCES movies(id) ON DELETE CASCADE,
+                FOREIGN KEY (authorId) REFERENCES users(id) ON DELETE CASCADE,
+                UNIQUE KEY IDX_0ffebf4862fd6403d2e17c36dc (authorId, movieId)
+            );
+        `);
+
+        // Create other tables...
         console.log('✅ Created tables');
     } catch (error) {
         console.error('❌ Error creating tables (they may already exist):', error);
@@ -340,8 +374,13 @@ async function populateDatabase() {
 
     // --- Reviews ---
     console.log('🔄 Creating reviews...');
+
+    // First, deduplicate the reviews to avoid unique constraint violations
+    const uniqueReviews = deduplicateReviews(seedData.reviews);
+    console.log(`📊 Filtered ${seedData.reviews.length - uniqueReviews.length} duplicate reviews`);
+
     const reviews: Review[] = [];
-    for (const r of seedData.reviews) {
+    for (const r of uniqueReviews) {
         const dbUserId = userIdMap.get(r.authorId);
         const user = dbUserId ? users.find((u) => u.id === dbUserId) : null;
 
@@ -356,19 +395,37 @@ async function populateDatabase() {
             continue;
         }
 
-        reviews.push(
-            manager.create(Review, {
+        // Use INSERT IGNORE to handle any remaining duplicates gracefully
+        try {
+            const review = manager.create(Review, {
                 id: r.id,
                 review: r.review,
                 rating: r.rating,
                 createdAt: r.createdAt,
                 author: user,
                 movie: movie,
-            }),
-        );
+            });
+            reviews.push(review);
+        } catch (error) {
+            console.warn(`⚠️  Could not create review ${r.id}: ${error}`);
+        }
     }
-    await manager.save(reviews);
-    console.log(`✅ Created ${reviews.length} reviews`);
+
+    // Save reviews with error handling for duplicates
+    let savedReviewCount = 0;
+    for (const review of reviews) {
+        try {
+            await manager.save(review);
+            savedReviewCount++;
+        } catch (error: any) {
+            if (error.code === 'ER_DUP_ENTRY' || error.errno === 1062) {
+                console.warn(`⚠️  Skipping duplicate review: user ${review.author?.id} already reviewed movie ${review.movie?.id}`);
+            } else {
+                console.error(`❌ Error saving review: ${error.message}`);
+            }
+        }
+    }
+    console.log(`✅ Created ${savedReviewCount} reviews (skipped ${reviews.length - savedReviewCount} duplicates)`);
 
     // --- Lists ---
     console.log('🔄 Creating lists...');
@@ -602,7 +659,7 @@ async function populateDatabase() {
     console.log(`   Cast Members: ${castMembers.length}`);
     console.log(`   Crew Members: ${crewMembers.length}`);
     console.log(`   Videos: ${videos.length}`);
-    console.log(`   Reviews: ${reviews.length}`);
+    console.log(`   Reviews: ${savedReviewCount} (from ${seedData.reviews.length} original)`);
     console.log(`   Review Likes: ${reviewLikes.length}`);
     console.log(`   Views: ${views.length}`);
     console.log(`   Lists: ${lists.length}`);

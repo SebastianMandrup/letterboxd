@@ -11,7 +11,7 @@ const PopularReviews: FunctionComponent = () => {
         <section>
             <SectionHeader title="popular reviews this week" />
 
-            {isLoading || error || !data ? Array.from({ length: 3 }).map((_, index) => <LoadingMovieCard key={index} />) : null}
+            {isLoading || error || !data ? <LoadingMovieCard /> : null}
             {data && data.results.map((review) => <ReviewCard key={review.id} review={review} />)}
         </section>
     );

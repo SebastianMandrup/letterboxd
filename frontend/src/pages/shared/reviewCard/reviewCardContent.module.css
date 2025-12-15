@@ -99,8 +99,8 @@
     border: none;
     cursor: pointer;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 15px;
+    right: 15px;
     padding: 5px;
     color: var(--lightGrey);
 }
