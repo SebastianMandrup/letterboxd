@@ -28,7 +28,7 @@ const ListCardWithData: FunctionComponent<ListCardWithDataProps> = ({ list, larg
                         <span className={styles.username}>{list.user.username}</span>
                     </Link>
                     <p className={styles.movieCount + (large ? ` ${styles.large}` : '')}>{list.movies.length} movies</p>
-                    {withLikesAndComments && (
+                    {withLikesAndComments && list.likeCount && list.commentCount && (
                         <>
                             <div className={styles.listDataContainer}>
                                 <HeartIcon size={24} color="var(--lightBlue)" />

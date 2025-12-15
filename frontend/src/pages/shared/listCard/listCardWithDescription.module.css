@@ -40,8 +40,8 @@
 }
 
 .avatar {
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
 }
 
@@ -81,6 +81,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 4px
 }
 
 .loadingListDataContainer {
@@ -100,6 +101,11 @@
     background-color: var(--darkestGrey);
     border-radius: 4px;
     margin-top: 10px;
+}
+
+.description {
+    font-size: 16px;
+    color: var(--lightGrey);
 }
 
 @media screen and (min-width: 600px) {

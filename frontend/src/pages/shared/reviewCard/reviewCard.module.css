@@ -3,14 +3,13 @@
     grid-template-columns: 2fr 6fr;
     padding: 20px 40px;
     border-bottom: 1px solid var(--darkestGrey);
-    gap: 40px;
 }
 
 .reviewCard:last-child {
     border-bottom: none;
 }
 
-.reviewCard > button {
+.reviewCard>button {
     height: 200px;
     width: 120px;
 }

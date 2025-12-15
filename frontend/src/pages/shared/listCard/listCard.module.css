@@ -30,9 +30,13 @@
 .listName,
 .loadingListName {
     margin-top: 10px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
-    color: var(--white);
+    color: var(--lightBlue);
+}
+
+.listName:hover {
+    color: var(--darkBlue);
 }
 
 .loadingListName {
@@ -82,7 +86,8 @@
 
 .movieCount {
     font-weight: 300;
-    color: var(--lightGrey);
+    color: var(--grey);
+    margin-right: 4px;
 }
 
 .movieCount.large {

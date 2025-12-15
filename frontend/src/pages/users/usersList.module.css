@@ -1,6 +1,5 @@
 .usersList {
     list-style: none;
-    padding: 60px;
 }
 
 .userItem {
@@ -21,4 +20,11 @@
     text-align: center;
     margin: 20px 0;
     font-style: italic;
+}
+
+
+@media screen and (min-width: 768px) {
+    .usersListSection {
+        padding: 0 100px 0 0;
+    }
 }

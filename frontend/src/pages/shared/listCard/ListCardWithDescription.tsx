@@ -37,7 +37,7 @@ const ListCardWithDescription: FunctionComponent<ListCardWithDescriptionProps> =
                         {list.commentCount}
                     </div>
                 </div>
-                <p>{description}</p>
+                <p className={styles.description}>{description}</p>
             </section>
         </article>
     );

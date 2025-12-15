@@ -1,6 +1,6 @@
 .reviewCardContent {
     position: relative;
-    border-bottom: 1px solid var(--darkGrey);
+    border-bottom: 1px solid var(--darkestGrey);
     padding: 10px 0;
 }
 
