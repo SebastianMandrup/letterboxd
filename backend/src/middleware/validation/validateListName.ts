@@ -15,5 +15,9 @@ export default (name: string): string => {
         throw new ApiError('List name must be less than 254 characters long.', 400);
     }
 
+    if (sanitizedListName.includes('-')) {
+        throw new ApiError('List name must not contain hyphens (-).', 400);
+    }
+
     return sanitizedListName;
 };

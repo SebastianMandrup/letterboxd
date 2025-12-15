@@ -12,8 +12,8 @@ const __dirname = path.dirname(__filename);
 
 // ---------------- Configuration ----------------
 const NUM_USERS = 50;
-const NUM_REVIEWS = 500;
-const NUM_VIEWS = 3000;
+const NUM_REVIEWS = 1000;
+const NUM_VIEWS = 2000;
 const NUM_LISTS = 100;
 const NUM_COMMENTS = 1000;
 const MAX_MOVIES = 500;
@@ -366,7 +366,7 @@ const lists = Array.from({ length: NUM_LISTS }, (_, i) => {
 
     return {
         id: i + 1,
-        name: `${theme} ${faker.word.noun()} List`,
+        name: `${theme} ${faker.word.noun().replace(/-/g, ' ')} List`,
         description: faker.lorem.sentence(200),
         createdAt: faker.date.past().toISOString(),
         userId: faker.number.int({ min: 1, max: NUM_USERS }),
