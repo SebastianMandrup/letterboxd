@@ -5,6 +5,7 @@ import MovieCard from '../shared/movieCard/MovieCard';
 import { getThumbnailPoster } from '../../util/getThumbnailPoster';
 import styles from './popularReviewsAside.module.css';
 import SectionPopularReviewers from '../shared/sectionPopularReviewers/SectionPopularReviewers';
+import { Link } from 'react-router-dom';
 
 const PopularReviewsAside: FunctionComponent = () => {
     const crewPickMovies = useMovies({
@@ -27,7 +28,7 @@ const PopularReviewsAside: FunctionComponent = () => {
                 <p>Help keep boxxedletter up to date</p>
                 <p>
                     Find out how to
-                    <a href="/add-film">add or edit a film</a>
+                    <Link to="/">add or edit a film</Link>
                 </p>
             </section>
         </aside>

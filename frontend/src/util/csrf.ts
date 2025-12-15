@@ -21,9 +21,6 @@ export const clearCsrfToken = (): void => {
     csrfToken = null;
 };
 
-/**
- * Axios request interceptor that adds CSRF token to state-changing requests
- */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const csrfTokenInterceptor = async (config: any) => {
     // Only add CSRF token for state-changing methods

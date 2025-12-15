@@ -1,5 +1,5 @@
 import type { FunctionComponent } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import useList from '../../hooks/lists/useList';
 import Backdrop from '../shared/backdrop/Backdrop';
 import { getApiAvatar } from '../../util/getApiAvatar';
@@ -40,9 +40,9 @@ const ListPage: FunctionComponent = () => {
                         <img className={styles.avatar} src={getApiAvatar(list.user.username)} alt={`${list.user.username}'s avatar`} />
                         <p>
                             List by
-                            <a href={`/user/${list.user.username}`} className={styles.username}>
+                            <Link to={`/user/${list.user.username}`} className={styles.username}>
                                 {list.user.username}
-                            </a>
+                            </Link>
                         </p>
                     </div>
                     <div className={styles.publishDate}>

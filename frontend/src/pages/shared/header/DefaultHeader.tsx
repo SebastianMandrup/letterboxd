@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import ListsIcon from '../icons/ListsIcon';
 import MoviesIcon from '../icons/MoviesIcon';
 import SearchIcon from '../icons/SearchIcon';
@@ -38,22 +39,22 @@ function DefaultHeader({ setIsLoggingIn, setIsSigningUp }: DefaultHeaderProps) {
                         </button>
                     </li>
                     <li>
-                        <a href="/movies" title="Movies">
+                        <Link to="/movies" title="Movies">
                             <div>MOVIES</div>
                             <MoviesIcon size={iconSize} />
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="/lists" title="Lists">
+                        <Link to="/lists" title="Lists">
                             <div>LISTS</div>
                             <ListsIcon size={iconSize} />
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="/users" title="Users">
+                        <Link to="/users" title="Users">
                             <div>USERS</div>
                             <UsersIcon size={iconSize} />
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </nav>

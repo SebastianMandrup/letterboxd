@@ -3,6 +3,7 @@ import type UserDto from '../../../DTO/UserDto';
 import styles from './userCard.module.css';
 import { getApiAvatar } from '../../../util/getApiAvatar';
 import FollowButton from './FollowButton';
+import { Link } from 'react-router-dom';
 
 interface UserCardProps {
     user: UserDto;
@@ -14,9 +15,9 @@ const UserCard: FunctionComponent<UserCardProps> = ({ user }) => {
             <img className={styles.avatar} src={getApiAvatar(user.username)} alt={user.username} />
             <div className={styles.userInfo}>
                 <div>
-                    <a href={`/user/${user.username}`} className={styles.username}>
+                    <Link to={`/user/${user.username}`} className={styles.username}>
                         {user.username}
-                    </a>
+                    </Link>
                     <div className={styles.stats}>
                         <p className={styles.reviewsCount}>{user.numberOfWatchedFilms} films</p>
                         <p className={styles.reviewsCount}>{user.numberOfReviews} reviews</p>

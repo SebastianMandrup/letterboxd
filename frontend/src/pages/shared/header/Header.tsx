@@ -8,6 +8,7 @@ import { useAuth } from '../../../hooks/auth/useAuth';
 import { useUserStore } from '../../../stores/useUserStore';
 import { ToastContainer } from '../toast/ToastContainer';
 import { useToastStore } from '../../../stores/useToastStore';
+import { Link } from 'react-router';
 
 const Header = () => {
     const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -32,9 +33,9 @@ const Header = () => {
             <div className={styles.headerContainer}>
                 <header className={styles.headerMain}>
                     <img src="/letterboxd-icon.png" alt="icon" />
-                    <a href="/" className={styles.logo}>
+                    <Link to="/" className={styles.logo}>
                         Boxedletter
-                    </a>
+                    </Link>
 
                     {user ? (
                         <LoggedInHeader onLogout={handleLogout} user={user} />

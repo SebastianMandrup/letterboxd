@@ -6,6 +6,7 @@ import DeleteIcon from '../shared/icons/DeleteIcon';
 import { useUserStore } from '../../stores/useUserStore';
 import useDeleteComment from '../../hooks/comments/useDeleteComment';
 import { useToastStore } from '../../stores/useToastStore';
+import { Link } from 'react-router-dom';
 
 interface ListCommentProps {
     comment: CommentDto;
@@ -37,9 +38,9 @@ const ListComment: FunctionComponent<ListCommentProps> = ({ comment, comments, s
             <section className={styles.userInfo}>
                 <img className={styles.avatar} src={getApiAvatar(comment.user.username)} alt={`${comment.user.username}'s avatar`} />
                 <div>
-                    <a className={styles.username} href={`/user/${comment.user.username}`}>
+                    <Link className={styles.username} to={`/user/${comment.user.username}`}>
                         {comment.user.username}
-                    </a>
+                    </Link>
                     <p className={styles.date}>{new Date(comment.createdAt).toLocaleDateString()}</p>
                 </div>
             </section>

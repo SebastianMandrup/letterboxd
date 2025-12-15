@@ -2,6 +2,8 @@
 A fullstack movie review and social media platform.
 Inspired by Letterboxd, built with a modern stack.
 
+![Domain model of Letterboxd](.documentation/domain-model.PNG)
+
 ## Core Functionalities
 - user auth & profiles
 - movie browsing and search
@@ -16,23 +18,30 @@ Inspired by Letterboxd, built with a modern stack.
 - pagination and filtering
 - fast and optimized database queries
 
-## The Tech Stack
+# The Tech Stack
 
-### Frontend
+## Frontend
 - React.ts
 - zustand useStores
 - CSS modules
 - React Router
 - Axios http client
 
-### Backend
+
+![Frontend Architecture](.documentation/frontend-architecture.PNG)
+
+
+## Backend
 - node.js express server
 - mysql database / mysqlite test database
 - session based auth with bcrypt encryption
 - validation middleware
 - documentation @ `http://localhost:5050/api-docs`
 
-### Infrastructure
+
+![Backend Architecture](.documentation/backend-architecture.PNG)
+
+## Infrastructure
 - hosting: render.com
 - database: aiven.io
 - CI/CD: auto deploys on push to 'main'
@@ -56,25 +65,29 @@ Inspired by Letterboxd, built with a modern stack.
 │   ├── package.json
 │   └── README.md
 │
-├── backend/                    # Express API
+├── backend/                    # Node Express
 │   ├── src/
 │   │   ├── __tests__/          # Test files
 │   │   ├── entities/           # Database models/entities
-│   │   ├── interfaces/         # TypeScript interfaces/types
-│   │   ├── middleware/         # Express middleware
-│   │   ├── routes/             # API route definitions
-│   │   ├── services/           # Business logic/services
-│   │   ├── startup/            # Application startup/config
-│   │   ├── app.ts              # Express app configuration
-│   │   └── index.ts            # Application entry point
+│   │   ├── interfaces/         # TypeScript interfaces
+│   │   ├── middleware/         # Input / User Validation fex.
+│   │   ├── routes/             # API route definitions (simple)
+│   │   ├── services/           # DB service layer (complex)
+│   │   ├── startup/            # startup/config
+│   │   ├── app.ts              # Express app 
+│   │   └── index.ts            # entry point
 │   ├── package.json
 │   └── README.md
 │
-├── package.json                # Root package.json (if monorepo)
+├── package.json                # Root package.json 
 └── README.md                   # This file
 ```
 
-### Backend Setup
+# Development Environment
+
+
+![Backend Architecture](.documentation/development-environment.PNG)
+
 ```
 cd backend
 cp .env.example .env  # Configure environment variables
@@ -91,14 +104,17 @@ npm run enrich # can be skipped
 npm run generate 
 npm run populate
 ```
+![Backend Architecture](.documentation/seeder-definition.PNG)
 
-### Frontend Setup (separate terminal)
+## Frontend Setup (separate terminal)
 ```
 cd frontend
 npm install
 cp .env.example .env  # Configure environment variables
 npm run dev
 ```
+
+# Deployment Environment
 
 ### 📄 License
 This project is for educational purposes. Letterboxd is a trademark of Letterboxd Ltd.
@@ -111,7 +127,20 @@ Backend: https://backend-e62k.onrender.com
 
 ##
 
-Last Updated: 2025-12-13
+Last Updated: 2025-12-15
 Status: ✅ Operational
 
 Note: Free tier hosting may experience occasional delays during cold starts.
+
+# Exam Final Mentions:
+
+Interesting things to take a look at:
+
+### backend:
+- middleware
+- entity variables that don't persist
+- express request and session definition
+
+### frontend:
+- protected routing
+- axios interceptors

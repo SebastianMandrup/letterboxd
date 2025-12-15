@@ -10,6 +10,7 @@ import { useUserStore } from '../../stores/useUserStore';
 import LoadingListCard from '../shared/listCard/LoadingListCard';
 import LoadingListCardWithData from '../shared/listCard/LoadingListCardWithData';
 import LoadingListCardWithDescription from '../shared/listCard/LoadingListCardWithDescription';
+import { Link } from 'react-router-dom';
 
 const ListsPage: FunctionComponent = () => {
     const user = useUserStore((state) => state.user);
@@ -41,9 +42,9 @@ const ListsPage: FunctionComponent = () => {
                 <h1 className={styles.listsPageTitle}>Collect, curate, and share. Lists are the perfect way to group films.</h1>
 
                 {user ? (
-                    <a href="/lists/new" className={styles.startListLink}>
+                    <Link to="/lists/new" className={styles.startListLink}>
                         Start your own list
-                    </a>
+                    </Link>
                 ) : (
                     <p className={styles.startListLink}>Log in to start your own list</p>
                 )}

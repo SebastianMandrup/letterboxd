@@ -9,6 +9,7 @@ import Heart from '../icons/HeartIcon';
 import DeleteIcon from '../icons/DeleteIcon';
 import useLikeReview from '../../../hooks/reviews/useLikeReview';
 import useDeleteReview from '../../../hooks/reviews/useDeleteReview';
+import { Link } from 'react-router-dom';
 
 interface ReviewCardContentProps {
     review: ReviewDto;
@@ -67,18 +68,18 @@ const ReviewCardContent: FunctionComponent<ReviewCardContentProps> = ({ review, 
         <article className={styles.reviewCardContent}>
             {withMovieTitle && (
                 <section className={styles.titleAndYear}>
-                    <a className={styles.movieTitle} href={`/movie/${getSlug(review.movie.title)}`}>
+                    <Link className={styles.movieTitle} to={`/movie/${getSlug(review.movie.title)}`}>
                         {review.movie.title}
-                    </a>
+                    </Link>
                     <p className={styles.movieYear}>{new Date(review.movie.releaseDate).getFullYear()}</p>
                 </section>
             )}
             <section>
                 <div className={styles.authorAndAvatar}>
                     <img className={styles.avatar} alt={`${review.author.username}'s avatar`} src={getApiAvatar(review.author.username)}></img>
-                    <a className={styles.authorUsername} href={`/user/${getSlug(review.author.username)}`}>
+                    <Link className={styles.authorUsername} to={`/user/${getSlug(review.author.username)}`}>
                         {review.author.username}
-                    </a>
+                    </Link>
                     <div className={styles.divStars}>
                         {[...Array(Math.round(review.rating))].map((_, starIndex) => (
                             <span key={starIndex}>★</span>

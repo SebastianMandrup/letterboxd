@@ -19,7 +19,7 @@ function LoggingInHeader({ setIsLoggingIn }: LoggingInHeaderProps) {
 
         try {
             await login(username, password);
-            setIsLoggingIn(false); // close the login modal
+            setIsLoggingIn(false);
             addToast('Successfully logged in!', 'success');
         } catch (error: unknown) {
             addToast('Login failed...', 'warning');

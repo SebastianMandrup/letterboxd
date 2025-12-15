@@ -11,12 +11,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ---------------- Configuration ----------------
-const NUM_USERS = 100;
+const NUM_USERS = 50;
 const NUM_REVIEWS = 500;
-const NUM_VIEWS = 1000;
+const NUM_VIEWS = 3000;
 const NUM_LISTS = 100;
 const NUM_COMMENTS = 1000;
-const MAX_MOVIES = 2000;
+const MAX_MOVIES = 500;
 
 // ---------------- Paths ----------------
 const dataDir = path.join(__dirname, './data');
