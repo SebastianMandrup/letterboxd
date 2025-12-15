@@ -24,7 +24,6 @@ services:
       - DB_URL=mysql://root:rootpassword@mysql:3306/letterboxd_db
       - DB_TYPE=mysql
       - DB_SCHEMA=letterboxd_db
-      - JWT_SECRET=your_jwt_secret
     depends_on:
       mysql:
         condition: service_healthy
