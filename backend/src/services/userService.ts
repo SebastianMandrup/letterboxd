@@ -107,10 +107,6 @@ export const getUsers = async (req: Request, userId: number | undefined = undefi
     const queryBuilder = await getUserQueryBuilder(req, userId);
 
     try {
-        // First, let's log the generated SQL to see what's wrong
-        const sql = queryBuilder.getSql();
-        console.log('Generated SQL:', sql);
-
         queryBuilder.skip((page - 1) * pageSize).take(pageSize);
 
         const { entities: users, raw } = await queryBuilder.getRawAndEntities();

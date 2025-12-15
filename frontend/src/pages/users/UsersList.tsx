@@ -2,6 +2,7 @@ import type { FunctionComponent } from 'react';
 import useUsers from '../../hooks/users/useUsers';
 import styles from './usersList.module.css';
 import UserCard from '../shared/userCard/UserCard';
+import SectionHeader from '../shared/sectionHeader/SectionHeader';
 
 const UsersList: FunctionComponent = () => {
     const { data, isLoading, error } = useUsers({
@@ -9,7 +10,8 @@ const UsersList: FunctionComponent = () => {
     });
 
     return (
-        <section>
+        <section className={styles.usersListSection}>
+            <SectionHeader title="Recently Active" />
             <ul className={styles.usersList}>
                 {isLoading && <p className={styles.loading}>Loading users...</p>}
                 {error && <p className={styles.error}>Error loading users: {error.message}</p>}

@@ -24,12 +24,12 @@ const BrowseMoviesResults: FunctionComponent<BrowseMoviesResultsProps> = ({
 
     const { data, error, isLoading } = useMovies({
         params: {
-            decade: selectedDecade,
-            rating: selectedRating,
-            popular: selectedPopular,
-            genre: selectedGenre,
+            ...(selectedDecade && selectedDecade.trim() !== '' && { decade: selectedDecade }),
+            ...(selectedRating && selectedRating.trim() !== '' && { rating: selectedRating }),
+            ...(selectedPopular !== undefined && selectedPopular !== '' && { popular: selectedPopular }),
+            ...(selectedGenre && selectedGenre.trim() !== '' && { genre: selectedGenre }),
+            ...(selectedTitle && selectedTitle.trim() !== '' && { title: selectedTitle }),
             page: page,
-            title: selectedTitle,
         },
     });
 
