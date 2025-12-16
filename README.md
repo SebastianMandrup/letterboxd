@@ -1,6 +1,7 @@
 # Letterboxd Clone - Fullstack Project
 A fullstack movie review and social media platform.
 Inspired by Letterboxd, built with a modern stack.
+`https://letterboxd.com/`
 
 ![Domain model of Letterboxd](.documentation/domain-model.PNG)
 
@@ -144,3 +145,4 @@ Interesting things to take a look at:
 ### frontend:
 - protected routing
 - axios interceptors
+- http clients
